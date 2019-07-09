@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Input, Pagination, Modal } from 'antd';
-import { HEAD_CONF, mapAddressToTd } from './TableListconf'
+import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem } from './TableListconf'
 import './TableList.css'
 const { Search } = Input;
 class TableList extends Component {
@@ -10,37 +10,40 @@ class TableList extends Component {
             head: [],
             deleModel: false,
             data: [
-                {
-                    key: 1,
-                    name: 'John Brown',
-                    age: 32,
-                    address: 'New York No. 1 Lake Park',
-                    description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-                },
-                {
-                    key: 2,
-                    name: 'Jim Green',
-                    age: 42,
-                    address: 'London No. 1 Lake Park',
-                    description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-                },
-                {
-                    key: 3,
-                    name: 'Joe Black',
-                    age: 32,
-                    address: 'Sidney No. 1 Lake Park',
-                    description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-                }
             ]
         }
     }
     componentDidMount() {
         this.matchPath(this.props.match.path) //匹配地址
+        getPageTotal(this.props.match.path).then(res => { //获取总页数
+            this.setState({
+                total_page: res.data
+            })
+        })
+        getTableList(this.props.match.path, 1, 10).then(res => { //获取总页数
+            console.log(res)
+            this.setState({
+                data: res.data
+            })
+        })
+
     }
-    deleCurItem = () => {
-        this.setState(prev => ({
-            deleModel: !prev.deleModel
-        }))
+    deleCurItem = (clickItem, e) => {
+        this.setState({
+            deleModel: true,
+            dele_item: clickItem
+        })
+    }
+    handleOkDele = () => {//确认删除
+        console.log(this.state.dele_item)
+        deleItem(this.props.match.path, this.state.dele_item.id).then(res => { //获取总页数
+            console.log(res)
+        })
+    }
+    closeModaDelel = () => {
+        this.setState({
+            deleModel: false
+        })
     }
     matchPath(val) {
         switch (val) {
@@ -122,13 +125,13 @@ class TableList extends Component {
                     </Col>
                     <Col span={16}>
                         {
-                            this.state.is_shiw_tbhead&&
-                        <Col span={24} className='table-list-ms'>
-                            <Col span={6}>抄表日期：2019.6.25</Col>
-                            <Col span={6}>抄表人：万潇</Col>
-                            <Col span={6}>审核人：万潇</Col>
-                            <Col span={6}>计费周期：2019.6.1-2019.6.30</Col>
-                        </Col>
+                            this.state.is_shiw_tbhead &&
+                            <Col span={24} className='table-list-ms'>
+                                <Col span={6}>抄表日期：2019.6.25</Col>
+                                <Col span={6}>抄表人：万潇</Col>
+                                <Col span={6}>审核人：万潇</Col>
+                                <Col span={6}>计费周期：2019.6.1-2019.6.30</Col>
+                            </Col>
                         }
                     </Col>
                     <Col span={4} className="table-list-add">
@@ -164,10 +167,10 @@ class TableList extends Component {
                     </table>
                 </Col>
                 <Col span={24} className="table-list-page">
-                    <Pagination defaultCurrent={1} total={500} />
+                    <Pagination defaultCurrent={1} total={this.state.total_page} />
                 </Col>
-                <Modal title={this.state.dele_title} visible={this.state.deleModel} onOk={this.handleOk} className="model-dele"
-                    onCancel={this.deleCurItem} centered={true} bodyStyle={{ textAlign: "center", height: "130px" }}
+                <Modal title={this.state.dele_title} visible={this.state.deleModel} onOk={this.handleOkDele} className="model-dele"
+                    onCancel={this.closeModaDelel} centered={true} bodyStyle={{ textAlign: "center", height: "130px" }}
                     cancelText="取消"
                     okText="确定">
                     <p>删除后将不能恢复，是否删除该条数据？</p>

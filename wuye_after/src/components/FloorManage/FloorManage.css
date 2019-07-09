@@ -5,7 +5,8 @@
     border-radius: 0
 }
 .floor-mag-mod .floor-mag-itm{
-    margin-bottom: 20px
+    margin-bottom: 20px;
+    text-align: center
 }
 .floor-mag-mod .ant-select-selection{
     border-radius: 0
@@ -18,4 +19,11 @@
 }
 .floor-mag-mod  .ant-modal-header .ant-modal-title{
     font-weight: bold !important
+}
+.floor-mag-xiugai{
+    text-align: end;
+    padding-right: 20px
+}
+.floor-mag-xiugai button{
+    width:100px
 }

@@ -15,13 +15,13 @@ class FloorManage extends Component {
             show_model: true,
             tenant_state: false,
             loading: false,
-            image_url: []
+            image_url: [],
+            is_change: false
         }
     }
     componentDidMount() {
     }
     pandPositiveOrReverse = (file, val) => {
-        console.log(file)
         const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJPG) {
             message.error('只允许JPG,PNG格式!');
@@ -61,6 +61,11 @@ class FloorManage extends Component {
             show_model: !prev.show_model
         }))
     }
+    modifyStat = () => {
+        this.setState({
+            is_change: true
+        })
+    }
     seleState = (e) => {
         if (e === "出租") {
             this.setState({
@@ -84,68 +89,158 @@ class FloorManage extends Component {
         return (
             <Row className='floor-mag'>
                 <Col span={24}>
-                    <Modal title="一单元一号楼 1-1-1" visible={this.state.show_model} onOk={this.handleOk} onCancel={this.handleCancel} className='floor-mag-mod' okText='保存'
+                    <Modal title="一单元一号楼 1-1-1" visible={this.state.show_model} onOk={this.handleOk} className='floor-mag-mod' okText='保存'
                         onCancel={this.deleCurItem}
                     >
-                        <Row>
-                            <Col span={24} className='floor-mag-itm'>
-                                <Col span={11}>
-                                    <Col span={6}>业主姓名：</Col>
-                                    <Col span={18}>
-                                        <Input placeholder="请输入业主姓名" />
+                        {
+                            this.state.is_change && <Row>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>业主姓名：</Col>
+                                        <Col span={18}>
+                                            <Input placeholder="请输入业主姓名" />
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>业主电话：</Col>
+                                        <Col span={18}><Input placeholder="请输入业主电话" /></Col>
                                     </Col>
                                 </Col>
-                                <Col span={11} offset={2}>
-                                    <Col span={6}>业主电话：</Col>
-                                    <Col span={18}><Input placeholder="请输入业主电话" /></Col>
-                                </Col>
-                            </Col>
-                            <Col span={24} className='floor-mag-itm'>
-                                <Col span={11}>
-                                    <Col span={6}>门牌号：</Col>
-                                    <Col span={18}>
-                                        1-1-1
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>门牌号：</Col>
+                                        <Col span={18}>
+                                            1-1-1
+                                    </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>产权号：</Col>
+                                        <Col span={18}><Input placeholder="请输入产权号" /></Col>
                                     </Col>
                                 </Col>
-                                <Col span={11} offset={2}>
-                                    <Col span={6}>产权号：</Col>
-                                    <Col span={18}><Input placeholder="请输入产权号" /></Col>
-                                </Col>
-                            </Col>
-                            <Col span={24} className='floor-mag-itm'>
-                                <Col span={11}>
-                                    <Col span={6}>房屋面积：</Col>
-                                    <Col span={18}>
-                                        120㎡
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>房屋面积：</Col>
+                                        <Col span={18}>
+                                            120㎡
+                                    </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>居住人数：</Col>
+                                        <Col span={18}><Input placeholder="请输入产权号" /></Col>
                                     </Col>
                                 </Col>
-                                <Col span={11} offset={2}>
-                                    <Col span={6}>居住人数：</Col>
-                                    <Col span={18}><Input placeholder="请输入产权号" /></Col>
-                                </Col>
-                            </Col>
-                            <Col span={24} className='floor-mag-itm'>
-                                <Col span={11}>
-                                    <Col span={6}>房屋状态：</Col>
-                                    <Col span={18}>
-                                        <Select style={{ width: '100%' }} placeholder="请选择房屋状态" allowClear={true} onChange={this.seleState}>
-                                            <Option value="自住">自住</Option>
-                                            <Option value="出租">出租</Option>
-                                            <Option value="闲置">闲置</Option>
-                                        </Select>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>房屋状态：</Col>
+                                        <Col span={18}>
+                                            <Select style={{ width: '100%' }} placeholder="请选择房屋状态" allowClear={true} onChange={this.seleState}>
+                                                <Option value="自住">自住</Option>
+                                                <Option value="出租">出租</Option>
+                                                <Option value="闲置">闲置</Option>
+                                            </Select>
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>缴费状态：</Col>
+                                        <Col span={18}>
+                                            <Select style={{ width: '100%' }} placeholder="请选择缴费状态" allowClear={true}>
+                                                <Option value="已付费">已付费</Option>
+                                                <Option value="未付费">未付费</Option>
+                                            </Select>
+                                        </Col>
                                     </Col>
                                 </Col>
-                                <Col span={11} offset={2}>
-                                    <Col span={6}>缴费状态：</Col>
-                                    <Col span={18}>
-                                        <Select style={{ width: '100%' }} placeholder="请选择缴费状态" allowClear={true}>
-                                            <Option value="已付费">已付费</Option>
-                                            <Option value="未付费">未付费</Option>
-                                        </Select>
+                                {this.state.tenant_state === true && (
+                                    <Col span={24}>
+                                        <Col span={8}>
+                                            <Col span={5}></Col>
+                                            <Col span={19} className="add-up">
+                                                <Upload
+                                                    name="avatar"
+                                                    listType="picture-card"
+                                                    showUploadList={false}
+                                                    beforeUpload={this.beforeUpload}
+                                                >
+                                                    {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                                </Upload>
+                                            </Col>
+                                        </Col>
+                                        <Col span={8} >
+                                            <Col span={5}></Col>
+                                            <Col span={19} className="add-up">
+                                                <Upload
+                                                    name="avatar"
+                                                    listType="picture-card"
+                                                    showUploadList={false}
+                                                    beforeUpload={this.beforeUpload_0}
+                                                >
+                                                    {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
+                                                </Upload>
+                                            </Col>
+                                        </Col>
+                                    </Col>
+                                )}
+                                <Col span={24} className="add-ctrl">
+                                    <Col span={11}>
+                                        <Col span={9} offset={6} className="add-ctrl-it" ><Button onClick={this.deleCurItem}>取消</Button></Col>
+                                        <Col span={9} className="add-ctrl-it" onClick={this.handleUpload}><Button type="primary">保存</Button></Col>
                                     </Col>
                                 </Col>
-                            </Col>
-                            {this.state.tenant_state === true && (
+                            </Row>
+                        }
+                        {
+                            !this.state.is_change && <Row>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>业主姓名：</Col>
+                                        <Col span={18}>
+                                            瓦尼若
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>业主电话：</Col>
+                                        <Col span={18}>173115646464</Col>
+                                    </Col>
+                                </Col>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>门牌号：</Col>
+                                        <Col span={18}>
+                                            1-1-1
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>产权号：</Col>
+                                        <Col span={18}>无</Col>
+                                    </Col>
+                                </Col>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>房屋面积：</Col>
+                                        <Col span={18}>
+                                            120㎡
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>居住人数：</Col>
+                                        <Col span={18}>无</Col>
+                                    </Col>
+                                </Col>
+                                <Col span={24} className='floor-mag-itm'>
+                                    <Col span={11}>
+                                        <Col span={6}>房屋状态：</Col>
+                                        <Col span={18}>
+                                            闲置
+                                        </Col>
+                                    </Col>
+                                    <Col span={11} offset={2}>
+                                        <Col span={6}>缴费状态：</Col>
+                                        <Col span={18}>
+                                            未交费
+                                        </Col>
+                                    </Col>
+                                </Col>
                                 <Col span={24}>
                                     <Col span={8}>
                                         <Col span={5}></Col>
@@ -174,14 +269,11 @@ class FloorManage extends Component {
                                         </Col>
                                     </Col>
                                 </Col>
-                            )}
-                            <Col span={24} className="add-ctrl">
-                                <Col span={11}>
-                                    <Col span={9}offset={6}  className="add-ctrl-it" ><Button onClick={this.deleCurItem}>取消</Button></Col>
-                                    <Col span={9} className="add-ctrl-it" onClick={this.handleUpload}><Button type="primary">保存</Button></Col>
+                                <Col span={24} className="add-ctrl">
+                                        <Col span={24} className="add-ctrl-it floor-mag-xiugai" onClick={this.modifyStat}><Button type="primary">修改</Button></Col>
                                 </Col>
-                            </Col>
-                        </Row>
+                            </Row>
+                        }
                     </Modal>
                 </Col>
             </Row>

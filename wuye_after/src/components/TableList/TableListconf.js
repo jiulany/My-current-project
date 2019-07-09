@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import http from '../../api/http.js'
 export const HEAD_CONF = {
     YE_ZHU: {//业主
         head: ["业主姓名", "业主电话", "门牌号", "房屋面积", "产权号", "居住人数", "房屋状态", "操作"],
@@ -15,31 +16,31 @@ export const HEAD_CONF = {
         head: ['序号', '房号', '户主名', '起始数(m³)', '截止数(m³)', '单价(元/m³)', '用量(m³)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/water_list/add_water',
-        is_shiw_tbhead:true
+        is_shiw_tbhead: true
     },
     GAS_LIST: {//气费
         head: ['序号', '房号', '户主名', '起始数(m³)', '截止数(m³)', '单价(元/m³)', '用量(m³)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/gas_list/add_gas',
-        is_shiw_tbhead:true
+        is_shiw_tbhead: true
     },
     ELECTRICITY_LIST: {//电费
         head: ['序号', '房号', '户主名', '起始数(kw)', '截止数(kw)', '单价(元/kw)', '用量(kw)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/electricity_list/add_electricity',
-        is_shiw_tbhead:true
+        is_shiw_tbhead: true
     },
     PROPERTY_LIST: {//物业费
         head: ['序号', '房号', '户主名', '房屋面积(㎡)', '单价(元/㎡)', '缴费数量(月)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/property_list/add_property',
-        is_shiw_tbhead:true
+        is_shiw_tbhead: true
     },
     GARBAGE_LIST: {//垃圾费
         head: ['序号', '房号', '户主名', '房屋面积(㎡)', '单价(元/㎡)', '缴费数量(月)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/garbage_list/add_garbage',
-        is_shiw_tbhead:true
+        is_shiw_tbhead: true
     },
     NOTICE_LIST: {//公告
         head: ['主题', '发布人', '职位', '发布时间', '操作'],
@@ -230,16 +231,16 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/notice_list") {   // NOTICE_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.title}</td>
+                <td >{item.admin_name}</td>
+                <td>{item.admin_position}</td>
+                <td>{item.created_at}</td>
                 <td style={{ width: '13%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai">
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e)=>methods.deleCurItem(item,e)}>
                         删除
                     </Button>
                 </td>
@@ -323,4 +324,38 @@ export function mapAddressToTd(path, item, methods) {
             </tr>
         )
     }
+}
+
+export function getPageTotal(path) {
+    return new Promise((resolve, reject) => {
+        if (path === "/notice_list") {
+            http('/notice/noticeIndexNum', { method: 'get', data: {} }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+    })
+}
+export function getTableList(path, page, limit, condition) {
+    return new Promise((resolve, reject) => {
+        if (path === "/notice_list") {
+            http('/notice/noticeIndex', { method: 'get', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+    })
+}
+export function deleItem(path,id) {
+    return new Promise((resolve, reject) => {
+        if (path === "/notice_list") {
+            http('/notice/noticeDel', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+    })
 }

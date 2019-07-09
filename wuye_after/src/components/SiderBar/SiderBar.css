@@ -1,0 +1,24 @@
+.siderbar .ant-menu-item{
+    height: 50px !important;
+    line-height: 50px !important;
+    padding-left: 45px !important
+}
+.siderbar .ant-menu-submenu-title{
+    height: 50px !important;
+    line-height: 50px !important;
+    padding-left: 45px !important;
+    margin-bottom: 8px;
+}
+.siderbar .sider-item_1{
+padding-left: 80px !important
+}
+.siderbar .ant-menu-item-selected{
+    color: black
+}
+.siderbar .sider-icon{
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    bottom: 2px
+}

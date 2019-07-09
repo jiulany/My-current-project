@@ -1,0 +1,53 @@
+.header{
+    background: white;
+    padding-left: 0
+}
+.home-breadcrumb{
+padding:20px;
+font-size: 17px;
+font-weight: bold;
+}
+.ant-layout-content{
+    position: relative;
+}
+.add{
+  padding: 80px 180px
+}
+.add-it .ant-col-24{
+  text-align: center;
+  padding: 10px 0
+}
+.add-it .ant-col-24 .ant-col-7{
+  margin-left: 20px
+}
+.add-it  input{
+  border-radius: 0
+}
+.add-it  textarea{
+  border-radius: 0;
+  resize: none
+}
+.add-it  .ant-calendar-picker{
+  width: 100%
+}
+.add-it .ant-select-selection{
+  border-radius: 0
+}
+.add-ctrl{
+  margin-top: 50px
+}
+.add-ctrl-it{
+  text-align: start
+}
+.add-ctrl-it button{
+  color: black;
+  width: 90px
+}
+.add-up .ant-upload{
+  width: 200px !important;
+  height:200px !important;
+} 
+.add-up .add-up-show{
+  width: 200px;
+  height: 200px;
+}

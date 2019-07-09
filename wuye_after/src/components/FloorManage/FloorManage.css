@@ -1,0 +1,21 @@
+.floor-mag-mod{
+    width: 800px !important
+}
+.floor-mag-mod .ant-input{
+    border-radius: 0
+}
+.floor-mag-mod .floor-mag-itm{
+    margin-bottom: 20px
+}
+.floor-mag-mod .ant-select-selection{
+    border-radius: 0
+}
+.floor-mag-mod .ant-modal-footer{
+    border-top:none
+}
+.floor-mag-mod .ant-modal-footer .ant-btn{
+    display: none
+}
+.floor-mag-mod  .ant-modal-header .ant-modal-title{
+    font-weight: bold !important
+}

@@ -1,0 +1,175 @@
+<i-row wx:for="{{ content }}" wx:key="{{ key }}">
+  <i-col span="24" i-class="img_banner">
+    <image src="http://testapi.baodi520.com/uploads/20190527/75fc439aebea72b762a22453931c102.png"></image>
+  </i-col>
+
+  <i-col span="24" i-class="what_title">
+    什么是应急停车？
+  </i-col>
+
+  <i-col span="24" i-class="desc_jianjie">
+    应急停车是脱狗车宝为脱狗车友提供的互联网会员权益产品，其目的是鼓励车主分享停车信息,为以后城市交通停车提供数据参考,最大程度解决车主外出停车难的问题。
+  </i-col>
+  <i-col span="24" i-class="desc_jianjie">
+    在购买了此款会员权益产品之后, 使用脱狗车宝分享了停车信息成功, 如果期间 发现被贴禁停凭证 , 那么提供相关信息 , 将获取相应的会员权益。
+  </i-col>
+  <i-col span="24" i-class="desc_jianjie">
+    权益有效期分为一个月时间,每个月每个车牌只能购买一次，多个车牌可多次购买，购买后即时生效。权益期间赔偿规则为每月补偿一次，补偿100元至您的余额。
+  </i-col>
+  <!-- <i-col span="24" i-class="desc_jianjie">
+   权益期间赔偿规则为每月补偿一次，补偿100元至额您的余额。
+  </i-col> -->
+
+  <i-col span="24" i-class="total">
+    <i-col span="12" i-class="aaa">
+      <i-col span="24" i-class="title_total">
+        累计购买人次已达
+      </i-col>
+      <i-col span="24" i-class="data_toatal">
+        {{ details.num }}人
+      </i-col>
+    </i-col>
+    <i-col span="12">
+      <i-col span="24" i-class="title_total">
+        累计补贴金额已达
+      </i-col>
+      <i-col span="24" i-class="data_toatal">
+        {{ details.money }}元
+      </i-col>
+    </i-col>
+  </i-col>
+
+  <i-col span="24" i-class="stop_car_all">
+    <i-col span="7" i-class="stop_car_btn">
+    {{ item.goodsname}}
+    </i-col>
+    <i-col span="17">
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="style_number">
+        <span class="number">{{ item.price }}</span>元会员权益
+      </i-col>
+      <i-col span="11" i-class="style_number">
+        权益有效期
+        <span class="number">1个月</span>
+      </i-col>
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="buy_btn" bindtap="toPay">
+    支付{{ item.price }}元购买
+  </i-col>
+
+   <!-- <i-col span="24" i-class="stop_car_all">
+    <i-col span="7" i-class="stop_car_btn">
+      {{ item.goodsname}}应急停车B型
+    </i-col>
+    <i-col span="17">
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="style_number">
+        <span class="number">{{ item.price }}</span>元会员权益
+      </i-col>
+      <i-col span="11" i-class="style_number">
+        权益有效期
+        <span class="number">1个月</span>
+      </i-col>
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="buy_btn" bindtap="toPay">
+    支付{{ item.price }}元购买
+  </i-col>
+
+   <i-col span="24" i-class="stop_car_all">
+    <i-col span="7" i-class="stop_car_btn">
+      {{ item.goodsname}}应急停车C型
+    </i-col>
+    <i-col span="17">
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="style_number">
+        <span class="number">{{ item.price }}</span>元会员权益
+      </i-col>
+      <i-col span="11" i-class="style_number">
+        权益有效期
+        <span class="number">1个月</span>
+      </i-col>
+    </i-col>
+    <i-col span="24">
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+      <i-col span="11" i-class="desc">
+        购买后停车被贴禁停标识， 即可获得禁贴补贴。
+      </i-col>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="buy_btn" bindtap="toPay">
+    支付{{ item.price }}元购买
+  </i-col> -->
+
+  <i-col span="24" i-class="box">
+  </i-col>
+
+  <i-col span="24" i-class="user">
+    <i-col span="24" i-class="user_intro">
+      使用说明
+    </i-col>
+    <i-col span="24" i-class="user_intro_cont">
+      用户注册为脱狗车友，购买应急停车服务，下车前点击“应急停车" , 将您当前的停车位置上传 , 上传后系统会显示停车成功。
+    </i-col>
+
+    <i-col span="24" i-class="user_intro_cont">
+      取车时若被贴禁停凭证,停车记录里面寻找您刚上传的当前停车位置，将禁停凭证照片上传（照片请拍清晰方便人工审核）。
+    </i-col>
+
+    <i-col span="24" i-class="user_intro_cont">
+      应急停车权益购买时间必须在被贴禁停凭证之前才有效。
+    </i-col>
+
+    <i-col span="24" i-class="user_intro_cont">
+      应急停车的保障时间为2小时。禁停凭证审核通过后 ,脱狗车宝会在7个工作日内完成相应的补贴。用户可通过余额账单查询。
+    </i-col>
+
+    <i-col span="24" i-class="footer">
+      本功能最终解释权归脱狗车宝所有。
+    </i-col>
+
+  </i-col>
+<!-- <navigator open-type="exit" target="miniProgram"> -->
+<view class="modal-mask" wx:if="{{showModal_0}}" bindtap='toIndex'> </view>
+<!-- </navigator> -->
+<view wx:if="{{showModal_0}}" class='modalBox_0'>
+  <view class='tip_0'>
+    <view class='title_tip'>
+      温馨提示
+    </view>
+    <view class="img_box1">
+      <!-- <navigator open-type="exit" target="miniProgram"> -->
+      <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+      <!-- </navigator> -->
+    </view>
+    <view class='cont_tip_0'>
+      是否允许授权手机号码?
+      <view class='btn_tip'>
+        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+      </view>
+    </view>
+  </view>
+</view>
+</i-row>

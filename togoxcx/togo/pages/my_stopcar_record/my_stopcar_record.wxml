@@ -1,0 +1,141 @@
+<!--pages/my_stopcar_record/my_stopcar_record.wxml-->
+<view class='order'>
+  <view class="swiper-tab">
+    <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">全部</view>
+    <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">已上传</view>
+    <view class="swiper-tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="clickTab">已到账</view>
+  </view>
+  <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" class='swiper_ord'>
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingAll">
+        <i-row>
+          <i-col span="24" i-class="rcd_it" wx:for="{{all}}" wx:key="id">
+            <i-col span="5" i-class="rcd_tp">
+              <image src="{{http}}{{item.image}}"></image>
+            </i-col>
+            <i-col span="13" i-class="rcd_ms">
+              <i-col span="24">{{item.create_time}}</i-col>
+              <i-col span="24">{{item.address}}</i-col>
+              <i-col span="24" i-class="rcd_sta" wx:if="{{item.state==3}}">审核未通过
+                <view class='xq' data-itm="{{item}}" bindtap='toShowModal'>详情</view>
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==2}}">审核通过
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==1}}">审核中
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==0}}">未上传
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==4}}">已到账
+                <text>+{{item.money}}元</text>
+              </i-col>
+            </i-col>
+            <i-col span="6" i-class="rcd_ctrl">
+              <button wx:if="{{item.state==3}}" data-itm='{{item}}' catchtap='toUp'>重新上传</button>
+              <button wx:if="{{item.state==2||item.state==4||item.state==1}}" data-itm="{{item}}" catchtap='checkPz'>查看凭证</button>
+              <button wx:if="{{item.state==0}}" data-itm='{{item}}' catchtap='toUp'>上传凭证</button>
+            </i-col>
+          </i-col>
+          <view class='loadingmodel'>
+            <i-spin wx:if="{{all_loading}}" i-class="loading" custom>
+              <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+              <view>加载中...</view>
+            </i-spin>
+            <i-load-more wx:if="{{all_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+          </view>
+        </i-row>
+      </scroll-view>
+    </swiper-item>
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingUp">
+        <i-row>
+          <i-col span="24" i-class="rcd_it" wx:for="{{uped}}" wx:key="id">
+            <i-col span="5" i-class="rcd_tp">
+              <image src="{{http}}{{item.image}}"></image>
+            </i-col>
+            <i-col span="13" i-class="rcd_ms">
+              <i-col span="24">{{item.create_time}}</i-col>
+              <i-col span="24">{{item.address}}</i-col>
+              <i-col span="24" i-class="rcd_sta" wx:if="{{item.state==3}}">审核未通过
+                <view class='xq' data-itm="{{item}}" bindtap='toShowModal'>详情</view>
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==2}}">审核通过
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==1}}">审核中
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==0}}">未上传
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==4}}">已到账
+                <text>+{{item.money}}元</text>
+              </i-col>
+            </i-col>
+            <i-col span="6" i-class="rcd_ctrl">
+              <button wx:if="{{item.state==3}}" data-itm='{{item}}' catchtap='toUp'>重新上传</button>
+              <button wx:if="{{item.state==2||item.state==4||item.state==1}}" data-itm="{{item}}" catchtap='checkPz'>查看凭证</button>
+              <button wx:if="{{item.state==0}}" data-itm='{{item}}' catchtap='toUp'>上传凭证</button>
+            </i-col>
+          </i-col>
+          <view class='loadingmodel'>
+            <i-spin wx:if="{{up_loading}}" i-class="loading" custom>
+              <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+              <view>加载中...</view>
+            </i-spin>
+            <i-load-more wx:if="{{up_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+          </view>
+        </i-row>
+      </scroll-view>
+    </swiper-item>
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingDz">
+        <i-row>
+          <i-col span="24" i-class="rcd_it" wx:for="{{dzed}}" wx:key="id">
+            <i-col span="5" i-class="rcd_tp">
+              <image src="{{http}}{{item.image}}"></image>
+            </i-col>
+            <i-col span="13" i-class="rcd_ms">
+              <i-col span="24">{{item.create_time}}</i-col>
+              <i-col span="24">{{item.address}}</i-col>
+              <i-col span="24" i-class="rcd_sta" wx:if="{{item.state==3}}">审核未通过
+                <view class='xq' data-itm="{{item}}" bindtap='toShowModal'>详情</view>
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==2}}">审核通过
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==0}}">未上传
+              </i-col>
+              <i-col span="24" i-class="rcd_tg" wx:if="{{item.state==4}}">已到账
+                <text>+{{item.money}}元</text>
+              </i-col>
+            </i-col>
+            <i-col span="6" i-class="rcd_ctrl">
+              <button wx:if="{{item.state==3}}" data-itm='{{item}}' catchtap='toUp'>重新上传</button>
+              <button wx:if="{{item.state==2||item.state==4||item.state==1}}" data-itm="{{item}}" catchtap='checkPz'>查看凭证</button>
+              <button wx:if="{{item.state==0}}" data-itm='{{item}}' catchtap='toUp'>上传凭证</button>
+            </i-col>
+          </i-col>
+          <view class='loadingmodel'>
+            <i-spin wx:if="{{dz_loading}}" i-class="loading" custom>
+              <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+              <view>加载中...</view>
+            </i-spin>
+            <i-load-more wx:if="{{dz_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+          </view>
+        </i-row>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+
+  <view class="modal-mask" wx:if="{{showModal}}" bindtap="hide"> </view>
+  <view wx:if="{{showModal}}" class='modalBox'>
+    <view class="img_box1">
+      <image src='../../images/index/shopDetails/guanbi.png' bindtap="hide"></image>
+    </view>
+    <i-col span="24" i-class='imgBox'>
+      <image src='../../images/instructions/no_pass.png'></image>
+    </i-col>
+    <i-col span="24" i-class='red_tip'>
+      审核未通过原因
+    </i-col>
+    <i-col span="22" i-class="answer">
+      <view> 1.{{yuanying}}</view>
+    </i-col>
+  </view>
+</view>

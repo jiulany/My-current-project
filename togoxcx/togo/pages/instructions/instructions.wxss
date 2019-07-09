@@ -1,0 +1,49 @@
+/* pages/instructions/instructions.wxss */
+
+page {
+  background: #f3f3f3;
+}
+
+.imgBox {
+  width: 100%;
+}
+
+.img {
+  width: 200rpx;
+  height: 200rpx;
+  margin-left: 38%;
+  margin-top: 25rpx;
+}
+
+.number1 {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 25rpx;
+}
+
+.imgBox1 {
+  width: 100%;
+  margin-top: 50rpx;
+}
+
+.number2 {
+  margin-left: 20%;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 25rpx;
+}
+
+.tip {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 150rpx;
+}
+
+.tip_content {
+  margin-left: 20%;
+  font-size: 11px;
+  text-align: center;
+  margin-top: 25rpx;
+  padding-bottom: 150rpx;
+  line-height: 50rpx;
+}

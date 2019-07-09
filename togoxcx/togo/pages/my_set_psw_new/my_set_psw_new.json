@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+      "i-input": "../../dist/input/index",
+      "i-panel": "../../dist/panel/index",
+      "i-modal": "../../dist/modal/index",
+      "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "密码设置"
+}

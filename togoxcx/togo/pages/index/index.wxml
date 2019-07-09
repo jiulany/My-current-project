@@ -1,0 +1,60 @@
+<view>
+  <view class='top'>
+    <view>
+      <image class='dingwei' src='../../images/index/dingwei_03.png'></image>
+      <text class='city' bindtap='cityTap'>{{ city }}</text>
+      <text class='address' bindtap='toShop'>最近店铺：{{ address }}</text>
+    </view>
+    <view class='addres_right'>
+      <image src='../../images/index/toGo_03.png' class='toGo'></image>
+      <text class='distance'>{{ distance}}km</text>
+    </view>
+  </view>
+  <view>
+    <swiper indicator-dots="true" autoplay="true" interval="5000">
+      <swiper-item wx:for="{{bannerIndex}}" wx:key="{{index}}" wx:item="{{item}}" bindtap='onSwiperTap'data-itm='{{item}}' data-index='{{index}}'>
+        <image src="{{http}}{{item.images}}" style='border-radius:2%;'></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class='list'>
+    <view class='list_img' bindtap='itemsTap' data-index='{{index}}' wx:for="{{listArray}}" wx:item="{{ item }}" wx:key="{{index}}">
+      <image class='single_img' src='{{ item.imgUrl }}'></image>
+      <text class='list_title'>{{ item.title }}</text>
+    </view>
+
+  </view>
+  <view class='all'>
+    <view class='activity' wx:for="{{ imageAcvtivity }}" wx:key="{{ imgKey }}" wx:item="{{ item }}" data-id="{{index}}" data-goodsid='{{item.goodsid}}' bindtap='activityTap'>
+      <image class='activityOne' src='{{ http }}{{ item.images }}'></image>
+      <!-- <image class='activityOne' src='/images/index/quarter.png'></image> -->
+    </view>
+  </view>
+  
+  <!-- <view class="modal-mask" wx:if="{{showModal}}"> </view>
+  
+  <view wx:if="{{showModal}}" class='modalBox'>
+    <view class='tip'>
+      <view class='title_tip'>
+        温馨提示
+      </view>
+      <view class="img_box1" >
+       
+          <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+        
+      </view>
+      <view class='cont_tip'>
+        是否允许授权手机号码?
+        <view class='btn_tip'>
+          <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+        </view>
+      </view>
+    </view>
+  </view> -->
+  <tabbar tabbar="{{tabbar}}"></tabbar>
+  <i-message id="message" />
+</view>
+
+<!-- <view class='right' wx:if="{{show}}">
+  <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber"> aaa</button>
+ </view> -->

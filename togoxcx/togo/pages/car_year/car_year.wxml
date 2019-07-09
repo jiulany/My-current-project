@@ -1,0 +1,49 @@
+
+<import src="../../wxParse/wxParse.wxml"/>
+<i-row>
+  <i-col span="24" i-class="img_car">
+    <image src='{{ http }}{{ details.selfpic }}'></image>
+  </i-col>
+
+  <i-col span="24" i-class="all_car">
+    <i-col span="12" i-class="title_car">
+      {{ details.goodsname }}
+    </i-col>
+    <i-col span="12" i-class="price_car">
+      ￥{{ details.price }}
+    </i-col>
+  </i-col>
+
+  <i-col span="24" i-class="desc_pro">
+   商品简介
+  </i-col>
+
+  <i-col span="24" i-class="desc_cont">
+    {{ details.jianjie }}
+  </i-col>
+
+  <i-col span="24" i-class="buy" bindtap="toBbuy">
+    立即购买
+  </i-col>
+<!-- <navigator open-type="exit" target="miniProgram"> -->
+<view class="modal-mask" wx:if="{{showModal_0}}" bindtap='toIndex'> </view>
+<!-- </navigator> -->
+<view wx:if="{{showModal_0}}" class='modalBox_0'>
+  <view class='tip_0'>
+    <view class='title_tip'>
+      温馨提示
+    </view>
+    <view class="img_box1">
+      <!-- <navigator open-type="exit" target="miniProgram"> -->
+      <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+      <!-- </navigator> -->
+    </view>
+    <view class='cont_tip_0'>
+      是否允许授权手机号码?
+      <view class='btn_tip'>
+        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+      </view>
+    </view>
+  </view>
+</view>
+</i-row>

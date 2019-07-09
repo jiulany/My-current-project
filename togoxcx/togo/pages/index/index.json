@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "tabbar": "../../component/tabbar/tabbar",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "脱狗车宝"
+}

@@ -1,0 +1,13 @@
+<!--pages/add_car_pingpai_xf/add_car_pingpai_xf.wxml-->
+<view>
+  <i-row>
+    <i-col span="24" i-class="item_1">
+    </i-col>
+    <i-col span="24" i-class="item" wx:for="{{list}}"data-itm="{{item}}" bindtap="sele">
+      <i-card title="{{item.sizetype}}" extra="{{item.productionstate}}" thumb="{{item.logo}}">
+        <view slot="content">{{item.name}}</view>
+        <view slot="footer">{{item.price}}</view>
+      </i-card>
+    </i-col>
+  </i-row>
+</view>

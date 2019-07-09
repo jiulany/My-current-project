@@ -1,0 +1,14 @@
+<!--pages/my_balance/my_balance.wxml-->
+<i-row>
+  <i-col span="24" i-class="balance_ico">
+    <image src='../../images/balance_ico.png'></image>
+  </i-col>
+  <i-col span="24" i-class="balance_tt">我的零钱</i-col>
+  <i-col span="24" i-class="balance_bla">¥{{balance}}</i-col>
+  <i-col span="24" i-class="balance_btn">
+    <button bindtap='toRecharge'>充值</button>
+  </i-col>
+  <i-col span="24" i-class="balance_mx">
+    <image src='../../images/yuemingxi.png' bindtap='to_balance_details'></image>
+  </i-col>
+</i-row>

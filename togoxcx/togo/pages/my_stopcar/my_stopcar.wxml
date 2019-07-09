@@ -1,0 +1,36 @@
+<!--pages/my_stopcar/stopcar.wxml-->
+<i-row i-class='mystopcar'>
+  <i-col span="24" i-class="mystopcar_it"bindtap="toRecord">
+    <i-col span="22">
+      停车记录
+    </i-col>
+    <i-col span="2" i-class='mystopcar_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="mystopcar_it" catchtap="toEqulty">
+    <i-col span="22">
+      会员权益
+    </i-col>
+    <i-col span="2" i-class='mystopcar_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="mystopcar_it" bindtap="instructionTap">
+    <i-col span="22">
+      使用方法
+    </i-col>
+    <i-col span="2" i-class='mystopcar_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="mystopcar_it" bindtap="commonProblemTap">
+    <i-col span="22" >
+      常见问题
+    </i-col>
+    <i-col span="2" i-class='mystopcar_rtr'>
+      <image src='../../images/return_ic.png' ></image>
+    </i-col>
+  </i-col>
+  <i-message id="message" />
+</i-row>

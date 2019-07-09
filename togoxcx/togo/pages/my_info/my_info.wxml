@@ -1,0 +1,34 @@
+<!--pages/my_info/my_info.wxml-->
+<i-row i-class='myifo'>
+<i-col span="24" i-class="myifo_it" >
+    <i-col span="16">
+      免密支付
+    </i-col>
+    <i-col span="8" i-class='myifo_rtr'>
+     <i-switch value="{{switch1}}" bind:change="onChange" slot="footer"></i-switch>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="myifo_it" bindtap="toSetPsw">
+    <i-col span="22">
+      设置密码
+    </i-col>
+    <i-col span="2" i-class='myifo_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="myifo_it"bindtap="toInv">
+    <i-col span="16">
+      我的邀请码
+    </i-col>
+    <i-col span="7" i-class='myifo_yqm'  catchlongtap='copy'>
+      {{invite}}
+    </i-col>
+    <i-col span="1" i-class='myifo_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-modal title="确认取消" visible="{{ visible3 }}" actions="{{ actions3 }}" bind:click="handleClick3">
+    <view>确认取消余额的免密支付之后只能设置支付密码才能支付哦！</view>
+</i-modal>
+
+</i-row>

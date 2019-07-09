@@ -1,0 +1,78 @@
+.keyboard {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #cfd3dd;
+  z-index: 99999
+}
+
+.keyboard_ct {
+  position: relative;
+}
+
+.key {
+  display: inline-block;
+  padding: 18rpx 17rpx;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px #666;
+  width: 35rpx;
+  text-align: center;
+}
+.pro_lover{
+   display: flex;
+  justify-content: flex-end;
+  margin: 10rpx;
+}
+.pro_lover view{
+  padding: 20rpx 30rpx;
+  color: white;
+  background: #fed000;
+   border-radius: 5px;
+}
+.pro_l0 {
+  display: flex;
+  justify-content: space-around;
+  margin: 10rpx;
+}
+
+.pro_l1 {
+  display: flex;
+  justify-content: space-around;
+  margin: 10rpx;
+  padding: 0 40rpx;
+}
+
+.pro_l2 {
+  display: flex;
+  justify-content: space-around;
+  margin: 10rpx;
+  padding: 0 110rpx;
+}
+
+.pro_l3 {
+  display: flex;
+  justify-content: space-around;
+  margin: 10rpx;
+  padding: 0 180rpx;
+}
+
+.keyboard_dele {
+  position: absolute;
+  right: 15rpx;
+  bottom: 0;
+}
+
+.keyboard_dele image {
+  width: 50rpx;
+  height: 45rpx;
+  margin-top: 10rpx;
+}
+
+.keyboard_dele {
+  display: inline-block;
+  padding: 8rpx 17rpx;
+  background: #abb1bd;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px #666;
+}

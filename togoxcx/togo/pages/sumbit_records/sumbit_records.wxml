@@ -1,0 +1,15 @@
+<!--pages/sumbit_records/sumbit_records.wxml-->
+<i-row>
+  <i-col span="24" i-class="up-record" wx:for="{{list}}">
+    <i-col span="24">
+      <i-col span="15">申请收车</i-col>
+      <i-col span="4" i-class="up-btn1" catchtap="cuiShou" data-itm="{{item}}">催收</i-col>
+      <i-col span="4" i-class="up-btn2" catchtap="cancel" data-itm="{{item}}">删除</i-col>
+    </i-col>
+    <i-col span="24" i-class="up-cart">您申请收车的车型为：{{item.plate}}。正在等待客服处理！</i-col>
+    <i-col span="24" i-class="up-time">{{item.addtime}}</i-col>
+  </i-col>
+  <i-modal title="确认撤销" visible="{{ visible1 }}" actions="{{ actions1 }}" bind:click="handleClick1">
+    <view>确认撤销申请吗？</view>
+  </i-modal>
+</i-row>

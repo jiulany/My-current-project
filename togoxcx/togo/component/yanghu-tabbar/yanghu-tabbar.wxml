@@ -1,0 +1,33 @@
+<i-row>
+  <i-col span="24" i-class="container2">
+    <i-col span="3" i-class='yh_tb_it'>
+      <i-col span="24">
+        <image wx:if="{{allSelect}}" src='../../images/select_ed.png' class='kefu' bindtap='allSelected'></image>
+        <image wx:else src='../../images/index/yanghu/weixuanzhe_icon.png' class='kefu' bindtap='allNotSelected'></image>
+      </i-col>
+      <i-col span="24" i-class="text">
+        全选
+      </i-col>
+    </i-col>
+    <i-col span="3" i-class='yh_tb_it'>
+      <i-col span="24">
+        <image src='../../images/index/yanghu/kefu_icon.png' class='kefu'></image>
+      </i-col>
+      <i-col span="24" i-class="text">
+        客服
+      </i-col>
+    </i-col>
+
+    <i-col span="10">
+      <i-col span="24" i-class="figure">
+        合计：<span style="color:#f75c3e;font-weight:bold;">￥{{conutPrice}}</span>
+      </i-col>
+      <!-- <i-col span="12" i-class="price">
+        
+      </i-col> -->
+    </i-col>
+    <i-col span="7" i-class="account" bindtap="accountTap">
+      <!-- <button class="account">去结算</button> -->去结算
+    </i-col>
+  </i-col>
+</i-row>

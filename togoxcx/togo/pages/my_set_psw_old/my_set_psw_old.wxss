@@ -1,0 +1,20 @@
+/* pages/my_set_psw_old/my_set_psw_old.wxss */
+page{
+  background: #f5f5f5
+}
+.oldpsw{
+  margin-top: 10rpx;
+  box-shadow: 0 3px 14px 0px rgba(0, 0, 0, 0.05);
+}
+.oldpsw_ip{
+  padding: 12px 15px !important
+}
+.sumbit{
+  margin: 0;
+  background: #fdd000 !important;
+  margin-top: 80rpx;
+  border-radius: 0 !important;
+}
+.sumbit:after{
+  border: none
+}

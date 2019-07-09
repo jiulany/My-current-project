@@ -1,0 +1,91 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/my_integral_dh/my_integral_dh",
+    "pages/order-welfare/order-welfare",
+    "pages/invite_friends/invite_friends",
+    "pages/vip_equity/vip_equity",
+    "pages/order_vip/order_vip",
+    "pages/my/my",
+    "pages/change_car/change_car",
+    "pages/voucher/voucher",
+    "pages/exchange/exchange",
+    "pages/equity_no/equity_no",
+    "pages/equity/equity",
+    "pages/balance_details/balance_details",
+    "pages/order_shop/order_shop",
+    "pages/common_problem/common_problem",
+    "pages/instructions/instructions",
+    "pages/add_car_pingpai/add_car_pingpai",
+    "pages/my_stopcar_record/my_stopcar_record",
+    "pages/my_integral_mx/my_integral_mx",
+    "pages/my_integral/my_integral",
+    "pages/my_recharge/my_recharge",
+    "pages/my_balance/my_balance",
+    "pages/my_order_detail/my_order_detail",
+    "pages/my_order/my_order",
+    "pages/shopDetails/shopDetails",
+    "pages/market/market",
+    "pages/stop_car/stop_car",
+    "pages/washCar/washCar",
+    "pages/welfare/welfare",
+    "pages/cash_car/cash_car",
+    "pages/first_aid/first_aid",
+    "pages/car_year/car_year",
+    "pages/store/store",
+    "pages/yanghu/yanghu",
+    "pages/about_us_joinus/about_us_joinus",
+    "pages/about_us_prpsal/about_us_prpsal",
+    "pages/about_us_togo/about_us_togo",
+    "pages/about_us/about_us",
+    "pages/my_set_psw/my_set_psw",
+    "pages/my_set_psw_new/my_set_psw_new",
+    "pages/my_info/my_info",
+    "pages/add_car/add_car",
+    "pages/my_car/my_car",
+    "pages/store_list/store_list",
+    "pages/latest/latest",
+    "pages/logs/logs",
+    "pages/my_set_psw_old/my_set_psw_old",
+    "pages/latest_template/latest_template",
+    "component/tabbar/tabbar",
+    "component/yanghu-tabbar/yanghu-tabbar",
+    "component/custom-radio/custom-radio",
+    "pages/my_coupon/my_coupon",
+    "component/key-board/key-board",
+    "pages/my_stopcar/my_stopcar",
+    "pages/set_order/set_order",
+    "pages/add_car_pingpai_xf/add_car_pingpai_xf",
+    "pages/sumbit_records/sumbit_records"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index"
+      },
+      {
+        "pagePath": "pages/store/store"
+      },
+      {
+        "pagePath": "pages/washCar/washCar"
+      },
+      {
+        "pagePath": "pages/market/market"
+      },
+      {
+        "pagePath": "pages/my/my"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  }
+}

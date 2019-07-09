@@ -1,0 +1,116 @@
+.step{
+  font-size: 15px;
+  margin-top: 50rpx;
+  margin-left: 5%;
+  color: #909090;
+}
+
+.imgBox{
+  position: relative;
+  top: 100rpx;
+  left: 4%;
+}
+
+.img{
+  height: 300rpx;
+  width: 100%
+}
+
+.text{
+  font-size: 10px;
+  margin-left: 6%;
+}
+
+.ring{
+  width: 160rpx;
+  height: 160rpx;
+  border: 1px solid #999999;
+  border-radius: 50%;
+  position: absolute;
+  top:160rpx;
+  left: 5.5%;
+}
+
+.circle1{
+  position: absolute;
+  width: 15rpx;
+  height: 15rpx;
+  background: #fca400;
+  border-radius: 50%;
+  top: 235rpx;
+  left: 26.1%;
+  z-index: 10;
+}
+.circle2{
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  background: #feeecf;
+  border-radius: 50%;
+  top: 228rpx;
+  left: 25%;
+  z-index: 9;
+}
+.imgs{
+  position: relative
+}
+.up_img{
+position: absolute;
+top: 0
+}
+.up_img image{
+width: 230rpx;
+height:300rpx
+}
+.line{
+  height: 2rpx;
+  background: #909090;
+  margin-top: 150rpx;
+  margin-left: 2%;
+}
+.load-more{
+  z-index: -1
+}
+.imgvoucher{
+  width: 390rpx;
+  height: 250rpx;
+  background: pink;
+  margin-top:30rpx;
+}
+
+.rectangle{
+  position: absolute;
+  height: 40rpx;
+  width:150rpx;
+  background: #e69e1c;
+  opacity: 0.8;
+  text-align: center;
+  font-size: 10px;
+  line-height:40rpx;
+  right: 15.5%;
+  color: #fff;
+  top: 220rpx;
+}
+
+.tip{
+  color: #e41717;
+  font-size: 10px;
+  margin-top: 500rpx;
+  text-align: center;
+}
+
+.btn{
+  position: fixed;
+  bottom: 0;
+  background: #fdd000;
+  text-align: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 15px;
+  color: #474747;
+}
+.mengc{
+  height: 100%;
+  position: absolute;
+  top: 0
+}

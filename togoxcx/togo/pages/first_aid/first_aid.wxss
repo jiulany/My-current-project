@@ -1,0 +1,54 @@
+page {
+  background-color: #fff;
+}
+
+.img_selected {
+  padding-top: 65rpx;
+  padding-left: 25rpx;
+}
+
+.img_content {
+  width: 117rpx;
+  height: 117rpx;
+  padding-top: 25rpx;
+}
+
+.line {
+  padding-bottom: 25rpx;
+  border-top: 1px solid #eeebe7;
+}
+
+.content{
+  padding-left: 3%;
+}
+
+.title {
+  font-size: 23rpx;
+  color: #474747;
+  padding-top: 35rpx;
+}
+
+.title_desc {
+  font-size: 23rpx;
+  color: #999;
+  padding-top: 35rpx;
+  line-height: 40rpx;
+  height: 80rpx;
+  overflow-y: hidden;
+}
+
+.price {
+  font-size: 27rpx;
+  color: #f75c3e;
+  font-weight: bold;
+  padding-top: 65rpx;
+  text-align: center;
+}
+
+.title_desc1 {
+  font-size: 23rpx;
+  color: #999;
+  padding-top: 10rpx;
+}
+
+

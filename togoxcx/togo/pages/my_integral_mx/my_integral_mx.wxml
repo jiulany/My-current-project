@@ -1,0 +1,18 @@
+<!--pages/my_integral_mx/my_integral_mx.wxml-->
+<i-row>
+  <i-col span="24" i-class="intemx_tt">
+    <i-col span="10" i-class="intemx_tt_it">日期</i-col>
+    <i-col span="7" i-class="intemx_tt_it">操作</i-col>
+    <i-col span="7" i-class="intemx_tt_it">积分</i-col>
+  </i-col>
+  <i-col span="24">
+    <scroll-view>
+      <i-col span="24" i-class="intemx_cit"wx:for="{{list}}"wx:key="id">
+        <i-col span="10">{{item.create_time}}</i-col>
+        <i-col span="7">{{item.name}}</i-col>
+        <i-col span="7"><text wx:if="{{item.status==1}}">+</text><text wx:if="{{item.status==0}}">-</text>{{item.points}}</i-col>
+      </i-col>
+    </scroll-view>
+  </i-col>
+  <i-toast id="toast" />
+</i-row>

@@ -1,0 +1,7 @@
+<import src="../latest_template/latest_template.wxml" />
+
+<view>
+  <block wx:for="{{posts_key}}" wx:for-item="item" wx:for-index="idx" wx:key="navItems">
+    <template is="indexItem" data="{{ ...item }}" />
+  </block>
+</view>

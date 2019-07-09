@@ -1,0 +1,45 @@
+<!--component/key-board/key-board.wxml-->
+<view class="keyboard"wx:if="{{actKeyBoard}}" animation='{{animationData}}'>
+  <view class="keyboard_ct">
+    <view wx:if="{{tep_act==0}}">
+    <view class='pro_lover'>
+        <view catchtap="closeKeyboard">完成</view>
+      </view>
+      <view class='pro_l0'>
+        <view class='key' wx:for="{{province_0}}" catchtap="clickPro" data-value="{{item}}">{{item}}</view>
+      </view>
+      <view class='pro_l1'>
+        <view class='key' wx:for="{{province_1}}" catchtap="clickPro" data-value="{{item}}">{{item}}</view>
+      </view>
+      <view class='pro_l2'>
+        <view class='key' wx:for="{{province_2}}" catchtap="clickPro" data-value="{{item}}">{{item}}</view>
+      </view>
+      <view class='pro_l3'>
+        <view class='key' wx:for="{{province_3}}" catchtap="clickPro" data-value="{{item}}">{{item}}</view>
+      </view>
+    </view>
+    <view wx:if="{{tep_act>0?true:false}}">
+    <view class='pro_lover'>
+        <view catchtap="closeKeyboard">完成</view>
+      </view>
+      <view class='pro_l0' wx:if="{{tep_act>1?true:false}}">
+        <view class='key' wx:for="{{num}}" data-value="{{item}}" catchtap="clickNum">{{item}}</view>
+      </view>
+      <view class='pro_l0'>
+        <view class='key' wx:for="{{letter_0}}" data-value="{{item}}" catchtap="clickNum">{{item}}</view>
+      </view>
+      <view class='pro_l1'>
+        <view class='key' wx:for="{{letter_1}}" data-value="{{item}}" catchtap="clickNum">{{item}}</view>
+      </view>
+      <view class='pro_l2'>
+        <view class='key' wx:for="{{letter_2}}" data-value="{{item}}" catchtap="clickNum">{{item}}</view>
+      </view>
+    </view>
+    <view class='keyboard_dele' catchtap="clickdele">
+      <image src='icon-delete.svg'></image>
+    </view>
+  </view>
+</view>
+<!-- 
+changeValue:值改变
+ -->

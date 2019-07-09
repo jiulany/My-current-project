@@ -1,0 +1,48 @@
+<!--pages/my_integral_dh/my_integral_dh.wxml-->
+<i-row>
+  <i-col span="24">
+    <i-col span="11" i-class="cont_market" wx:for="{{ list }}" wx:item="{{ item }}"  wx:key="{{  key }}" data-itm="{{item}}" bindtap='chooseSezi'>
+      <i-col span="24" i-class="img_market">
+        <image src='{{ http }}{{ item.pic }}' class='img'></image>
+      </i-col>
+      <i-col span="22" i-class="title_pro">
+        {{ item.desc }}
+      </i-col>
+      <i-col span="24" i-class="inte_price">
+        <i-col span="12" i-class="inte_price_ms">{{ item.name }}</i-col>
+        <i-col span="12"i-class="inte_price_nm">{{ item.points }}积分</i-col>
+      </i-col>
+    </i-col>
+  </i-col>
+  <!-- 确认弹框部分 -->
+  <view class='choose' wx:if="{{chooseSize}}" animation='{{animationData}}'>
+    <i-col span="24" i-class="order_box">
+      <view class="img_box">
+        <image src='../../images/index/shopDetails/guanbi.png' bindtap='hideModal'></image>
+      </view>
+      <i-col span="24" i-class="title_box">
+        积分兑换
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="price_box">
+      <!-- <i-col span="24" i-class="title_price">
+        ￥{{ord.zongprice}}
+      </i-col> -->
+
+      <i-col span="24" i-class="accountBox">
+        <i-col span="11" i-class="account_number">
+         消耗积分：{{jfen}}
+        </i-col>
+        <i-col span="11" i-class="number">
+          {{phone}}
+        </i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class="payNow" catchtap="toChange">
+      立即兑换
+    </i-col>
+    <!-- <view class='mask' hidden='{{maskFlag}}' bindtap='showFlag' ></view> -->
+  </view>
+  <view class='footer' wx:if="{{chooseSize}}"animation='{{animationData}}' bindtap='hideModal'></view>
+</i-row>

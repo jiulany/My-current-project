@@ -1,0 +1,117 @@
+/**index.wxss**/
+
+page {
+  height: 100%;
+}
+
+.storelist {
+  height: 100%;
+  background: #f5f5f5;
+}
+
+.storelist_address {
+  background: #f5f5f5;
+  font-size: 16px;
+  padding: 10rpx 0rpx;
+  padding-top: 15rpx;
+  border-bottom: 1px solid #d5d1ce;
+}
+
+.storelist_address image {
+  width: 30rpx;
+  height: 40rpx;
+}
+
+.storelist_area {
+  padding: 25rpx 0rpx;
+  text-align: center;
+  background: white;
+  font-size: 14px;
+}
+
+.storelist_area_act{
+    padding: 25rpx 0rpx;
+  text-align: center;
+  background: #f5f5f5;
+  font-size: 14px;
+}
+.storelist_ls {
+  font-size: 15px;
+  background: #f5f5f5;
+}
+
+.storelist_ls_dz {
+  text-align: end;
+}
+
+.storelist_ls_ad {
+  font-size: 13px;
+  color: #979797;
+  margin-top: 8rpx;
+}
+
+.storelist_ls_type {
+  margin-top: 8rpx;
+}
+
+.storelist_spacer {
+  height: 1px;
+  background: #f5f5f5;
+  margin-top: 18rpx;
+}
+
+.storelist_ls_contrl {
+  padding: 35rpx 0;
+}
+
+.storelist_type {
+  display: inline-block;
+  margin-right: 20rpx;
+  font-size: 10px;
+}
+
+.storelist_type image {
+  width: 25rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+}
+
+.storelist_ls_btn button {
+  margin: 0;
+  margin-left: 60%;
+  padding: 0;
+  background: #fdd000 !important;
+  width: 160rpx;
+  height: 60rpx;
+  border-radius: 15rpx;
+  line-height: 60rpx;
+  border: 1px solid white;
+  color: white;
+  font-size: 13px;
+}
+
+.storelist_ls_topin {
+  text-align: start;
+  color: #fdd000;
+}
+
+.storelist_ls_topin image {
+  width: 40rpx;
+  height: 40rpx;
+  position: relative;
+  top: 10rpx;
+  right: 10rpx;
+}
+
+.storelist_ls_it {
+  margin-top: 20rpx;
+  background: #f5f5f5;
+  padding: 23rpx;
+  padding-bottom: 0;
+  border-bottom: 1px solid #d5d1ce;
+  margin-left: 10rpx;
+}
+
+.storelist_ls_it:nth-of-type(1){
+   margin-top: 0;
+}

@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-spin": "../../dist/spin/index",
+    "i-icon": "../../dist/icon/index",
+    "i-load-more": "../../dist/load-more/index",
+    "i-modal": "../../dist/modal/index",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "我的订单",
+  "disableScroll": true
+}

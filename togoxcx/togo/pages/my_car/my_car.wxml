@@ -1,0 +1,43 @@
+<!--pages/my_car/my_car.wxml-->
+<i-row i-class="all">
+  <i-col span='24' wx:for="{{list}}" i-class="my_car_it {{index==0?'my_car_it_sle':''}}" data-itm="{{item}}" bindtap="clickItm">
+    <i-col span='24' i-class='my_car_r1'>{{item.carnum}}</i-col>
+    <i-col span='24' i-class='my_car_r2'>
+      <i-col span="6" i-class='my_car_cb'>
+        <image src="{{item.logo}}"></image>
+      </i-col>
+      <i-col span="15" i-class='my_car_ms'>
+        {{item.plate}}
+      </i-col>
+      <i-col span="3" i-class='my_car_gh' data-itm="{{item}}" catchtap="change">
+        更换
+      </i-col>
+    </i-col>
+    <i-col span='24' i-class='my_car_r3'>
+      <i-col span='21'>
+        <custom-radio checked="{{item.sle}}"></custom-radio>
+        <text>设为默认</text>
+      </i-col>
+      <i-col span='3' i-class='my_car_dl' data-itm="{{item}}" catchtap="dele">
+        <image src='../../images/dele.png'></image>
+      </i-col>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class='my_mcar_2'bindtap="toAddCar" >
+    <i-button type="info" class='btn_car'>
+      + 添加车辆
+    </i-button>
+  </i-col>
+  <i-modal title="确认删除" visible="{{ visible1 }}" actions="{{ actions3 }}" catchclick="deleSure">
+    <view>确认删除此车辆</view>
+  </i-modal>
+  <i-message id="message" />
+</i-row>
+<i-col span="24" i-class='no_car' wx:if="{{no_ms}}">
+  <i-col span="24" i-class=''>
+    <image src='../../images/nocar.png'></image>
+  </i-col>
+  <i-col span="24" i-class=''>
+    您还未添加车辆！
+  </i-col>
+</i-col>

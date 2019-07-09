@@ -1,0 +1,73 @@
+<!--pages/cash_car/cash_car.wxml-->
+<i-row>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_tt">
+      <span style="color:red">*</span>汽车品牌</i-col>
+    <i-col span="24" i-class="casr_inp">
+      <input type='text' value="{{pingpai}}"></input>
+      <image src='../../images/sele_top.png'></image>
+      <view class='zhez' catchtap="toSelectCar"></view>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_tt">
+      <span style="color:red">*</span>汽车行驶公里数（KM）</i-col>
+    <i-col span="24" i-class="casr_inp">
+      <input type='digit' maxlength="10" placeholder="请输入汽车行驶公里数(KM)" value="{{travel}}" bindinput="inputKm"></input>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_tt">汽车上牌时间</i-col>
+    <picker mode="date" value="{{date}}" start="1975-01-01" end="{{now_time}}" bindchange="bindDateChange">
+      <view class="casr_time">
+        <view class="casr_inpt">
+          {{year}}年
+          <view class='zhez' catchtap=""></view>
+          <image src='../../images/sele_top.png'></image>
+        </view>
+        <view class="casr_inpt">
+          {{mouth}}月
+          <image src='../../images/sele_top.png'></image>
+          <view class='zhez' catchtap=""></view>
+        </view>
+        <view class="casr_inpt">
+          {{day}}日
+          <image src='../../images/sele_top.png'></image>
+          <view class='zhez' catchtap=""></view>
+        </view>
+      </view>
+    </picker>
+  </i-col>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_tt">
+      <span style="color:red">*</span>联系人</i-col>
+    <i-col span="24" i-class="casr_inp">
+      <input type='text' maxlength="5" placeholder="请输入联系人" bindinput="inputPep" value="{{people}}"></input>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_tt">
+      <span style="color:red">*</span>联系人电话</i-col>
+    <i-col span="24" i-class="casr_inp">
+      <input type='number' maxlength="11" bindinput="inputNum" value="{{number}}"></input>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="casr_itm">
+    <i-col span="24" i-class="casr_up_rc">
+      <image src="../../images/up_record.png" catchtap="toUpRecord"></image>
+    </i-col>
+  </i-col>
+  <!-- <i-col span="24">
+    <i-col span="24" i-class="casr_sm">
+      <i-col span="24" i-class="casr_sm_tt">使用说明</i-col>
+      <i-col span="24">提交成功后，工作人员将会在24小时内与您取得联系或您主动</i-col>
+      <i-col span="24">联系客服：02883399903</i-col>
+    </i-col>
+    
+  </i-col> -->
+  <i-col span="24" i-class="casr_btn">
+    <button catchtap='sumbit'>提交</button>
+  </i-col>
+  <i-toast id="toast" />
+  <i-message id="message" />
+</i-row>

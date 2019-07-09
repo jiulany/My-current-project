@@ -1,0 +1,35 @@
+<!--pages/about_us/about_us.wxml-->
+<i-row i-class='abous'>
+  <i-col span="24" i-class="abous_it" bindtap="toAboutTogo">
+    <i-col span="22">
+      关于脱狗
+    </i-col>
+    <i-col span="2" i-class='abous_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="abous_it" bindtap="toProposal">
+    <i-col span="22">
+      投诉建议
+    </i-col>
+    <i-col span="2" i-class='abous_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="abous_it" bindtap="toJoin">
+    <i-col span="22">
+      加入我们
+    </i-col>
+    <i-col span="2" i-class='abous_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="abous_it" >
+    <i-col span="14">
+      联系客服
+    </i-col>
+    <i-col span="10" i-class='abous_rtr' bindtap="callNumber">
+      02883399903
+    </i-col>
+  </i-col>
+</i-row>

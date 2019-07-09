@@ -1,0 +1,17 @@
+/* pages/my_integral_mx/my_integral_mx.wxss */
+.intemx_tt{
+  background: #f5f5f5
+}
+.intemx_tt_it{
+  text-align: center;
+  padding: 20rpx 0;
+  font-weight: 500
+}
+.intemx_cit{
+  font-size: 13px;
+  padding: 20rpx 0;
+  border-bottom: 1px solid #f5f5f5
+}
+.intemx_cit view{
+text-align: center;
+}

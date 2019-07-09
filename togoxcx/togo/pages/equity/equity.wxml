@@ -1,0 +1,16 @@
+<!--pages/equity/equity.wxml-->
+<i-row>
+  <i-col span="22" i-class="box" wx:for="{{ equity }}" wx:key="{{ key }}" wx:item="{{ item }}">
+    <i-col span="24" i-class="title">
+      停车福利正在保障中
+    </i-col>
+
+    <i-col span="24" i-class="number_car">
+      车牌号：{{ item.carnum }}
+    </i-col>
+
+    <i-col span="24" i-class="date">
+      有效时间：{{ item.start_time }}-{{ item.end_time }}
+    </i-col>
+  </i-col>
+</i-row>

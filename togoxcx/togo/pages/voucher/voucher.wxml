@@ -1,0 +1,26 @@
+<!--pages/voucher/voucher.wxml-->
+<i-row>
+  <i-col span="24" i-class="step">
+    step 上传凭证
+  </i-col>
+  <i-col span="22" i-class="imgBox">
+
+    <i-col span="24" i-class="imgs">
+      <image src="{{http}}{{img}}" class='img'></image>
+      <i-col span="24" i-class="up_img">
+        <image src="{{up_img}}"></image>
+      </i-col>
+    </i-col>
+    <i-col span="8" i-class="mengc" catchtap="upLoad"></i-col>
+  </i-col>
+
+  <i-col span="24" i-class="tip">
+    亲，审核通过后将打款到您的余额里面哦！
+  </i-col>
+
+  <i-col span="24" i-class="btn" catchtap="upLoadImg">
+    立即上传
+  </i-col>
+
+  <i-message id="message" />
+</i-row>

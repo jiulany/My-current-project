@@ -1,0 +1,48 @@
+<view>
+  <map latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" scale="{{scale}}" class='all'>
+    <cover-view class='address'>
+      <cover-view class='current_location'>当前位置</cover-view>
+      <cover-view class='current_address'>{{nameMap}}</cover-view>
+    </cover-view>
+    <cover-view class='here' bindtap="toEqulty" wx:if="{{is_stop}}">停在这里</cover-view>
+    <cover-view class='here_no' wx:else>停在这里{{timeout}}s</cover-view>
+    <cover-view class='equity'>
+      <cover-image src='../../images/index/yingjitingche/vipquanyi.png' class='img_equity' bindtap='toBuyVip'></cover-image>
+    </cover-view>
+    <cover-view class='size_large' bindtap='fangDaTap'>
+      +
+    </cover-view>
+    <cover-view class='size_small' bindtap='suoXiaoTap'>
+      -
+    </cover-view>
+    <!-- <cover-view class='luKuang'>
+      <cover-image src='../../images/index/yingjitingche/lukuang.png' class='img_lukuang'></cover-image>
+    </cover-view>
+    <cover-view class='shiKuang'>
+      <cover-image src='../../images/index/yingjitingche/shikuang.png' class='img_shikuang'></cover-image>
+    </cover-view> -->
+
+
+
+    <cover-view wx:if="{{showModal}}" class='modalBox'>
+      <cover-view class='tip'>
+        <cover-view class='title_tip'>
+          温馨提示
+        </cover-view>
+
+        <cover-view class="img_box1">
+          <cover-image src='../../images/index/shopDetails/guanbi.png' bindtap='hide'></cover-image>
+        </cover-view>
+
+        <cover-view class='cont_tip'>
+          停车失败，请先购买会员权益！
+        </cover-view>
+
+        <cover-view class='btn_tip' bindtap='toBuyVip'>
+          去购买
+        </cover-view>
+      </cover-view>
+    </cover-view>
+    <cover-view class="modal-mask" wx:if="{{showModal}}" bindtap="hide"> </cover-view>
+  </map>
+</view>

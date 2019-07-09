@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "tabbar": "../../component/tabbar/tabbar"
+  },
+  "navigationBarTitleText": "洗车"
+}

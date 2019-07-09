@@ -1,0 +1,193 @@
+page {
+  height: 100%;
+  width: 100%;
+}
+
+map {
+  width: 100%;
+  height: 100vh;
+}
+
+.address {
+  width: 95%;
+  height: 8%;
+  background: #fff;
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  border-radius: 5%;
+}
+
+.current_location {
+  font-size: 12px;
+  text-align: center;
+  color: #fdd000;
+  padding-top: 0.5%;
+}
+
+.current_address {
+  font-size: 14px;
+  text-align: center;
+  padding-top: 1.5%;
+}
+
+.here {
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  padding: 35rpx 0;
+  background: #fdd000;
+}
+
+.here_no {
+  position: absolute;
+  bottom: 0rpx;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  padding: 35rpx 0;
+  background: #D6D6D8;
+}
+
+.equity {
+  position: absolute;
+  width: 190rpx;
+  height:240rpx;
+  top: 230rpx;
+  left: 3%;
+}
+
+.img_equity {
+  width: 100%;
+  height: 100%;
+}
+
+.size_large {
+  width: 60rpx;
+  height: 105rpx;
+  background: #fdd000;
+  position: absolute;
+  text-align: center;
+  line-height: 105rpx;
+  color: #474747;
+  font-size: 25px;
+  right: 3%;
+  bottom: 300rpx;
+  border-radius: 3px
+}
+
+.size_small {
+  width: 60rpx;
+  height: 105rpx;
+  background: #fdd000;
+  position: absolute;
+  text-align: center;
+  line-height: 105rpx;
+  color: #474747;
+  font-size: 25px;
+  right: 3%;
+  bottom: 190rpx;
+  border-radius: 3px
+}
+
+.luKuang {
+  position: absolute;
+  top: 300rpx;
+  right: 3%;
+  width: 80rpx;
+  height: 100rpx;
+}
+
+.img_lukuang {
+  width: 100%;
+  height: 100%;
+}
+
+.shiKuang {
+  position: absolute;
+  top: 410rpx;
+  right: 3%;
+  width: 80rpx;
+  height: 100rpx;
+}
+
+.img_shikuang {
+  width: 100%;
+  height: 100%;
+}
+
+.tip{
+  position: relative;
+}
+
+.title_tip {
+  font-size: 15px;
+  color: #fdd000;
+  text-align: center;
+  margin-top: 30rpx;
+}
+
+.cont_tip {
+  font-size: 12px;
+  color: #474747;
+  text-align: center;
+  margin-top: 60rpx;
+  letter-spacing: 1px;
+}
+
+.btn_tip {
+  width: 80%;
+  height: 80rpx;
+  text-align: center;
+  line-height: 80rpx;
+  background: #fdd000;
+  margin-top: 80rpx;
+  border-radius: 40rpx;
+  color: #474747;
+  margin-left: 10%;
+  font-size: 16px;
+  border: none;
+}
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #444956;
+  opacity: 0.3;
+  overflow: hidden;
+  z-index: 9000;
+  color: #fff;
+}
+
+.modalBox {
+  width: 80%;
+  height: 380rpx;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  z-index: 10000;
+  border-radius: 20rpx
+}
+
+.img_box1 {
+  right: 5%;
+  display: inline-block;
+  position: absolute;
+  top: 30rpx;
+}
+
+.img_box1 cover-image {
+  width: 30rpx;
+  height: 35rpx;
+  /* margin-top: 10rpx; */
+  /* margin-left: 30%; */
+}

@@ -1,0 +1,17 @@
+<i-row>
+  <i-col span="24" >
+    <i-col span="24">
+      <i-col span="11" i-class="car" bindtap="carYearTap" wx:for="{{ list }}" wx:key="{{ list_key }}" wx:item="{{ item }}" data-id="{{ item.id }}">
+        <i-col span="24" i-class="car_year">
+          <image src='{{ http }}{{ item.pic }}' class='img_car_year'></image>
+        </i-col>
+        <i-col span="24" i-class="car_title">
+         {{ item.goodsname }}
+        </i-col>
+        <i-col span="24" i-class="car_price">
+          ￥{{ item.price }}
+        </i-col>
+      </i-col>
+    </i-col>
+  </i-col>
+</i-row>

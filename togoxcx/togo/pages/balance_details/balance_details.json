@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-load-more": "../../dist/load-more/index"
+  },
+  "navigationBarTitleText": "余额明细"
+}

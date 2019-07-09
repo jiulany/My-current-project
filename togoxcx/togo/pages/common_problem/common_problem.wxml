@@ -1,0 +1,48 @@
+<!--pages/common_problem/common_problem.wxml-->
+<i-row>
+  <i-col span="24" i-class="box">
+    <i-col span="24" i-class="question">
+      Q：为什么要使用
+      <span style="color:#474747;">脱狗车宝</span>？
+    </i-col>
+
+    <i-col span="22" i-class="answer">
+      A：您的每一次停车位置上的分享，将会指引其他用户的停车方便。
+    </i-col>
+    <i-col span="22" i-class="answer1">
+      您的每一次禁停凭证上传分享，将会减少其他用户的无意违停。
+    </i-col>
+  </i-col>
+
+  <i-col span="24" i-class="box">
+    <i-col span="24" i-class="question">
+      Q：为什么我上传的禁停凭证，被提示审核不通过？
+    </i-col>
+
+    <i-col span="22" i-class="answer">
+      A：亲，我们的审核标准是：罚单时间必须在停车时间之后的24小时内；违章位置与停车距离必须在2公里以内。
+    </i-col>
+  </i-col>
+
+   <i-col span="24" i-class="box">
+    <i-col span="24" i-class="question">
+      Q：审核周期为什么不能缩短？
+    </i-col>
+
+    <i-col span="22" i-class="answer">
+      A：由于手工开具的贴条官网更新上传时间一般都需要<span style="color:#ec8d13">7-10个</span>工作日，法定假日顺延。
+    </i-col>
+  </i-col>
+
+   <i-col span="24" i-class="box">
+    <i-col span="24" i-class="question">
+      Q：目前脱狗车宝开放补贴区域？
+    </i-col>
+
+    <i-col span="22" i-class="answer">
+      A：全国（港、澳、台地区除外）。
+    </i-col>
+  </i-col>
+
+
+</i-row>

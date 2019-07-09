@@ -1,0 +1,37 @@
+/* pages/sumbit_records/sumbit_records.wxss */
+page{
+  background: #f5f5f5
+}
+.up-record{
+  padding: 35rpx 20rpx;
+  background: white;
+  margin-top: 10rpx;
+  font-size: 15px
+}
+.up-btn1{
+  background: #fdd000;
+  text-align: center;
+  margin-right: 10rpx;
+  padding: 10rpx 25rpx;
+  font-size: 12px;
+  color: white;
+  border-radius: 50rpx
+}
+.up-btn2{
+  background: #b2b2b2;
+  text-align: center;
+  margin-right: 10rpx;
+  padding: 10rpx 25rpx;
+  font-size: 12px;
+  color: white;
+   border-radius: 50rpx
+}
+.up-cart{
+  font-size: 12px;
+  margin-top: 20rpx
+}
+.up-time{
+  margin-top: 15rpx;
+  font-size: 12px;
+  color: #b4b4b4
+}

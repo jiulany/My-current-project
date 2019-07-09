@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "v-button": "/component/image-button/index",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "邀请好友"
+}

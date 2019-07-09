@@ -1,0 +1,9 @@
+<!--component/custom-input/custom-input.wxml-->
+<view>
+  <input class='inp' placeholder="{{placeholder}}" type="{{type}}" value="{{values}}" bindfocus='focusEv' bindblur='blurEv' bindinput='inputEv' maxlength="{{maxlength}}"></input>
+</view>
+<!-- 
+maxlength：长度
+type:输入方式passwored  or text ....
+placeholder:placeholder 默认12位
+ -->

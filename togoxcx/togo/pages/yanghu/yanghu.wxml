@@ -1,0 +1,89 @@
+<view class="body">
+  <view class="nav bc_white">
+    <view class="{{selected?'red':'default'}}" bindtap="selected">美容</view>
+    <view class="{{selected1?'red':'default'}}" bindtap="selected1">养护</view>
+    <view class="{{selected2?'red':'default'}}" bindtap="selected2">活动</view>
+  </view>
+  <view class="{{selected?'show':'hidden'}}">
+    <i-row>
+      <i-col span="24" wx:for="{{ cosmetology }}"bindtap='switchRadio' data-id="{{index}}"data-type='1' wx:key="{{ list_key }}" i-class="line" wx:item="{{ item }}">
+        <i-col span="3" i-class="img_selected">
+          <custom-radio checked="{{item.sle}}" catchtap='switchRadio' data-id="{{index}}" data-type='1'></custom-radio>
+        </i-col>
+        <i-col span="5">
+          <image src="{{ http }}{{ item.pic }}" class='img_content'></image>
+        </i-col>
+        <i-col span="8">
+          <i-col span="24" i-class="title">{{ item.goodsname }}</i-col>
+          <i-col span="24" i-class="title_desc">{{ item.jianjie }}</i-col>
+        </i-col>
+        <i-col span="8" i-class='price'>
+          ￥{{ item.price }}
+        </i-col>
+      </i-col>
+    </i-row>
+    <yanghu-tabbar allSelect="{{allSelect}}" conutPrice="{{conutPrice}}" bind:sonAllSeleted='sonAllSeleted' bind:commitShop='commitShop' types="1"></yanghu-tabbar>
+  </view>
+  <view class="{{selected1?'show':'hidden'}}">
+    <i-row>
+      <i-col span="24" wx:for="{{ maintain }}"bindtap='switchRadio' data-id="{{index}}" data-type='2' wx:key="{{ list_key }}" i-class="line" wx:item="{{ item }}">
+        <i-col span="3" i-class="img_selected">
+          <custom-radio checked="{{item.sle}}" catchtap='switchRadio' data-id="{{index}}" data-type='2'></custom-radio>
+        </i-col>
+        <i-col span="5">
+          <image src="{{ http }}{{ item.pic }}" class='img_content'></image>
+        </i-col>
+        <i-col span="8">
+          <i-col span="24" i-class="title">{{ item.goodsname }}</i-col>
+          <i-col span="24" i-class="title_desc">{{ item.jianjie }}</i-col>
+        </i-col>
+        <i-col span="8" i-class='price'>
+          ￥{{ item.price }}
+        </i-col>
+      </i-col>
+    </i-row>
+    <yanghu-tabbar allSelect="{{allSelect}}" conutPrice="{{conutPrice}}" bind:commitShop='commitShop' bind:sonAllSeleted='sonAllSeleted' types="2"></yanghu-tabbar>
+  </view>
+  <view class="{{selected2?'show':'hidden'}}">
+    <i-row>
+      <i-col span="24" wx:for="{{ repair }}"bindtap='switchRadio' data-id="{{index}}" data-type='3' wx:key="{{ list_key }}" i-class="line" wx:item="{{ item }}">
+        <i-col span="3" i-class="img_selected">
+          <custom-radio checked="{{item.sle}}" catchtap='switchRadio' data-id="{{index}}" data-type='3'></custom-radio>
+        </i-col>
+        <i-col span="4">
+          <image src="{{ http }}{{ item.pic }}" class='img_content'></image>
+        </i-col>
+        <i-col span="9" i-class="content">
+          <i-col span="24" i-class="title">{{ item.goodsname }}</i-col>
+          <i-col span="24" i-class="title_desc1">{{ item.jianjie }}</i-col>
+           <i-col span="24" i-class="title_desc1">详情电话：02883399903</i-col>
+        </i-col>
+        <i-col span="8" i-class='price'>
+          ￥{{ item.price }}
+        </i-col>
+      </i-col>
+    </i-row>
+    <yanghu-tabbar allSelect="{{allSelect}}" bind:commitShop='commitShop' conutPrice="{{conutPrice}}" bind:sonAllSeleted='sonAllSeleted' types="3"></yanghu-tabbar>
+  </view>
+  <!-- <navigator open-type="exit" target="miniProgram"> -->
+<view class="modal-mask" wx:if="{{showModal_0}}" bindtap='toIndex'> </view>
+<!-- </navigator> -->
+<view wx:if="{{showModal_0}}" class='modalBox_0'>
+  <view class='tip_0'>
+    <view class='title_tip'>
+      温馨提示
+    </view>
+    <view class="img_box1">
+      <!-- <navigator open-type="exit" target="miniProgram"> -->
+      <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+      <!-- </navigator> -->
+    </view>
+    <view class='cont_tip_0'>
+      是否允许授权手机号码?
+      <view class='btn_tip'>
+        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+      </view>
+    </view>
+  </view>
+</view>
+</view>

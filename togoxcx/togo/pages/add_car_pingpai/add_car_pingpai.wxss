@@ -1,0 +1,32 @@
+/* pages/add_car_pingpai/add_car_pingpai.wxss */
+.i-index-demo,page{
+    width:100%;
+    height:100%;
+}
+.i-index-demo-item{
+    padding:10px;
+    border-bottom:#ddd solid 1rpx;
+    font-size:14px;
+}
+.demo-container{
+	width:50vw;
+	height: 100vh;
+	background:#fff;
+  z-index: 999;
+  overflow-y: scroll
+}
+.model_xh{
+  font-size: 15px;
+  padding:20rpx 0 20rpx 10rpx !important
+}
+.model_xh_cx{
+  padding: 15rpx 15rpx 15rpx 0;
+  font-size:14px;
+}
+.model_xh_logo{
+  text-align: end
+}
+.model_xh_logo image{
+  width: 65rpx;
+  height: 65rpx
+}

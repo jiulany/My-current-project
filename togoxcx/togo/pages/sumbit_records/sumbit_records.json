@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-toast": "../../dist/toast/index",
+    "i-message": "../../dist/message/index",
+    "i-modal": "../../dist/modal/index"
+  },
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "提交记录",
+  "backgroundColor": "#eeeeee",
+  "backgroundTextStyle": "light"
+}

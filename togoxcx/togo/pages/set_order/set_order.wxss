@@ -1,0 +1,370 @@
+/* pages/set_order/set_order.wxss */
+page {
+  height: 100%;
+}
+
+.all {
+  height: 100%;
+  overflow-x: hidden;
+  padding-bottom: 300rpx
+}
+
+.getYourself {
+  height: 100rpx;
+  background: #fdd000;
+  font-size: 15px;
+  text-align: center;
+  line-height: 100rpx;
+  margin-top: 25rpx;
+  margin-left: 4%;
+  color: #474747;
+  font-weight: bold;
+  position: relative;
+}
+
+.addressBox {
+  margin-top: 70rpx;
+  margin-left: 5%;
+  border-bottom: 1px solid #f5f5f5;
+  padding-top: 25rpx;
+  padding-bottom: 20rpx;
+}
+
+.imgBox {
+  height: 37rpx;
+}
+
+.img_chexing {
+  width: 100%;
+  height: 100%;
+}
+
+.shopName {
+  font-size: 15px;
+  margin-left: 3%;
+  color: #474747;
+}
+
+.imgToBox {
+  text-align: end;
+  margin-top: -5rpx;
+}
+
+.imgTo {
+  width: 15rpx;
+  height: 20rpx;
+}
+
+.img_selected {
+  padding-top: 65rpx;
+  margin-left: 1%;
+}
+
+.line {
+  padding-bottom: 25rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.img_content {
+  width: 117rpx;
+  height: 117rpx;
+  padding-top: 25rpx;
+}
+
+.title {
+  font-size: 23rpx;
+  color: #474747;
+  padding-top: 35rpx;
+}
+
+.title_desc {
+  font-size: 23rpx;
+  color: #999;
+  padding-top: 35rpx;
+  line-height: 40rpx;
+  height: 80rpx;
+  /* overflow-y: hidden; */
+}
+
+.price {
+  font-size: 16px;
+  text-align: center;
+  color: #f75c3e;
+  font-weight: bold;
+  padding-top: 60rpx;
+  margin-top: 40rpx;
+}
+
+.car_type_box {
+  height: 138rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.car_type {
+  font-size: 15px;
+  line-height: 138rpx;
+  margin-left: 5%;
+}
+
+.car_type_name {
+  line-height: 138rpx;
+  font-size: 14px;
+  color: #474747;
+  text-align: end;
+}
+
+.account_pro {
+  font-size: 15px;
+  margin-left: 5%;
+  margin-top: 15rpx;
+}
+
+.price_pro {
+  text-align: end;
+  font-size: 20px;
+  padding-right: 1%;
+  color: #f75c3e;
+  line-height: 138rpx;
+  font-weight: bold;
+}
+
+.buy_btn {
+  position: fixed;
+  bottom: 0;
+  height: 100rpx;
+  background: #fdd000;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 15px;
+  color: #474747;
+  font-weight: bold;
+}
+
+/* 购买弹框 */
+
+.choose {
+  width: 100%;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  height: 1000rpx;
+  z-index: 222;
+  /* box-shadow: 5px 0 10px 1px #f5f5f5; */
+}
+
+.order_box {
+  height: 120rpx;
+  border-bottom: 1px solid #f5f5f5;
+  position: relative;
+}
+
+.img_box {
+  left: 2%;
+  display: inline-block;
+  position: absolute;
+  height: 120rpx;
+  /* background: green; */
+}
+.img_box1 {
+  display: inline-block;
+  position: absolute;
+  height: 120rpx;
+  right:40rpx
+}
+.img_box1 image {
+  width: 30rpx;
+  height: 35rpx;
+  margin-top: 40rpx;
+  margin-left: 30%;
+}
+.card{
+  margin-top:32rpx;
+  margin-left: 5%;
+  font-size: 15px
+}
+.img_box image {
+  width: 30rpx;
+  height: 35rpx;
+  margin-top: 40rpx;
+  margin-left: 30%;
+}
+
+.title_box {
+  line-height: 120rpx;
+  text-align: center;
+  font-size: 15px;
+}
+
+.title_price {
+  text-align: center;
+  padding-top: 25rpx;
+  font-size: 30px;
+  color: #474747;
+}
+
+/* 支付账号 */
+
+.accountBox {
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 20rpx;
+}
+
+.account_number {
+  padding-top: 50rpx;
+  font-size: 15px;
+  color: #909090;
+  margin-left: 5%;
+}
+
+.number {
+  text-align: right;
+  color: #474747;
+  font-size: 16px;
+  padding-top: 40rpx;
+}
+
+.weixinBox {
+  height: 40rpx;
+  margin-top: 35rpx;
+  margin-left: 5%;
+}
+
+.weixinBox image {
+  width: 40rpx;
+  height: 30rpx;
+}
+
+.img_selected1 {
+  margin-top: 35rpx;
+  padding-left: 3%;
+}
+
+.weixin_pay {
+  margin-top: 35rpx;
+  font-size: 15px;
+}
+
+.payBox {
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 30rpx;
+}
+
+/* 立即付款 */
+
+.payNow {
+  color: #474747;
+  position: fixed;
+  bottom: 0;
+  background: #fdd000;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* 遮罩部分 */
+
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: #999;
+  z-index: -1;
+  top: -1000rpx;
+  left: 0;
+  opacity: 0.5;
+}
+
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #444956;
+  opacity: 0.3;
+  overflow: hidden;
+  z-index:90;
+  color: #fff;
+}
+.modal-head{
+  text-align: center
+}
+.modalBox {
+  width: 100%;
+  position: fixed;
+  top: 120rpx;
+  margin-left: auto;
+  margin-right: auto;
+  z-index:100;
+  font-size: 16px;
+  padding: 20rpx 30rpx
+}
+.modal-main{
+  background: #fff;
+  padding:50rpx 30rpx;
+  border-radius: 5px
+}
+.model_hepc{
+  width:40rpx;
+  height:40rpx
+}
+.modal-line{
+  height: 1px;
+  background: #e6e6e6;
+  margin: 20rpx 0
+} 
+.modal-inpcont{
+  padding: 15rpx 13rpx;
+  font-size: 14px;
+  border: 1px solid #000;
+  margin: 20rpx 0;
+  position: relative
+}
+.model-cancel{
+background: #cfcfcf;
+border-radius: 0;
+margin-top: 20rpx
+}
+.model-cancel::after{
+  border: none
+}
+.model-sure{
+background: #fdd100;
+border-radius: 0;
+margin-top: 20rpx
+}
+.model-sure::after{
+  border: none
+}
+.zhez{
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+  top: 0
+}
+.xiala{
+  width: 35rpx;
+  height: 20rpx;
+  position: absolute;
+  top: 30rpx;
+  right:15rpx
+}
+.adc_itm_sel{
+  position: absolute;
+  top: 12rpx;
+  right: 0rpx;
+  background: white;
+  box-shadow: 0 3px 14px 0px rgba(0, 0, 0, 0.12);
+  font-weight: 400;
+  z-index: 999;
+  max-height: 550rpx;
+  overflow-y: scroll
+}
+.adc_itm_sel_it{
+    background: white;
+    text-align: center;
+    padding: 20rpx
+}

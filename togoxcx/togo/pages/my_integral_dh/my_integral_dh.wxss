@@ -1,0 +1,164 @@
+/* pages/my_integral_dh/my_integral_dh.wxss */
+page{
+  background: #f5f5f5
+}
+.cont_market {
+  background: #fff;
+  width: 100%;
+  position: relative;
+  margin-left: 3%;
+  margin-top: 40rpx;
+}
+
+.img_market {
+  width: 90%;
+  height: 80%;
+  margin-top: 45rpx;
+  margin-left: 5%;
+}
+
+.img {
+  width: 90%;
+  height: 320rpx;
+}
+
+.title_pro {
+  font-size: 13px;
+  margin-left: 5%;
+  margin-top: 30rpx;
+  height: 80rpx;
+  overflow-y: hidden;
+  line-height: 40rpx;
+}
+.inte_price{
+  font-size: 15px;
+  padding:10rpx 5%;
+  padding-bottom: 20rpx
+}
+.inte_price_ms{
+
+}
+.inte_price_nm{
+text-align: end;
+color: #f75c3e
+}
+
+/* 购买弹框 */
+
+.choose {
+  width: 100%;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  height:400rpx;
+  z-index: 222;
+  /* box-shadow: 5px 0 10px 1px #f5f5f5; */
+}
+
+.order_box {
+  height: 120rpx;
+  border-bottom: 1px solid #f5f5f5;
+  position: relative;
+}
+
+.img_box {
+  left: 2%;
+  display: inline-block;
+  position: absolute;
+  height: 120rpx;
+  /* background: green; */
+}
+
+.img_box image {
+  width: 30rpx;
+  height: 35rpx;
+  margin-top: 40rpx;
+  margin-left: 30%;
+}
+
+.title_box {
+  line-height: 120rpx;
+  text-align: center;
+  font-size: 15px;
+}
+
+.title_price {
+  text-align: center;
+  padding-top: 25rpx;
+  font-size: 30px;
+  color: #474747;
+}
+
+/* 支付账号 */
+
+.accountBox {
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 20rpx;
+}
+
+.account_number {
+  padding-top: 40rpx;
+  font-size: 15px;
+  color: #909090;
+  margin-left: 5%;
+  padding-bottom: 25rpx
+}
+
+.number {
+  text-align: right;
+  color: #474747;
+  font-size: 16px;
+  padding-top: 40rpx;
+}
+
+.weixinBox {
+  height: 40rpx;
+  margin-top: 35rpx;
+  margin-left: 5%;
+}
+
+.weixinBox image {
+  width: 40rpx;
+  height: 30rpx;
+}
+
+.img_selected1 {
+  margin-top: 35rpx;
+  padding-left: 30%;
+}
+
+.weixin_pay {
+  margin-top: 35rpx;
+  font-size: 15px;
+}
+
+.payBox {
+  border-bottom: 1px solid #f5f5f5;
+  padding-bottom: 30rpx;
+}
+
+/* 立即付款 */
+
+.payNow {
+  color: #474747;
+  position: fixed;
+  bottom: 0;
+  background: #fdd000;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.footer{
+position: absolute;
+top:0;
+bottom: 0;
+left: 0;
+right: 0;
+/* background: rgba(#fdd000, #fdd000, #fdd000, 1); */
+background: #474747;
+opacity: .3;
+z-index: 100;
+}

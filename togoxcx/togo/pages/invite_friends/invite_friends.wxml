@@ -1,0 +1,51 @@
+<!--pages/invite_friends/invite_friends.wxml-->
+<i-row i-class="box" style="bottom:200rpx">
+  <!-- <i-col span="24" i-class="bgBox">
+    <image src='../../images/bg.png' class='bg'></image>
+  </i-col> -->
+
+  <i-col span="18" i-class="inviteBtn">
+    <v-button class="share-btn" open-type="share" data-name="pageShare" id="share" bind:tap="onShareAppMessage">
+      <view slot="name" class='inviteText'>
+        立即邀请
+      </view>
+    </v-button>
+  </i-col>
+
+  <i-col span="24" i-class="inputBox">
+    <i-col span="22" i-class="inp">
+      <i-col span="17" i-class='inpOne'>
+        <input class='input' value='{{value}}'bindinput="inp"></input>
+      </i-col>
+      <i-col span="4" i-class="active"bindtap="jihuo">
+        激活
+      </i-col>
+    </i-col>
+  </i-col>
+
+  <i-col span="22" i-class="step">
+    <image src='../../images/step.png'></image>
+  </i-col>
+
+  <i-col span="24" i-class="inviteCode">
+    我的邀请码{{invite}}
+  </i-col>
+
+  <i-col span="24" i-class="rulesBox">
+    <i-col span="24" i-class="rules">
+      活动规则
+    </i-col>
+    <i-col span="24">
+      <i-col span="16" i-class="rulesText">
+        1.每成功邀请一位好友关注小程序并激活好友的邀请码 双方各得一瓶玻璃水哦！
+      </i-col>
+      <i-col span="16" i-class="rulesText">
+        2.每个用户只能激活一次邀请码，可多次邀请新用户激活您的邀请码！
+      </i-col>
+    </i-col>
+  </i-col>
+  <i-col span="24"i-class="return_index">
+  <image src='../../images/return_index.png'catchtap="toIndex"></image>
+  </i-col>
+<i-message id="message" />
+</i-row>

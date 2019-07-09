@@ -1,0 +1,63 @@
+<view class="body">
+  <view class="nav bc_white">
+    <view class="{{selected?'red':'default'}}" bindtap="selected">车宝必备</view>
+    <view class="{{selected1?'red':'default'}}" bindtap="selected1">脱狗优选</view>
+  </view>
+  <view>
+    <swiper indicator-dots="true" autoplay="true" interval="5000">
+      <swiper-item wx:for="{{bannerIndex}}" wx:key="{{index}}" wx:item="{{item}}" bindtap='onSwiperTap'data-itm='{{item}}' data-index='{{index}}'>
+        <image src="{{http}}{{item.images}}" style='border-radius:2%;'></image>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="{{selected?'show':'hidden'}}">
+    <i-row>
+      <i-col span="24" >
+        <i-col span="11" i-class="cont_market" wx:for="{{ must_car }}" wx:item="{{ item }}"  wx:key="{{  key }}" data-id="{{ item.id }}" catchtap="mustCar">
+          <i-col span="24" i-class="img_market">
+            <image src='{{ http }}{{ item.pic }}' class='img'></image>
+          </i-col>
+          <i-col span="22" i-class="title_pro">
+            {{ item.goodsname }}
+          </i-col>
+          <i-col span="24">
+            <i-col span="10" i-class="price_pro">
+              ￥
+              <span style="font-size:14px;font-weight:bold;">{{ item.price }}</span>
+            </i-col>
+            <i-col span="10" i-class="price_pro_no">
+              ￥{{ item.costprice }}
+            </i-col>
+      
+          </i-col>
+        </i-col>
+      </i-col>
+    </i-row>
+  </view>
+  <view class="{{selected1?'show':'hidden'}}">
+    <i-row>
+      <i-col span="24" >
+        <i-col span="11" i-class="cont_market" wx:for="{{ choose_car }}" wx:item="{{ item }}"  wx:key="{{  key }}" data-id="{{ item.id}}" catchtap="chooseCar">
+          <i-col span="24" i-class="img_market">
+            <image src='{{ http }}{{ item.pic }}' class='img'></image>
+          </i-col>
+          <i-col span="22" i-class="title_pro">
+            {{ item.goodsname }}
+          </i-col>
+          <i-col span="24">
+            <i-col span="12" i-class="price_pro">
+              ￥
+              <span style="font-size:14px;font-weight:bold;">{{ item.price }}</span>
+            </i-col>
+            <i-col span="10" i-class="price_pro_no">
+              ￥{{ item.costprice }}
+            </i-col>
+        
+          </i-col>
+        </i-col>
+      </i-col>
+    </i-row>
+  </view>
+ <tabbar tabbar="{{tabbar}}"></tabbar>
+</view>
+ 

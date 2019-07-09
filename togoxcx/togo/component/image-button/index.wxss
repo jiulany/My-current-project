@@ -1,0 +1,10 @@
+.container {
+  /* height: 20rpx; */
+  background: #ffad29;
+  height: 85rpx;
+  line-height: 85rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  box-shadow: 0 8px 10px 5px #ff951c;
+  border: none !important;
+}

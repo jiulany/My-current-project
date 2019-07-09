@@ -1,0 +1,46 @@
+page {
+  height: 100%;
+  width: 100%;
+}
+
+.wash {
+  position: absolute;
+  bottom: 56rpx;
+  left: 50%;
+  margin-left: -38rpx;
+  /* z-index: 100; */
+  width: 76rpx;
+  height: 76rpx;
+}
+
+.store {
+  width: 100%;
+  height: 100%;
+}
+
+.store map {
+  width: 100%;
+  height: 90.5%;
+}
+
+.store_tb {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background: white;
+}
+
+.store_tb_it {
+  text-align: center;
+  font-size: 15px;
+  padding: 35rpx 0;
+  background: white;
+  width: 33.3333333%;
+}
+
+.store_tb_f {
+  width: 1px;
+  background: #f5f5f5;
+}

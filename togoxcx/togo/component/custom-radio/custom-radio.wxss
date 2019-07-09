@@ -1,0 +1,9 @@
+/* component/custom-radio/custom-radio.wxss */
+.cs_rdo{
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block
+}
+.cs_rdo image{
+  width: 40rpx;
+  height: 40rpx}

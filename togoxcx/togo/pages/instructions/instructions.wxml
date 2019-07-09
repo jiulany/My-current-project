@@ -1,0 +1,32 @@
+<!--pages/instructions/instructions.wxml-->
+<i-row>
+  <i-col span="24" i-class="imgBox">
+    <image src='../../images/instructions/one.png' class='img'></image>
+  </i-col>
+  <i-col span="24" i-class="number1">
+    1.点击应急停车
+  </i-col>
+
+  <i-col span="24" i-class="imgBox1">
+    <image src='../../images/instructions/two.png' class='img'></image>
+  </i-col>
+  <i-col span="24" i-class="number1">
+    2.确定您当前的位置
+  </i-col>
+
+  <i-col span="24" i-class="imgBox1">
+    <image src='../../images/instructions/two.png' class='img'></image>
+  </i-col>
+  <i-col span="16" i-class="number2">
+    3.点击“停在这里”，将您当前位置上传 上传后显示停车成功
+  </i-col>
+
+  <i-col span="24" i-class="tip">
+    温馨提示
+  </i-col>
+  <i-col span="16" i-class="tip_content">
+    请记得下车的时候点击“停在这里”，并且请提供清晰 无反光，无水印的照片。由于罚单时间大于停车位置 时间和罚单照片模糊，反光，有水印导致不清晰的将 会影响您的罚单补贴哦！
+
+  </i-col>
+
+</i-row>

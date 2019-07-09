@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-message": "../../dist/message/index"
+  },
+  "navigationBarTitleText": "上传凭证",
+  "navigationBarBackgroundColor":"#f3f3f3"
+}

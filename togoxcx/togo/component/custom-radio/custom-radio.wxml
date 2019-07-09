@@ -1,0 +1,5 @@
+<!--component/custom-radio/custom-radio.wxml-->
+<view class='cs_rdo' bindtap='switch'>
+  <image wx:if="{{ck}}" src='../../images/select_ed.png'></image>
+  <image wx:else src='../../images/select_wt.png'></image>
+</view>

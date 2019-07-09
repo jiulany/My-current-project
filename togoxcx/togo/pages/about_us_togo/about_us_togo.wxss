@@ -1,0 +1,12 @@
+/* pages/about_us_togo/about_us_togo.wxss */
+page{
+  background: #f5f5f5
+}
+.abt_togo{
+  text-indent: 2em;
+  padding: 50rpx 30rpx;
+  font-size: 16px
+}
+.abt_togo view{
+  text-indent: 0em;
+}

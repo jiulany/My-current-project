@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-spin": "../../dist/spin/index",
+    "i-icon": "../../dist/icon/index",
+    "i-load-more": "../../dist/load-more/index"
+  },
+  "navigationBarTitleText": "停车记录"
+}

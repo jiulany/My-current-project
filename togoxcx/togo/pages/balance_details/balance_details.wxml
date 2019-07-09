@@ -1,0 +1,22 @@
+<!--pages/balance_details/balance_details.wxml-->
+<i-row>
+  <i-load-more wx:if="{{wait_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+  <i-col span="24"wx:for="{{list}}">
+    <i-col span="24" i-class="date">
+      {{item.time}}
+    </i-col>
+    <i-col span="24" i-class="detailsBox"wx:for="{{item.content}}"wx:for-item="itm"wx:key="id">
+      <i-col span="16">
+        <i-col span="24" i-class="details">
+          {{itm.name}}
+        </i-col>
+        <i-col span="24" i-class="date_details">
+          {{itm.addtime}}
+        </i-col>
+      </i-col>
+      <i-col span="8" i-class="price">
+        <text wx:if="{{itm.status==0}}">-</text><text wx:if="{{itm.status==1}}">+</text>{{itm.price}}
+      </i-col>
+    </i-col>
+  </i-col>
+</i-row>

@@ -1,0 +1,103 @@
+<import src="../../wxParse/wxParse.wxml" />
+<i-row>
+  <!-- <i-col span="22" i-class="imgBox"> -->
+  <swiper autoplay="true" interva="5000">
+    <swiper-item wx:for="{{bannerIndex}}" wx:key="{{index}}" wx:item="{{item}}">
+      <image src="{{http}}{{item.url}}" style='border-radius:2%;'></image>
+    </swiper-item>
+  </swiper>
+  <!-- </i-col> -->
+
+  <i-col span="24" i-class="priceBox">
+    <i-col span="10" i-class="price_pro">
+      ￥
+      <span style="font-size:18px;font-weight:bold;">{{details.price}}</span>
+    </i-col>
+    <i-col span="5" i-class="price_pro_no">
+      ￥{{details.costprice}}
+    </i-col>
+
+    <i-col span="24" i-class="title_price">
+      {{details.goodsname}}
+    </i-col>
+
+  </i-col>
+
+  <i-col span="24" i-class="desc">
+    商品简介
+  </i-col>
+
+  <i-col span="24" i-class="cont_desc">
+    <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+  </i-col>
+
+  <i-col span="24" i-class="footerBox">
+    <i-col span="8">
+      <i-col span="24" i-class="repertory">
+        库存
+      </i-col>
+      <i-col span="24" i-class="enough">
+        (充足)
+      </i-col>
+    </i-col>
+    <i-col span="16" i-class="buy_btn" bindtap='chooseSezi'>
+      立即购买
+    </i-col>
+  </i-col>
+</i-row>
+
+<view class='choose' wx:if="{{chooseSize}}" animation='{{animationData}}'>
+  <i-col span="24" i-class="priceBoxKuang">
+    <i-col span="18" i-class="price">
+      ￥{{ zongprice }}
+    </i-col>
+    <i-col span="1" i-class="closeBtn" bindtap="hideModal">
+      <image src='../../images/index/shopDetails/guanbi.png'></image>
+
+    </i-col>
+  </i-col>
+
+  <i-col span="24" i-class='chooseBox'>
+    <i-col span="13" i-class="number">
+      数量
+    </i-col>
+    <i-col span="3" i-class="jian" bindtap="jianTap">
+      -
+    </i-col>
+    <i-col span="3" i-class="data">
+      <input value="{{number}}" type='number' bindinput="inp_data"></input>
+    </i-col>
+    <i-col span="3" i-class="jia" bindtap="jiaTap">
+      +
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="correctBtn" catchtap="toSetOrd">
+    确认购买
+  </i-col>
+  <i-message id="message" />
+</view>
+<!-- <navigator open-type="exit" target="miniProgram"> -->
+<view class="modal-mask" wx:if="{{showModal_0}}" bindtap='toIndex'> </view>
+<!-- </navigator> -->
+<view wx:if="{{showModal_0}}" class='modalBox_0'>
+  <view class='tip_0'>
+    <view class='title_tip'>
+      温馨提示
+    </view>
+    <view class="img_box1">
+      <!-- <navigator open-type="exit" target="miniProgram"> -->
+      <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+      <!-- </navigator> -->
+    </view>
+    <view class='cont_tip_0'>
+      是否允许授权手机号码?
+      <view class='btn_tip'>
+        <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+      </view>
+    </view>
+  </view>
+</view>
+<i-col span="24" i-class="return_index"wx:if="{{fromShare}}">
+  <image src='../../images/return_index.png' catchtap="toIndexd"></image>
+</i-col>
+<view class='footer' wx:if="{{chooseSize}}" animation='{{animationData}}' bindtap='hideModal'></view>

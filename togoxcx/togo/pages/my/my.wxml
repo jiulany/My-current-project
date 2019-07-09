@@ -1,0 +1,228 @@
+<!--pages/my/my.wxml-->
+<i-row i-class="my">
+  <view class='my_bb'>
+    <image src='../../images/my_inf_mong.png'></image>
+  </view>
+  <i-col span="24" i-class="my_ct">
+    <i-col span="24" i-class="my_h">
+      <image class="my_h_b" src='../../images/my_inf_bg.png'></image>
+      <i-col span="6" i-class="my_h_t">
+        <view class='my_h_t_t'>
+          <open-data type="userAvatarUrl"></open-data>
+        </view>
+      </i-col>
+      <i-col span="18" i-class='my_c_n'>
+        <i-col span="24" i-class='my_c_na'>
+          <open-data type="userNickName"></open-data>
+        </i-col>
+        <i-col span="24" i-class='my_c_nm'>{{phone}}</i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='my_py'>
+      <i-col span="6" i-class='my_py_it' bindtap="toWaitPay">
+        <i-col span="24">
+          <image src='../../images/mywait_pay.png'></image>
+        </i-col>
+        <view class="marker" wx:if="{{jiaob[1]!='0'}}">{{jiaob[1]}}</view>
+        <i-col span="24">待付款</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toWaitUse">
+        <i-col span="24">
+          <image src='../../images/mywait_use.png'></image>
+        </i-col>
+        <view class="marker use_mark" wx:if="{{jiaob[2]!='0'}}">{{jiaob[2]}}</view>
+        <i-col span="24">待使用</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toOverOrd">
+        <i-col span="24">
+          <image src='../../images/my_comple.png'></image>
+        </i-col>
+        <!-- <view class="marker over_mark"wx:if="{{jiaob[3]!='0'}}">{{jiaob[3]}}</view> -->
+        <i-col span="24">已完成</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toAllOrd">
+        <i-col span="24">
+          <image src='../../images/myall_order.png'></image>
+        </i-col>
+        <i-col span="24">全部订单</i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='my_ms'>
+      我的资产
+    </i-col>
+    <i-col span="24" i-class='my_py my_zc'>
+      <i-col span="6" i-class='my_py_it' bindtap="toMyBalance">
+        <i-col span="24">
+          <image src='../../images/yue.png'></image>
+        </i-col>
+        <i-col span="24">余额</i-col>
+        <i-col span="24">¥{{balance}}</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toMyRecharge">
+        <i-col span="24">
+          <image src='../../images/recharge.png'></image>
+        </i-col>
+        <i-col span="24">充值</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toInte">
+        <i-col span="24">
+          <image src='../../images/jifen.png'></image>
+        </i-col>
+        <i-col span="24">积分</i-col>
+        <i-col span="24">{{points}}</i-col>
+      </i-col>
+      <i-col span="6" i-class='my_py_it' bindtap="toCoupon">
+        <i-col span="24">
+          <image src='../../images/kajuan.png'></image>
+        </i-col>
+        <i-col span="24">卡券</i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='my_ms'>
+      我的爱车
+    </i-col>
+    <i-col span="24" i-class='my_mcar'>
+      <i-col span="24" i-class='my_mcar_1' bindtap='toMycar'>
+        <i-col span="9">
+          车牌：
+          <text>{{default_car.carnum}}</text>
+        </i-col>
+        <i-col span="7">
+          型号：
+          <text>{{default_car.type}}</text>
+        </i-col>
+        <i-col span="6">
+          颜色：
+          <text>{{default_car.colorname}}</text>
+        </i-col>
+        <i-col span="2" i-class='my_mcar_ic'>
+          <image src='../../images/return_ic.png'></image>
+        </i-col>
+      </i-col>
+      <i-col span="24" i-class='my_mcar_2'>
+        <i-button bind:click="toAddCar" type="info">
+          <image src='../../images/+.png'></image>
+        </i-button>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='my_else' bindtap="toStopCar">
+      <i-col span="4" class='my_else_t'>
+        <image src='../../images/my_yj.png'></image>
+      </i-col>
+      <i-col span="18">
+        应急停车
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col>
+    <!-- <i-col span="24" i-class='my_else' bindtap="record">
+      <i-col span="4" class='my_else_t'>
+        <image src='../../images/my_wb.png'></image>
+      </i-col>
+      <i-col span="18">
+        维保记录
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col> -->
+    <i-col span="24" i-class='my_else' bindtap="toMyInfo">
+      <i-col span="4" class='my_else_t'>
+        <image src='../../images/my_gr.png'></image>
+      </i-col>
+      <i-col span="18">
+        个人信息
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col>
+    <!-- <i-col span="24" i-class='my_else'>
+      <i-col span="14">
+        我的邀请码
+      </i-col>
+      <i-col span="8"i-class='my_yqm'>
+        MM123456
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col> -->
+    <i-col span="24" i-class='my_else my_else_ls' bindtap="toAboutUs">
+      <i-col span="4" class='my_else_t'>
+        <image style='width:52rpx;' src='../../images/my_gy.png'></image>
+      </i-col>
+      <i-col span="18">
+        关于我们
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='my_else my_else_ls' bindtap="openModel">
+      <i-col span="4" class='my_else_t'>
+        <image style='width:52rpx;' src='../../images/tongbushuju_icon.png'></image>
+      </i-col>
+      <i-col span="18">
+        同步数据
+      </i-col>
+      <i-col span="2" i-class='my_mcar_ic'>
+        <image src='../../images/return_ic.png'></image>
+      </i-col>
+    </i-col>
+  </i-col>
+  <!-- <navigator open-type="exit" target="miniProgram"> -->
+  <view class="modal-mask" wx:if="{{showMod}}" bindtap="closeModel"> </view>
+  <!-- </navigator> -->
+  <view wx:if="{{showMod}}" class='modalBox'>
+    <view class='tip'>
+      <view class='title_tip'>
+        同步数据
+      </view>
+
+      <view class="img_box1">
+
+        <image src='../../images/index/shopDetails/guanbi.png' bindtap="closeModel"></image>
+      </view>
+
+      <view class='cont_tip'>
+        <view class='inp_num'>
+          <input placeholder='请输入手机号' type='number'value="{{inp_num}}" maxlength="11" bindinput="inpNum"></input>
+        </view>
+        <view class='inp_yzm'>
+          <view class='inp_yzm_fs'wx:if="{{djz_end}}" bindtap="sendYzm">获取验证码</view>
+          <view class='inp_yzm_fs_djs'wx:if="{{!djz_end}}" >{{djs}}S</view>
+          <input placeholder='请输入验证码'value="{{yzm}}" type='number' maxlength="4" bindinput="inpYzm"></input>
+        </view>
+        <view class='btn_tip'>
+
+          <button bindtap="okSure">确认</button>
+        </view>
+      </view>
+    </view>
+  </view>
+   <!-- <navigator open-type="exit" target="miniProgram"> -->
+  <view class="modal-mask" wx:if="{{showModal_0}}"bindtap='toIndex'> </view>
+  <!-- </navigator> -->
+  <view wx:if="{{showModal_0}}" class='modalBox_0'>
+    <view class='tip'>
+      <view class='title_tip'>
+        温馨提示
+      </view>
+      <view class="img_box1" >
+        <!-- <navigator open-type="exit" target="miniProgram"> -->
+          <image src='../../images/index/shopDetails/guanbi.png' bindtap='toIndex'></image>
+        <!-- </navigator> -->
+      </view>
+      <view class='cont_tip_0'>
+        是否允许授权手机号码?
+        <view class='btn_tip'>
+          <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">允许</button>
+        </view>
+      </view>
+    </view>
+  </view>
+  <i-message id="message" />
+  <tabbar tabbar="{{tabbar}}"></tabbar>
+</i-row>

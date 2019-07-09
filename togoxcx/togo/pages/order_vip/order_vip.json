@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-action-sheet": "../../dist/action-sheet/index",
+    "custom-radio": "../../component/custom-radio/custom-radio",
+    "i-modal": "../../dist/modal/index",
+    "i-message": "../../dist/message/index",
+    "i-toast": "../../dist/toast/index",
+    "key-board": "../../component/key-board/key-board"
+  },
+  "navigationBarTitleText": "提交订单"
+}

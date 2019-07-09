@@ -1,0 +1,72 @@
+<!--index.wxml-->
+<i-row i-class='storelist'>
+  <i-col span="24" i-class='storelist_address'>
+    <i-row>
+      <i-col span="2" offset='1'>
+        <image src='../../images/dingwei.png'></image>
+      </i-col>
+      <i-col span="20">{{city}}
+      </i-col>
+    </i-row>
+  </i-col>
+  <i-col span="24">
+    <i-row>
+      <i-col span="5">
+        <i-row>
+          <i-col span="24" wx:for="{{area_items}}" data-index="{{index}}" data-itm="{{item}}" bindtap="clickArea" i-class="{{item.act?'storelist_area_act':'storelist_area'}}">{{item.address3}}</i-col>
+        </i-row>
+      </i-col>
+      <i-col span="19" i-class='storelist_ls'>
+        <i-row>
+          <view class='storelist_ls_it' wx:for="{{items}}">
+            <i-row>
+              <i-col span="24">
+                <i-row>
+                  <i-col span="18">{{item.shopname}}</i-col>
+                  <i-col span="6" i-class='storelist_ls_dz'>{{item.distance}}km</i-col>
+                </i-row>
+              </i-col>
+              <i-col span="24" i-class='storelist_ls_ad'>{{item.address}}</i-col>
+              <i-col span="24" i-class='storelist_ls_type'>
+                <view class='storelist_type' wx:for="{{item.sort}}" wx:for-item="sortn">
+                  <image wx:if="{{sortn.name=='洗车'}}" src='../../images/xiche_icon.png'></image>
+                  <image wx:elif="{{sortn.name=='美容'}}" src='../../images/meirong_icon.png'></image>
+                  <image wx:elif="{{sortn.name=='保养'}}" src='../../images/baoyang_icon.png'></image>
+                  <image wx:else src='../../images/weixiu_icon.png'></image>
+                  <text>{{sortn.name}}</text>
+                </view>
+                <!-- <view class='storelist_type'>
+                  <image src='../../images/meirong_icon.png'></image>
+                  <text>美容</text>
+                </view>
+                <view class='storelist_type'>
+                  <image src='../../images/baoyang_icon.png'></image>
+                  <text>保养</text>
+                </view>
+                <view class='storelist_type'>
+                  <image src='../../images/weixiu_icon.png'></image>
+                  <text>维修</text>
+                </view> -->
+              </i-col>
+              <i-col span="24" i-class='storelist_spacer'></i-col>
+              <i-col span="24" i-class='storelist_ls_contrl'>
+                <i-row>
+                 
+                  <i-col span="8" i-class='storelist_ls_topin' data-itm="{{item}}" bindtap='toComeHere'>
+                    <image src='../../images/to_point.png'></image>
+                    <text>到这里去</text>
+                  </i-col>
+
+                   <i-col span="16" i-class='storelist_ls_btn' bindtap='toCallMe' data-data="{{item}}">
+                    <button type="info" >切换门店</button>
+                  </i-col>
+                </i-row>
+              </i-col>
+            </i-row>
+          </view>
+        </i-row>
+      </i-col>
+    </i-row>
+  </i-col>
+  <tabbar tabbar="{{tabbar}}"></tabbar>
+</i-row>

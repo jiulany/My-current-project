@@ -1,0 +1,32 @@
+<!--pages/add_car_pingpai/add_car_pingpai.wxml-->
+<view class="i-index-demo">
+  <i-index height="100%" bind:change="onChange">
+    <i-index-item wx:for="{{ pingpai }}" wx:for-index="index" wx:key="{{index}}" wx:for-item="item" name="{{item.key}}">
+      <view class="i-index-demo-item" wx:for="{{item.list}}" wx:for-index="in" wx:key="{{in}}" wx:for-item="it" bindtap='selePingpai' data-name="{{it.name}}" data-id="{{it.id}}">
+        {{it.name}}
+      </view>
+    </i-index-item>
+  </i-index>
+</view>
+<view class="demo">
+  <i-drawer mode="right" visible="{{showRight1}}" bind:close="selePingpai">
+    <view class="demo-container">
+      <view class="caption-wrap">
+        <i-collapse name="{{name}}" accordion>
+          <i-collapse-item wx:for="{{modelList}}" title="{{item.name}}" name="{{'name'+index}}" i-class="model_xh">
+            <view slot="content">
+              <i-row>
+                <i-col span="24" wx:for="{{item.list}}" wx:for-item="itm" i-class="model_xh_cx" catchtap="saveXh" data-id="{{itm.id}}" data-name="{{itm.fullname}}">
+                  <i-col span="20">{{itm.fullname}}</i-col>
+                  <i-col span="4" i-class="model_xh_logo">
+                    <image src="{{itm.logo}}"></image>
+                  </i-col>
+                </i-col>
+              </i-row>
+            </view>
+          </i-collapse-item>
+        </i-collapse>
+      </view>
+    </view>
+  </i-drawer>
+</view>

@@ -1,0 +1,43 @@
+<!--pages/my_recharge/my_recharge.wxml-->
+<i-row>
+  <i-col span="24" i-class="reg_tp">
+    <image src='{{http}}{{image_0}}'></image>
+  </i-col>
+  <i-col span="24" i-class="reg_sle">
+    <i-col span="24">请选择充值金额：</i-col>
+    <i-col span="24">
+      <view class="reg_cont">
+        <view class="reg_it" wx:for="{{ prices }}" wx:item="{{ item }}" wx:key="{{ key }}" data-id="{{index}}" data-itm='{{item}}' bindtap='click' style="{{index == id?'background:#fdd000':'background:#ffffff'}}">
+          <view>{{ item.condition }}元</view>
+          <view class='reg_ityh'>送{{ item.discount }}元</view>
+        </view>
+      </view>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="reg_els">
+    <i-col span="24">其他金额：</i-col>
+    <i-col span="24" i-class="reg_els_inp">
+      <input placeholder='支付金额应大于10元和小于20000元' maxlength='5' type='digit' value="{{value}}" bindinput="inp"></input>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="reg_reg">
+    <button catchtap='recharge'>充值</button>
+  </i-col>
+  <view class='moengc' wx:if="{{showModel}}" catchtap='closeModel'></view>
+  <i-col span="24" i-class="model" wx:if="{{showModel}}" animation="{{animationData}}">
+    <i-col span="24" i-class="model_tt">确认付款
+      <view class='model_clo' catchtap='closeModel'>
+        <image src='../../images/index/shopDetails/guanbi.png'></image>
+      </view>
+    </i-col>
+    <i-col span="24" i-class="model_ct1">账号：{{phone}}</i-col>
+    <i-col span="24" i-class="model_ct1">
+      <i-col span="14">付款方式：微信支付</i-col>
+      <i-col span="10">付款金额：{{recharge_price}}</i-col>
+    </i-col>
+    <i-col span="24"i-class="model_sr">
+      <button bindtap="pay"loading="{{loading}}">立即付款</button>
+    </i-col>
+  </i-col>
+  <i-message id="message" />
+</i-row>

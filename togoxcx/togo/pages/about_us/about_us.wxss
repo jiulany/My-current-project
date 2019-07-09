@@ -1,0 +1,30 @@
+/* pages/about_us/about_us.wxss */
+
+page {
+  background: #f5f5f5;
+}
+
+.abous {
+  font-size: 15px;
+  background: white;
+  margin-top: 10rpx;
+  box-shadow: 0 3px 14px 0px rgba(0, 0, 0, 0.05);
+}
+
+.abous image {
+  width: 15rpx;
+  height: 20rpx;
+}
+
+.abous_yqm {
+  text-align: end;
+}
+
+.abous_rtr {
+  text-align: end;
+}
+
+.abous_it {
+  padding: 40rpx 30rpx;
+  border-bottom: 1px solid #f5f5f5;
+}

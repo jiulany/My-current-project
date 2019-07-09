@@ -1,0 +1,17 @@
+<!--pages/equity/equity.wxml-->
+<i-row>
+  <i-col span="24" i-class="title">
+    会员权益购买后，次月生效
+  </i-col>
+  <i-col span="21" i-class="imgBox">
+    <image src="{{http}}{{bgimg}}" class='img'></image>
+    <view class='tip'>您尚未购买会员权益，可点击 下方提示按钮进行购买。
+    </view>
+
+    <button class='buy_btn' bindtap='toBuy'>立即购买</button>
+  </i-col>
+
+  <i-col span="24" i-class="footer">
+    所有解释权归脱狗车宝所有
+  </i-col>
+</i-row>

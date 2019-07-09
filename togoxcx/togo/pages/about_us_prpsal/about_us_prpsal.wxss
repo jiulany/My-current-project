@@ -1,0 +1,29 @@
+/* pages/about_us_prpsal/about_us_prpsal.wxss */
+page{
+  background: #f5f5f5
+}
+.prpsal{
+  padding: 20rpx 20rpx
+}
+.prpsal_tt{
+  margin-bottom: 30rpx
+}
+.prpsal_inparea{
+  padding: 20rpx 15rpx;
+  background: white;
+  margin-bottom: 100rpx
+}
+.prpsal_inparea textarea{
+font-size: 14px;
+width: 100%
+}
+.prpsal_btn button{
+  background: #fdd000;
+  color: white
+}
+.prpsal_btn button:active{
+   background: #fdd417;
+}
+.prpsal_btn button::after{
+  border: none
+}

@@ -1,0 +1,67 @@
+/* pages/change_car/change_car.wxss */
+.adc_itm{
+  font-size: 17px;
+  padding: 70rpx 20rpx 0 20rpx;
+  font-weight: bold
+}
+.adc_itm image {
+  width: 30rpx;
+  height: 20rpx;
+}
+
+.adc_itm_tp {
+  text-align: end;
+}
+.adc_itm_cor{
+  position: relative
+}
+.adc_itm_sel{
+  position: absolute;
+  top: 12rpx;
+  background: white;
+  box-shadow: 0 3px 14px 0px rgba(0, 0, 0, 0.12);
+  font-weight: 400;
+  z-index: 999;
+  max-height: 550rpx;
+  overflow-y: scroll
+}
+.adc_itm_sel_it{
+    background: white;
+    text-align: center;
+    padding: 20rpx
+}
+.adc_inp{
+  border-bottom: 1px solid #f5f5f5;
+  font-weight: 400;
+  position: relative;
+  font-size: 14px;
+  margin-top: 15rpx;
+  height: 60rpx
+}
+.adc_inp text{
+position: absolute;
+top: 5rpx;
+color: #999999;
+}
+.adc_sur{
+  margin-top: 100rpx
+}
+.adc_sur button{
+  width: 100%;
+  height: 80rpx;
+  color: white;
+  font-weight: 400;
+  background: #fac804;
+  border: none;
+  font-size: 15px
+}
+.adc_sur button:active{
+ background-color: #facd1d
+}
+.zhez{
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  position: absolute;
+  top: 0
+}

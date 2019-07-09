@@ -1,0 +1,4 @@
+/* component/custom-input/custom-input.wxss */
+.inp{
+  width: 100%
+}

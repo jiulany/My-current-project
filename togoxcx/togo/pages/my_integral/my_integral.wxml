@@ -1,0 +1,19 @@
+<!--pages/my_integral/my_integral.wxml-->
+<i-row i-class='myinte'>
+  <i-col span="24" i-class="myinte_it"bindtap="toInteMx">
+    <i-col span="22">
+      积分明细
+    </i-col>
+    <i-col span="2" i-class='myinte_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class="myinte_it"bindtap="toInteDh">
+    <i-col span="22">
+      积分兑换
+    </i-col>
+    <i-col span="2" i-class='myinte_rtr'>
+      <image src='../../images/return_ic.png'></image>
+    </i-col>
+  </i-col>
+</i-row>

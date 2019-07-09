@@ -1,0 +1,39 @@
+/* pages/my_balance/my_balance.wxss */
+.balance_ico{
+   text-align: center;
+   margin-top: 40rpx
+}
+.balance_ico image{
+  width: 140rpx;
+  height: 140rpx;
+}
+.balance_tt{
+  text-align: center;
+  font-size: 17px;
+  margin-top: 10rpx
+}
+.balance_bla{
+  text-align: center;
+font-weight: 500;
+padding: 40rpx 0;
+font-size: 30px;
+padding-bottom: 70rpx
+}
+.balance_btn button{
+  background: #fcbd32;
+  border-radius: 0;
+  color: white
+}
+.balance_btn button::after{
+  border: none
+}
+balance_mx{
+  text-align: center
+}
+.balance_mx image{
+  height: 40rpx;
+  width:350rpx;
+  display: inline-block;
+  margin-left: 25%;
+  margin-top: 5%;
+}

@@ -1,0 +1,304 @@
+<!--pages/set_order/set_order.wxml-->
+<i-row i-class="all">
+  <i-col span="22" i-class="getYourself">
+    脱狗车宝服务订单
+  </i-col>
+  <i-col span="24" i-class="addressBox" bindtap="chooseSezi2">
+    <i-col span="1" i-class="imgBox">
+      <image src='../../images/order/chexing_icon.png' class='img_chexing'></image>
+    </i-col>
+
+    <i-col span="16" i-class="shopName">
+      {{ shopAddress }}
+    </i-col>
+
+    <i-col span="1" i-class="imgBox">
+      <image src='../../images/dingwei.png' class='img_chexing'></image>
+    </i-col>
+
+    <i-col span="2" i-class="imgToBox" bindtap="shopToTap">
+      <image src='../../images/return_ic.png' class='imgTo'></image>
+    </i-col>
+  </i-col>
+
+  <i-row>
+    <i-col span="24" i-class="line" wx:for="{{ord.hasGoods}}" wx:key="{{ key }}">
+      <i-col span="1" i-class="img_selected">
+        <!-- <custom-radio checked="{{item.sle}}" bindtap='switchRadio'></custom-radio> -->
+      </i-col>
+      <i-col span="5">
+        <image src="{{ http }}{{ item.pic }}" class='img_content'></image>
+      </i-col>
+      <i-col span="10">
+        <i-col span="24" i-class="title">{{ item.goodsname }}</i-col>
+        <i-col span="24" i-class="title_desc">x1
+        </i-col>
+      </i-col>
+      <i-col span="7" i-class='price'>
+        <i-col span="24">
+          <span style="font-size:9px;">￥</span>{{ item.price }}
+        </i-col>
+        <i-col span="24" wx:if="{{isSuv}}">
+          <span style="font-size:9px;">（SUV+{{ item.addprice }}）</span>
+        </i-col>
+      </i-col>
+    </i-col>
+  </i-row>
+
+  <i-col span="24" i-class="car_type_box">
+    <i-col span="5" i-class="car_type">
+      洗车类型
+    </i-col>
+
+    <i-col span="15" i-class="car_type_name">
+      <picker bindchange="bindCarChange" value="{{index}}" range="{{userCar}}" range-key="carnum">
+        <view class="picker">当前选择：{{userCar[index].carnum}}</view>
+      </picker>
+    </i-col>
+
+    <i-col span="1" i-class="imgToBox">
+      <image src='../../images/return_ic.png' class='imgTo' style='margin-top:65rpx;'></image>
+    </i-col>
+  </i-col>
+
+  <i-col span="24" i-class="car_type_box" bindtap='chooseSezi1'>
+    <i-col span="5" i-class="car_type">
+      优惠卡券
+    </i-col>
+
+    <i-col span="15" i-class="car_type_name">
+      {{yhjName}}
+    </i-col>
+
+    <i-col span="1" i-class="imgToBox">
+      <image src='../../images/return_ic.png' class='imgTo' style='margin-top:65rpx;'></image>
+    </i-col>
+  </i-col>
+
+
+  <i-col span="24" i-class="car_type_box">
+    <i-col span="5" i-class="car_type">
+      商品总价
+    </i-col>
+
+    <i-col span="16" i-class="price_pro">
+      ￥{{ord.priceAll}}
+    </i-col>
+  </i-col>
+
+  <!-- <i-col span="24" i-class="car_type_box">
+    <i-col span="5" i-class="car_type">
+      订单编号
+    </i-col>
+
+    <i-col span="16" i-class="car_type_name">
+      {{ord.ordernum}}
+    </i-col>
+  </i-col> -->
+
+  <i-col span="24" i-class="buy_btn" bindtap='chooseSezi'>
+    提交订单￥{{ord.priceAll}}
+  </i-col>
+
+  <!-- 购买弹框部分 -->
+  <view class='choose' wx:if="{{chooseSize}}" animation='{{animationData}}'>
+    <i-col span="24" i-class="order_box">
+      <view class="img_box">
+        <image src='../../images/index/shopDetails/guanbi.png' bindtap='hideModal'></image>
+      </view>
+      <i-col span="24" i-class="title_box">
+        确认付款
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="price_box">
+      <i-col span="24" i-class="title_price">
+        ￥{{ord.priceAll}}
+      </i-col>
+
+      <i-col span="24" i-class="accountBox">
+        <i-col span="11" i-class="account_number">
+          支付账号：
+        </i-col>
+        <i-col span="11" i-class="number">
+          {{phone}}
+        </i-col>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="accountBox">
+      <i-col span="11" i-class="account_number">
+        付款方式：
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payBox" bindtap='switchRadio' data-type="1">
+      <i-col span="2" i-class="weixinBox">
+        <image src='../../images/order/yuezhifu_icon.png'></image>
+      </i-col>
+      <i-col span="15" i-class="weixin_pay">
+        余额（￥ {{balance}}）
+      </i-col>
+      <i-col span="3" i-class="img_selected1">
+        <custom-radio checked="{{price}}" catchtap='switchRadio' data-type="1"></custom-radio>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payBox" wx:if="{{isWxPay}}" bindtap='switchRadio' data-type="2">
+      <i-col span="2" i-class="weixinBox">
+        <image src='../../images/order/weixin_icon.png'></image>
+      </i-col>
+      <i-col span="15" i-class="weixin_pay">
+        微信支付
+      </i-col>
+      <i-col span="3" i-class="img_selected1">
+        <custom-radio checked="{{wx}}" catchtap='switchRadio' data-type="2"></custom-radio>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payNow" catchtap='oilConfirm'>
+      立即付款
+    </i-col>
+    <!-- <view class='mask' hidden='{{maskFlag}}' bindtap='showFlag' ></view> -->
+  </view>
+
+  <!-- <view class="modal-mask" wx:if="{{showModal}}" bindtap="hide"> </view>
+  <view wx:if="{{showModal}}" class='modalBox'>
+    <view class='titleTip'>
+      温馨提示
+    </view>
+
+    <view class='tip'>
+      购买后就只能是这一个车牌照号!
+    </view>
+
+    <view class='btnBox'>
+      <view class='close' bindtap="hide">
+        关闭
+      </view>
+    </view>
+  </view> -->
+  <!-- 卡券部分 -->
+<view class="modal-mask" wx:if="{{chooseSize_01}}"> </view>
+  <view class='choose' wx:if="{{chooseSize1}}" animation='{{animationData1}}'>
+    <i-col span="24" i-class="order_box">
+      <i-col span="24" i-class="title_box">
+        优惠卡券
+      </i-col>
+      <view class="img_box1">
+        <image src='../../images/index/shopDetails/guanbi.png' bindtap='hideModal1'></image>
+      </view>
+    </i-col>
+
+    <i-col span="24" i-class="payBox" wx:for="{{kj}}" wx:if="{{kj.length > 0}}" wx:key="id">
+      <i-col span="18" i-class="card">
+        {{item.hasCard}}
+      </i-col>
+      <i-col span="3" i-class="img_selected1">
+        <custom-radio checked="{{item.sle}}" bindtap='switchRadioY' data-id="{{item.id}}" data-na="{{item.goodsname}}"></custom-radio>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payBox">
+      <i-col span="18" i-class="card">
+        不使用优惠
+      </i-col>
+      <i-col span="3" i-class="img_selected1">
+        <custom-radio checked="{{yhj}}" bindtap='switchRadioN'></custom-radio>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payNow" bindtap='hideModal1'>
+      完成
+    </i-col>
+  </view>
+<view class="modal-mask" wx:if="{{chooseSize_02}}"> </view>
+  <!-- 选择门店 -->
+  <view class='choose' wx:if="{{chooseSize2}}" animation='{{animationData2}}'>
+    <i-col span="24" i-class="order_box">
+      <i-col span="24" i-class="title_box">
+        可选门店
+      </i-col>
+      <view class="img_box1" bindtap='hideModal2'>
+        <image src='../../images/index/shopDetails/guanbi.png'></image>
+      </view>
+    </i-col>
+
+    <i-col span="24" i-class="payBox" wx:for="{{shopArray}}" wx:if="{{shopArray.length > 0}}">
+      <i-col span="18" i-class="card">
+        {{item.shopname}}{{ item.jl }}km
+      </i-col>
+      <i-col span="3" i-class="img_selected1">
+        <custom-radio checked="{{item.sle}}" bindtap='switchRadioshop' data-id="{{item.id}}"></custom-radio>
+      </i-col>
+    </i-col>
+
+    <i-col span="24" i-class="payNow" bindtap='hideModal2'>
+      完成
+    </i-col>
+  </view>
+
+
+  <i-toast id="toast" />
+  <i-modal title="确认支付" visible="{{ visible5 }}" actions="{{ actions5 }}" bind:click="handleClick5">
+    <view>您已开通免密支付,请确认支付</view>
+  </i-modal>
+  <i-modal title="输入密码" visible="{{ visible4 }}" actions="{{ actions5 }}" bind:click="handleClick4">
+    <view class='inp_mm'>
+      <input type='password' value="{{pay_psw}}" bindinput="inp_psw" maxlength="6" bindconfirm="toPay"></input>
+    </view>
+  </i-modal>
+  <!-- <navigator open-type="exit" target="miniProgram"> -->
+  <view class="modal-mask" wx:if="{{visible3}}"> </view>
+  <!-- </navigator> -->
+  <i-col wx:if="{{visible3}}" i-class='modalBox' span="24">
+    <i-col span="24" i-class='modal-main'>
+      <i-col span="24">
+        <i-col span="24"i-class="modal-head">首次下单需添加车辆</i-col>
+      </i-col>
+      <i-col span="24" i-class="modal-line"></i-col>
+      <i-col span="24">
+        <i-col span="24">请输入车牌号：</i-col>
+        <i-col span="24" i-class="modal-inpcont">
+          <input placeholder='请输入车牌' value="{{cp}}"></input>
+          <view class='zhez' catchtap="openKeyboard"></view>
+        </i-col>
+      </i-col>
+      <i-col span="24">
+        <i-col span="24">请选择车辆颜色：</i-col>
+        <i-col span="24" i-class="modal-inpcont">
+          <input placeholder='请选择车辆颜色'value="{{sele_color.colorname}}"></input>
+          <view class='zhez'catchtap="getCarColor"></view>
+          <image class='xiala' src="../../images/xiala_sle.png"></image>
+          <i-col span="24" i-class='adc_itm_sel' wx:if="{{model_color}}">
+            <i-col catchtap="seleColor" i-class='adc_itm_sel_it' span="24" wx:for="{{colors}}" data-itm="{{item}}">{{item.colorname}}</i-col>
+          </i-col>
+        </i-col>
+      </i-col>
+      <i-col span="24">
+        <i-col span="24">请选择车辆类型：</i-col>
+        <i-col span="24" i-class="modal-inpcont">
+          <input placeholder='请选择车辆类型'value="{{seleXh}}"></input>
+          <image class='xiala' src="../../images/xiala_sle.png"></image>
+          <view class='zhez'catchtap="getXh"></view>
+          <i-col span="24" i-class='adc_itm_sel' wx:if="{{model_xh}}">
+        <i-col catchtap="seleXh" i-class='adc_itm_sel_it' span="24" wx:for="{{xingh}}" data-itm="{{item}}">{{item}}</i-col>
+      </i-col>
+        </i-col>
+      </i-col>
+      <i-col span="24">
+        <i-col span="11">
+          <button class='model-cancel' catchtap="closeAddModl"> 取消 </button>
+        </i-col>
+        <i-col span="11" offset="2">
+          <button class='model-sure'catchtap='sumbit'> 确定 </button>
+        </i-col>
+      </i-col>
+    </i-col>
+  </i-col>
+  <key-board showkKeyBoard="{{openKeyBoard}}" catchchangeValue="keyBoardValue"></key-board>
+  <i-message id="message" />
+  <view class='footer' wx:if="{{chooseSize}}" animation='{{animationData}}' bindtap='hideModal'></view>
+  <view class='footer1' wx:if="{{chooseSize1}}" animation='{{animationData1}}' bindtap='hideModal1'></view>
+  <view class='footer1' wx:if="{{chooseSize2}}" animation='{{animationData2}}' bindtap='hideModal2'></view>
+</i-row>

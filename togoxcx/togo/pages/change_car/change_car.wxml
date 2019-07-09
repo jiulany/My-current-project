@@ -1,0 +1,55 @@
+<!--pages/change_car/change_car.wxml-->
+<i-row bindtap="closeJp" bindtap="blurModel">
+  <i-col span="24" i-class='adc_itm'>
+    <i-col span="24">汽车品牌</i-col>
+    <i-col span="24" i-class='adc_inp'>
+      <custom-input placeholder='请选择车辆品牌' model="{{pingpai}}"></custom-input>
+      <view class='zhez' catchtap="toSelectCar"></view>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class='adc_itm'>
+    <i-col span="24">车辆车牌</i-col>
+    <i-col span="24" i-class='adc_inp'>
+      <custom-input placeholder='请输入车辆车牌' model="{{cp}}"></custom-input>
+      <view class='zhez' catchtap="openKeyboard"></view>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class='adc_itm' catchtap="getCarColor">
+    <i-col span="24" i-class='adc_itm_cor'>
+      <i-col span="20">车辆颜色</i-col>
+      <i-col span="4" i-class='adc_itm_tp'>
+        <image src='../../images/sele_top.png'></image>
+      </i-col>
+      <i-col span="24" i-class='adc_itm_sel' wx:if="{{model_color}}">
+        <i-col catchtap="seleColor" i-class='adc_itm_sel_it' span="24" wx:for="{{colors}}" data-itm="{{item}}">{{item.colorname}}</i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='adc_inp'>
+      <custom-input placeholder='请选择车辆颜色' model="{{sele_color.colorname}}"></custom-input>
+      <view class='zhez'></view>
+    </i-col>
+  </i-col>
+  <i-col span="24" i-class='adc_itm' catchtap="getXh">
+    <i-col span="24" i-class='adc_itm_cor'>
+      <i-col span="20">车辆类型</i-col>
+      <i-col span="4" i-class='adc_itm_tp'>
+        <image src='../../images/sele_top.png'></image>
+      </i-col>
+      <i-col span="24" i-class='adc_itm_sel' wx:if="{{model_xh}}">
+        <i-col catchtap="seleXh" i-class='adc_itm_sel_it' span="24" wx:for="{{xingh}}" data-itm="{{item}}">{{item}}</i-col>
+      </i-col>
+    </i-col>
+    <i-col span="24" i-class='adc_inp'>
+      <custom-input placeholder='请输入车辆类型' model="{{seleXh}}"></custom-input>
+      <view class='zhez'></view>
+    </i-col>
+    <i-col span="24" i-class='adc_sur'>
+      <button size='default' catchtap='sumbit'>保存</button>
+    </i-col>
+  </i-col>
+  <key-board showkKeyBoard="{{openKeyBoard}}" catchchangeValue="keyBoardValue"></key-board>
+  <i-modal title="确认重置" visible="{{ visible1 }}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view>确定要重置支付密码吗？</view>
+  </i-modal>
+  <i-message id="message" />
+</i-row>

@@ -1,0 +1,15 @@
+<!--pages/about_us_prpsal/about_us_prpsal.wxml-->
+<i-row i-class="prpsal">
+  <i-col span="24" i-class="prpsal_tt">问题与建议</i-col>
+  <i-col span="24" i-class="prpsal_inparea">
+   <form bindsubmit="bindFormSubmit">
+       <textarea  name="textarea" placeholder='请输入300以内的问题描述或意见反馈。我们将在72小时内回复您。'maxlength="300" ></textarea>
+   
+    <i-col span="24" i-class="prpsal_btn">
+     <button form-type="submit">提交反馈</button>
+  </i-col>
+  </form>
+
+  </i-col>
+  
+</i-row>

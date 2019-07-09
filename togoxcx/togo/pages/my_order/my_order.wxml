@@ -1,0 +1,218 @@
+<view class='order'>
+  <view class="swiper-tab">
+    <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">全部</view>
+    <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">待付款</view>
+    <view class="swiper-tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="clickTab">待使用</view>
+    <view class="swiper-tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="clickTab">已完成</view>
+  </view>
+  <swiper current="{{currentTab}}" duration="300" bindchange="swiperTab" class='swiper_ord'>
+    <!-- 全部 -->
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingAll">
+        <i-row i-class='ord_itm'>
+          <i-col span="24" i-class="ord_ord" wx:for="{{alllist}}" wx:key="id" data-itm="{{item}}" catchtap="toOrderDetail">
+            <i-col span="24" i-class="ord_bt">
+              <i-col span="2" i-class="ord_icon">
+                <image src='../../images/store_0.png'></image>
+              </i-col>
+              <i-col span="18">{{item.classifyid==9||item.classifyid==5?"脱狗车宝":item.shopname}}</i-col>
+              <i-col span="4" style="color:#e94545" wx:if="{{item.type==1}}" i-class="type-user">待付款</i-col>
+              <i-col span="4" style="color:#e94545" wx:elif="{{item.type==2}}" i-class="type-user">待使用</i-col>
+              <i-col span="4" style="color:#e94545" wx:else i-class="type-user">已完成</i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_ct">
+              <i-col span="5" i-class="ord_tp">
+                <image src="{{http}}{{item.orderinfo[0].pic}}"></image>
+              </i-col>
+              <i-col span="13">
+                <i-col span="24" i-class="ord_ord_nm">{{item.classname}}</i-col>
+                <i-col span="24" i-class="ord_ord_bh">(套餐包含：
+                  <text wx:for="{{item.orderinfo}}" wx:for-item="itm" wx:for-index="i">{{i+1==item.orderinfo.length?itm.goodsname:itm.goodsname+"，"}}</text>)</i-col>
+              </i-col>
+              <i-col span="6">
+                <i-col span="24" i-class="ord_ord_moy">￥{{item.classifyid==3||item.classifyid==1?item.orderinfo[0].price:item.zongprice}}</i-col>
+                <i-col span="24" i-class="ord_ord_count">x{{item.goodsnum}}</i-col>
+              </i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_spacer">
+            </i-col>
+            <i-col span="24" i-class="ord_price">
+              <i-col span="8" wx:if="{{item.type==1}}">等待付款</i-col>
+              <i-col span="8" wx:elif="{{item.type==2}}">实付款</i-col>
+              <i-col span="8" wx:else>实付款</i-col>
+              <i-col span="16" i-class="ord_price_nm">￥{{item.zongprice}}</i-col>
+              <i-col span="24" i-class="ord_control" wx:if="{{item.type==1}}">
+                <button data-itm='{{item}}' catchtap='cancelOrd'>取消订单</button>
+                <button data-itm='{{item}}' catchtap='topay'>付款</button>
+              </i-col>
+            </i-col>
+          </i-col>
+        </i-row>
+        <i-spin wx:if="{{all_loading}}" i-class="loading" custom>
+          <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+          <view>加载中...</view>
+        </i-spin>
+        <i-load-more wx:if="{{all_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+      </scroll-view>
+    </swiper-item>
+    <!-- 待付款 -->
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingWait">
+        <i-row i-class='ord_itm'>
+          <i-col span="24" i-class="ord_ord" wx:for="{{waitlist}}" wx:key="id" data-itm="{{item}}" catchtap="toOrderDetail">
+            <i-col span="24" i-class="ord_bt">
+              <i-col span="2" i-class="ord_icon">
+                <image src='../../images/store_0.png'></image>
+              </i-col>
+              <i-col span="18">{{item.classifyid==9||item.classifyid==5?"脱狗车宝":item.shopname}}</i-col>
+              <i-col span="4" style="color:#e94545" wx:if="{{item.type==1}}" i-class="type-user">待付款</i-col>
+              <i-col span="4" style="color:#e94545" wx:elif="{{item.type==2}}" i-class="type-user">待使用</i-col>
+              <i-col span="4" style="color:#e94545" wx:else i-class="type-user">已完成</i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_ct">
+              <i-col span="5" i-class="ord_tp">
+                <image src="{{http}}{{item.orderinfo[0].pic}}"></image>
+              </i-col>
+              <i-col span="13">
+                <i-col span="24" i-class="ord_ord_nm">{{item.classname}}</i-col>
+                <i-col span="24" i-class="ord_ord_bh">(套餐包含：
+                  <text wx:for="{{item.orderinfo}}" wx:for-item="itm" wx:for-index="i">{{i+1==item.orderinfo.length?itm.goodsname:itm.goodsname+"，"}}</text>)</i-col>
+              </i-col>
+              <i-col span="6">
+                <i-col span="24" i-class="ord_ord_moy">￥{{item.classifyid==3||item.classifyid==1?item.orderinfo[0].price:item.zongprice}}</i-col>
+                <i-col span="24" i-class="ord_ord_count">x{{item.goodsnum}}</i-col>
+              </i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_spacer">
+            </i-col>
+            <i-col span="24" i-class="ord_price">
+              <i-col span="8" wx:if="{{item.type==1}}">等待付款</i-col>
+              <i-col span="8" wx:elif="{{item.type==2}}">实付款</i-col>
+              <i-col span="8" wx:else>实付款</i-col>
+              <i-col span="16" i-class="ord_price_nm">￥{{item.zongprice}}</i-col>
+              <i-col span="24" i-class="ord_control" wx:if="{{item.type==1}}">
+                <button data-itm='{{item}}' catchtap='cancelOrd'>取消订单</button>
+                <button data-itm='{{item}}' catchtap='topay'>付款</button>
+              </i-col>
+            </i-col>
+          </i-col>
+        </i-row>
+        <i-spin wx:if="{{wait_loading}}" i-class="loading" custom>
+          <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+          <view>加载中...</view>
+        </i-spin>
+        <i-load-more wx:if="{{wait_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+      </scroll-view>
+    </swiper-item>
+    <!-- 等待使用 -->
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingUse">
+        <i-row i-class='ord_itm'>
+          <i-col span="24" i-class="ord_ord" wx:for="{{waituselist}}" wx:key="id" data-itm="{{item}}" catchtap="toOrderDetail">
+            <i-col span="24" i-class="ord_bt">
+              <i-col span="2" i-class="ord_icon">
+                <image src='../../images/store_0.png'></image>
+              </i-col>
+              <i-col span="18">{{item.classifyid==9||item.classifyid==5?"脱狗车宝":item.shopname}}</i-col>
+              <i-col span="4" style="color:#e94545" wx:if="{{item.type==1}}" i-class="type-user">待付款</i-col>
+              <i-col span="4" style="color:#e94545" wx:elif="{{item.type==2}}" i-class="type-user">待使用</i-col>
+              <i-col span="4" style="color:#e94545" wx:else i-class="type-user">已完成</i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_ct">
+              <i-col span="5" i-class="ord_tp">
+                <image src="{{http}}{{item.orderinfo[0].pic}}"></image>
+              </i-col>
+              <i-col span="13">
+                <i-col span="24" i-class="ord_ord_nm">{{item.classname}}</i-col>
+                <i-col span="24" i-class="ord_ord_bh">(套餐包含：
+                  <text wx:for="{{item.orderinfo}}" wx:for-item="itm" wx:for-index="i">{{i+1==item.orderinfo.length?itm.goodsname:itm.goodsname+"，"}}</text>)</i-col>
+              </i-col>
+              <i-col span="6">
+                <i-col span="24" i-class="ord_ord_moy">￥{{item.classifyid==3||item.classifyid==1?item.orderinfo[0].price:item.zongprice}}</i-col>
+                <i-col span="24" i-class="ord_ord_count">x{{item.goodsnum}}</i-col>
+              </i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_spacer">
+            </i-col>
+            <i-col span="24" i-class="ord_price">
+              <i-col span="8" wx:if="{{item.type==1}}">等待付款</i-col>
+              <i-col span="8" wx:elif="{{item.type==2}}">实付款</i-col>
+              <i-col span="8" wx:else>实付款</i-col>
+              <i-col span="16" i-class="ord_price_nm">￥{{item.zongprice}}</i-col>
+              <i-col span="24" i-class="ord_control" wx:if="{{item.type==1}}">
+                <button data-itm='{{item}}' catchtap='cancelOrd'>取消订单</button>
+                <button data-itm='{{item}}' catchtap='topay'>付款</button>
+              </i-col>
+            </i-col>
+          </i-col>
+        </i-row>
+        <i-spin wx:if="{{use_loading}}" i-class="loading" custom>
+          <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+          <view>加载中...</view>
+        </i-spin>
+        <i-load-more wx:if="{{use_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+      </scroll-view>
+    </swiper-item>
+    <!-- 已完成 -->
+    <swiper-item class='swiper_itm_ord'>
+      <scroll-view scroll-y="true" bindscrolltolower="loadingOver">
+        <i-row i-class='ord_itm'>
+          <i-col span="24" i-class="ord_ord" wx:for="{{overlist}}" wx:key="id" data-itm="{{item}}" catchtap="toOrderDetail">
+            <i-col span="24" i-class="ord_bt">
+              <i-col span="2" i-class="ord_icon">
+                <image src='../../images/store_0.png'></image>
+              </i-col>
+              <i-col span="18">{{item.classifyid==9||item.classifyid==5?"脱狗车宝":item.shopname}}</i-col>
+              <i-col span="4" style="color:#e94545" wx:if="{{item.type==1}}" i-class="type-user">待付款</i-col>
+              <i-col span="4" style="color:#e94545" wx:elif="{{item.type==2}}" i-class="type-user">待使用</i-col>
+              <i-col span="4" style="color:#e94545" wx:else i-class="type-user">已完成</i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_ct">
+              <i-col span="5" i-class="ord_tp">
+                <image src="{{http}}{{item.orderinfo[0].pic}}"></image>
+              </i-col>
+              <i-col span="13">
+                <i-col span="24" i-class="ord_ord_nm">{{item.classname}}</i-col>
+                <i-col span="24" i-class="ord_ord_bh">(套餐包含：
+                  <text wx:for="{{item.orderinfo}}" wx:for-item="itm" wx:for-index="i">{{i+1==item.orderinfo.length?itm.goodsname:itm.goodsname+"，"}}</text>)</i-col>
+              </i-col>
+              <i-col span="6">
+                <i-col span="24" i-class="ord_ord_moy">￥{{item.classifyid==3||item.classifyid==1?item.orderinfo[0].price:item.zongprice}}</i-col>
+                <i-col span="24" i-class="ord_ord_count">x{{item.goodsnum}}</i-col>
+              </i-col>
+            </i-col>
+            <i-col span="24" i-class="ord_spacer">
+            </i-col>
+            <i-col span="24" i-class="ord_price">
+              <i-col span="8" wx:if="{{item.type==1}}">等待付款</i-col>
+              <i-col span="8" wx:elif="{{item.type==2}}">实付款</i-col>
+              <i-col span="8" wx:else>实付款</i-col>
+              <i-col span="16" i-class="ord_price_nm">￥{{item.zongprice}}</i-col>
+              <i-col span="24" i-class="ord_control" wx:if="{{item.type==1}}">
+                <button data-itm='{{item}}' catchtap='cancelOrd'>取消订单</button>
+                <button data-itm='{{item}}' catchtap='topay'>付款</button>
+              </i-col>
+            </i-col>
+          </i-col>
+        </i-row>
+        <i-spin wx:if="{{over_loading}}" i-class="loading" custom>
+          <i-icon type="refresh" size="20" i-class="icon-load"></i-icon>
+          <view>加载中...</view>
+        </i-spin>
+        <i-load-more wx:if="{{over_noms}}" tip="暂无其他数据" loading="{{ false }}" />
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+  <i-modal title="确认删除" visible="{{ visible1 }}" actions="{{ actions1 }}" bind:click="sureDele">
+    <view>确定删除此订单吗？</view>
+  </i-modal>
+  <i-modal title="免密支付" visible="{{ visible2}}" actions="{{ actions1 }}" bind:click="sureBanPay">
+    <view>您已开启免密支付，请确认支付</view>
+  </i-modal>
+  <i-modal title="输入密码" visible="{{ visible3 }}" actions="{{ actions1 }}" bind:click="sureBanMiPay">
+    <view class='inp_mm'>
+      <input type='password' value="{{pay_psw}}" bindinput="inp_psw" maxlength="6" bindconfirm="toPay"></input>
+    </view>
+  </i-modal>
+  <i-message id="message" />
+</view>

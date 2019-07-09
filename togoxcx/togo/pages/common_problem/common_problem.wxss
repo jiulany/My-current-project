@@ -1,0 +1,31 @@
+/* pages/common_problem/common_problem.wxss */
+.box{
+  border-bottom: 1px solid #f1f1f1;
+  padding-bottom: 30rpx;
+}
+
+.question{
+  height: 105rpx;
+  font-size: 14px;
+  line-height: 105rpx;
+  margin-top: 20rpx;
+  margin-left: 5%;
+  letter-spacing: 1px;
+}
+
+.answer{
+  text-align: left;
+  margin-left: 5%;
+  font-size: 13px;
+  color: #898989;
+  line-height: 45rpx;
+}
+
+.answer1{
+  text-align: left;
+  margin-left: 5%;
+  font-size: 13px;
+  color: #898989;
+  line-height: 45rpx;
+  text-indent: 40rpx;
+}

@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-tabs": "../../dist/tabs/index",
+    "i-tab": "../../dist/tab/index",
+    "custom-radio": "../../component/custom-radio/custom-radio",
+    "tabbar": "../../component/tabbar/tabbar"
+  },
+  "navigationBarTitleText": "积分兑换"
+}

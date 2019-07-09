@@ -1,0 +1,12 @@
+/* pages/about_us_joinus/about_us_joinus.wxss */
+page{
+  background: #f5f5f5
+}
+.abt_join{
+  text-indent: 2em;
+  padding: 50rpx 30rpx;
+  font-size: 16px
+}
+.abt_join view{
+  text-indent: 0em;
+}

@@ -4,6 +4,7 @@ import { Route } from "react-router-dom"
 import "./Home.css"
 import store from '../../reducer/reducer'
 import { matchPath } from '../../api/matchpath' //查询匹配地址的面包屑
+import Cookies from 'js-cookie'
 
 import Head from "../../components/Head/Head"
 import SiderBar from "../../components/SiderBar/SiderBar"
@@ -32,6 +33,10 @@ class Home extends Component {
   }
   componentDidMount() {
     matchPath(this.props.location.pathname)
+  }
+  componentWillMount(){
+    Cookies.set('user_id', 1, { expires: 30 });
+    Cookies.set('community_id', 1, { expires: 30 });
   }
   componentWillUpdate(nextSprops) {
     if (nextSprops.location.pathname !== this.props.location.pathname) {//判断前后两路由是否不等，防止无限循环

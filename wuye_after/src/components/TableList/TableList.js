@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Input, Pagination, Modal } from 'antd';
+import { Row, Col, Button, Input, Pagination, Modal, Spin, Icon, message } from 'antd';
 import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem } from './TableListconf'
 import './TableList.css'
 const { Search } = Input;
+const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 class TableList extends Component {
     constructor(props) {
         super(props)
@@ -10,21 +11,35 @@ class TableList extends Component {
             head: [],
             deleModel: false,
             data: [
-            ]
+            ],
+            is_tbupdate_loading: false,//table的loading
+            is_dele_loading: false,//删除的loading
+            cur_page:1//当前页数
         }
     }
     componentDidMount() {
         this.matchPath(this.props.match.path) //匹配地址
-        getPageTotal(this.props.match.path).then(res => { //获取总页数
+        this.setState({
+            is_tbupdate_loading: true
+        })
+        getPageTotal(this.props.match.path,this.state.cur_search_val).then(res => { //获取总页数
             this.setState({
                 total_page: res.data
             })
+        }).catch(res => {
+            message.error(res.msg, 3)
         })
-        getTableList(this.props.match.path, 1, 10).then(res => { //获取总页数
-            console.log(res)
+        
+        getTableList(this.props.match.path, 1, 10,this.state.cur_search_val).then(res => { //获取table数据
             this.setState({
-                data: res.data
+                data: res.data,
+                is_tbupdate_loading:false
             })
+        }).catch(res => {
+            this.setState({
+                is_tbupdate_loading:false
+            })
+            message.error(res.msg, 3)
         })
 
     }
@@ -35,9 +50,82 @@ class TableList extends Component {
         })
     }
     handleOkDele = () => {//确认删除
-        console.log(this.state.dele_item)
+        this.setState({
+            is_dele_loading: true
+        })
         deleItem(this.props.match.path, this.state.dele_item.id).then(res => { //获取总页数
-            console.log(res)
+            this.setState({
+                is_dele_loading: false,
+                deleModel: false,
+                is_tbupdate_loading: true
+            })
+            message.info('删除成功', 3)
+            getPageTotal(this.props.match.path,this.state.cur_search_val).then(res => { //获取总页数
+                this.setState({
+                    total_page: res.data,
+                    cur_page:1
+                })
+            })
+            getTableList(this.props.match.path, 1, 10,this.state.cur_search_val).then(res => { //获取table数据
+                setTimeout(() => {
+                    this.setState({
+                        data: res.data,
+                        is_tbupdate_loading: false
+                    })
+                }, 500)
+            }).catch(res => {
+                this.setState({
+                    is_dele_loading: false,
+                    is_tbupdate_loading: false
+                })
+                message.error(res.msg, 3)
+            })
+        }).catch(res => {
+            message.error(res.msg, 3)
+        })
+    }
+    getPageChange = (inx) => {//页码变化
+        this.setState({
+            is_tbupdate_loading: true
+        })
+        getTableList(this.props.match.path, inx, 10,this.state.cur_search_val).then(res => { //获取table数据
+            setTimeout(() => {
+                this.setState({
+                    data: res.data,
+                    is_tbupdate_loading: false,
+                    cur_page:inx
+                })
+            }, 500)
+        }).catch(res => {
+            this.setState({
+                is_tbupdate_loading: false
+            })
+            message.error(res.msg, 3)
+        })
+    }
+    searchTb = (val) => {//搜索内容
+        this.setState({
+            is_tbupdate_loading: true,
+            cur_search_val:val
+        })
+        getTableList(this.props.match.path, 1, 10,val).then(res => { //获取table数据
+            setTimeout(() => {
+                this.setState({
+                    data: res.data,
+                    is_tbupdate_loading: false
+                })
+            }, 500)
+        }).catch(res => {
+            this.setState({
+                is_tbupdate_loading: false
+            })
+            message.error(res.msg, 3)
+        })
+        getPageTotal(this.props.match.path,val).then(res => { //获取总页数
+            this.setState({
+                total_page: res.data,
+                cur_page:1
+            })
         })
     }
     closeModaDelel = () => {
@@ -120,7 +208,7 @@ class TableList extends Component {
             <Row className="table-list-row">
                 <Col span={24} className="table-list-mainctrl">
                     <Col span={4}>
-                        <Search placeholder="" className="table-list-search" onSearch={value => console.log(value)} enterButton />
+                        <Search placeholder="" className="table-list-search" onSearch={this.searchTb} enterButton />
                         <br />
                     </Col>
                     <Col span={16}>
@@ -143,37 +231,41 @@ class TableList extends Component {
                 <Col span={24} className="table-list-fenline">
                 </Col>
                 <Col span={24} >
-                    <table className="table-list">
-                        <thead>
-                            <tr>
+                    <Spin indicator={antIcon} spinning={this.state.is_tbupdate_loading} >
+                        <table className="table-list">
+                            <thead>
+                                <tr>
+                                    {
+                                        this.state.head.map((item, index) => {
+                                            return <th key={item}>{item}</th>
+                                        })
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
                                 {
-                                    this.state.head.map((item, index) => {
-                                        return <th key={item}>{item}</th>
+                                    this.state.data.map((item, index) => {
+                                        return (  //此处不能用标签模式，会报tbody子组件不能用当前组件只能为tr td
+                                            mapAddressToTd(this.props.match.path, item, {
+                                                deleCurItem: this.deleCurItem
+                                            })
+                                        )
                                     })
                                 }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.data.map((item, index) => {
-                                    return (  //此处不能用标签模式，会报tbody子组件不能用当前组件只能为tr td
-                                        mapAddressToTd(this.props.match.path, item, {
-                                            deleCurItem: this.deleCurItem
-                                        })
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </Spin>
                 </Col>
                 <Col span={24} className="table-list-page">
-                    <Pagination defaultCurrent={1} total={this.state.total_page} />
+                    <Pagination  current={this.state.cur_page} total={this.state.total_page} onChange={this.getPageChange} />
                 </Col>
                 <Modal title={this.state.dele_title} visible={this.state.deleModel} onOk={this.handleOkDele} className="model-dele"
                     onCancel={this.closeModaDelel} centered={true} bodyStyle={{ textAlign: "center", height: "130px" }}
                     cancelText="取消"
                     okText="确定">
-                    <p>删除后将不能恢复，是否删除该条数据？</p>
+                    <Spin indicator={antIcon} spinning={this.state.is_dele_loading} >
+                        <p>删除后将不能恢复，是否删除该条数据？</p>
+                    </Spin>
                 </Modal>
             </Row>
         )

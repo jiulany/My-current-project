@@ -92,19 +92,19 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/repair_manage") {   // REPAIR_MANAGE
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.order_id}</td>
+                <td >{item.username}</td>
+                <td>{item.type}</td>
+                <td>{item.address}</td>
+                <td>{item.service_at}</td>
+                <td>{item.number}</td>
+                <td>{item.desc}</td>
                 <td style={{ width: '13%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai">
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -240,7 +240,7 @@ export function mapAddressToTd(path, item, methods) {
                     <Button type="primary" shape="round" className="table-list-xiugai">
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e)=>methods.deleCurItem(item,e)}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -326,10 +326,17 @@ export function mapAddressToTd(path, item, methods) {
     }
 }
 
-export function getPageTotal(path) {
-    return new Promise((resolve, reject) => {
+export function getPageTotal(path, condition) {
+    return new Promise((resolve, reject) => {//小区公告
         if (path === "/notice_list") {
-            http('/notice/noticeIndexNum', { method: 'get', data: {} }).then(res => {
+            http('/notice/noticeIndexNum', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/repair_manage") {//报修管理
+            http('/repair/repairIndexNum', { method: 'post', data: { condition } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)
@@ -337,10 +344,17 @@ export function getPageTotal(path) {
         }
     })
 }
-export function getTableList(path, page, limit, condition) {
+export function getTableList(path, page, limit, condition) {//获取表格数据
     return new Promise((resolve, reject) => {
-        if (path === "/notice_list") {
-            http('/notice/noticeIndex', { method: 'get', data: { page: page, limit: limit, condition: condition } }).then(res => {
+        if (path === "/notice_list") {//小区公告
+            http('/notice/noticeIndex', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/repair_manage") {//报修管理
+            http('/repair/repairIndex', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)
@@ -348,10 +362,17 @@ export function getTableList(path, page, limit, condition) {
         }
     })
 }
-export function deleItem(path,id) {
+export function deleItem(path, id) {//删除按钮
     return new Promise((resolve, reject) => {
-        if (path === "/notice_list") {
+        if (path === "/notice_list") {//小区公告
             http('/notice/noticeDel', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/repair_manage") {//报修管理
+            http('/repair/repairDel', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

@@ -1,4 +1,5 @@
 import axios from "axios"
+import qs from 'qs';
 const url_dev = "http://192.168.31.9"
 const url_pro = ""
 const baseURL = process.env.NODE_ENV === "development" ? url_dev : url_pro
@@ -26,8 +27,8 @@ export default function http(url, conf) {
                 })
         }
         if (conf.method.toLowerCase() === "post") {
-            _axios.post(url,conf.data,{
-                headers: {'Content-Type': 'multipart/form-data'},
+            _axios.post(url,qs.stringify(conf.data),{
+                ...conf
             }
             ).then(function (response) {
                 if(response.data.code===200){

@@ -101,7 +101,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.number}</td>
                 <td>{item.desc}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
@@ -237,7 +237,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.admin_position}</td>
                 <td>{item.created_at}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
@@ -249,18 +249,18 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/quarters_list") {   // QUARTERS_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.community_name}</td>
+                <td >{item.community_address}</td>
+                <td>{item.community_developers}</td>
+                <td>{item.community_mobile}</td>
+                <td>{item.community_person}</td>
+                <td>{item.community_person_mobile}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -360,6 +360,13 @@ export function getTableList(path, page, limit, condition) {//获取表格数据
                 reject(res)
             })
         }
+        if (path === "/quarters_list") {//小区列表
+            http('/community/community_list', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function deleItem(path, id) {//删除按钮
@@ -372,6 +379,13 @@ export function deleItem(path, id) {//删除按钮
             })
         }
         if (path === "/repair_manage") {//报修管理
+            http('/repair/repairDel', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/community/community_delete") {//小区列表
             http('/repair/repairDel', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {

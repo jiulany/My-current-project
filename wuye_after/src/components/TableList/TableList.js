@@ -14,7 +14,7 @@ class TableList extends Component {
             ],
             is_tbupdate_loading: false,//table的loading
             is_dele_loading: false,//删除的loading
-            cur_page:1//当前页数
+            cur_page: 1//当前页数
         }
     }
     componentDidMount() {
@@ -22,22 +22,22 @@ class TableList extends Component {
         this.setState({
             is_tbupdate_loading: true
         })
-        getPageTotal(this.props.match.path,this.state.cur_search_val).then(res => { //获取总页数
+        getPageTotal(this.props.match.path, this.state.cur_search_val).then(res => { //获取总页数
             this.setState({
                 total_page: res.data
             })
         }).catch(res => {
             message.error(res.msg, 3)
         })
-        
-        getTableList(this.props.match.path, 1, 10,this.state.cur_search_val).then(res => { //获取table数据
+
+        getTableList(this.props.match.path, 1, 10, this.state.cur_search_val).then(res => { //获取table数据
             this.setState({
                 data: res.data,
-                is_tbupdate_loading:false
+                is_tbupdate_loading: false
             })
         }).catch(res => {
             this.setState({
-                is_tbupdate_loading:false
+                is_tbupdate_loading: false
             })
             message.error(res.msg, 3)
         })
@@ -48,6 +48,12 @@ class TableList extends Component {
             deleModel: true,
             dele_item: clickItem
         })
+    }
+    xiuGAiCurItem = (clickItem, e) => {
+        this.props.history.push({ pathname: this.state.add_path, query: { type: 1, update_id: clickItem.id } })
+    }
+    addItme = () => {
+        this.props.history.push(this.state.add_path)
     }
     handleOkDele = () => {//确认删除
         this.setState({
@@ -60,13 +66,13 @@ class TableList extends Component {
                 is_tbupdate_loading: true
             })
             message.info('删除成功', 3)
-            getPageTotal(this.props.match.path,this.state.cur_search_val).then(res => { //获取总页数
+            getPageTotal(this.props.match.path, this.state.cur_search_val).then(res => { //获取总页数
                 this.setState({
                     total_page: res.data,
-                    cur_page:1
+                    cur_page: 1
                 })
             })
-            getTableList(this.props.match.path, 1, 10,this.state.cur_search_val).then(res => { //获取table数据
+            getTableList(this.props.match.path, 1, 10, this.state.cur_search_val).then(res => { //获取table数据
                 setTimeout(() => {
                     this.setState({
                         data: res.data,
@@ -88,12 +94,12 @@ class TableList extends Component {
         this.setState({
             is_tbupdate_loading: true
         })
-        getTableList(this.props.match.path, inx, 10,this.state.cur_search_val).then(res => { //获取table数据
+        getTableList(this.props.match.path, inx, 10, this.state.cur_search_val).then(res => { //获取table数据
             setTimeout(() => {
                 this.setState({
                     data: res.data,
                     is_tbupdate_loading: false,
-                    cur_page:inx
+                    cur_page: inx
                 })
             }, 500)
         }).catch(res => {
@@ -106,9 +112,9 @@ class TableList extends Component {
     searchTb = (val) => {//搜索内容
         this.setState({
             is_tbupdate_loading: true,
-            cur_search_val:val
+            cur_search_val: val
         })
-        getTableList(this.props.match.path, 1, 10,val).then(res => { //获取table数据
+        getTableList(this.props.match.path, 1, 10, val).then(res => { //获取table数据
             setTimeout(() => {
                 this.setState({
                     data: res.data,
@@ -121,10 +127,10 @@ class TableList extends Component {
             })
             message.error(res.msg, 3)
         })
-        getPageTotal(this.props.match.path,val).then(res => { //获取总页数
+        getPageTotal(this.props.match.path, val).then(res => { //获取总页数
             this.setState({
                 total_page: res.data,
-                cur_page:1
+                cur_page: 1
             })
         })
     }
@@ -199,9 +205,6 @@ class TableList extends Component {
                 break
         }
     }
-    addItme = () => {
-        this.props.history.push(this.state.add_path)
-    }
     render() {
         // 在父 route 中，被匹配的子 route 变成 props
         return (
@@ -247,7 +250,8 @@ class TableList extends Component {
                                     this.state.data.map((item, index) => {
                                         return (  //此处不能用标签模式，会报tbody子组件不能用当前组件只能为tr td
                                             mapAddressToTd(this.props.match.path, item, {
-                                                deleCurItem: this.deleCurItem
+                                                deleCurItem: this.deleCurItem,
+                                                xiuGAiCurItem:this.xiuGAiCurItem
                                             })
                                         )
                                     })
@@ -257,7 +261,7 @@ class TableList extends Component {
                     </Spin>
                 </Col>
                 <Col span={24} className="table-list-page">
-                    <Pagination  current={this.state.cur_page} total={this.state.total_page} onChange={this.getPageChange} />
+                    <Pagination current={this.state.cur_page} total={this.state.total_page} onChange={this.getPageChange} />
                 </Col>
                 <Modal title={this.state.dele_title} visible={this.state.deleModel} onOk={this.handleOkDele} className="model-dele"
                     onCancel={this.closeModaDelel} centered={true} bodyStyle={{ textAlign: "center", height: "130px" }}

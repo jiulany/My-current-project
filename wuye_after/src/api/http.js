@@ -1,6 +1,6 @@
 import axios from "axios"
 import qs from 'qs';
-const url_dev = "http://192.168.31.9"
+const url_dev = "http://192.168.31.9"//http://192.168.31.9
 const url_pro = ""
 const baseURL = process.env.NODE_ENV === "development" ? url_dev : url_pro
 var _axios = axios.create({ //axios默认配置

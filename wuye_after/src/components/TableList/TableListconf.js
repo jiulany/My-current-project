@@ -1,6 +1,31 @@
 import React from 'react';
 import { Button } from 'antd';
 import http from '../../api/http.js'
+function payStatus(pay_status){
+    if(pay_status===0){
+        return '未付款'
+    }
+    if(pay_status===1){
+        return '已付款'
+    }
+}
+function payType(pay_type){
+    if(pay_type===0){
+        return '未付款'
+    }
+    if(pay_type===1){
+        return '微信'
+    }
+    if(pay_type===2){
+        return '支付宝'
+    }
+    if(pay_type===3){
+        return '现金'
+    }
+    if(pay_type===4){
+        return '在线支付(银行卡支付)'
+    }
+}
 export const HEAD_CONF = {
     YE_ZHU: {//业主
         head: ["业主姓名", "业主电话", "门牌号", "房屋面积", "产权号", "居住人数", "房屋状态", "操作"],
@@ -101,7 +126,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.number}</td>
                 <td>{item.desc}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
+                    <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
@@ -113,22 +138,22 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/water_list") {   // WATER_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.id}</td>
+                <td >{item.house_number}</td>
+                <td>{item.username}</td>
+                <td>{item.start_number}</td>
+                <td>{item.end_number}</td>
+                <td>{item.unit_price}</td>
+                <td>{item.consumption}</td>
+                <td>{item.cost}</td>
+                <td>{payStatus(item.pay_status)}</td>
+                <td>{payType(item.pay_type)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -137,22 +162,22 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/gas_list") {   // GAS_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.gas_number}</td>
+                <td >{item.house_number}</td>
+                <td>{item.username}</td>
+                <td>{item.start_number}</td>
+                <td>{item.end_number}</td>
+                <td>{item.unit_price}</td>
+                <td>{item.consumption}</td>
+                <td>{item.cost}</td>
+                <td>{payStatus(item.pay_status)}</td>
+                <td>{payType(item.pay_type)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -161,22 +186,22 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/electricity_list") {   // ELECTRICITY_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.electric_number}</td>
+                <td >{item.house_number}</td>
+                <td>{item.username}</td>
+                <td>{item.start_number}</td>
+                <td>{item.end_number}</td>
+                <td>{item.unit_price}</td>
+                <td>{item.consumption}</td>
+                <td>{item.cost}</td>
+                <td>{payStatus(item.pay_status)}</td>
+                <td>{payType(item.pay_type)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -185,21 +210,21 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/property_list") {   // PROPERTY_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.id}</td>
+                <td >{item.house_number}</td>
+                <td>{item.username}</td>
+                <td>{item.house_area}</td>
+                <td>{item.unit_price}</td>
+                <td>{item.month_number}</td>
+                <td>{item.cost}</td>
+                <td>{payStatus(item.pay_status)}</td>
+                <td>{payType(item.pay_type)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -208,21 +233,21 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/garbage_list") {   // PROPERTY_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.id}</td>
+                <td >{item.house_number}</td>
+                <td>{item.username}</td>
+                <td>{item.house_area}</td>
+                <td>{item.unit_price}</td>
+                <td>{item.month_number}</td>
+                <td>{item.cost}</td>
+                <td>{payStatus(item.pay_status)}</td>
+                <td>{payType(item.pay_type)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -237,7 +262,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.admin_position}</td>
                 <td>{item.created_at}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
+                    <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
@@ -257,7 +282,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.community_person}</td>
                 <td>{item.community_person_mobile}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
+                    <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
@@ -269,17 +294,17 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/household_list") {   // HOUSEHOLD_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td>{item.id}</td>
+                <td >{item.unit}</td>
+                <td >{item.number}</td>
+                <td>{item.layer_number}</td>
+                <td>{item.households}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -342,6 +367,55 @@ export function getPageTotal(path, condition) {
                 reject(res)
             })
         }
+        if (path === "/quarters_list") {//小区列表
+            http('/community/community_list_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/household_list") {//住户列表
+            http('/community/household_list_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/water_list") {//水费列表
+            http('/pay/water_lists_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/gas_list") {//气费列表
+            http('/pay/gas_lists_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/electricity_list") {//电费列表
+            http('/pay/electric_lists_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/property_list") {//物业列表
+            http('/pay/property_lists_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/garbage_list") {//垃圾列表
+            http('/pay/garbage_lists_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function getTableList(path, page, limit, condition) {//获取表格数据
@@ -367,6 +441,48 @@ export function getTableList(path, page, limit, condition) {//获取表格数据
                 reject(res)
             })
         }
+        if (path === "/household_list") {//住户列表
+            http('/community/household_list', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/water_list") {//水费列表
+            http('/pay/water_lists', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/gas_list") {//气费列表
+            http('/pay/gas_lists', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/electricity_list") {//电费列表
+            http('/pay/electric_lists', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/property_list") {//物业列表
+            http('/pay/property_lists', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/garbage_list") {//垃圾列表
+            http('/pay/garbage_lists', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function deleItem(path, id) {//删除按钮
@@ -385,8 +501,50 @@ export function deleItem(path, id) {//删除按钮
                 reject(res)
             })
         }
-        if (path === "/community/community_delete") {//小区列表
-            http('/repair/repairDel', { method: 'POST', data: { id: id } }).then(res => {
+        if (path === "/quarters_list") {//小区列表
+            http('/community/community_delete', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/household_list") {//住户列表
+            http('/community/delete_household', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/water_list") {//水费列表
+            http('/pay/water_del', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/gas_list") {//气费列表
+            http('/pay/gas_del', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/electricity_list") {//电费列表
+            http('/pay/electric_del', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/property_list") {//物业列表
+            http('/pay/property_del', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/garbage_list") {//垃圾列表
+            http('/pay/garbage_del', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

@@ -27,7 +27,6 @@ class TableList extends Component {
                 total_page: res.data
             })
         }).catch(res => {
-            message.error(res.msg, 3)
         })
 
         getTableList(this.props.match.path, 1, 10, this.state.cur_search_val).then(res => { //获取table数据
@@ -50,7 +49,7 @@ class TableList extends Component {
         })
     }
     xiuGAiCurItem = (clickItem, e) => {
-        this.props.history.push({ pathname: this.state.add_path, query: { type: 1, update_id: clickItem.id } })
+        this.props.history.push({ pathname: this.state.add_path, query: { type: 1, update_id: clickItem.id, cost_type: clickItem.cost_type } })
     }
     addItme = () => {
         this.props.history.push(this.state.add_path)
@@ -71,7 +70,7 @@ class TableList extends Component {
                     total_page: res.data,
                     cur_page: 1
                 })
-            })
+            }).catch(res => { })
             getTableList(this.props.match.path, 1, 10, this.state.cur_search_val).then(res => { //获取table数据
                 setTimeout(() => {
                     this.setState({
@@ -82,13 +81,12 @@ class TableList extends Component {
             }).catch(res => {
                 this.setState({
                     is_dele_loading: false,
-                    is_tbupdate_loading: false
+                    is_tbupdate_loading: false,
+                    data: res.code === 201 ? [] : ''
                 })
                 message.error(res.msg, 3)
             })
-        }).catch(res => {
-            message.error(res.msg, 3)
-        })
+        }).catch(res => { })
     }
     getPageChange = (inx) => {//页码变化
         this.setState({
@@ -132,7 +130,7 @@ class TableList extends Component {
                 total_page: res.data,
                 cur_page: 1
             })
-        })
+        }).catch(res => { })
     }
     closeModaDelel = () => {
         this.setState({
@@ -251,7 +249,7 @@ class TableList extends Component {
                                         return (  //此处不能用标签模式，会报tbody子组件不能用当前组件只能为tr td
                                             mapAddressToTd(this.props.match.path, item, {
                                                 deleCurItem: this.deleCurItem,
-                                                xiuGAiCurItem:this.xiuGAiCurItem
+                                                xiuGAiCurItem: this.xiuGAiCurItem
                                             })
                                         )
                                     })

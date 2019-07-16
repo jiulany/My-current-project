@@ -1,0 +1,42 @@
+.park-mag-mod{
+    width: 850px !important
+}
+.park-mag-mod .ant-input{
+    border-radius: 0
+}
+.park-mag-mod .park-mag-itm{
+    margin-bottom: 20px;
+    text-align: center
+}
+.park-mag-fenltt{
+    font-size: 18px;
+    font-weight: bold
+}
+.park-mag-fenl{
+    padding: 20px
+}
+.park-mag-mod .ant-select-selection{
+    border-radius: 0
+}
+.park-mag-mod .ant-modal-footer{
+    border-top:none
+}
+.park-mag-mod .ant-modal-footer .ant-btn{
+    display: none
+}
+.park-mag-mod  .ant-modal-header .ant-modal-title{
+    font-weight: bold !important
+}
+.park-mag-xiugai{
+    text-align: end;
+    padding-right: 20px
+}
+.park-mag-xiugai button{
+    width:100px
+}
+.park-mag-mod .add-ctrl{
+   margin-top: 25px
+}
+.park-mag-mod .park-mag-itm_inp{
+    margin-top:25px
+}

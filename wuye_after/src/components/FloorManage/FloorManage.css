@@ -18,7 +18,8 @@
     display: none
 }
 .floor-mag-mod  .ant-modal-header .ant-modal-title{
-    font-weight: bold !important
+    font-weight: bold !important;
+    font-size: 18px
 }
 .floor-mag-xiugai{
     text-align: end;

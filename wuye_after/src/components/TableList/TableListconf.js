@@ -88,7 +88,7 @@ export const HEAD_CONF = {
         add_path: '/merchant_list/add_merchant'
     },
     PARKING_LIST: {//停车位表
-        head: ['序号', '单元数', '楼号', '层数', '单层户数', '操作'],
+        head: ['序号', '楼层', '状态', '操作'],
         dele_title: "删除停车位信息",
         add_path: '/parking_list/add_parking'
     }
@@ -335,14 +335,11 @@ export function mapAddressToTd(path, item, methods) {
             <tr key={item.name}>
                 <td >{item.name}</td>
                 <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele"onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>

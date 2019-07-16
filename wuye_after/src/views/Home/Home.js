@@ -17,6 +17,8 @@ import AddNotice from "../../components/AddNotice/AddNotice"
 import AddQuarters from "../../components/AddQuarters/AddQuarters"
 import AddWuYe from "../../components/AddWuYe/AddWuYe"
 import FloorManage from "../../components/FloorManage/FloorManage"
+import ParksManage from "../../components/ParksManage/ParksManage"
+import AddParkPlace from "../../components/AddParkPlace/AddParkPlace"
 const { Header, Content, Sider } = Layout;
 class Home extends Component {
   constructor(props) {
@@ -94,9 +96,11 @@ class Home extends Component {
               <Route path="/merchant_list/add_merchant" component={AddWuYe} ></Route>
               {/* 停车位*/}
               <Route exact path="/parking_list" component={TableList} ></Route>
-              <Route path="/parking_list/add_parking" component={AddWuYe} ></Route>
+              <Route path="/parking_list/add_parking" component={AddParkPlace} ></Route>
               {/* 楼面管理*/}
               <Route exact path="/floor_manage" component={FloorManage} ></Route>
+              {/* 停车位管理*/}
+              <Route exact path="/parking_manage" component={ParksManage} ></Route>
             </Content>
           </Layout>
         </Layout>

@@ -82,14 +82,14 @@ class AddWuYe extends Component {
                 <Col span={24} className="add-it">
                     <Col span={24}>
                         <Col span={9}>
+                            <Col span={6}>栋数：</Col>
+                            <Col span={18}><Input placeholder="请输入楼号" value={this.state.floor} onChange={(e) => this.inputValue('floor', e)} /></Col>
+                        </Col>
+                        <Col span={9} offset={1}>
                             <Col span={6}>单元数：</Col>
                             <Col span={18}>
                                 <Input placeholder="请输入单元数" value={this.state.unit} onChange={(e) => this.inputValue('unit', e)} />
                             </Col>
-                        </Col>
-                        <Col span={9} offset={1}>
-                            <Col span={6}>楼号：</Col>
-                            <Col span={18}><Input placeholder="请输入楼号" value={this.state.floor} onChange={(e) => this.inputValue('floor', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>

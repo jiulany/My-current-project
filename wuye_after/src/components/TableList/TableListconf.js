@@ -26,6 +26,34 @@ function payType(pay_type){
         return '在线支付(银行卡支付)'
     }
 }
+function stopCarStatus(st){
+    if(st===1){
+        return '闲置'
+    }
+    if(st===2){
+        return '租用'
+    }
+    if(st===3){
+        return '自用'
+    }
+    if(st===4){
+        return '人防'
+    }
+}
+function yeZhuStatus(st){
+    if(st===1){
+        return '自住'
+    }
+    if(st===2){
+        return '闲置'
+    }
+    if(st===3){
+        return '装修'
+    }
+    if(st===4){
+        return '出租'
+    }
+}
 export const HEAD_CONF = {
     YE_ZHU: {//业主
         head: ["业主姓名", "业主电话", "门牌号", "房屋面积", "产权号", "居住人数", "房屋状态", "操作"],
@@ -96,19 +124,19 @@ export const HEAD_CONF = {
 export function mapAddressToTd(path, item, methods) {
     if (path === "/") {   // YE_ZHU
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
-                <td>{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.owner_name}</td>
+                <td >{item.owner_phone}</td>
+                <td>{item.door_number}</td>
+                <td>{item.area}</td>
+                <td>{item.title_number}</td>
+                <td>{item.number_residents}</td>
+                <td>{yeZhuStatus(item.status)}</td>
                 <td style={{ width: '13%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai">
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
-                    <Button type="primary" shape="round" className="table-list-dele" onClick={methods.deleCurItem}>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
                     </Button>
                 </td>
@@ -332,9 +360,10 @@ export function mapAddressToTd(path, item, methods) {
     }
     if (path === "/parking_list") {   // PARKING_LIST
         return (
-            <tr key={item.name}>
-                <td >{item.name}</td>
-                <td >{item.name}</td>
+            <tr key={item.id}>
+                <td >{item.park_number}</td>
+                <td >{item.park_floor}</td>
+                <td >{stopCarStatus(item.park_status)}</td>
                 <td style={{ width: '13%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
@@ -413,6 +442,13 @@ export function getPageTotal(path, condition) {
                 reject(res)
             })
         }
+        if (path === "/parking_list") {//停车位列表
+            http('/park/park_list_num', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function getTableList(path, page, limit, condition) {//获取表格数据
@@ -480,6 +516,20 @@ export function getTableList(path, page, limit, condition) {//获取表格数据
                 reject(res)
             })
         }
+        if (path === "/parking_list") {//停车位列表
+            http('/park/park_list', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/") {//业主列表
+            http('/owner/owner_list', { method: 'post' }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function deleItem(path, id) {//删除按钮
@@ -542,6 +592,13 @@ export function deleItem(path, id) {//删除按钮
         }
         if (path === "/garbage_list") {//垃圾列表
             http('/pay/garbage_del', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/parking_list") {//停车位列表
+            http('/park/delete_park', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

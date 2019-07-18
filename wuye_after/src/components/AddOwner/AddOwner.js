@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Select, Button, Upload, Icon, message } from 'antd';
+import Cookies from 'js-cookie'
+import http from '../../api/http';
 const { Option } = Select;
 //css样式在home.css
 function getBase64(img, callback) {
@@ -14,10 +16,44 @@ class AddOwner extends Component {
         this.state = {
             tenant_state: false,
             loading: false,
+            is_xiugai: false,
             image_url: [] //省份证正反index=0正，1为反
         }
     }
+    componentDidMount() {
+        if (this.props.location.query) {
+            let query = this.props.location.query
+            if (query.type === 1) {
+                http('/owner/owner_update_info',{method:'get',data:{
+                    id:query.update_id
+                }}).then(res=>{
+                    console.log(res)
+                    this.setState({
+                        is_xiugai:true,
+                        door_number: res.data[0].door_number,
+                        owner_name: res.data[0].owner_name,
+                        owner_phone: res.data[0].owner_phone,
+                        title_number: res.data[0].title_number,
+                        area: res.data[0].area,
+                        number_residents:res.data[0].number_residents,
+                        status:parseInt(res.data[0].status) ,
+                        renter_name: res.data[0].renter_name,
+                        tenant_phone: res.data[0].tenant_phone,
+                        lease_term: res.data[0].lease_term,
+                        just_idk:res.data[0].just_idk,
+                        back_idk:res.data[0].back_idk,
+                    })
+                }).catch(res=>{
+                    message.success(res.msg);
+                    this.setState({
+                        is_xiugai:true  
+                    })
+                })
+            }
+        }
+    }
     pandPositiveOrReverse = (file, val) => {
+        console.log(file)
         const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isJPG) {
             message.error('只允许JPG,PNG格式!');
@@ -34,12 +70,14 @@ class AddOwner extends Component {
                     this.setState({
                         image_url: a,
                         loading: false,
+                        just_idk: file
                     })
                 } else {
                     a[1] = imageUrl
                     this.setState({
                         image_url: a,
                         loading: false,
+                        back_idk: file
                     })
                 }
             })
@@ -53,18 +91,172 @@ class AddOwner extends Component {
         this.pandPositiveOrReverse(file, false)
     }
     seleState = (e) => {
-        if (e === "出租") {
+        if (e === 4) {
             this.setState({
-                tenant_state: true
+                tenant_state: true,
+                status: e
             })
         } else {
             this.setState({
-                tenant_state: false
+                tenant_state: false,
+                status: e
             })
         }
 
     }
-    componentDidMount() {
+    inputValue = (p, e) => {
+        if (p === 'owner_name') {
+            this.setState({
+                owner_name: e.currentTarget.value
+            })
+        }
+        if (p === 'owner_phone') {
+            this.setState({
+                owner_phone: e.currentTarget.value
+            })
+        }
+        if (p === 'door_number') {
+            this.setState({
+                door_number: e.currentTarget.value
+            })
+        }
+        if (p === 'title_number') {
+            this.setState({
+                title_number: e.currentTarget.value
+            })
+        }
+        if (p === 'area') {
+            this.setState({
+                area: e.currentTarget.value
+            })
+        }
+        if (p === 'number_residents') {
+            this.setState({
+                number_residents: e.currentTarget.value
+            })
+        }
+        if (p === 'renter_name') {
+            this.setState({
+                renter_name: e.currentTarget.value
+            })
+        }
+        if (p === 'tenant_phone') {
+            this.setState({
+                tenant_phone: e.currentTarget.value
+            })
+        }
+        if (p === 'lease_term') {
+            this.setState({
+                lease_term: e.currentTarget.value
+            })
+        }
+    }
+    cancelAdd = () => {
+        this.props.history.go(-1)
+    }
+    handleUpload = () => {
+        let _thisst = this.state
+        if (_thisst.door_number !== ''
+        && _thisst.owner_name !== ''
+        && _thisst.owner_phone !== ''
+        && _thisst.title_number !== ''
+        && _thisst.area !== ''
+        && _thisst.number_residents !== ''
+        && _thisst.status !== ''
+        // && _thisst.renter_name !== ''
+        // && _thisst.tenant_phone !== ''
+        // && _thisst.lease_term !== ''
+        ) {
+            http('/owner/owner_add', {
+                method: 'POST',
+                data: {
+                    door_number: _thisst.door_number,
+                    owner_name: _thisst.owner_name,
+                    owner_phone: _thisst.owner_phone,
+                    title_number: _thisst.title_number,
+                    area: _thisst.area,
+                    number_residents: _thisst.number_residents,
+                    status: _thisst.status,
+                    renter_name: _thisst.renter_name,
+                    tenant_phone: _thisst.tenant_phone,
+                    lease_term: _thisst.lease_term,
+                    just_idk: _thisst.just_idk,
+                    back_idk: _thisst.back_idk,
+                    // community_id: Cookies.get('community_id'),
+                    // admin_id: Cookies.get('user_id')
+                },
+                // headers: {
+                //     'Content-Type': 'multipart/form-data'
+                // }
+            }).then(res => {
+                console.log(res)
+                message.success(res.msg);
+                this.setState({
+                })
+            }).catch(res => {
+                message.error(res.msg);
+                this.setState({
+                })
+            })
+        } else {
+            message.error('输入不能为空，请检查！');
+        }
+    }
+    handleXiuGai=()=>{
+        let _thisst = this.state
+        if (_thisst.door_number !== ''
+        && _thisst.owner_name !== ''
+        && _thisst.owner_phone !== ''
+        && _thisst.title_number !== ''
+        && _thisst.area !== ''
+        && _thisst.number_residents !== ''
+        && _thisst.status !== ''
+        // && _thisst.renter_name !== ''
+        // && _thisst.tenant_phone !== ''
+        // && _thisst.lease_term !== ''
+        ){
+            http('/owner/owner_update',{
+                method:'POST',
+                data:{
+                    id:this.props.location.query.update_id,
+                    door_number: _thisst.door_number,
+                    owner_name: _thisst.owner_name,
+                    owner_phone: _thisst.owner_phone,
+                    title_number: _thisst.title_number,
+                    area: _thisst.area,
+                    number_residents: _thisst.number_residents,
+                    status: _thisst.status,
+                    renter_name: _thisst.renter_name,
+                    tenant_phone: _thisst.tenant_phone,
+                    lease_term: _thisst.lease_term,
+                    just_idk: _thisst.just_idk,
+                    back_idk: _thisst.back_idk,
+                }
+            }).then(res=>{
+                message.success(res.msg);
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
+            }).catch(res=>{
+                message.error(res.msg);
+                this.setState({
+                    door_number:'',
+                    owner_name: '',
+                    owner_phone: '',
+                    title_number: '',
+                    area: '',
+                    number_residents:'',
+                    status: '',
+                    renter_name:'',
+                    tenant_phone: '',
+                    lease_term: '',
+                    just_idk: '',
+                    back_idk: _thisst.back_idk,
+                })
+            })
+        }else{
+            message.error('输入不能为空，请检查！');
+        }
     }
     render() {
         const uploadButton = (pan) => (
@@ -81,56 +273,57 @@ class AddOwner extends Component {
                         <Col span={7}>
                             <Col span={5}>业主姓名：</Col>
                             <Col span={19}>
-                                <Input placeholder="请输入姓名" />
+                                <Input placeholder="请输入姓名" value={this.state.owner_name} onChange={(e) => this.inputValue('owner_name', e)} />
                             </Col>
                         </Col>
                         <Col span={7}>
                             <Col span={5}>业主电话：</Col>
-                            <Col span={19}><Input placeholder="请输入电话" /></Col>
+                            <Col span={19}><Input placeholder="请输入电话" maxLength={11} value={this.state.owner_phone} onChange={(e) => this.inputValue('owner_phone', e)} /></Col>
                         </Col>
                         <Col span={7}>
                             <Col span={5}>门牌号：</Col>
-                            <Col span={19}><Input placeholder="请输入门牌号" /></Col>
+                            <Col span={19}><Input placeholder="请输入门牌号" value={this.state.door_number} onChange={(e) => this.inputValue('door_number', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>
                         <Col span={7}>
                             <Col span={5}>产权号：</Col>
                             <Col span={19}>
-                                <Input placeholder="请输入产权号" />
+                                <Input placeholder="请输入产权号" value={this.state.title_number} onChange={(e) => this.inputValue('title_number', e)} />
                             </Col>
                         </Col>
                         <Col span={7} >
                             <Col span={5}>房屋面积：</Col>
-                            <Col span={19}><Input placeholder="请输入房屋面积" /></Col>
+                            <Col span={19}><Input placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} /></Col>
                         </Col>
                         <Col span={7}>
                             <Col span={5}>居住人数：</Col>
-                            <Col span={19}><Input placeholder="请输入居住人数" /></Col>
+                            <Col span={19}><Input placeholder="请输入居住人数" value={this.state.number_residents} onChange={(e) => this.inputValue('number_residents', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>
                         <Col span={7}>
                             <Col span={5}>房屋状态：</Col>
                             <Col span={19}>
-                                <Select style={{ width: '100%' }} placeholder="请选择房屋状态" allowClear={true} onChange={this.seleState}>
-                                    <Option value="自住">自住</Option>
-                                    <Option value="出租">出租</Option>
-                                    <Option value="闲置">闲置</Option>
+                                <Select style={{ width: '100%' }} placeholder="请选择房屋状态" allowClear={true} value={this.state.status} onChange={this.seleState}>
+                                    <Option value={1}>自住</Option>
+                                    <Option value={2}>闲置</Option>
+                                    <Option value={3}>装修</Option>
+                                    <Option value={4}>出租</Option>
                                 </Select>
                             </Col>
                         </Col>
                         {this.state.tenant_state === true && (
                             <Col span={7}>
                                 <Col span={5}>租客姓名：</Col>
-                                <Col span={19}><Input placeholder="请输入租客姓名" /></Col>
+                                <Col span={19}><Input placeholder="请输入租客姓名" value={this.state.renter_name} onChange={(e) => this.inputValue('renter_name', e)} /></Col>
                             </Col>
                         )
                         }
                         {this.state.tenant_state === true && (
                             <Col span={7}>
                                 <Col span={5}>租客电话：</Col>
-                                <Col span={19}><Input placeholder="请输入租客电话" /></Col>
+                                <Col span={19}><Input placeholder="请输入租客电话" value={this.state.tenant_phone} onChange={(e) => this.inputValue('tenant_phone', e)} /></Col>
                             </Col>
                         )
                         }
@@ -139,7 +332,7 @@ class AddOwner extends Component {
                         <Col span={24}>
                             <Col span={7}>
                                 <Col span={5}>租期：</Col>
-                                <Col span={19}><Input placeholder="请输入租期" /></Col>
+                                <Col span={19}><Input placeholder="请输入租期" value={this.state.lease_term} onChange={(e) => this.inputValue('lease_term', e)} /></Col>
                             </Col>
                         </Col>
                     )
@@ -176,8 +369,12 @@ class AddOwner extends Component {
                     <Col span={24} className="add-ctrl">
                         <Col span={7}>
                             <Col span={19} offset={5}>
-                                <Col span={11} className="add-ctrl-it" ><Button>取消</Button></Col>
-                                <Col span={11} className="add-ctrl-it" onClick={this.handleUpload}><Button type="primary">提交</Button></Col>
+                                <Col span={11} className="add-ctrl-it" onClick={this.cancelAdd}><Button>取消</Button></Col>
+                                {
+                                    this.state.is_xiugai ?
+                                        <Col span={11} className="add-ctrl-it" onClick={this.handleXiuGai}><Button type="primary">修改</Button></Col> :
+                                        <Col span={11} className="add-ctrl-it" onClick={this.handleUpload}><Button type="primary">提交</Button></Col>
+                                }
                             </Col>
                         </Col>
                     </Col>

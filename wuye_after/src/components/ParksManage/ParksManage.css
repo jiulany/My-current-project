@@ -40,3 +40,35 @@
 .park-mag-mod .park-mag-itm_inp{
     margin-top:25px
 }
+.park-mag-tab-hd{
+display: flex;
+justify-content: space-around
+}
+.park-mag-tab-hd .park-mag-tab-hd-it{
+    width: 100%;
+    display: inline-block;
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-right: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6
+}
+.park-mag-tab-hd .park-mag-tab-hd-it:last-child{
+    border-right: none;
+}
+.park-mag-tab-hd-it-act{
+    background: #fdd000;
+    border-right: 1px solid #fdd000;
+    border-bottom: 1px solid #fdd000
+}
+.park-mag-tab-item{
+    padding: 15px 0;
+    border-right: 0.5px solid #e6e6e6;
+    border-bottom: 0.5px  solid #e6e6e6;
+    cursor: pointer;
+}
+.park-mag-tab-row{
+    text-align: center
+}

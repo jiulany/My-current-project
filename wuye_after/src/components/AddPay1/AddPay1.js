@@ -123,6 +123,9 @@ class AddPay1 extends Component {
                     month_number: '',
                     cost: ''
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({

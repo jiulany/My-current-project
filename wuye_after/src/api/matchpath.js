@@ -72,6 +72,15 @@ export const breadcrumb_path = [{
 }, {
     path: "/parking_list/add_parking",
     value: "物业设置-添加"
+}, {//楼面管理
+    path: "/floor_manage",
+    value: "楼面管理"
+}, {//车位管理
+    path: "/parking_manage",
+    value: "车位管理"
+}, {//车位管理
+    path: "/charging_manage",
+    value: "充电管理"
 }]
 export function matchPath(path) {
     for (let i in breadcrumb_path) {

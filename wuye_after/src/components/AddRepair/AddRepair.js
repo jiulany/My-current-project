@@ -46,6 +46,7 @@ class AddRepair extends Component {
                         id: query.update_id
                     }
                 }).then(res => {
+                    console.log(res.data[0].service_at.split(' '))
                     this.setState({
                         is_xiugai: true,
                         username: res.data[0].username,
@@ -55,7 +56,7 @@ class AddRepair extends Component {
                         desc: res.data[0].desc,
                         type: res.data[0].type,
                         service_at_date: res.data[0].service_at.split(' ')[0],
-                        service_at_time: res.data[0].service_at.split(' ')[1]
+                        service_at_time: res.data[0].service_at.split(' ')[2]
                     })
                 }).catch(res => {
                     message.success(res.msg);
@@ -135,6 +136,9 @@ class AddRepair extends Component {
                     number: '',
                     desc: ''
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({

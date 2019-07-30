@@ -38,8 +38,13 @@ class ParksManage extends Component {
             }
             this.setState({
                 data: a,
-                park: a[0].park
+                cur_tab_index:0
             })
+            if(a[0].park){
+                this.setState({
+                    park: a[0].park
+                })
+            }
         }).catch(res => {
             console.log(res)
         })
@@ -191,6 +196,7 @@ class ParksManage extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
+        console.log(_thisst.data,_thisst.cur_tab_index)
         http('/park/park_save', { method: 'POST', data: { 
             id: _thisst.park[_thisst.cur_click_park].id,
             owner_name: _thisst.owner_name,

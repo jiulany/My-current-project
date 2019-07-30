@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Select, Button, Upload, Icon, message } from 'antd';
-import Cookies from 'js-cookie'
 import http from '../../api/http';
 const { Option } = Select;
 //css样式在home.css
@@ -24,29 +23,40 @@ class AddOwner extends Component {
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
-                http('/owner/owner_update_info',{method:'get',data:{
-                    id:query.update_id
-                }}).then(res=>{
-                    console.log(res)
+                http('/owner/owner_update_info', {
+                    method: 'get', data: {
+                        id: query.update_id
+                    }
+                }).then(res => {
+                    let a=this.state.image_url
+                    a[0]=res.data[0].just_idk
+                    a[1]=res.data[0].back_idk
                     this.setState({
-                        is_xiugai:true,
-                        door_number: res.data[0].door_number,
+                        is_xiugai: true,
+                        door_number: res.data[0].house_number,
                         owner_name: res.data[0].owner_name,
                         owner_phone: res.data[0].owner_phone,
                         title_number: res.data[0].title_number,
                         area: res.data[0].area,
-                        number_residents:res.data[0].number_residents,
-                        status:parseInt(res.data[0].status) ,
+                        number_residents: res.data[0].number_residents,
+                        status: parseInt(res.data[0].status),
                         renter_name: res.data[0].renter_name,
                         tenant_phone: res.data[0].tenant_phone,
                         lease_term: res.data[0].lease_term,
-                        just_idk:res.data[0].just_idk,
-                        back_idk:res.data[0].back_idk,
+                        // just_idk: res.data[0].just_idk,
+                        // back_idk: res.data[0].back_idk,
+                        image_url:a
                     })
-                }).catch(res=>{
-                    message.success(res.msg);
+                    console.log( res.data[0].renter_name)
+                    if(parseInt(res.data[0].status)===4){
+                        this.setState({
+                            tenant_state:true
+                        }) 
+                    }
+                }).catch(res => {
+                    message.error(res.msg);
                     this.setState({
-                        is_xiugai:true  
+                        is_xiugai: true
                     })
                 })
             }
@@ -87,6 +97,7 @@ class AddOwner extends Component {
     beforeUpload = (file) => {
         this.pandPositiveOrReverse(file, true)
     }
+
     beforeUpload_0 = (file) => {
         this.pandPositiveOrReverse(file, false)
     }
@@ -154,109 +165,114 @@ class AddOwner extends Component {
     cancelAdd = () => {
         this.props.history.go(-1)
     }
+    pushFormData = () => {
+        return new Promise((resolve, reject) => {
+            let _thisst = this.state
+            var formData = new FormData()
+            formData.append('door_number', _thisst.door_number)
+            formData.append('owner_name', _thisst.owner_name)
+            formData.append('owner_phone', _thisst.owner_phone)
+            formData.append('title_number', _thisst.title_number)
+            formData.append('area', _thisst.area)
+            formData.append('number_residents', _thisst.number_residents)
+            formData.append('status', _thisst.status)
+            formData.append('renter_name', _thisst.renter_name)
+            formData.append('tenant_phone', _thisst.tenant_phone)
+            formData.append('lease_term', _thisst.lease_term)
+            if(_thisst.just_idk){
+                formData.append('just_idk', _thisst.just_idk)
+            }else{
+                formData.append('img_urlz',this.state.image_url[0])
+            }
+            if(_thisst.back_idk){
+                formData.append('back_idk', _thisst.back_idk)
+            }else{
+                formData.append('img_urlf',this.state.image_url[1])
+            }
+            // formData.append('just_idk', _thisst.just_idk)
+            // formData.append('back_idk', _thisst.back_idk)
+            resolve(formData)
+        })
+    }
     handleUpload = () => {
         let _thisst = this.state
-        if (_thisst.door_number !== ''
-        && _thisst.owner_name !== ''
-        && _thisst.owner_phone !== ''
-        && _thisst.title_number !== ''
-        && _thisst.area !== ''
-        && _thisst.number_residents !== ''
-        && _thisst.status !== ''
-        // && _thisst.renter_name !== ''
-        // && _thisst.tenant_phone !== ''
-        // && _thisst.lease_term !== ''
-        ) {
-            http('/owner/owner_add', {
-                method: 'POST',
-                data: {
-                    door_number: _thisst.door_number,
-                    owner_name: _thisst.owner_name,
-                    owner_phone: _thisst.owner_phone,
-                    title_number: _thisst.title_number,
-                    area: _thisst.area,
-                    number_residents: _thisst.number_residents,
-                    status: _thisst.status,
-                    renter_name: _thisst.renter_name,
-                    tenant_phone: _thisst.tenant_phone,
-                    lease_term: _thisst.lease_term,
-                    just_idk: _thisst.just_idk,
-                    back_idk: _thisst.back_idk,
-                    // community_id: Cookies.get('community_id'),
-                    // admin_id: Cookies.get('user_id')
-                },
-                // headers: {
-                //     'Content-Type': 'multipart/form-data'
-                // }
-            }).then(res => {
-                console.log(res)
-                message.success(res.msg);
-                this.setState({
+        this.pushFormData().then(res => {
+            console.log(res.get('status'))
+            if (_thisst.door_number !== ''
+                && _thisst.owner_name !== ''
+                && _thisst.owner_phone !== ''
+                && _thisst.title_number !== ''
+                && _thisst.area !== ''
+                && _thisst.number_residents !== ''
+                && _thisst.status !== ''
+            ) {
+                http('/owner/owner_add', {
+                    method: 'POST',
+                    data: res,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(res => {
+                    message.success(res.msg);
+                    this.setState({
+                    })
+                    setTimeout(() => {
+                        this.props.history.go(-1)
+                    }, 2000)
+                }).catch(res => {
+                    message.error(res.msg);
+                    this.setState({
+                    })
                 })
-            }).catch(res => {
-                message.error(res.msg);
-                this.setState({
-                })
-            })
-        } else {
-            message.error('输入不能为空，请检查！');
-        }
+            } else {
+                message.error('输入不能为空，请检查！');
+            }
+        })
     }
-    handleXiuGai=()=>{
+    handleXiuGai = () => {
         let _thisst = this.state
-        if (_thisst.door_number !== ''
-        && _thisst.owner_name !== ''
-        && _thisst.owner_phone !== ''
-        && _thisst.title_number !== ''
-        && _thisst.area !== ''
-        && _thisst.number_residents !== ''
-        && _thisst.status !== ''
-        // && _thisst.renter_name !== ''
-        // && _thisst.tenant_phone !== ''
-        // && _thisst.lease_term !== ''
-        ){
-            http('/owner/owner_update',{
-                method:'POST',
-                data:{
-                    id:this.props.location.query.update_id,
-                    door_number: _thisst.door_number,
-                    owner_name: _thisst.owner_name,
-                    owner_phone: _thisst.owner_phone,
-                    title_number: _thisst.title_number,
-                    area: _thisst.area,
-                    number_residents: _thisst.number_residents,
-                    status: _thisst.status,
-                    renter_name: _thisst.renter_name,
-                    tenant_phone: _thisst.tenant_phone,
-                    lease_term: _thisst.lease_term,
-                    just_idk: _thisst.just_idk,
-                    back_idk: _thisst.back_idk,
-                }
-            }).then(res=>{
-                message.success(res.msg);
-                setTimeout(()=>{
-                    this.props.history.go(-1)
-                },2000)
-            }).catch(res=>{
-                message.error(res.msg);
+        this.pushFormData().then(res => {
+            if (_thisst.door_number !== ''
+                && _thisst.owner_name !== ''
+                && _thisst.owner_phone !== ''
+                && _thisst.title_number !== ''
+                && _thisst.area !== ''
+                && _thisst.number_residents !== ''
+                && _thisst.status !== ''
+            ) {
+                res.append('id', this.props.location.query.update_id)
+                http('/owner/owner_update', {
+                    method: 'POST',
+                    data: res,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then(res => {
+                    message.success(res.msg);
+                    setTimeout(() => {
+                        this.props.history.go(-1)
+                    }, 2000)
+                }).catch(res => {
+                    message.error(res.msg);
                 this.setState({
-                    door_number:'',
+                    door_number: '',
                     owner_name: '',
                     owner_phone: '',
                     title_number: '',
                     area: '',
-                    number_residents:'',
+                    number_residents: '',
                     status: '',
-                    renter_name:'',
+                    renter_name: '',
                     tenant_phone: '',
                     lease_term: '',
                     just_idk: '',
-                    back_idk: _thisst.back_idk,
+                    back_idk: '',
                 })
-            })
-        }else{
-            message.error('输入不能为空，请检查！');
-        }
+                })
+            } else {
+                message.error('输入不能为空，请检查！');
+            }
+        })
     }
     render() {
         const uploadButton = (pan) => (
@@ -323,7 +339,7 @@ class AddOwner extends Component {
                         {this.state.tenant_state === true && (
                             <Col span={7}>
                                 <Col span={5}>租客电话：</Col>
-                                <Col span={19}><Input placeholder="请输入租客电话" value={this.state.tenant_phone} onChange={(e) => this.inputValue('tenant_phone', e)} /></Col>
+                                <Col span={19}><Input maxLength={11} placeholder="请输入租客电话" value={this.state.tenant_phone} onChange={(e) => this.inputValue('tenant_phone', e)} /></Col>
                             </Col>
                         )
                         }

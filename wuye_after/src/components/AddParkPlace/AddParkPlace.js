@@ -57,6 +57,9 @@ class AddParkPlace extends Component {
                     parks: "",
                     park_floor: ""
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({

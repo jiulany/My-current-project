@@ -95,6 +95,9 @@ class AddNotice extends Component {
                     title:'',
                     content:''
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res=>{
                 message.error(res.msg);
                 this.setState({

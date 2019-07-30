@@ -1,3 +1,4 @@
+
 .floor-mag-mod{
     width: 800px !important
 }
@@ -27,4 +28,50 @@
 }
 .floor-mag-xiugai button{
     width:100px
+}
+.floor-mag-row{
+    font-weight: bold;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex
+}
+.floor-mag-headlftp{
+    padding: 25px;
+    text-align: center;
+    border-right:1px solid #e6e6e6
+}
+.floor-mag-headlfitm{
+    padding: 25px;
+    text-align: center;
+    border-right: 0.5px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    cursor: pointer;
+}
+.floor-mag-headlftpit{
+    padding: 25px;
+    text-align: center;
+    border-right: 0.5px solid #e6e6e6;
+    cursor: pointer;
+}
+.floor-mag-headit{
+    text-align: center;
+    width: 100%;
+    border-right: 1px solid #e6e6e6;
+    padding: 25px
+}
+.floor-mag-ctitem{
+    padding:14.733333px  20px;
+    border: 0.5px solid #e6e6e6;
+    cursor: pointer;
+}
+.floor-mag-ctitem:hover{
+    opacity: 0.8;
+}
+.floor-mag-ct0{
+    text-align: center
+}
+.floor-mag-ct1{
+    text-align: center
+}
+.floor-mag-actitem{
+    background: #fdd100
 }

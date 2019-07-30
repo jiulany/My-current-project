@@ -171,6 +171,9 @@ class AddPay0 extends Component {
                     cost: '',
                     consumption: '',
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({

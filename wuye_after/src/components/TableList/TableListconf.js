@@ -41,16 +41,16 @@ function stopCarStatus(st){
     }
 }
 function yeZhuStatus(st){
-    if(st===1){
+    if(st==="1"){
         return '自住'
     }
-    if(st===2){
+    if(st==="2"){
         return '闲置'
     }
-    if(st===3){
+    if(st==="3"){
         return '装修'
     }
-    if(st===4){
+    if(st==="4"){
         return '出租'
     }
 }
@@ -127,12 +127,12 @@ export function mapAddressToTd(path, item, methods) {
             <tr key={item.id}>
                 <td >{item.owner_name}</td>
                 <td >{item.owner_phone}</td>
-                <td>{item.door_number}</td>
+                <td>{item.house_number}</td>
                 <td>{item.area}</td>
                 <td>{item.title_number}</td>
                 <td>{item.number_residents}</td>
                 <td>{yeZhuStatus(item.status)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -153,7 +153,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.service_at}</td>
                 <td>{item.number}</td>
                 <td>{item.desc}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -177,7 +177,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.cost}</td>
                 <td>{payStatus(item.pay_status)}</td>
                 <td>{payType(item.pay_type)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -201,7 +201,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.cost}</td>
                 <td>{payStatus(item.pay_status)}</td>
                 <td>{payType(item.pay_type)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -225,7 +225,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.cost}</td>
                 <td>{payStatus(item.pay_status)}</td>
                 <td>{payType(item.pay_type)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -248,7 +248,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.cost}</td>
                 <td>{payStatus(item.pay_status)}</td>
                 <td>{payType(item.pay_type)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -271,7 +271,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.cost}</td>
                 <td>{payStatus(item.pay_status)}</td>
                 <td>{payType(item.pay_type)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -289,7 +289,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td >{item.admin_name}</td>
                 <td>{item.admin_position}</td>
                 <td>{item.created_at}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -309,7 +309,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.community_mobile}</td>
                 <td>{item.community_person}</td>
                 <td>{item.community_person_mobile}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -328,7 +328,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td >{item.number}</td>
                 <td>{item.layer_number}</td>
                 <td>{item.households}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -347,7 +347,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.name}</td>
                 <td>{item.name}</td>
                 <td>{item.name}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai">
                         修改
                     </Button>
@@ -364,7 +364,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td >{item.park_number}</td>
                 <td >{item.park_floor}</td>
                 <td >{stopCarStatus(item.park_status)}</td>
-                <td style={{ width: '13%' }}>
+                <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
                         修改
                     </Button>
@@ -449,6 +449,13 @@ export function getPageTotal(path, condition) {
                 reject(res)
             })
         }
+        if (path === "/") {//停车位列表
+            http('/owner/total', { method: 'post', data: { condition } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function getTableList(path, page, limit, condition) {//获取表格数据
@@ -524,7 +531,7 @@ export function getTableList(path, page, limit, condition) {//获取表格数据
             })
         }
         if (path === "/") {//业主列表
-            http('/owner/owner_list', { method: 'post' }).then(res => {
+            http('/owner/owner_list', { method: 'post' , data: { page: page, limit: limit, condition: condition } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)
@@ -599,6 +606,13 @@ export function deleItem(path, id) {//删除按钮
         }
         if (path === "/parking_list") {//停车位列表
             http('/park/delete_park', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/") {//业主列表
+            http('/owner/owner_delete', { method: 'get', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

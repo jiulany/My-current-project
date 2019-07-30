@@ -1,0 +1,69 @@
+.login{
+    background: url(../../images/login_bg.png);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    background-size: 100% 100%
+}
+.login-ico{
+    text-align: center
+}
+.login-ico img{
+    width: 25px;
+    height: 25px;
+}
+.login-inp{
+    border-bottom: 2px solid #e5e5e5;   
+    padding: 10px 10px 18px 10px
+}
+.login-itm{
+    margin-bottom: 25px
+}
+.login-itm:nth-child(2){
+    margin-bottom: 15px
+}
+.login-itm-t0 .login-inp{
+    border-bottom: none;   
+}
+.login-chek{
+    width: 15px !important;
+    height: 15px !important;
+}
+.login input{
+    border: none;
+    outline: none;width: 100%;
+    font: normal 16px/1.667 "\5FAE\8F6F\96C5\9ED1", Tahoma, Arial;
+}
+.login input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #b7b8be;
+    font-weight:400
+  }
+  
+  .login input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #b7b8be;
+    font-weight:400
+  }
+  
+  .login input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #b7b8be;
+    font-weight:400
+  }
+  .login-btn{
+      margin-top: 20px;
+      cursor: pointer;
+      text-align: center;
+      height: 50px;
+      width: 100%;
+      border-radius: 50px;
+      line-height: 50px;
+      font-weight: bold;
+      color: #bc9c07;
+      letter-spacing: 5px;
+      border: none;
+      background: -webkit-linear-gradient(left, #ffeea5 , #fdda35); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(right, #ffeea5, #fdda35); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(right, #ffeea5, #fdda35); /* Firefox 3.6 - 15 */
+      background: linear-gradient(to right, #ffeea5 , #fdda35); /* 标准的语法 */
+  }
+  

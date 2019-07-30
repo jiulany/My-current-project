@@ -43,7 +43,8 @@ const list = [
         title: "停车位", path: "/parking_list"
       }
     ]
-  }
+  },
+  { title: "充电管理", icon: require('../../images/icon_sider_gonggao.png'), path: '/charging_manage' },
 ]
 class SiderBar extends Component {
   constructor(props) {

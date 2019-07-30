@@ -134,6 +134,9 @@ class AddQuarters extends Component {
                     community_person: '',
                     community_person_mobile: '',
                 })
+                setTimeout(()=>{
+                    this.props.history.go(-1)
+                },2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({

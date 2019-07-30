@@ -40,7 +40,6 @@ class TableList extends Component {
             })
             message.error(res.msg, 3)
         })
-
     }
     deleCurItem = (clickItem, e) => {
         this.setState({
@@ -232,7 +231,7 @@ class TableList extends Component {
                 <Col span={24} className="table-list-fenline">
                 </Col>
                 <Col span={24} >
-                    <Spin indicator={antIcon} spinning={this.state.is_tbupdate_loading} >
+                    <Spin indicator={antIcon} id='tablesp' spinning={this.state.is_tbupdate_loading} >
                         <table className="table-list">
                             <thead>
                                 <tr>

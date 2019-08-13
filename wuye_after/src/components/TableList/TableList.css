@@ -118,3 +118,85 @@ top: 20px
 .model-dele .ant-btn:nth-of-type(2){
     margin-left: 70px
 }
+.table-list-payed{
+    width:98px;
+height:38px;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+margin-right: 10px
+}
+.table-list-payno{
+width:98px;
+height:38px;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+}
+.table-list-paystzz{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:98px;
+border-radius:19px;
+height:38px;
+background:rgba(253,209,0,1);
+opacity:0.2;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center
+}
+.table-list-paystzz-ac{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:98px;
+border-radius:19px;
+height:38px;
+background:rgba(253,209,0,1);
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center
+}
+.table-list-payst{
+    display: flex;
+    justify-content: flex-end
+}
+.table-list-yarmt input{
+border-radius: 0
+}
+.table-list-xq{
+    font-size: 12px;
+    color: black;
+    height: 25px;
+    width: 60px;
+    margin-left: 10px;
+    background: #3399FF;
+    border-color: #3399FF
+}
+.table-list-xq:hover{
+    background: #3399FF;
+    border-color: #3399FF
+}
+.table-list-xiugai-f{
+    font-size: 12px;
+    color: black;
+    height: 25px;
+    width: 60px;
+    background: #3399FF;
+    border: none
+}
+.table-list-xiugai-f:hover{
+    background: #50a2f5
+}
+.table-list-add{
+    font-size: 12px;
+    color: black;
+    height: 25px;
+    width: 80px;
+    margin-left: 10px;
+}

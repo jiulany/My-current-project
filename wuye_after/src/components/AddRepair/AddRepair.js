@@ -123,7 +123,6 @@ class AddRepair extends Component {
                     address: _thisst.address,
                     service_at: _thisst.service_at,
                     number: _thisst.number,
-                    community_id: Cookies.get('community_id'),
                     desc: _thisst.desc,
                     type: _thisst.type
                 }
@@ -169,7 +168,6 @@ class AddRepair extends Component {
                     number: _thisst.number,
                     desc:_thisst.desc,
                     type:_thisst.type,
-                    community_id:Cookies.get('community_id'),
                 }
             }).then(res=>{
                 message.success(res.msg);

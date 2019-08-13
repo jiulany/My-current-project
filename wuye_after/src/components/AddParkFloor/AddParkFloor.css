@@ -1,0 +1,38 @@
+.addparkflr{
+    padding: 30px
+}
+.addparkflr-tt{
+    justify-content: center;
+    display: flex;
+    padding: 50px 0
+}
+.addparkflr-inp{
+    display: flex;
+    justify-content: center;
+}
+.addparkflr-inp-box{
+    height: 50px;
+    width: 388px;
+    border: 1px solid #999;
+    display: flex;
+    align-items: center
+}
+.addparkflr-inp-box input{
+    width: 100%;
+    outline: none;
+    border: none;
+    text-align: center
+}
+.addparkflr-ctr{
+    display: flex;
+    justify-content: center;
+    margin-top: 90px
+}
+.addparkflr-ctr button:nth-of-type(1){
+    background: white;
+    color: black;
+    border:1px solid rgba(153,153,153,1);
+}
+.addparkflr-ctr button:nth-of-type(2){
+    margin-left: 50px
+}

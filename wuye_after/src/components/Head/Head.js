@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Select} from 'antd';
 import Cookies from 'js-cookie'
+import store from '../../reducer/reducer'
 import './Head.css'
+const { Option } = Select;
 class Head extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       name: Cookies.get('name'),
-      username: Cookies.get('username')
+      username: Cookies.get('username'),
+      community_list:[{id:'', community_name: ""}],
+      community_value:''
     }
   }
   componentDidMount() {
   }
+  componentWillReceiveProps(next){
+    if(next.defaultValue!==this.state.community_value){
+      this.setState({
+        community_list:next.communityList,
+        community_value:next.defaultValue
+      })
+    }
+  }
   signOut = () => {
-    console.log(this.props)
- this.props.signOut()
+    this.props.signOut()
+  }
+  handleSelectChange=(e)=>{
+    this.props.changeCommunite(e)  //CNM磨劳资一下午
+    store.dispatch({ type: "CHANGE_COMMUNITY", value: e })
+    Cookies.set('community_id',e, { expires: 30 });
   }
   render() {
     // 在父 route 中，被匹配的子 route 变成 props
@@ -24,7 +40,19 @@ class Head extends Component {
           <Col span={3} className="head-logo">
             <img src={require('../../images/LOGO.png')} alt="" />
           </Col>
-          <Col span={13}>2019年6月25日</Col>
+          <Col span={13}>2019年6月25日
+          <Select className='head-sle-xiaoq'
+              placeholder='请选择小区'
+              onChange={this.handleSelectChange}
+              value={this.state.community_value}
+            >
+              {
+                this.state.community_list&&this.state.community_list.map((item, inx) => {
+                  return <Option key={item.id} value={item.id}>{item.community_name}</Option>
+                })
+              }
+            </Select>
+          </Col>
           <Col span={8}>
             <Row>
               <Col span={10} className="head-status">

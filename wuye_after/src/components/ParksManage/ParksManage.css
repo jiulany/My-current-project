@@ -72,3 +72,23 @@ justify-content: space-around
 .park-mag-tab-row{
     text-align: center
 }
+.park-mag-tab-sb-it{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    cursor: pointer;
+}
+.park-mag-tab-sb-it-act{
+    width: 100%;
+    height: 60px;
+    background: #fdd000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+}

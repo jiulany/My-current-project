@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button } from 'antd';
-import Cookies from 'js-cookie'
+import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button,DatePicker } from 'antd';
 import http, { baseURL } from '../../api/http';
+import locale from 'antd/lib/date-picker/locale/zh_CN';
+import store from '../../reducer/reducer'
+import moment from 'moment';
+import Cookies from 'js-cookie'
 import './FloorManage.css'
 const { Option } = Select;
 //css样式在home.css
@@ -22,38 +25,84 @@ class FloorManage extends Component {
             data: [],
             data_row: [],
             data_cow: [],
-            data_main: []
+            data_main: [],
+            cur_communite: Cookies.get('community_id')
+        }
+        store.subscribe(() => {
+            this.setState({
+                cur_communite: store.getState().controlCommunity.value
+            })
+        })
+    }
+    componentWillUpdate(prop, state) {
+        if (state.cur_communite !== this.state.cur_communite) {
+            this.initialRender()
         }
     }
     componentDidMount() {
-        http('/floor/floor_list', {
-            method: 'get',
-            data: {
-                community_id: Cookies.get('community_id'),
-            }
-        }).then(res => {
-            let data_row = new Array(parseInt(res.data.dong))
-            let data_cow = new Array(parseInt(res.data.dan))
-            data_row.fill('')
-            data_cow.fill('')
-            // for (let i in res.data) {
-            //     data_row.push({ id: res.data[i].id, number: res.data[i].number, comment: res.data[i].comment, act_sle: false })
-            //     data_cow.push({ id: res.data[i].id, unit: res.data[i].unit, act_sle: false })
-            // }
-            for (let i in data_row) {
-                data_row[i] = { id: i, number: parseInt(i) + 1, comment: parseInt(i) + 1, act_sle: false }
-            }
-            for (let i in data_cow) {
-                data_cow[i] = { id: i, unit: parseInt(i) + 1, act_sle: false }
-            }
-            this.setState({
-                data: res.data,
-                data_row: data_row,
-                data_cow: data_cow
-            })
-        }).catch(res => {
+        this.initialRender()
+    }
+    initialRender = () => {
+        setTimeout(() => {
+            http('/floor/floor_list', {
+                method: 'get',
+                data: {
+                }
+            }).then(res => {
+                let a = res.data
+                http('/floor/floor_get_unit', {
+                    method: 'get',
+                    data: {
+                        number: a[0].number
+                    }
+                }).then(res => {
+                    let b = res.data
+                    let data_row = []
+                    let data_cow = []
+                    for (let i in a) {
+                        if (parseInt(i) === 0) {
+                            data_row[i] = { id: i, number: a[i].number, act_sle: true }
+                        } else {
+                            data_row[i] = { id: i, number: a[i].number, act_sle: false }
+                        }
+                    }
+                    for (let j in b) {
+                        if (parseInt(j) === 0) {
+                            data_cow[j] = { id: j, unit: b[j].unit, act_sle: true }
+                        } else {
+                            data_cow[j] = { id: j, unit: b[j].unit, act_sle: false }
+                        }
+                    }
+                    this.setState({
+                        data: res.data,
+                        data_row: data_row,
+                        data_cow: data_cow
+                    })
+                    http('/floor/floor_list_info', {
+                        method: 'get',
+                        data: {
+                            foller: a[0].number,
+                            unit: b[0].unit
+                        }
+                    }).then(res => {
+                        this.setState({
+                            data_main: res.data,
+                            unit: b[0].unit,
+                            number: a[0].number
+                        })
+                    }).catch(res => {
+                        this.setState({
+                            data_main: []
+                        })
+                        message.error(res.msg);
+                    })
+                }).catch(res => {
 
-        })
+                })
+            }).catch(res => {
+
+            })
+        }, 1000);
     }
     clickRowItem = (inx, e) => {
         let row = this.state.data_row
@@ -65,23 +114,44 @@ class FloorManage extends Component {
             data_row: row,
             number: row[inx].number
         })
-        http('/floor/floor_list_info', {
+        http('/floor/floor_get_unit', {
             method: 'get',
             data: {
-                foller: row[inx].number,
-                unit: this.state.unit
+                number: row[inx].number
             }
         }).then(res => {
+            let b = res.data
+            let data_cow = []
+            for (let j in b) {
+                if (parseInt(j) === 0) {
+                    data_cow[j] = { id: j, unit: b[j].unit, act_sle: true }
+                } else {
+                    data_cow[j] = { id: j, unit: b[j].unit, act_sle: false }
+                }
+            }
             this.setState({
-                data_main: res.data
+                data: res.data,
+                data_cow: data_cow
+            })
+            http('/floor/floor_list_info', {
+                method: 'get',
+                data: {
+                    foller: row[inx].number,
+                    unit: b[0].unit
+                }
+            }).then(res => {
+                this.setState({
+                    data_main: res.data,
+                })
+            }).catch(res => {
+                this.setState({
+                    data_main: []
+                })
+                message.error(res.msg);
             })
         }).catch(res => {
-            this.setState({
-                data_main: []
-            })
-            message.error(res.msg);
-        })
 
+        })
     }
     clickCowItem = (inx, e) => {
         let cow = this.state.data_cow
@@ -111,9 +181,9 @@ class FloorManage extends Component {
         })
     }
     clickItem = (inx, e) => {
-        let cur_click=this.state.data_main[inx]
+        let cur_click = this.state.data_main[inx]
         this.setState({
-            mod_title:`${cur_click.floor_don}栋${cur_click.unit}单元${cur_click.house_number}`
+            mod_title: `${cur_click.floor_don}栋${cur_click.unit}单元${cur_click.house_number}`
         })
         if (cur_click.status === '2') {//闲置状态
             this.setState({
@@ -136,17 +206,24 @@ class FloorManage extends Component {
         let a = this.state.image_url
         a[0] = baseURL + cur_click.just_idk
         a[1] = baseURL + cur_click.back_idk
+        console.log(moment(cur_click.tenant_time))
         this.setState({
             show_model: true,
+            household_id:cur_click.id,
             door_number: cur_click.door_number,
             owner_name: cur_click.owner_name,
             owner_phone: cur_click.owner_phone,
-            house_number:cur_click.house_number,
+            house_number: cur_click.house_number,
+            status: parseInt(cur_click.status),
+            renter_name: cur_click.renter_name,
+            tenant_phone: cur_click.tenant_phone,
+            lease_term: cur_click.lease_term,
             title_number: cur_click.title_number,
+            tenant_time:cur_click.tenant_time,
+            show_tenant_time: moment(cur_click.tenant_time),
             image_url: a,
             area: cur_click.area,
             number_residents: cur_click.number_residents,
-            status: parseInt(cur_click.status),
             inx: inx,
         })
     }
@@ -201,26 +278,25 @@ class FloorManage extends Component {
         return new Promise((resolve, reject) => {
             let _thisst = this.state
             var formData = new FormData()
-            formData.append('door_number', _thisst.door_number)
+            formData.append('id', _thisst.door_number)
             formData.append('owner_name', _thisst.owner_name)
             formData.append('owner_phone', _thisst.owner_phone)
             formData.append('title_number', _thisst.title_number)
-            formData.append('area', _thisst.area)
             formData.append('number_residents', _thisst.number_residents)
             formData.append('status', _thisst.status)
-            formData.append('door_number', _thisst.door_number)
-            // formData.append('renter_name', _thisst.renter_name)
-            // formData.append('tenant_phone', _thisst.tenant_phone)
-            // formData.append('lease_term', _thisst.lease_term)
-            if(_thisst.just_idk){
+            formData.append('renter_name', _thisst.renter_name)
+            formData.append('tenant_phone', _thisst.tenant_phone)
+            formData.append('tenant_time', _thisst.tenant_time)
+            formData.append('lease_term', _thisst.lease_term)
+            if (_thisst.just_idk) {
                 formData.append('just_idk', _thisst.just_idk)
-            }else{
-                formData.append('img_urlz',this.state.data_main[this.state.inx].just_idk)
+            } else {
+                formData.append('img_urlz', this.state.data_main[this.state.inx].just_idk)
             }
-            if(_thisst.back_idk){
+            if (_thisst.back_idk) {
                 formData.append('back_idk', _thisst.back_idk)
-            }else{
-                formData.append('img_urlf',this.state.data_main[this.state.inx].back_idk)
+            } else {
+                formData.append('img_urlf', this.state.data_main[this.state.inx].back_idk)
             }
             resolve(formData)
         })
@@ -358,6 +434,12 @@ class FloorManage extends Component {
         if (this.state.status === 3) { return '装修' }
         if (this.state.status === 4) { return '出租' }
     }
+    ruzhuTime=(e)=>{
+        this.setState({
+            tenant_time: moment(e).format('YYYY-MM-DD'),
+            show_tenant_time:e
+        })
+    }
     render() {
         const uploadButton = (pan) => (
             <div>
@@ -377,7 +459,7 @@ class FloorManage extends Component {
                                 this.state.data_row.map((item, inx) => {
                                     return (
                                         <Col span={2} className={item.act_sle ? 'floor-mag-headlftpit floor-mag-actitem' : 'floor-mag-headlftpit'} onClick={(e) => this.clickRowItem(inx, e)} key={item.id}>
-                                            {item.comment}栋</Col>
+                                            {item.number}栋</Col>
                                     )
                                 })
                             }
@@ -398,10 +480,10 @@ class FloorManage extends Component {
                                 this.state.data_main.map((item, inx) => {
                                     let status = ''
                                     let color = ''
-                                    if (item.status === '1') { status = '自住'; color = '#ffff66' }
-                                    if (item.status === '2') { status = '闲置'; color = '#3399ff' }
-                                    if (item.status === '3') { status = '装修'; color = '#ff3333' }
-                                    if (item.status === '4') { status = '出租'; color = '#ff9933' }
+                                    if (item.status === 1) { status = '自住'; color = '#ffff66' }
+                                    if (item.status === 2) { status = '闲置'; color = '#3399ff' }
+                                    if (item.status === 3) { status = '装修'; color = '#ff3333' }
+                                    if (item.status === 4) { status = '出租'; color = '#ff9933' }
                                     return (
                                         <Col span={2} className='floor-mag-ctitem' key={item.id} style={{ background: color }} onClick={(e) => this.clickItem(inx, e)}>
                                             <Col span={24} className='floor-mag-ct0'>{item.house_number}</Col>
@@ -446,13 +528,15 @@ class FloorManage extends Component {
                                     <Col span={11}>
                                         <Col span={6}>房屋面积：</Col>
                                         <Col span={18}>
-                                            <Input placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} />
+                                            <Input disabled placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} />
                                         </Col>
                                     </Col>
-                                    <Col span={11} offset={2}>
-                                        <Col span={6}>居住人数：</Col>
-                                        <Col span={18}><Input placeholder="请输入居住人数" value={this.state.number_residents} onChange={(e) => this.inputValue('number_residents', e)} /></Col>
-                                    </Col>
+                                    {this.state.tenant_state !== true && (
+                                        <Col span={11} offset={2}>
+                                            <Col span={6}>居住人数：</Col>
+                                            <Col span={18}><Input placeholder="请输入居住人数" value={this.state.number_residents} onChange={(e) => this.inputValue('number_residents', e)} /></Col>
+                                        </Col>
+                                    )}
                                 </Col>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
@@ -476,6 +560,44 @@ class FloorManage extends Component {
                                         </Col>
                                     </Col>
                                 </Col>
+                                {
+                                    this.state.tenant_state === true && (
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>租户姓名：</Col>
+                                                <Col span={18}><Input placeholder="请输入租客姓名" value={this.state.renter_name} onChange={(e) => this.inputValue('renter_name', e)} /></Col>
+                                            </Col>
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>租户电话：</Col>
+                                                <Col span={18}><Input maxLength={11} placeholder="请输入租客电话" value={this.state.tenant_phone} onChange={(e) => this.inputValue('tenant_phone', e)} /></Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
+                                {
+                                    this.state.tenant_state === true && (
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>居住人数：</Col>
+                                                <Col span={18}><Input placeholder="请输入居住人数" value={this.state.number_residents} onChange={(e) => this.inputValue('number_residents', e)} /></Col>
+                                            </Col>
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>入住时间：</Col>
+                                                <Col span={18}><DatePicker style={{width:'100%'}} value={this.state.show_tenant_time} locale={locale} onChange={this.ruzhuTime} placeholder="选择入住日期" /></Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
+                                {
+                                    this.state.tenant_state === true && (
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>租期：</Col>
+                                                <Col span={18}><Input placeholder="请输入租期" value={this.state.lease_term} onChange={(e) => this.inputValue('lease_term', e)} /></Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
                                 {this.state.tenant_state === true && (
                                     <Col span={24}>
                                         <Col span={8}>
@@ -548,10 +670,14 @@ class FloorManage extends Component {
                                             {this.state.area}
                                         </Col>
                                     </Col>
-                                    <Col span={11} offset={2}>
-                                        <Col span={6}>居住人数：</Col>
-                                        <Col span={18}>{this.state.number_residents}</Col>
-                                    </Col>
+                                    {
+                                        this.state.tenant_state!==true&&(
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>居住人数：</Col>
+                                                <Col span={18}>{this.state.number_residents}</Col>
+                                            </Col>
+                                        ) 
+                                    }
                                 </Col>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
@@ -567,6 +693,54 @@ class FloorManage extends Component {
                                         </Col>
                                     </Col>
                                 </Col>
+                                {
+                                    this.state.tenant_state===true&&(
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>租户姓名：</Col>
+                                                <Col span={18}>
+                                                    {this.state.renter_name}
+                                                </Col>
+                                            </Col>
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>租客电话：</Col>
+                                                <Col span={18}>
+                                                    {this.state.tenant_phone}
+                                                </Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
+                                {
+                                    this.state.tenant_state===true&&(
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>居住人数：</Col>
+                                                <Col span={18}>
+                                                    {this.state.number_residents}
+                                                </Col>
+                                            </Col>
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>租客电话：</Col>
+                                                <Col span={18}>
+                                                    {this.state.tenant_time}
+                                                </Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
+                                {
+                                    this.state.tenant_state===true&&(
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>租期：</Col>
+                                                <Col span={18}>
+                                                    {this.state.lease_term}
+                                                </Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
                                 {this.state.tenant_state === true && (
                                     <Col span={24}>
                                         <Col span={8}>
@@ -591,7 +765,7 @@ class FloorManage extends Component {
                         }
                     </Modal>
                 </Col>
-            </Row>
+            </Row >
         )
     }
 }

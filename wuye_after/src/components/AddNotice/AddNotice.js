@@ -48,7 +48,6 @@ class AddNotice extends Component {
                     id:this.props.location.query.update_id,
                     title:this.state.title,
                     content:this.state.content,
-                    community_id:Cookies.get('community_id'),
                     admin_id:Cookies.get('user_id')
                 }
             }).then(res=>{
@@ -80,7 +79,6 @@ class AddNotice extends Component {
                 data:{
                     title:this.state.title,
                     content:this.state.content,
-                    community_id:Cookies.get('community_id'),
                     admin_id:Cookies.get('user_id')
                 }
             }).then(res=>{

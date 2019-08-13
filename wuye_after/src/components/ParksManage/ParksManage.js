@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button } from 'antd';
-import Cookies from 'js-cookie'
+import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button, Radio } from 'antd';
 import './ParksManage.css'
 import http from '../../api/http';
 const { Option } = Select;
@@ -21,33 +20,55 @@ class ParksManage extends Component {
             is_change: false,
             data: [],
             park: [],
-            cur_tab_index: ''
         }
     }
     componentDidMount() {
-        http('/park/park_list_index', { method: 'POST', data: { community_id: Cookies.get('community_id') } }).then(res => {
-            let a = []
-            for (let i in res.data) {
-                let b = res.data[i]
-                if (parseInt(i) === 0) {
-                    b.act = true
-                } else {
-                    b.act = false
+        setTimeout(() => {
+            http('/park/park_floor', { method: 'get', data: {} }).then(res => {
+                let a = []
+                for (let i in res.data) {
+                    let b = res.data[i]
+                    if (parseInt(i) === 0) {
+                        b.act = true
+                    } else {
+                        b.act = false
+                    }
+                    a.push(b)
                 }
-                a.push(b)
-            }
-            this.setState({
-                data: a,
-                cur_tab_index:0
-            })
-            if(a[0].park){
                 this.setState({
-                    park: a[0].park
+                    data: a,
+                    cur_tab_inx: 0
                 })
-            }
-        }).catch(res => {
-            console.log(res)
-        })
+                if (a[0].park) {
+                    this.setState({
+                        park: a[0].park
+                    })
+                }
+                http('/park/park_region', { method: 'get', data: { floor_id: a[0].id } }).then(res => {
+                    let b = res.data
+                    for (let i in b) {
+                        if (parseInt(i) === 0) {
+                            b[i].act = true
+                        } else {
+                            b[i].act = false
+                        }
+                    }
+                    this.setState({
+                        sider_list: b,
+                    })
+                    http('/park', { method: 'get', data: { floor_id: a[0].id, park_region: b[0].park_region } }).then(res => {
+                        console.log(res)
+                        this.setState({
+                            park: res.data
+                        })
+                    }).catch(res => {
+                    })
+                }).catch(res => {
+                })
+            }).catch(res => {
+                console.log(res)
+            })
+        }, 1000)
     }
     pandPositiveOrReverse = (file, val) => {
         const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -114,13 +135,48 @@ class ParksManage extends Component {
             a[j].act = false
         }
         a[i].act = true
-        http('/park/index_park_floor', { method: 'POST', data: { community_id: Cookies.get('community_id'), park_floor: a[i].park_floor } }).then(res => {
+        http('/park/park_region', { method: 'get', data: { floor_id: a[i].id } }).then(res => {
+            let b = res.data
+            for (let i in b) {
+                if (parseInt(i) === 0) {
+                    b[i].act = true
+                } else {
+                    b[i].act = false
+                }
+            }
             this.setState({
-                data: a,
-                park: res.data,
-                cur_tab_index: i
+                sider_list: b,
+                park: [],
+                cur_tab_inx: i
+            })
+            http('/park', { method: 'get', data: { floor_id: a[i].id, park_region: b[0].park_region } }).then(res => {
+                console.log(res)
+                this.setState({
+                    park: res.data
+                })
+            }).catch(res => {
+                this.setState({
+                    park: []
+                })
             })
         }).catch(res => {
+        })
+    }
+    clickSider = (i, e) => {
+        let a = this.state.sider_list
+        for (let j in this.state.sider_list) {
+            a[j].act = false
+        }
+        a[i].act = true
+        http('/park', { method: 'get', data: { floor_id: this.state.data[this.state.cur_tab_inx].id, park_region: this.state.sider_list[i].park_region } }).then(res => {
+            this.setState({
+                park: res.data,
+                sider_list: a
+            })
+        }).catch(res => {
+            this.setState({
+                park: []
+            })
         })
     }
     clickTabItem = (i, e) => {
@@ -128,10 +184,12 @@ class ParksManage extends Component {
             if (res.data[0].park_status === 1) {//闲置状态
                 this.setState({
                     is_change: true,
+                    cur_status: res.data[0].park_status
                 })
             } else {
                 this.setState({//非闲置状态
                     is_change: false,
+                    cur_status: res.data[0].park_status
                 })
             }
             this.setState({
@@ -146,11 +204,12 @@ class ParksManage extends Component {
                 park_status: res.data[0].park_status,
                 tenant_house_number: res.data[0].tenant_house_number,
                 park_period: res.data[0].park_period,
+                is_lease:res.data[0].is_lease,
             })
         }).catch(res => {
         })
     }
-    inputValue=(p,e)=>{
+    inputValue = (p, e) => {
         if (p === 'owner_name') {
             this.setState({
                 owner_name: e.currentTarget.value
@@ -159,17 +218,17 @@ class ParksManage extends Component {
         if (p === 'owner_mobile') {
             let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                owner_mobile:re
+                owner_mobile: re
             })
         }
         if (p === 'owner_house_number') {
             this.setState({
-                owner_house_number:  e.currentTarget.value
+                owner_house_number: e.currentTarget.value
             })
         }
         if (p === 'tenant_name') {
             this.setState({
-                tenant_name:  e.currentTarget.value
+                tenant_name: e.currentTarget.value
             })
         }
         if (p === 'tenant_mobile') {
@@ -180,35 +239,38 @@ class ParksManage extends Component {
         }
         if (p === 'car_number') {
             this.setState({
-                car_number:  e.currentTarget.value
+                car_number: e.currentTarget.value
             })
         }
         if (p === 'tenant_house_number') {
             this.setState({
-                tenant_house_number:  e.currentTarget.value
+                tenant_house_number: e.currentTarget.value
             })
         }
         if (p === 'park_period') {
             this.setState({
-                park_period:  e.currentTarget.value
+                park_period: e.currentTarget.value
             })
         }
     }
     handleUpload = () => {
         let _thisst = this.state
-        console.log(_thisst.data,_thisst.cur_tab_index)
-        http('/park/park_save', { method: 'POST', data: { 
-            id: _thisst.park[_thisst.cur_click_park].id,
-            owner_name: _thisst.owner_name,
-            owner_mobile: _thisst.owner_mobile,
-            owner_house_number:_thisst.owner_house_number,
-            tenant_name: _thisst.tenant_name,
-            tenant_mobile: _thisst.tenant_mobile,
-            car_number: _thisst.car_number,
-            park_status: _thisst.park_status,
-            tenant_house_number: _thisst.tenant_house_number,
-            park_period: _thisst.park_period,
-        } }).then(res => {
+        console.log(_thisst.data, _thisst.cur_tab_index)
+        http('/park/park_save', {
+            method: 'POST', data: {
+                id: _thisst.park[_thisst.cur_click_park].id,
+                owner_name: _thisst.owner_name,
+                owner_mobile: _thisst.owner_mobile,
+                owner_house_number: _thisst.owner_house_number,
+                tenant_name: _thisst.tenant_name,
+                tenant_mobile: _thisst.tenant_mobile,
+                car_number: _thisst.car_number,
+                park_status: _thisst.park_status,
+                tenant_house_number: _thisst.tenant_house_number,
+                park_period: _thisst.park_period,
+                is_lease:_thisst.is_lease,
+            }
+        }).then(res => {
             let secondsToGo = 3;
             const modal = Modal.success({
                 title: '保存成功',
@@ -218,7 +280,7 @@ class ParksManage extends Component {
                 secondsToGo -= 1;
             }, 1000);
             setTimeout(() => {
-                http('/park/index_park_floor', { method: 'POST', data: { community_id: Cookies.get('community_id'), park_floor: _thisst.data[_thisst.cur_tab_index].park_floor } }).then(res => {
+                http('/park/index_park_floor', { method: 'POST', data: { park_floor: _thisst.data[_thisst.cur_tab_index].park_floor } }).then(res => {
                     this.setState({
                         park: res.data,
                     })
@@ -227,12 +289,16 @@ class ParksManage extends Component {
                 clearInterval(timer);
                 modal.destroy();
                 this.setState({
-                show_model: false,
+                    show_model: false,
                 })
             }, secondsToGo * 1000);
         }).catch(res => {
         })
-        
+    }
+    changeChuzu = (e) => {
+        this.setState({
+            is_lease: e.target.value
+        })
     }
     render() {
         const uploadButton = (pan) => (
@@ -241,6 +307,11 @@ class ParksManage extends Component {
                 <div className="ant-upload-text">{pan ? "租客身份证正面照" : "租客身份证反面照"}</div>
             </div>
         );
+        const radioStyle = {
+            display: 'block',
+            height: '30px',
+            lineHeight: '30px',
+        }
         // 在父 route 中，被匹配的子 route 变成 props
         return (
             <Row className='park-mag'>
@@ -255,24 +326,40 @@ class ParksManage extends Component {
                                 })
                             }
                         </div>
-                        <div className='park-mag-tab-cot'>
-                            <Col span={24}>
-                                {
-                                    this.state.park.map((item, inx) => {
-                                        let color = ''
-                                        if (item.park_status === 1) color = '#3399ff'
-                                        if (item.park_status === 2) color = '#ff9933'
-                                        if (item.park_status === 3) color = '#ffff66'
-                                        if (item.park_status === 4) color = '#fe4747'
-                                        return (
-                                            <Col span={2} className='park-mag-tab-item' key={item.id} style={{ background: color }} onClick={(e) => this.clickTabItem(inx, e)}>
-                                                <Col span={24} className='park-mag-tab-row'>{item.park_number}</Col>
-                                                <Col span={24} className='park-mag-tab-row'>({item.park_status_d})</Col>
-                                            </Col>
-                                        )
-                                    })
+                        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                            <div style={{ width: '8%', display: 'inline-block' }}>
+                                {this.state.sider_list && this.state.sider_list.map((item, inx) => {
+                                    return (
+
+                                        <div onClick={(e) => this.clickSider(inx, e)} className={item.act ? 'park-mag-tab-sb-it-act' : 'park-mag-tab-sb-it'} key={item.park_region}>
+                                            {item.park_region}
+                                        </div>
+                                    )
+                                })
                                 }
-                            </Col>
+                            </div>
+                            <div className='park-mag-tab-cot' style={{ width: '92%', display: 'inline-block' }}>
+                                <Col span={24}>
+                                    {
+                                        this.state.park.map((item, inx) => {
+                                            let color = ''
+                                            let park_status_d = ''
+                                            let lease=''
+                                            if (item.park_status === 1) { color = '#3399ff'; park_status_d = '闲置' }
+                                            if (item.park_status === 2) { color = '#ff9933'; park_status_d = '租用' }
+                                            if (item.park_status === 3) { color = '#ffff66'; park_status_d = '自用' }
+                                            if (item.park_status === 4) { color = '#fe4747'; park_status_d = '人防' }
+                                            if (item.is_lease === 1) { lease = ',出租中' }
+                                            return (
+                                                <Col span={2} className='park-mag-tab-item' key={item.id} style={{ background: color }} onClick={(e) => this.clickTabItem(inx, e)}>
+                                                    <Col span={24} className='park-mag-tab-row'>{item.park_name}</Col>
+                                                    <Col span={24} className='park-mag-tab-row'>({park_status_d}{lease})</Col>
+                                                </Col>
+                                            )
+                                        })
+                                    }
+                                </Col>
+                            </div>
                         </div>
                     </div>
                 </Col>
@@ -341,6 +428,23 @@ class ParksManage extends Component {
                                             </Col>
                                         </Col>
                                     </Col>
+                                    {
+                                        this.state.cur_status===1|| this.state.cur_status===4?(
+                                            <Col span={24} className='park-mag-itm'>
+                                                <Col span={11}>
+                                                </Col>
+                                                <Col span={11} offset={2}>
+                                                    <Col span={6}>是否出租：</Col>
+                                                    <Col span={18}>
+                                                        <Radio.Group onChange={this.changeChuzu} style={{width:'100%'}} value={this.state.is_lease}>
+                                                            <Col span={12}><Radio style={radioStyle} value={1}>是</Radio></Col>
+                                                            <Col span={12}><Radio style={radioStyle} value={0}>否</Radio></Col>
+                                                        </Radio.Group>
+                                                    </Col>
+                                                </Col>
+                                            </Col>
+                                        ):('')
+                                    }
                                     <Col span={24} className='park-mag-itm'>
                                         <Col span={11}>
                                             <Col span={6}>门牌号：</Col>
@@ -460,34 +564,38 @@ class ParksManage extends Component {
                                             </Col>
                                         </Col>
                                     </Col>
-                                    <Col span={24} className='park-mag-itm_inp'>
-                                        <Col span={8}>
-                                            <Col span={5}></Col>
-                                            <Col span={19} className="add-up">
-                                                <Upload
-                                                    name="avatar"
-                                                    listType="picture-card"
-                                                    showUploadList={false}
-                                                    beforeUpload={this.beforeUpload}
-                                                >
-                                                    {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
-                                                </Upload>
+                                    {
+                                        this.state.cur_status !== 3&&this.state.cur_status !== 4 && (
+                                            <Col span={24} className='park-mag-itm_inp'>
+                                                <Col span={8}>
+                                                    <Col span={5}></Col>
+                                                    <Col span={19} className="add-up">
+                                                        <Upload
+                                                            name="avatar"
+                                                            listType="picture-card"
+                                                            showUploadList={false}
+                                                            beforeUpload={this.beforeUpload}
+                                                        >
+                                                            {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                                        </Upload>
+                                                    </Col>
+                                                </Col>
+                                                <Col span={8} >
+                                                    <Col span={5}></Col>
+                                                    <Col span={19} className="add-up">
+                                                        <Upload
+                                                            name="avatar"
+                                                            listType="picture-card"
+                                                            showUploadList={false}
+                                                            beforeUpload={this.beforeUpload_0}
+                                                        >
+                                                            {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
+                                                        </Upload>
+                                                    </Col>
+                                                </Col>
                                             </Col>
-                                        </Col>
-                                        <Col span={8} >
-                                            <Col span={5}></Col>
-                                            <Col span={19} className="add-up">
-                                                <Upload
-                                                    name="avatar"
-                                                    listType="picture-card"
-                                                    showUploadList={false}
-                                                    beforeUpload={this.beforeUpload_0}
-                                                >
-                                                    {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
-                                                </Upload>
-                                            </Col>
-                                        </Col>
-                                    </Col>
+                                        )
+                                    }
                                 </Col>
                                 <Col span={24} className="add-ctrl">
                                     <Col span={24} className="add-ctrl-it floor-mag-xiugai" onClick={this.modifyStat}><Button type="primary">修改</Button></Col>

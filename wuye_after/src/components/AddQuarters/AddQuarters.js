@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button ,message} from 'antd';
+import { Row, Col, Input, Button, message } from 'antd';
 import Cookies from 'js-cookie'
 import http from '../../api/http';
 //css样式在home.css
@@ -18,22 +18,29 @@ class AddQuarters extends Component {
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
-                http('/community/community_one',{method:'POST',data:{
-                    id:query.update_id
-                }}).then(res=>{
+                http('/community/community_one', {
+                    method: 'POST', data: {
+                        id: query.update_id
+                    }
+                }).then(res => {
                     this.setState({
-                        is_xiugai:true,
-                        community_name:res.data[0].community_name,
-                        community_address:res.data[0].community_address,
-                        community_developers:res.data[0].community_developers,
-                        community_mobile:res.data[0].community_mobile,
-                        community_person:res.data[0].community_person,
-                        community_person_mobile:res.data[0].community_person_mobile,
+                        is_xiugai: true,
+                        community_name: res.data[0].community_name,
+                        community_address: res.data[0].community_address,
+                        community_developers: res.data[0].community_developers,
+                        community_mobile: res.data[0].community_mobile,
+                        community_person: res.data[0].community_person,
+                        community_person_mobile: res.data[0].community_person_mobile,
+                        water_fee: res.data[0].water_fee,
+                        electricity_fee: res.data[0].electricity_fee,
+                        gas_fee: res.data[0].gas_fee,
+                        property_fee:res.data[0].property_fee,
+                        garbage_fee:res.data[0].garbage_fee,
                     })
-                }).catch(res=>{
+                }).catch(res => {
                     message.success(res.msg);
                     this.setState({
-                        is_xiugai:true  
+                        is_xiugai: true
                     })
                 })
             }
@@ -70,31 +77,66 @@ class AddQuarters extends Component {
                 community_person_mobile: e.currentTarget.value
             })
         }
+        if (p === 'water_fee') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                water_fee: re
+            })
+        }
+        if (p === 'electricity_fee') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                electricity_fee: re
+            })
+        }
+        if (p === 'gas_fee') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                gas_fee: re
+            })
+        }
+        if (p === 'property_fee') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                property_fee: re
+            })
+        }
+        if (p === 'garbage_fee') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                garbage_fee: re
+            })
+        }
     }
     cancelAdd = () => {
         this.props.history.go(-1)
     }
-    handleXiuGai=()=>{
+    handleXiuGai = () => {
         let _thisst = this.state
-        if(_thisst.community_name && _thisst.community_address && _thisst.community_developers
-            && _thisst.community_mobile && _thisst.community_person&&_thisst.community_person_mobile!== -1){
-            http('/community/community_upd',{
-                method:'POST',
-                data:{
-                    id:this.props.location.query.update_id,
+        if (_thisst.community_name && _thisst.community_address && _thisst.community_developers
+            && _thisst.community_mobile && _thisst.community_person && _thisst.community_person_mobile !== -1) {
+            http('/community/community_upd', {
+                method: 'POST',
+                data: {
+                    id: this.props.location.query.update_id,
                     community_name: _thisst.community_name,
                     community_address: _thisst.community_address,
                     community_developers: _thisst.community_developers,
                     community_mobile: _thisst.community_mobile,
                     community_person: _thisst.community_person,
+                    water_fee: _thisst.water_fee,
+                    electricity_fee: _thisst.electricity_fee,
+                    gas_fee: _thisst.gas_fee,
+                    property_fee: _thisst.property_fee,
+                    garbage_fee: _thisst.garbage_fee,
                     community_person_mobile: _thisst.community_person_mobile,
                 }
-            }).then(res=>{
+            }).then(res => {
                 message.success(res.msg);
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.props.history.go(-1)
-                },2000)
-            }).catch(res=>{
+                }, 2000)
+            }).catch(res => {
                 message.error(res.msg);
                 this.setState({
                     community_name: _thisst.community_name,
@@ -102,10 +144,15 @@ class AddQuarters extends Component {
                     community_developers: _thisst.community_developers,
                     community_mobile: _thisst.community_mobile,
                     community_person: _thisst.community_person,
+                    water_fee: '',
+                    electricity_fee: '',
+                    gas_fee: '',
+                    property_fee: '',
+                    garbage_fee: '',
                     community_person_mobile: _thisst.community_person_mobile,
                 })
             })
-        }else{
+        } else {
             message.error('输入不能为空，请检查！');
         }
     }
@@ -121,30 +168,44 @@ class AddQuarters extends Component {
                     community_mobile: _thisst.community_mobile,
                     community_person: _thisst.community_person,
                     community_person_mobile: _thisst.community_person_mobile,
-                    community_id: Cookies.get('community_id'),
-                    admin_id: Cookies.get('user_id')
+                    water_fee: _thisst.water_fee,
+                    electricity_fee: _thisst.electricity_fee,
+                    gas_fee: _thisst.gas_fee,
+                    property_fee: _thisst.property_fee,
+                    garbage_fee: _thisst.garbage_fee,
+                    admin_id: Cookies.get('user_id'),
                 }
             }).then(res => {
                 message.success(res.msg);
                 this.setState({
                     community_name: '',
                     community_address: '',
-                    community_developers:'',
+                    community_developers: '',
                     community_mobile: '',
                     community_person: '',
+                    water_fee: '',
+                    electricity_fee: '',
+                    gas_fee: '',
+                    property_fee: '',
+                    garbage_fee: '',
                     community_person_mobile: '',
                 })
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.props.history.go(-1)
-                },2000)
+                }, 2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
                     community_name: '',
                     community_address: '',
-                    community_developers:'',
+                    community_developers: '',
                     community_mobile: '',
                     community_person: '',
+                    water_fee: '',
+                    electricity_fee: '',
+                    gas_fee: '',
+                    property_fee: '',
+                    garbage_fee: '',
                     community_person_mobile: '',
                 })
             })
@@ -166,7 +227,7 @@ class AddQuarters extends Component {
                         </Col>
                         <Col span={9} offset={1}>
                             <Col span={6}>小区地址：</Col>
-                            <Col span={18}><Input placeholder="请输入小区名字" value={this.state.community_address} onChange={(e) => this.inputValue('community_address', e)} /></Col>
+                            <Col span={18}><Input placeholder="请输入小区地址" value={this.state.community_address} onChange={(e) => this.inputValue('community_address', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>
@@ -190,6 +251,38 @@ class AddQuarters extends Component {
                         <Col span={9} offset={1}>
                             <Col span={6}>负责人电话：</Col>
                             <Col span={18}><Input placeholder="请输入电话" value={this.state.community_person_mobile} onChange={(e) => this.inputValue('community_person_mobile', e)} /></Col>
+                        </Col>
+                    </Col>
+                    <Col span={24}>
+                        <Col span={9}>
+                            <Col span={6}>水费：</Col>
+                            <Col span={18}>
+                                <Input placeholder="请输入水费" value={this.state.water_fee} onChange={(e) => this.inputValue('water_fee', e)} />
+                            </Col>
+                        </Col>
+                        <Col span={9} offset={1}>
+                            <Col span={6}>电费：</Col>
+                            <Col span={18}><Input placeholder="请输入电费" value={this.state.electricity_fee} onChange={(e) => this.inputValue('electricity_fee', e)} /></Col>
+                        </Col>
+                    </Col>
+                    <Col span={24}>
+                        <Col span={9}>
+                            <Col span={6}>气费：</Col>
+                            <Col span={18}>
+                                <Input placeholder="请输入气费" value={this.state.gas_fee} onChange={(e) => this.inputValue('gas_fee', e)} />
+                            </Col>
+                        </Col>
+                        <Col span={9} offset={1}>
+                            <Col span={6}>物业费：</Col>
+                            <Col span={18}><Input placeholder="请输入物业费" value={this.state.property_fee} onChange={(e) => this.inputValue('property_fee', e)} /></Col>
+                        </Col>
+                    </Col>
+                    <Col span={24}>
+                        <Col span={9}>
+                            <Col span={6}>垃圾费：</Col>
+                            <Col span={18}>
+                                <Input placeholder="请输入垃圾费" value={this.state.garbage_fee} onChange={(e) => this.inputValue('garbage_fee', e)} />
+                            </Col>
                         </Col>
                     </Col>
                     <Col span={24} className="add-ctrl">

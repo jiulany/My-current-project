@@ -5,11 +5,13 @@ import store from './reducer/reducer'
 import { Provider } from 'react-redux'
 
 import Home from "./views/Home/Home"
+
+import ControlPage from "./views/ControlPage/ControlPage"
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state={
-      
+    this.state = {
+
     }
   }
   componentWillMount() {
@@ -19,7 +21,9 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <Switch>
-              <Route path="/" component={Home}  />
+            <Route path="/index" component={Home} />
+            {/* 主页 */}
+            <Route  path="/" component={ControlPage} ></Route>
           </Switch>
         </Router>
       </Provider >

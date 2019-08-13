@@ -1,0 +1,63 @@
+.paydetails{
+    padding: 20px;
+}
+.paydetails-rec{
+    font-size:18px;
+font-family:MicrosoftYaHei-Bold;
+font-weight:bold;
+}
+.paydetails-line{
+    display: flex;
+    align-items: center
+}
+.paydetails-m{
+    font-size:13px;
+font-family:MicrosoftYaHei;
+font-weight:400;
+color:rgba(51,51,51,1);
+display: flex;
+align-items: flex-end
+}
+.paydetails-head{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px
+}
+.paydetails-headbg{
+    position: absolute;
+    background:rgba(253,208,0,1);
+opacity:0.2;
+height: 100%;
+width: 100%;
+}
+.paydetails-headit{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 30px 12px 51px;
+    font-size:13px;
+font-family:MicrosoftYaHei-Bold;
+font-weight:bold;
+color:rgba(51,51,51,1);
+}
+.paydetails-headit-it{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 30px 16px 51px;
+    font-size:13px;
+font-family:MicrosoftYaHei-Bold;
+color:rgba(51,51,51,1);
+}
+.paydetails-head-it{
+    position: relative;
+  display: flex;
+  justify-content: space-between;
+  border-bottom:1px solid rgba(240,240,240,1);
+}
+.paydetails-line-0{
+    display: flex;
+    align-items: center;
+    margin-top: 50px
+}

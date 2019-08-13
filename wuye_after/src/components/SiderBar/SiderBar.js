@@ -4,47 +4,47 @@ import store from '../../reducer/reducer'
 import './SiderBar.css'
 const { SubMenu } = Menu;
 const list = [
-  { title: "业主管理", icon: require('../../images/icon_sider_owner.png'), path: '/' },
-  { title: "楼面管理", icon: require('../../images/icon_sider_lou.png'), path: '/floor_manage' },
-  { title: "车位管理", icon: require('../../images/icon_sider_che.png'), path: '/parking_manage' },
-  { title: "报修管理", icon: require('../../images/icon_sider_xiu.png'), path: '/repair_manage' },
-  { title: "小区公告", icon: require('../../images/icon_sider_gonggao.png'), path: '/notice_list' },
+  { title: "业主管理", icon: require('../../images/icon_sider_owner.png'), path: '/index/ye_list' },
+  { title: "楼面管理", icon: require('../../images/icon_sider_lou.png'), path: '/index/floor_manage' },
+  { title: "车位管理", icon: require('../../images/icon_sider_che.png'), path: '/index/parking_manage' },
+  { title: "报修管理", icon: require('../../images/icon_sider_xiu.png'), path: '/index/repair_manage' },
+  { title: "小区公告", icon: require('../../images/icon_sider_gonggao.png'), path: '/index/notice_list' },
   {
     title: "缴费列表", icon: require('../../images/icon_sider_jifei.png'), list: [
       {
-        title: "水费", path: "/water_list"
+        title: "水费", path: "/index/water_list"
       },
       {
-        title: "气费", path: "/gas_list"
+        title: "气费", path: "/index/gas_list"
       },
       {
-        title: "电费", path: "/electricity_list"
+        title: "电费", path: "/index/electricity_list"
       },
       {
-        title: "物业费", path: "/property_list"
+        title: "物业费", path: "/index/property_list"
       },
       {
-        title: "垃圾费", path: "/garbage_list"
+        title: "垃圾费", path: "/index/garbage_list"
       }
     ]
   },
   {
     title: "物业设置", icon: require('../../images/icon_sider_wuye.png'), list: [
       {
-        title: "创建小区", path: "/quarters_list"
+        title: "创建小区", path: "/index/quarters_list"
       },
       {
-        title: "住户表", path: "/household_list"
+        title: "住户表", path: "/index/household_list"
       },
       {
-        title: "商户表", path: "/merchant_list"
+        title: "商户表", path: "/index/merchant_list"
       },
       {
-        title: "停车位", path: "/parking_list"
+        title: "停车位", path: "/index/parking_list"
       }
     ]
   },
-  { title: "充电管理", icon: require('../../images/icon_sider_gonggao.png'), path: '/charging_manage' },
+  { title: "充电管理", icon: require('../../images/icon_sider_gonggao.png'), path: '/index/charging_manage' },
 ]
 class SiderBar extends Component {
   constructor(props) {
@@ -84,6 +84,7 @@ class SiderBar extends Component {
     }
   }
   toTargetAddress = (item) => {
+    sessionStorage.setItem('isFromInx','false')
     this.props.history.push({ pathname: item.path })
   }
   onOpenChange=(openKeys)=>{

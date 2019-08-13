@@ -47,23 +47,30 @@ class Login extends Component {
         this.setState({
             loading:true
         })
-        http('/login/login', {
+        http('/login/token', {
             method: 'POST', data: {
-                account: this.state.account,
+                username: this.state.account,
                 password: this.state.password
             }
         }).then(res => {
-            Cookies.set('user_id', res.data[0].id, { expires: 30 });
-            Cookies.set('community_id', res.data[0].id, { expires: 30 });
-            Cookies.set('name', res.data[0].name, { expires: 30 });
-            Cookies.set('username', res.data[0].username, { expires: 30 });
-            Cookies.set('login','true', { expires: 30 });
-            setTimeout(() => {
-                this.setState({
-                    loading:false
-                })
-                this.props.history.push('/')
-            }, 2000);
+            http('/login/user_info', {
+                method: 'POST', data: {}
+            }).then(res => {
+                console.log(res)
+                Cookies.set('user_id', res.data.id, { expires: 30 });
+                // Cookies.set('community_id', res.data[0].id, { expires: 30 });
+                Cookies.set('name', res.data.name, { expires: 30 });
+                Cookies.set('username', res.data.username, { expires: 30 });
+                Cookies.set('property_id', res.data.property_id, { expires: 30 });
+                Cookies.set('login','true', { expires: 30 });
+                setTimeout(() => {
+                    this.setState({
+                        loading:false
+                    })
+                    this.props.history.push('/ControlPage')
+                }, 2000);
+            }).catch(res => {
+            })
             
         }).catch(res => {
             message.error(res.msg);

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Input, Pagination, Modal, Spin, Icon, message } from 'antd';
+import { Row, Col, Button, Input, Pagination, Modal, Spin, Icon, message, DatePicker } from 'antd';
 import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem } from './TableListconf'
+import moment from 'moment';
+import Cookies from 'js-cookie'
+import store from '../../reducer/reducer'
 import './TableList.css'
 const { Search } = Input;
+const { MonthPicker } = DatePicker;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />
 class TableList extends Component {
     constructor(props) {
@@ -14,32 +18,59 @@ class TableList extends Component {
             ],
             is_tbupdate_loading: false,//table的loading
             is_dele_loading: false,//删除的loading
-            cur_page: 1//当前页数
+            cur_page: 1,//当前页数
+            cur_communite: Cookies.get('community_id')
+        }
+        store.subscribe(() => {
+            this.setState({
+                cur_communite: store.getState().controlCommunity.value
+            })
+        })
+    }
+    componentWillUpdate(prop, state) {
+        if (state.cur_communite !== this.state.cur_communite) {
+            this.initialRender()
         }
     }
     componentDidMount() {
+        if (sessionStorage.getItem('isFromInx') === "true") {
+            console.log(sessionStorage.getItem('isFromInx'))
+            this.setState({
+                issle_pay: 2
+            })
+        }
         this.matchPath(this.props.match.path) //匹配地址
+        this.initialRender()
+    }
+    initialRender = (status) => {
         this.setState({
             is_tbupdate_loading: true
         })
-        getPageTotal(this.props.match.path, this.state.cur_search_val).then(res => { //获取总页数
-            this.setState({
-                total_page: res.data
+        setTimeout(() => {
+            getPageTotal(this.props.match.path, this.state.cur_search_val).then(res => { //获取总页数
+                this.setState({
+                    total_page: res.data
+                })
+            }).catch(res => {
             })
-        }).catch(res => {
-        })
 
-        getTableList(this.props.match.path, 1, 10, this.state.cur_search_val).then(res => { //获取table数据
-            this.setState({
-                data: res.data,
-                is_tbupdate_loading: false
+            getTableList(this.props.match.path, 1, 10, this.state.cur_search_val, status).then(res => { //获取table数据
+                this.setState({
+                    data: res.data,
+                    is_tbupdate_loading: false,
+                })
+                if (res.total) {
+                    this.setState({
+                        total_page: res.total
+                    })
+                }
+            }).catch(res => {
+                this.setState({
+                    is_tbupdate_loading: false
+                })
+                message.error(res.msg, 3)
             })
-        }).catch(res => {
-            this.setState({
-                is_tbupdate_loading: false
-            })
-            message.error(res.msg, 3)
-        })
+        }, 1000)
     }
     deleCurItem = (clickItem, e) => {
         this.setState({
@@ -48,10 +79,25 @@ class TableList extends Component {
         })
     }
     xiuGAiCurItem = (clickItem, e) => {
-        this.props.history.push({ pathname: this.state.add_path, query: { type: 1, update_id: clickItem.id, cost_type: clickItem.cost_type } })
+        this.props.history.push({ pathname: this.state.add_path, query: { type: 1, update_id: clickItem.id, cost_type: clickItem.type, id_xiu: 'true',park_floor:clickItem.park_floor } })
+    }
+    xQCurItem = (clickItem, e) => {
+        this.props.history.push({ pathname: this.state.pay_details, query: { type: 1, update_id: clickItem.id, cost_type: clickItem.type, household_id: clickItem.household_id } })
+    }
+    addParkPlace=(clickItem, e)=>{
+        this.props.history.push({ pathname: this.state.add_place_path, query: { id: clickItem.id } })
     }
     addItme = () => {
-        this.props.history.push(this.state.add_path)
+        let path = this.props.location.pathname
+        switch (path) {
+            case '/index/water_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 1, id_xiu: 'false' } }); break
+            case '/index/gas_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 3, id_xiu: 'false' } }); break
+            case '/index/electricity_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 2, id_xiu: 'false' } }); break
+            case '/index/property_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 4, id_xiu: 'false' } }); break
+            case '/index/garbage_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 5, id_xiu: 'false' } }); break
+            case '/index/parking_list': this.props.history.push({ pathname: this.state.add_path, query: { type: 1, cost_type: 5, id_xiu: 'false' } }); break
+            default: this.props.history.push(this.state.add_path); break
+        }
     }
     handleOkDele = () => {//确认删除
         this.setState({
@@ -74,8 +120,14 @@ class TableList extends Component {
                 setTimeout(() => {
                     this.setState({
                         data: res.data,
-                        is_tbupdate_loading: false
+                        is_tbupdate_loading: false,
                     })
+                    if (res.total) {
+                        this.setState({
+                            total_page: res.total,
+                            cur_page: 1
+                        })
+                    }
                 }, 500)
             }).catch(res => {
                 this.setState({
@@ -91,13 +143,18 @@ class TableList extends Component {
         this.setState({
             is_tbupdate_loading: true
         })
-        getTableList(this.props.match.path, inx, 10, this.state.cur_search_val).then(res => { //获取table数据
+        getTableList(this.props.match.path, inx, 10, this.state.cur_search_val, this.state.cur_sle_month).then(res => { //获取table数据
             setTimeout(() => {
                 this.setState({
                     data: res.data,
                     is_tbupdate_loading: false,
                     cur_page: inx
                 })
+                if (res.total) {
+                    this.setState({
+                        total_page: res.total
+                    })
+                }
             }, 500)
         }).catch(res => {
             this.setState({
@@ -111,12 +168,18 @@ class TableList extends Component {
             is_tbupdate_loading: true,
             cur_search_val: val
         })
-        getTableList(this.props.match.path, 1, 10, val).then(res => { //获取table数据
+        getTableList(this.props.match.path, 1, 10, val, this.state.cur_sle_month).then(res => { //获取table数据
             setTimeout(() => {
                 this.setState({
                     data: res.data,
-                    is_tbupdate_loading: false
+                    is_tbupdate_loading: false,
                 })
+                if (res.total) {
+                    this.setState({
+                        total_page: res.total,
+                        cur_page: 1
+                    })
+                }
             }, 500)
         }).catch(res => {
             this.setState({
@@ -138,68 +201,132 @@ class TableList extends Component {
     }
     matchPath(val) {
         switch (val) {
-            case "/":
+            case "/index/ye_list":
                 this.setState({
                     ...HEAD_CONF.YE_ZHU
                 })
                 break
-            case "/repair_manage":
+            case "/index/repair_manage":
                 this.setState({
                     ...HEAD_CONF.REPAIR_MANAGE
                 })
                 break
-            case "/water_list":
+            case "/index/water_list":
                 this.setState({
                     ...HEAD_CONF.WATER_LIST
                 })
                 break
-            case "/gas_list":
+            case "/index/gas_list":
                 this.setState({
                     ...HEAD_CONF.GAS_LIST
                 })
                 break
-            case "/electricity_list":
+            case "/index/electricity_list":
                 this.setState({
                     ...HEAD_CONF.ELECTRICITY_LIST
                 })
                 break
-            case "/property_list":
+            case "/index/property_list":
                 this.setState({
                     ...HEAD_CONF.PROPERTY_LIST
                 })
                 break
-            case "/garbage_list":
+            case "/index/garbage_list":
                 this.setState({
                     ...HEAD_CONF.GARBAGE_LIST
                 })
                 break
-            case "/notice_list":
+            case "/index/notice_list":
                 this.setState({
                     ...HEAD_CONF.NOTICE_LIST
                 })
                 break
-            case "/quarters_list":
+            case "/index/quarters_list":
                 this.setState({
                     ...HEAD_CONF.QUARTERS_LIST
                 })
                 break
-            case "/household_list":
+            case "/index/household_list":
                 this.setState({
                     ...HEAD_CONF.HOUSEHOLD_LIST
                 })
                 break
-            case "/merchant_list":
+            case "/index/merchant_list":
                 this.setState({
                     ...HEAD_CONF.MERCHANT_LIST
                 })
                 break
-            case "/parking_list":
+            case "/index/parking_list":
                 this.setState({
                     ...HEAD_CONF.PARKING_LIST
                 })
                 break
             default:
                 break
+        }
+    }
+    sleMonth = (e) => {
+        let val = moment(e).format('YYYY-MM')
+        this.setState({
+            is_tbupdate_loading: true,
+            cur_sle_month: val
+        })
+        if(val==='Invalid date'){
+            val=''
+        }
+        getTableList(this.props.match.path, 1, 10, this.state.cur_search_val, val).then(res => { //获取table数据
+            setTimeout(() => {
+                this.setState({
+                    data: res.data,
+                    is_tbupdate_loading: false,
+                })
+                if (res.total) {
+                    this.setState({
+                        total_page: res.total,
+                        cur_page: 1
+                    })
+                }
+            }, 500)
+        }).catch(res => {
+            this.setState({
+                is_tbupdate_loading: false
+            })
+            message.error(res.msg, 3)
+        })
+        getPageTotal(this.props.match.path, val).then(res => { //获取总页数
+            this.setState({
+                total_page: res.data,
+                cur_page: 1
+            })
+        }).catch(res => { })
+
+    }
+    slePay = (p, e) => {
+        if (p === "pay") {
+            if (this.state.issle_pay === 1) {
+                this.setState({
+                    issle_pay: 3
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    issle_pay: 1
+                })
+                this.initialRender(1)
+            }
+        }
+        if (p === "no_pay") {
+            if (this.state.issle_pay === 2) {
+                this.setState({
+                    issle_pay: 3
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    issle_pay: 2
+                })
+                this.initialRender(0)
+            }
         }
     }
     render() {
@@ -211,18 +338,21 @@ class TableList extends Component {
                         <Search placeholder="" className="table-list-search" onSearch={this.searchTb} enterButton />
                         <br />
                     </Col>
-                    <Col span={16}>
+                    <Col span={17}>
                         {
                             this.state.is_shiw_tbhead &&
                             <Col span={24} className='table-list-ms'>
-                                <Col span={6}>抄表日期：2019.6.25</Col>
-                                <Col span={6}>抄表人：万潇</Col>
-                                <Col span={6}>审核人：万潇</Col>
-                                <Col span={6}>计费周期：2019.6.1-2019.6.30</Col>
+                                <Col span={6}><MonthPicker className='table-list-yarmt' placeholder="请选择年月" onChange={this.sleMonth} /></Col>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6} className='table-list-payst'>
+                                    <Col span={5} className='table-list-payed'><div onClick={(e) => this.slePay('pay', e)} className={this.state.issle_pay === 1 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>已付费</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.slePay('no_pay', e)} className={this.state.issle_pay === 2 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>未付费</div><span></span></Col>
+                                </Col>
                             </Col>
                         }
                     </Col>
-                    <Col span={4} className="table-list-add">
+                    <Col span={3} className="table-list-add">
                         <Button type="primary" shape="round" onClick={this.addItme} className="table-list-addbtn">
                             添加
                         </Button>
@@ -248,7 +378,9 @@ class TableList extends Component {
                                         return (  //此处不能用标签模式，会报tbody子组件不能用当前组件只能为tr td
                                             mapAddressToTd(this.props.match.path, item, {
                                                 deleCurItem: this.deleCurItem,
-                                                xiuGAiCurItem: this.xiuGAiCurItem
+                                                xiuGAiCurItem: this.xiuGAiCurItem,
+                                                xQCurItem: this.xQCurItem,
+                                                addParkPlace:this.addParkPlace
                                             })
                                         )
                                     })

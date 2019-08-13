@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Layout ,Modal} from 'antd';
+import { Layout, Modal, message } from 'antd';
 import { Route } from "react-router-dom"
+import http from '../../api/http';
 import "./Home.css"
 import store from '../../reducer/reducer'
 import { matchPath } from '../../api/matchpath' //查询匹配地址的面包屑
@@ -20,6 +21,8 @@ import AddWuYe from "../../components/AddWuYe/AddWuYe"
 import FloorManage from "../../components/FloorManage/FloorManage"
 import ParksManage from "../../components/ParksManage/ParksManage"
 import AddParkPlace from "../../components/AddParkPlace/AddParkPlace"
+import AddParkFloor from "../../components/AddParkFloor/AddParkFloor"
+import PayDetails from '../../components/PayDetails/PayDetails';
 const { Header, Content, Sider } = Layout;
 const { confirm } = Modal;
 class Home extends Component {
@@ -40,53 +43,75 @@ class Home extends Component {
     matchPath(this.props.location.pathname)
   }
   componentWillMount() {
-    if(this.props.location.pathname==='/login'){
+    Cookies.set('community_id', '', { expires: 30 });
+    http('/community', {
+      method: 'get', data: {}
+    }).then(res => {
       this.setState({
-        switch_route:false
+        community_list: res.data,
+        defaultValue: res.data[0].id
+      })
+      Cookies.set('community_id', res.data[0].id, { expires: 30 })
+    }).catch(res => {
+      message.error(res.msg);
+      setTimeout(() => {
+        this.setState({
+          loading: false
+        })
+      }, 1000);
+    })
+    if (this.props.location.pathname === '/index/Login') {
+      this.setState({
+        switch_route: false
       })
     }
-    if (Cookies.get('login') === 'false') {
-      this.props.history.push('/login')
+    if (Cookies.get('login') === 'false' || Cookies.get('login') === undefined) {
+      this.props.history.push('/index/Login')
       this.setState({
-        switch_route:false
+        switch_route: false
       })
-    }else{
+    } else {
       this.setState({
-        switch_route:true
+        switch_route: true
       })
     }
   }
   componentWillUpdate(nextSprops) {
     if (nextSprops.location.pathname !== this.props.location.pathname) {//判断前后两路由是否不等，防止无限循环
       matchPath(nextSprops.location.pathname)
-      if (Cookies.get('login') === 'false') {
-        this.props.history.push('/login')
+      if (Cookies.get('login') === 'false' || Cookies.get('login') === undefined) {
+        this.props.history.push('/index/Login')
         this.setState({
-          switch_route:false
+          switch_route: false
         })
-      }else{
+      } else {
         this.setState({
-          switch_route:true
+          switch_route: true
         })
       }
     }
   }
-  signOut=()=>{
-    let _this=this
+  signOut = () => {
+    let _this = this
     confirm({
       title: '',
-      okText:'确认',
-      cancelText:'取消',
+      okText: '确认',
+      cancelText: '取消',
       content: '确定要退出系统吗？',
       onOk() {
-        Cookies.set('login','false', { expires: 30 });
-        Cookies.set('account','', { expires: 30 });
-        Cookies.set('password','', { expires: 30 });
-        _this.props.history.push('/login')
+        Cookies.set('login', 'false', { expires: 30 });
+        Cookies.set('account', '', { expires: 30 });
+        Cookies.set('password', '', { expires: 30 });
+        _this.props.history.push('/index/Login')
       },
       onCancel() {
       },
     });
+  }
+  changeCommunite = (e) => {
+    this.setState({
+      defaultValue: e
+    })
   }
   render() {
     // 在父 route 中，被匹配的子 route 变成 props
@@ -94,64 +119,70 @@ class Home extends Component {
       <div style={{ height: '100%' }}>
         {this.state.switch_route &&
           <Layout>
-            <Header  name={11}className="header">
+            <Header name={11} className="header">
               {/* 头 */}
-              <Head signOut={this.signOut}/>
+              <Head changeCommunite={this.changeCommunite} signOut={this.signOut} communityList={this.state.community_list} defaultValue={this.state.defaultValue} />
             </Header>
             <Layout>
               {/* 侧边栏 */}
               <Sider width={200} style={{ background: '#fff' }}>
-                <Route path="/" component={SiderBar} ></Route>
+                <Route path="/index" component={SiderBar} ></Route>
               </Sider>
               <Layout style={{ padding: '0 15px 15px' }}>
                 <div className="home-breadcrumb">{this.state.cur_breadcrumb}</div>
                 <Content className='home-main' style={{ background: '#fff', margin: 0, height: '860px', overflowY: 'scroll' }} id='s'>
                   {/* 业主 */}
-                  <Route exact path="/" component={TableList} ></Route>
-                  <Route path="/add_owner" component={AddOwner} ></Route>
+                  <Route exact path="/index/ye_list" component={TableList} ></Route>
+                  <Route path="/index/ye_list/add_owner" component={AddOwner} ></Route>
                   {/* 报修 */}
-                  <Route exact path="/repair_manage" component={TableList} ></Route>
-                  <Route path="/repair_manage/add_repair" component={AddRepair} ></Route>
+                  <Route exact path="/index/repair_manage" component={TableList} ></Route>
+                  <Route path="/index/repair_manage/add_repair" component={AddRepair} ></Route>
                   {/* 公告 */}
-                  <Route exact path="/notice_list" component={TableList} ></Route>
-                  <Route exact path="/notice_list/add_notice" component={AddNotice} ></Route>
+                  <Route exact path="/index/notice_list" component={TableList} ></Route>
+                  <Route exact path="/index/notice_list/add_notice" component={AddNotice} ></Route>
                   {/* 水费*/}
-                  <Route exact path="/water_list" component={TableList} ></Route>
-                  <Route path="/water_list/add_water" component={AddPay0} ></Route>
+                  <Route exact path="/index/water_list" component={TableList} ></Route>
+                  <Route path="/index/water_list/add_water" component={AddPay0} ></Route>
+                  <Route path="/index/water_list/pay_details" component={PayDetails} ></Route>
                   {/* 气费*/}
-                  <Route exact path="/gas_list" component={TableList} ></Route>
-                  <Route path="/gas_list/add_gas" component={AddPay0} ></Route>
+                  <Route exact path="/index/gas_list" component={TableList} ></Route>
+                  <Route path="/index/gas_list/add_gas" component={AddPay0} ></Route>
+                  <Route path="/index/gas_list/pay_details" component={PayDetails} ></Route>
                   {/* 用电*/}
-                  <Route exact path="/electricity_list" component={TableList} ></Route>
-                  <Route path="/electricity_list/add_electricity" component={AddPay0} ></Route>
+                  <Route exact path="/index/electricity_list" component={TableList} ></Route>
+                  <Route path="/index/electricity_list/add_electricity" component={AddPay0} ></Route>
+                  <Route path="/index/electricity_list/pay_details" component={PayDetails} ></Route>
                   {/* 物业*/}
-                  <Route exact path="/property_list" component={TableList} ></Route>
-                  <Route path="/property_list/add_property" component={AddPay1} ></Route>
+                  <Route exact path="/index/property_list" component={TableList} ></Route>
+                  <Route path="/index/property_list/add_property" component={AddPay1} ></Route>
+                  <Route path="/index/property_list/pay_details" component={PayDetails} ></Route>
                   {/* 垃圾*/}
-                  <Route exact path="/garbage_list" component={TableList} ></Route>
-                  <Route path="/garbage_list/add_garbage" component={AddPay1} ></Route>
+                  <Route exact path="/index/garbage_list" component={TableList} ></Route>
+                  <Route path="/index/garbage_list/add_garbage" component={AddPay1} ></Route>
+                  <Route path="/index/garbage_list/pay_details" component={PayDetails} ></Route>
                   {/* 创建小区*/}
-                  <Route exact path="/quarters_list" component={TableList} ></Route>
-                  <Route path="/quarters_list/add_quarters" component={AddQuarters} ></Route>
+                  <Route exact path="/index/quarters_list" component={TableList} ></Route>
+                  <Route path="/index/quarters_list/add_quarters" component={AddQuarters} ></Route>
                   {/* 住户表*/}
-                  <Route exact path="/household_list" component={TableList} ></Route>
-                  <Route path="/household_list/add_household" component={AddWuYe} ></Route>
+                  <Route exact path="/index/household_list" component={TableList} ></Route>
+                  <Route path="/index/household_list/add_household" component={AddWuYe} ></Route>
                   {/* 商户表*/}
-                  <Route exact path="/merchant_list" component={TableList} ></Route>
-                  <Route path="/merchant_list/add_merchant" component={AddWuYe} ></Route>
+                  <Route exact path="/index/merchant_list" component={TableList} ></Route>
+                  <Route path="/index/merchant_list/add_merchant" component={AddWuYe} ></Route>
                   {/* 停车位*/}
-                  <Route exact path="/parking_list" component={TableList} ></Route>
-                  <Route path="/parking_list/add_parking" component={AddParkPlace} ></Route>
+                  <Route exact path="/index/parking_list" component={TableList} ></Route>
+                  <Route path="/index/parking_list/add_parks" component={AddParkPlace} ></Route>
+                  <Route path="/index/parking_list/add_park_floor" component={AddParkFloor} ></Route>
                   {/* 楼面管理*/}
-                  <Route exact path="/floor_manage" component={FloorManage} ></Route>
+                  <Route exact path="/index/floor_manage" component={FloorManage} ></Route>
                   {/* 停车位管理*/}
-                  <Route exact path="/parking_manage" component={ParksManage} ></Route>
+                  <Route exact path="/index/parking_manage" component={ParksManage} ></Route>
                 </Content>
               </Layout>
             </Layout>
           </Layout>
         }
-        <Route path="/Login" component={Login} />
+        <Route path="/index/Login" component={Login} />
       </div>
     )
   }

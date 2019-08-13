@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button ,message} from 'antd';
-import Cookies from 'js-cookie'
 import http from '../../api/http';
 //css样式在home.css
 
@@ -18,23 +17,23 @@ class AddWuYe extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
-        if (_thisst.unit && _thisst.floor && _thisst.layer_number && _thisst.households !== '') {
+        if (_thisst.unit && _thisst.floor && _thisst.start_layer_number&& _thisst.end_layer_number && _thisst.households !== '') {
             http('/community/add_list_Storied', {
                 method: 'POST',
                 data: {
                     floor: _thisst.floor,
                     unit: _thisst.unit,
-                    layer_number: _thisst.layer_number,
+                    start_layer_number: _thisst.start_layer_number,
+                    end_layer_number: _thisst.end_layer_number,
                     households: _thisst.households,
-                    community_id: Cookies.get('community_id'),
-                    admin_id: Cookies.get('user_id')
                 }
             }).then(res => {
                 message.success(res.msg);
                 this.setState({
                     floor: '',
                     unit: '',
-                    layer_number:'',
+                    start_layer_number:'',
+                    end_layer_number:'',
                     households:'',
                 })
                 setTimeout(()=>{
@@ -45,7 +44,8 @@ class AddWuYe extends Component {
                 this.setState({
                     floor: '',
                     unit: '',
-                    layer_number:'',
+                    start_layer_number:'',
+                    end_layer_number:'',
                     households:'',
                 })
             })
@@ -67,14 +67,21 @@ class AddWuYe extends Component {
                 floor: e.currentTarget.value
             })
         }
-        if (p === 'layer_number') {
-            this.setState({
-                layer_number: e.currentTarget.value
-            })
-        }
         if (p === 'households') {
             this.setState({
                 households: e.currentTarget.value
+            })
+        }
+        if (p === 'start_layer_number') {
+            let re = e.currentTarget.value.replace(/[^\d]/, '')
+            this.setState({
+                start_layer_number: re
+            })
+        }
+        if (p === 'end_layer_number') {
+            let re = e.currentTarget.value.replace(/[^\d]/, '')
+            this.setState({
+                end_layer_number: re
             })
         }
     }
@@ -97,13 +104,20 @@ class AddWuYe extends Component {
                     </Col>
                     <Col span={24}>
                         <Col span={9}>
-                            <Col span={6}>层数：</Col>
-                            <Col span={18}><Input placeholder="请输入层数" value={this.state.layer_number} onChange={(e) => this.inputValue('layer_number', e)} />
+                            <Col span={6}>开始层数：</Col>
+                            <Col span={18}><Input placeholder="请输入开始层数：" value={this.state.start_layer_number} onChange={(e) => this.inputValue('start_layer_number', e)} />
                             </Col>
                         </Col>
                         <Col span={9} offset={1}>
+                            <Col span={6}>结束层数：</Col>
+                            <Col span={18}><Input placeholder="请输入结束层数" value={this.state.end_layer_number} onChange={(e) => this.inputValue('end_layer_number', e)} /></Col>
+                        </Col>
+                    </Col>
+                    <Col span={24}>
+                        <Col span={9}>
                             <Col span={6}>单层户数：</Col>
-                            <Col span={18}><Input placeholder="请输入单层户数" value={this.state.households} onChange={(e) => this.inputValue('households', e)} /></Col>
+                            <Col span={18}><Input placeholder="请输入单层户数" value={this.state.households} onChange={(e) => this.inputValue('households', e)} />
+                            </Col>
                         </Col>
                     </Col>
                     <Col span={24} className="add-ctrl">

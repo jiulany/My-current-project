@@ -1,0 +1,18 @@
+.notice_for{
+    background: #F0F0F0;
+    color: #333333;
+    border: none
+}
+.notice_for:focus{
+    background: #F0F0F0;
+    color: #333333;
+}
+.notice_for_act{
+    background: #fdd000;
+    color: #333333;
+    border: none
+}
+.notice_for_act:focus{
+    background: #fdd000;
+    color: #333333;
+}

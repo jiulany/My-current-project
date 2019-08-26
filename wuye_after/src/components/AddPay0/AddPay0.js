@@ -323,6 +323,15 @@ class AddPay0 extends Component {
             })
         })
     }
+    distinfD=()=>{
+        if(parseFloat(this.state.start_number)>parseFloat(this.state.end_number)){
+            this.setState({
+                start_number:'',
+                end_number:'',
+                consumption:''
+            })
+        }
+    }
     render() {
         // 在父 route 中，被匹配的子 route 变成 props
         return (
@@ -343,12 +352,12 @@ class AddPay0 extends Component {
                     <Col span={24}>
                         <Col span={8}>
                             <Col span={6}>起始数：</Col>
-                            <Col span={18}><Input value={this.state.start_number} onChange={(e) => this.inputValue('start_number', e)} />
+                            <Col span={18}><Input value={this.state.start_number} onBlur={this.distinfD} onChange={(e) => this.inputValue('start_number', e)} />
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
                             <Col span={6}>截止数：</Col>
-                            <Col span={18}><Input placeholder="请输入截止数" value={this.state.end_number} onChange={(e) => this.inputValue('end_number', e)} /></Col>
+                            <Col span={18}><Input placeholder="请输入截止数" onBlur={this.distinfD}  value={this.state.end_number} onChange={(e) => this.inputValue('end_number', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>

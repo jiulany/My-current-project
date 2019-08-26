@@ -17,27 +17,18 @@ class AddRepair extends Component {
             tenant_state: false,
             loading: false,
             is_xiugai: false,
-            image_url: [], //省份证正反index=0正，1为反
-            service_type_list: [
-                { id: 1, name: "加载中..." }
-            ],
             service_at_date: moment(),
             service_at_time: moment(),
-            username: '',
-            address: '',
-            service_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-            number: '',
-            desc: '',
-            type: ''
+            service_time: moment().format('YYYY-MM-DD HH:mm:ss'),
+            address:"",
+            name:"",
+            phone:"",
+            sku_id:"",
+            pay_type:1,
+            remarks:"",
         }
     }
     componentDidMount() {
-        http('/service/get', { method: 'POST', data: {} }).then(res => {
-            this.setState({
-                service_type_list: res.data,
-                type:res.data[0].id
-            })
-        })
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
@@ -71,15 +62,15 @@ class AddRepair extends Component {
         this.props.history.go(-1)
     }
     inputValue = (p, e) => {
-        if (p === 'username') {
+        if (p === 'name') {
             this.setState({
-                username: e.currentTarget.value
+                name: e.currentTarget.value
             })
         }
-        if (p === 'number') {
+        if (p === 'phone') {
             let re = e.currentTarget.value.replace(/[^\d]/, '')
             this.setState({
-                number: re
+                phone: re
             })
         }
         if (p === 'address') {
@@ -87,57 +78,52 @@ class AddRepair extends Component {
                 address: e.currentTarget.value
             })
         }
-        if (p === 'desc') {
+        if (p === 'remarks') {
             this.setState({
-                desc: e.currentTarget.value
+                remarks: e.currentTarget.value
             })
         }
-    }
-    seleServerType = (e) => {
-        this.setState({
-            type: e
-        })
     }
     inputDateValue = (e, s) => {
         this.setState(prev => ({
             service_at_date: s,
-            service_at: s + ' ' + prev.service_at_time
+            service_time: s + ' ' + prev.service_at_time
         }))
     }
     inputTimeValue = (e, s) => {
         this.setState(prev => ({
             service_at_time: s,
-            service_at: prev.service_at_date + ' ' + s
+            service_time: prev.service_at_date + ' ' + s
         }))
     }
     handleUpload = () => {
         let _thisst = this.state
-        if (_thisst.username && _thisst.address && _thisst.service_at_date
-            && _thisst.service_at_time && _thisst.number
-            && Cookies.get('community_id') && _thisst.desc
-            && _thisst.type !== '' && _thisst.number.search(/[\d]/) !== -1) {
-            http('/repair/repairSave', {
+        if (_thisst.name && _thisst.phone && _thisst.service_at_date
+            && _thisst.service_at_time && _thisst.address
+            && Cookies.get('community_id') && _thisst.remarks&& _thisst.pay_type) {
+            http('/repair/create', {
                 method: 'POST',
                 data: {
-                    username: _thisst.username,
-                    address: _thisst.address,
-                    service_at: _thisst.service_at,
-                    number: _thisst.number,
-                    desc: _thisst.desc,
-                    type: _thisst.type
+                    address:_thisst.address,
+                    name:_thisst.name,
+                    phone:_thisst.phone,
+                    sku_id:_thisst.sku_id,
+                    pay_type:_thisst.pay_type,
+                    remarks:_thisst.remarks,
+                    service_time:_thisst.service_time,
                 }
             }).then(res => {
                 message.success(res.msg)
                 this.setState({
-                    username: '',
                     address: '',
-                    service_at: '',
-                    number: '',
-                    desc: ''
+                    name: '',
+                    service_time: '',
+                    phone: '',
+                    remarks: ''
                 })
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.props.history.go(-1)
-                },2000)
+                }, 2000)
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
@@ -152,38 +138,68 @@ class AddRepair extends Component {
             message.error('输入不能为空，请检查！');
         }
     }
-    handleXiuGai=()=>{
-        let _thisst = this.state
-        if(_thisst.username && _thisst.address && _thisst.service_at_date
-            && _thisst.service_at_time && _thisst.number
-            && Cookies.get('community_id') && _thisst.desc
-            && _thisst.type !== '' && (_thisst.number.toString()).search(/[\d]/) !== -1){
-            http('/repair/repairUpd',{
-                method:'POST',
-                data:{
-                    id:this.props.location.query.update_id,
-                    username:_thisst.username ,
-                    address: _thisst.address,
-                    service_at:_thisst.service_at,
-                    number: _thisst.number,
-                    desc:_thisst.desc,
-                    type:_thisst.type,
-                }
-            }).then(res=>{
-                message.success(res.msg);
-                setTimeout(()=>{
-                    this.props.history.go(-1)
-                },2000)
-            }).catch(res=>{
-                message.error(res.msg);
+    handleXiuGai = () => {
+//         let _thisst = this.state
+//         if (_thisst.username && _thisst.address && _thisst.service_at_date
+//             && _thisst.service_at_time && _thisst.number
+//             && Cookies.get('community_id') && _thisst.desc&& _thisst.sku_id
+//             ) {
+//             http('/repair/create', {
+//                 method: 'POST',
+//                 data: {
+//                     address:_thisst.address,
+// name:_thisst.name,
+// phone:_thisst.phone,
+// sku_id:_thisst.sku_id,
+// pay_type:_thisst.pay_type,
+// remarks:_thisst.remarks,
+// service_time:_thisst.service_time,
+//                 }
+//             }).then(res => {
+//                 message.success(res.msg);
+//                 setTimeout(() => {
+//                     this.props.history.go(-1)
+//                 }, 2000)
+//             }).catch(res => {
+//                 message.error(res.msg);
+//                 this.setState({
+//                     title: '',
+//                     content: ''
+//                 })
+//             })
+//         } else {
+//             message.error('输入不能为空，请检查！');
+//         }
+    }
+    seleClassId=(e)=>{
+        this.setState({
+            class_id:e
+        })
+        http('/repair/get_repair', {
+            method: 'get',
+            data: {
+                class_id:e
+            }
+        }).then(res => {
+            if(res.data.length>=0){
                 this.setState({
-                    title:'',
-                    content:''
+                 sku_list:res.data,
+                 sku_id:res.data[0].sku[0].id
                 })
+            }
+        }).catch(res => {
+            message.error(res.msg);
+        })
+    }
+    selePayType=(e)=>{
+            this.setState({
+                pay_type: e,
             })
-        }else{
-            message.error('输入不能为空，请检查！');
-        }
+    }
+    seleSku=(e)=>{
+this.setState({
+    sku_id:e
+})
     }
     render() {
         // 在父 route 中，被匹配的子 route 变成 props
@@ -192,14 +208,40 @@ class AddRepair extends Component {
                 <Col span={24} className="add-it">
                     <Col span={24}>
                         <Col span={8}>
-                            <Col span={6}>服务人员：</Col>
+                            <Col span={6}>服务类别：</Col>
                             <Col span={18}>
-                                <Input value={this.state.username} maxLength={6} onChange={(e) => this.inputValue('username', e)} placeholder="请输入订单服务人员姓名" />
+                                <Select style={{ width: '100%' }} allowClear={true} value={this.state.class_id} onChange={this.seleClassId}>
+                                    <Option value={3}>公共维修</Option>
+                                    <Option value={4}>房屋维修</Option>
+                                </Select>
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
-                            <Col span={6}>服务数量：</Col>
-                            <Col span={18}><Input value={this.state.number} onChange={(e) => this.inputValue('number', e)} placeholder="请输入服务数量" /></Col>
+                            <Col span={6}>服务项目：</Col>
+                            <Col span={18}>
+                                <Select style={{ width: '100%' }} allowClear={true} value={this.state.sku_id} onChange={this.seleSku}>
+                                    {
+                                        this.state.sku_list&&this.state.sku_list.map((item,inx)=>{
+                                            return (
+                                                <Option key={item.sku[0].id} value={item.sku[0].id}>{item.sku[0].sku_name}</Option>)
+                                        })
+                                    }
+                                </Select>
+                            </Col>
+                        </Col>
+                    </Col>
+                    <Col span={24}>
+                        <Col span={8}>
+                            <Col span={6}>服务对象：</Col>
+                            <Col span={18}>
+                                 <Input placeholder='请输入服务对象名' value={this.state.name} onChange={(e) => this.inputValue('name', e)} />
+                            </Col>
+                        </Col>
+                        <Col span={8} offset={1}>
+                            <Col span={6}>电话号码：</Col>
+                            <Col span={18}>
+                                 <Input placeholder='请输入服务对象电话号码' value={this.state.phone} onChange={(e) => this.inputValue('phone', e)} />
+                            </Col>
                         </Col>
                     </Col>
                     <Col span={24}>
@@ -221,18 +263,17 @@ class AddRepair extends Component {
                     </Col>
                     <Col span={24}>
                         <Col span={8}>
-                            <Col span={6}>服务类型：</Col>
+                            <Col span={6}>支付方式：</Col>
                             <Col span={18}>
-                                <Select style={{ width: '100%' }}value={this.state.type} placeholder="请选择服务类型" allowClear={true} onChange={this.seleServerType}>
-                                    {
-                                        this.state.service_type_list.map((item, inx) => {
-                                            return <Option key={item.id} value={item.id}>{item.name}</Option>
-                                        })
-                                    }
+                                <Select style={{ width: '100%' }} placeholder="请选择支付方式" allowClear={true} value={this.state.pay_type} onChange={this.selePayType}>
+                                    <Option value={1}>微信支付</Option>
+                                    <Option value={2}>现金</Option>
+                                    <Option value={3}>支付宝</Option>
                                 </Select>
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
+                          
                         </Col>
                     </Col>
                     <Col span={24}>
@@ -242,8 +283,8 @@ class AddRepair extends Component {
                             <TextArea
                                 placeholder="请输入50字以内问题描述"
                                 autosize={{ minRows: 6, maxRows: 6 }}
-                                value={this.state.desc}
-                                onChange={(e) => this.inputValue('desc', e)}
+                                value={this.state.remarks}
+                                onChange={(e) => this.inputValue('remarks', e)}
                             />
                         </Col>
                     </Col>

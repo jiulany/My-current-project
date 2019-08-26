@@ -42,6 +42,12 @@ export const breadcrumb_path = [{
 }, {
     path: "/index/garbage_list/add_garbage",
     value: "缴费列表-添加"
+}, {
+    path: "/index/stopcar_list",
+    value: "缴费列表"
+}, {
+    path: "/index/stopcar_list/add_stopcar",
+    value: "缴费列表-添加"
 }, {//公告列表
     path: "/index/notice_list",
     value: "小区公告"
@@ -95,6 +101,9 @@ export const breadcrumb_path = [{
     value: "缴费详情"
 }, {//垃圾费详情
     path: "/index/garbage_list/pay_details",
+    value: "缴费详情"
+}, {//停车费详情
+    path: "/index/stopcar_list/pay_details",
     value: "缴费详情"
 }]
 export function matchPath(path) {

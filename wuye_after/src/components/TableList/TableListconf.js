@@ -26,20 +26,20 @@ function payType(pay_type){
         return '在线支付(银行卡支付)'
     }
 }
-// function stopCarStatus(st){
-//     if(st===1){
-//         return '闲置'
-//     }
-//     if(st===2){
-//         return '租用'
-//     }
-//     if(st===3){
-//         return '自用'
-//     }
-//     if(st===4){
-//         return '人防'
-//     }
-// }
+function stopCarStatus(st){
+    if(st===1){
+        return '闲置'
+    }
+    if(st===2){
+        return '租用'
+    }
+    if(st===3){
+        return '自用'
+    }
+    if(st===4){
+        return '人防'
+    }
+}
 function yeZhuStatus(st){
     if(st===1){
         return '自住'
@@ -54,6 +54,19 @@ function yeZhuStatus(st){
         return '出租'
     }
 }
+function baoXiuStatus(order_status,is_assign){
+    if(order_status===2){
+        if(is_assign===1){
+            return (<span style={{color:'#3399FF'}}>服务中</span>)
+        }
+        if(is_assign===0){
+            return (<span style={{color:'#F56047'}}>待派单</span>)
+        }
+    }
+    if(order_status===3){
+        return "已完成"
+    }
+}
 export const HEAD_CONF = {
     YE_ZHU: {//业主
         head: ["业主姓名", "业主电话", "门牌号", "房屋面积", "产权号", "居住人数", "房屋状态", "操作"],
@@ -61,53 +74,69 @@ export const HEAD_CONF = {
         add_path: '/index/ye_list/add_owner'
     },
     REPAIR_MANAGE: {//报修
-        head: ["订单号", "订单服务人员", "服务类型", "服务地址", "服务时间", "服务数量", "问题描述", "操作"],
+        head: ["订单号", "报修人", "订单服务人员", "服务项目", "服务地址", "服务时间", "价格", "状态","问题描述", "操作"],
         dele_title: "删除报修信息",
-        add_path: '/index/repair_manage/add_repair'
+        add_path: '/index/repair_manage/add_repair',
+        inp_ziduan:"搜索：订单号,报修人",
+        is_shiw_tbhead: 2
     },
     WATER_LIST: {//水费
         head: ['序号', '房号', '户主名', '起始数(m³)', '截止数(m³)', '单价(元/m³)', '用量(m³)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/index/water_list/add_water',
         pay_details: '/index/water_list/pay_details',
-        is_shiw_tbhead: true
+        inp_ziduan:"搜索：房号,户主名",
+        is_shiw_tbhead: 1
     },
     GAS_LIST: {//气费
         head: ['序号', '房号', '户主名', '起始数(m³)', '截止数(m³)', '单价(元/m³)', '用量(m³)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/index/gas_list/add_gas',
         pay_details: '/index/gas_list/pay_details',
-        is_shiw_tbhead: true
+        inp_ziduan:"搜索：房号,户主名",
+        is_shiw_tbhead: 1
     },
     ELECTRICITY_LIST: {//电费
         head: ['序号', '房号', '户主名', '起始数(kw)', '截止数(kw)', '单价(元/kw)', '用量(kw)', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/index/electricity_list/add_electricity',
         pay_details: '/index/electricity_list/pay_details',
-        is_shiw_tbhead: true
+        inp_ziduan:"搜索：房号,户主名",
+        is_shiw_tbhead: 1
     },
     PROPERTY_LIST: {//物业费
         head: ['序号', '房号', '户主名', '房屋面积(㎡)', '单价(元/㎡)', '缴费月份', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/index/property_list/add_property',
         pay_details: '/index/property_list/pay_details',
-        is_shiw_tbhead: true
+        inp_ziduan:"搜索：房号,户主名",
+        is_shiw_tbhead: 1
     },
     GARBAGE_LIST: {//垃圾费
         head: ['序号', '房号', '户主名', '房屋面积(㎡)', '单价(元/㎡)', '缴费月份', '费用(元)', '付费状态', '支付方式', '操作'],
         dele_title: "删除缴费信息",
         add_path: '/index/garbage_list/add_garbage',
         pay_details: '/index/garbage_list/pay_details',
-        is_shiw_tbhead: true
+        inp_ziduan:"搜索：房号,户主名",
+        is_shiw_tbhead: 1
+    },
+    STOPCAR_LIST: {//停车费
+        head: ['序号', '车位号', '车主名', '车牌号', '车主电话', '车位状态', ' 缴费月份', '费用(元)', '付费状态','支付方式', '操作'],
+        dele_title: "删除缴费信息",
+        add_path: '/index/stopcar_list/add_stopcar',
+        pay_details: '/index/stopcar_list/pay_details',
+        is_shiw_tbhead: 1
     },
     NOTICE_LIST: {//公告
-        head: ['主题', '发布人', '职位', '发布时间', '操作'],
+        head: ['主题', '接收小区', '发布时间', '操作'],
         dele_title: "删除发布信息",
-        add_path: '/index/notice_list/add_notice'
+        add_path: '/index/notice_list/add_notice',
+        inp_ziduan:"搜索：主题"
     },
     QUARTERS_LIST: {//创建小区
         head: ['小区名字', '小区地址', '开发地址', '服务中心电话', '物业中心负责人', '负责人电话', '操作'],
         dele_title: "删除小区信息",
+        inp_ziduan:"搜索：全部",
         add_path: '/index/quarters_list/add_quarters'
     },
     HOUSEHOLD_LIST: {//住户表
@@ -152,16 +181,24 @@ export function mapAddressToTd(path, item, methods) {
     if (path === "/index/repair_manage") {   // REPAIR_MANAGE
         return (
             <tr key={item.id}>
-                <td >{item.order_id}</td>
-                <td >{item.username}</td>
-                <td>{item.type}</td>
+                <td >{item.internal_order_sn}</td>
+                <td >{item.contacts}</td>
+                <td >{item.assigns.map((it,inx)=>{
+                    if((item.assigns.length-1)===inx){
+                        return it.assign_name
+                    }else{
+                    return it.assign_name+'，'
+                    }
+                })}</td>
+                <td>{item.spu_name}</td>
                 <td>{item.address}</td>
-                <td>{item.service_at}</td>
-                <td>{item.number}</td>
-                <td>{item.desc}</td>
-                <td style={{ width: '17%' }}>
-                    <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
-                        修改
+                <td>{item.service_time}</td>
+                <td>{item.order_total_price}</td>
+                <td>{baoXiuStatus(item.order_status,item.is_assign)}</td>
+                <td>{item.remarks}</td>
+                <td style={{ width: '13%' }}>
+                    <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.baoxiuXiangqing(item, e)}>
+                        详情
                     </Button>
                     <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
                         删除
@@ -200,7 +237,7 @@ export function mapAddressToTd(path, item, methods) {
     if (path === "/index/gas_list") {   // GAS_LIST
         return (
             <tr key={item.id}>
-                <td >{item.gas_number}</td>
+                <td >{item.id}</td>
                 <td >{item.house_number}</td>
                 <td>{item.owner_name}</td>
                 <td>{item.start_num}</td>
@@ -227,7 +264,7 @@ export function mapAddressToTd(path, item, methods) {
     if (path === "/index/electricity_list") {   // ELECTRICITY_LIST
         return (
             <tr key={item.id}>
-                <td >{item.electric_number}</td>
+                <td >{item.id}</td>
                 <td >{item.house_number}</td>
                 <td>{item.owner_name}</td>
                 <td>{item.start_num}</td>
@@ -277,7 +314,7 @@ export function mapAddressToTd(path, item, methods) {
             </tr>
         )
     }
-    if (path === "/index/garbage_list") {   // PROPERTY_LIST
+    if (path === "/index/garbage_list") {   // GARBAGE_LIST
         return (
             <tr key={item.id}>
                 <td >{item.id}</td>
@@ -303,12 +340,38 @@ export function mapAddressToTd(path, item, methods) {
             </tr>
         )
     }
+    if (path === "/index/stopcar_list") {   // STOPCAR_LIST
+        return (
+            <tr key={item.id}>
+                <td >{item.id}</td>
+                <td >{item.park_region+item.park_number}</td>
+                <td>{item.tenant_name}</td>
+                <td>{item.car_number}</td>
+                <td>{item.tenant_mobile}</td>
+                <td>{stopCarStatus(item.park_status)}</td>
+                <td>{item.year+'-'+item.month}</td>
+                <td>{item.total_price}</td>
+                <td>{payStatus(item.status)}</td>
+                <td>{payType(item.pay_type)}</td>
+                <td style={{ width: '17%' }}>
+                    <Button type="primary" shape="round" className="table-list-xiugai"onClick={(e) => methods.xiuGAiCurItem(item, e)}>
+                        修改
+                    </Button>
+                    <Button type="primary" shape="round" className="table-list-dele" onClick={(e) => methods.deleCurItem(item, e)}>
+                        删除
+                    </Button>
+                    <Button type="primary" shape="round" className="table-list-xq" onClick={(e) => methods.xQCurItem(item, e)}>
+                        详情
+                    </Button>
+                </td>
+            </tr>
+        )
+    }
     if (path === "/index/notice_list") {   // NOTICE_LIST
         return (
             <tr key={item.id}>
                 <td >{item.title}</td>
-                <td >{item.admin_name}</td>
-                <td>{item.admin_position}</td>
+                <td >{item.community_name}</td>
                 <td>{item.created_at}</td>
                 <td style={{ width: '17%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.xiuGAiCurItem(item, e)}>
@@ -408,11 +471,11 @@ export function getPageTotal(path, condition) {
             })
         }
         if (path === "/index/repair_manage") {//报修管理
-            http('/repair/repairIndexNum', { method: 'post', data: { condition } }).then(res => {
-                resolve(res)
-            }).catch(res => {
-                reject(res)
-            })
+            // http('/repair/repairIndexNum', { method: 'post', data: { condition } }).then(res => {
+            //     resolve(res)
+            // }).catch(res => {
+            //     reject(res)
+            // })
         }
         if (path === "/index/quarters_list") {//小区列表
             http('/community/community_list_num', { method: 'post', data: { condition } }).then(res => {
@@ -481,18 +544,18 @@ export function getPageTotal(path, condition) {
         }
     })
 }
-export function getTableList(path, page, limit, condition,date,status) {//获取表格数据
+export function getTableList(path, page, limit, condition,date,status,service) {//获取表格数据
     return new Promise((resolve, reject) => {
         if (path === "/index/notice_list") {//小区公告
             http('/notice/noticeIndex', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
-                resolve(res)
+                resolve(res.data)
             }).catch(res => {
                 reject(res)
             })
         }
         if (path === "/index/repair_manage") {//报修管理
-            http('/repair/repairIndex', { method: 'post', data: { page: page, limit: limit, condition: condition } }).then(res => {
-                resolve(res)
+            http('/repair', { method: 'get', data: { page: page, limit: limit, condition: condition,status:service } }).then(res => {
+                resolve(res.data)
             }).catch(res => {
                 reject(res)
             })
@@ -545,6 +608,12 @@ export function getTableList(path, page, limit, condition,date,status) {//获取
             }).catch(res => {
                 reject(res)
             })
+        }if (path === "/index/stopcar_list") {//停车费列表
+            http('/payment', { method: 'get', data: { type:6,status:status,page: page,condition:condition,date:date} }).then(res => {
+                resolve(res.data)
+            }).catch(res => {
+                reject(res)
+            })
         }
         if (path === "/index/parking_list") {//停车位列表
             http('/park/park_list', { method: 'get', data: { page: page, limit: limit, condition: condition } }).then(res => {
@@ -555,7 +624,7 @@ export function getTableList(path, page, limit, condition,date,status) {//获取
         }
         if (path === "/index/ye_list") {//业主列表
             http('/owner/owner_list', { method: 'post' , data: { page: page, limit: limit, condition: condition } }).then(res => {
-                resolve(res)
+                resolve(res.data)
             }).catch(res => {
                 reject(res)
             })
@@ -621,6 +690,13 @@ export function deleItem(path, id) {//删除按钮
             })
         }
         if (path === "/index/garbage_list") {//垃圾列表
+            http('/payment/delete', { method: 'POST', data: { id: id } }).then(res => {
+                resolve(res)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/index/stopcar_list") {//停车列表
             http('/payment/delete', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {

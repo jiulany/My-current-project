@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button, Radio } from 'antd';
 import './ParksManage.css'
-import http from '../../api/http';
+import http  from '../../api/http';
 const { Option } = Select;
 //css样式在home.css
 function getBase64(img, callback) {
@@ -20,6 +20,7 @@ class ParksManage extends Component {
             is_change: false,
             data: [],
             park: [],
+            is_xianzh_no:true
         }
     }
     componentDidMount() {
@@ -59,7 +60,9 @@ class ParksManage extends Component {
                     http('/park', { method: 'get', data: { floor_id: a[0].id, park_region: b[0].park_region } }).then(res => {
                         console.log(res)
                         this.setState({
-                            park: res.data
+                            park: res.data,
+                            cur_tab_inx:0,
+                            cur_sid_inx:0
                         })
                     }).catch(res => {
                     })
@@ -87,12 +90,14 @@ class ParksManage extends Component {
                     this.setState({
                         image_url: a,
                         loading: false,
+                        just_idk: file
                     })
                 } else {
                     a[1] = imageUrl
                     this.setState({
                         image_url: a,
                         loading: false,
+                        back_idk: file
                     })
                 }
             })
@@ -112,20 +117,37 @@ class ParksManage extends Component {
     }
     modifyStat = () => {
         this.setState({
-            is_change: true
+            is_change: true,
+            tenant_state:true
         })
     }
     seleParkStatus = (e) => {
         if (e === 2) {
             this.setState({
                 tenant_state: true,
-                park_status: e
+                park_status: e,
+                cur_status: e,
+                is_xianzh_no:true,
+                is_xianzh_y:true
             })
-        } else {
+        }else if(e===1||e===4){
             this.setState({
                 tenant_state: false,
-                park_status: e
+                park_status: e,
+                cur_status: e,
+                is_xianzh_no:true,
+                is_xianzh_y:false,
+                is_lease:1
             })
+        }else if(e===3){
+            this.setState({
+                tenant_state: false,
+                park_status: e,
+                cur_status: e,
+                is_xianzh_no:true,
+                is_xianzh_y:true
+            })
+        } else {
         }
 
     }
@@ -168,6 +190,9 @@ class ParksManage extends Component {
             a[j].act = false
         }
         a[i].act = true
+        this.setState({
+            cur_sid_inx:i
+        })
         http('/park', { method: 'get', data: { floor_id: this.state.data[this.state.cur_tab_inx].id, park_region: this.state.sider_list[i].park_region } }).then(res => {
             this.setState({
                 park: res.data,
@@ -180,31 +205,58 @@ class ParksManage extends Component {
         })
     }
     clickTabItem = (i, e) => {
-        http('/park/park_one', { method: 'POST', data: { id: this.state.park[i].id } }).then(res => {
-            if (res.data[0].park_status === 1) {//闲置状态
+        http('/park/find', { method: 'get', data: { id: this.state.park[i].id } }).then(res => {
+            if (res.data.park_status === 1||res.data.park_status===4) {//闲置人防状态
+                if(res.data.is_lease===0){
+                    this.setState({
+                        is_change: true,
+                        cur_status: res.data.park_status,
+                        is_xianzh_no:false
+                    })
+                }
+                if(res.data.is_lease===1){
+                    this.setState({
+                        is_change: true,
+                        cur_status: res.data.park_status,
+                        is_xianzh_no:true,
+                        is_xianzh_y:false
+                    })
+                }
+            }
+            if (res.data.park_status === 3) {//自用状态
                 this.setState({
-                    is_change: true,
-                    cur_status: res.data[0].park_status
-                })
-            } else {
-                this.setState({//非闲置状态
                     is_change: false,
-                    cur_status: res.data[0].park_status
+                    cur_status: res.data.park_status,
+                    is_xianzh_no:true,
+                    is_xianzh_y:true
                 })
             }
+            if (res.data.park_status ===2) {//出租状态
+                this.setState({
+                    is_change: false,
+                    cur_status: res.data.park_status,
+                    is_xianzh_no:true,
+                    is_xianzh_y:true
+                })
+            }
+            let image_url=[]
+            image_url[0]=res.data.just_idk
+            image_url[1]=res.data.back_idk
             this.setState({
                 cur_click_park: i,
                 show_model: true,
-                owner_name: res.data[0].owner_name,
-                owner_mobile: res.data[0].owner_mobile,
-                owner_house_number: res.data[0].owner_house_number,
-                tenant_name: res.data[0].tenant_name,
-                tenant_mobile: res.data[0].tenant_mobile,
-                car_number: res.data[0].car_number,
-                park_status: res.data[0].park_status,
-                tenant_house_number: res.data[0].tenant_house_number,
-                park_period: res.data[0].park_period,
-                is_lease:res.data[0].is_lease,
+                model_tt:this.state.data[this.state.cur_tab_inx].park_floor+' '+this.state.sider_list[this.state.cur_sid_inx].park_region+'区'+res.data.park_name,
+                owner_name: res.data.owner_name,
+                owner_phone: res.data.owner_phone,
+                house_number: res.data.house_number,
+                tenant_name: res.data.tenant_name,
+                tenant_mobile: res.data.tenant_mobile,
+                car_number: res.data.car_number,
+                park_status: res.data.park_status,
+                tenant_house_number: res.data.tenant_house_number,
+                park_period: res.data.park_period,
+                is_lease: res.data.is_lease,
+                image_url:image_url
             })
         }).catch(res => {
         })
@@ -215,15 +267,15 @@ class ParksManage extends Component {
                 owner_name: e.currentTarget.value
             })
         }
-        if (p === 'owner_mobile') {
+        if (p === 'owner_phone') {
             let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                owner_mobile: re
+                owner_phone: re
             })
         }
-        if (p === 'owner_house_number') {
+        if (p === 'house_number') {
             this.setState({
-                owner_house_number: e.currentTarget.value
+                house_number: e.currentTarget.value
             })
         }
         if (p === 'tenant_name') {
@@ -253,58 +305,96 @@ class ParksManage extends Component {
             })
         }
     }
-    handleUpload = () => {
-        let _thisst = this.state
-        console.log(_thisst.data, _thisst.cur_tab_index)
-        http('/park/park_save', {
-            method: 'POST', data: {
-                id: _thisst.park[_thisst.cur_click_park].id,
-                owner_name: _thisst.owner_name,
-                owner_mobile: _thisst.owner_mobile,
-                owner_house_number: _thisst.owner_house_number,
-                tenant_name: _thisst.tenant_name,
-                tenant_mobile: _thisst.tenant_mobile,
-                car_number: _thisst.car_number,
-                park_status: _thisst.park_status,
-                tenant_house_number: _thisst.tenant_house_number,
-                park_period: _thisst.park_period,
-                is_lease:_thisst.is_lease,
+    pushFormData = () => {
+        return new Promise((resolve, reject) => {
+            let _thisst = this.state
+            var formData = new FormData()
+            formData.append("id",_thisst.park[_thisst.cur_click_park].id)
+            formData.append("owner_name", _thisst.owner_name)
+            formData.append("owner_phone", _thisst.owner_phone)
+            formData.append("house_number", _thisst.house_number)
+            formData.append("tenant_name", _thisst.tenant_name)
+            formData.append("tenant_mobile", _thisst.tenant_mobile)
+            formData.append("car_number", _thisst.car_number)
+            formData.append("park_status", _thisst.park_status)
+            formData.append("tenant_house_number", _thisst.tenant_house_number)
+            formData.append("park_period", _thisst.park_period)
+            formData.append("is_lease", _thisst.is_lease)
+            if (_thisst.just_idk) {
+                formData.append('just_idk', _thisst.just_idk)
+            } else {
+                formData.append('img_urlz', '')
             }
-        }).then(res => {
-            let secondsToGo = 3;
-            const modal = Modal.success({
-                title: '保存成功',
-                content: `您已经成功保存编号${this.state.park[this.state.cur_click_park].park_number}车位信息`,
-            });
-            const timer = setInterval(() => {
-                secondsToGo -= 1;
-            }, 1000);
-            setTimeout(() => {
-                http('/park/index_park_floor', { method: 'POST', data: { park_floor: _thisst.data[_thisst.cur_tab_index].park_floor } }).then(res => {
-                    this.setState({
-                        park: res.data,
-                    })
-                }).catch(res => {
-                })
-                clearInterval(timer);
-                modal.destroy();
-                this.setState({
-                    show_model: false,
-                })
-            }, secondsToGo * 1000);
-        }).catch(res => {
+            if (_thisst.back_idk) {
+                formData.append('back_idk', _thisst.back_idk)
+            } else {
+                formData.append('img_urlf', '')
+            }
+            // formData.append('just_idk', _thisst.just_idk)
+            // formData.append('back_idk', _thisst.back_idk)
+            resolve(formData)
         })
     }
-    changeChuzu = (e) => {
-        this.setState({
-            is_lease: e.target.value
+    handleUpload = () => {
+        this.pushFormData().then(res=>{
+            http('/park/park_save', {
+                data: res,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                method: 'POST'
+            }).then(res => {
+                let secondsToGo = 3;
+                const modal = Modal.success({
+                    title: '保存成功',
+                    content: `您已经成功保存编号${this.state.park[this.state.cur_click_park].park_number}车位信息`,
+                });
+                const timer = setInterval(() => {
+                    secondsToGo -= 1;
+                }, 1000);
+                setTimeout(() => {
+                    http('/park', { method: 'get', data: { floor_id: this.state.data[this.state.cur_tab_inx].id, park_region: this.state.sider_list[this.state.cur_sid_inx].park_region } }).then(res => {
+                        this.setState({
+                            park: res.data,
+                        })
+                    }).catch(res => {
+                        this.setState({
+                            park: []
+                        })
+                    })
+                    clearInterval(timer);
+                    modal.destroy();
+                    this.setState({
+                        show_model: false,
+                    })
+                }, secondsToGo * 1000);
+            }).catch(res => {
+            })
         })
+        
+    }
+    changeChuzu = (e) => {
+        if(this.state.cur_status===1||this.state.cur_status===4){
+            if(e.target.value===1){
+                this.setState({
+                    is_lease: e.target.value,
+                    is_xianzh_no:true,
+                    is_xianzh_y:false
+                })
+            }else{
+                this.setState({
+                    is_lease: e.target.value,
+                    is_xianzh_no:false,
+                    is_xianzh_y:false
+                })
+            }
+        }
     }
     render() {
         const uploadButton = (pan) => (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">{pan ? "租客身份证正面照" : "租客身份证反面照"}</div>
+                <div className="ant-upload-text">{pan ? "国徽面" : "头像面"}</div>
             </div>
         );
         const radioStyle = {
@@ -344,7 +434,7 @@ class ParksManage extends Component {
                                         this.state.park.map((item, inx) => {
                                             let color = ''
                                             let park_status_d = ''
-                                            let lease=''
+                                            let lease = ''
                                             if (item.park_status === 1) { color = '#3399ff'; park_status_d = '闲置' }
                                             if (item.park_status === 2) { color = '#ff9933'; park_status_d = '租用' }
                                             if (item.park_status === 3) { color = '#ffff66'; park_status_d = '自用' }
@@ -364,58 +454,77 @@ class ParksManage extends Component {
                     </div>
                 </Col>
                 <Col span={24}>
-                    <Modal title="一单元一号楼 负一楼 1-1-1" visible={this.state.show_model} onOk={this.handleOk} className='park-mag-mod' okText='保存'
+                    <Modal title={this.state.model_tt} visible={this.state.show_model} onOk={this.handleOk} className='park-mag-mod' okText='保存'
                         onCancel={this.deleCurItem}
                     >
                         {
                             this.state.is_change && <Row>
-                                <Col span={24} className='park-mag-fenltt' >业主信息</Col>
-                                <Col span={24} className='park-mag-fenl'>
-                                    <Col span={24} className='park-mag-itm'>
-                                        <Col span={11}>
-                                            <Col span={6}>业主姓名：</Col>
-                                            <Col span={18}>
-                                                <Input placeholder="请输入业主姓名" value={this.state.owner_name} onChange={(e) => this.inputValue('owner_name', e)} />
-                                            </Col>
-                                        </Col>
-                                        <Col span={11} offset={2}>
-                                            <Col span={6}>业主电话：</Col>
-                                            <Col span={18}><Input maxLength={11} placeholder="请输入业主电话" value={this.state.owner_mobile} onChange={(e) => this.inputValue('owner_mobile', e)} /></Col>
-                                        </Col>
-                                    </Col>
-                                    <Col span={24} className='park-mag-itm'>
-                                        <Col span={11}>
-                                            <Col span={6}>门牌号：</Col>
-                                            <Col span={18}>
-                                                <Input placeholder="请输入门牌号" value={this.state.owner_house_number} onChange={(e) => this.inputValue('owner_house_number', e)} />
-                                            </Col>
-                                        </Col>
-                                        <Col span={11} offset={2}>
+                                {
+                                    this.state.is_xianzh_no&&this.state.is_xianzh_y&& (
+                                        <div style={{ width: '100%' }}>
+                                            <Col span={24} className='park-mag-fenltt' >业主信息</Col>
+                                            <Col span={24} className='park-mag-fenl'>
+                                                <Col span={24} className='park-mag-itm'>
+                                                    <Col span={11}>
+                                                        <Col span={6}>业主姓名：</Col>
+                                                        <Col span={18}>
+                                                            <Input placeholder="请输入业主姓名" value={this.state.owner_name} onChange={(e) => this.inputValue('owner_name', e)} />
+                                                        </Col>
+                                                    </Col>
+                                                    <Col span={11} offset={2}>
+                                                        <Col span={6}>业主电话：</Col>
+                                                        <Col span={18}><Input maxLength={11} placeholder="请输入业主电话" value={this.state.owner_phone} onChange={(e) => this.inputValue('owner_phone', e)} /></Col>
+                                                    </Col>
+                                                </Col>
+                                                <Col span={24} className='park-mag-itm'>
+                                                    <Col span={11}>
+                                                        <Col span={6}>门牌号：</Col>
+                                                        <Col span={18}>
+                                                            <Input placeholder="请输入门牌号" value={this.state.house_number} onChange={(e) => this.inputValue('house_number', e)} />
+                                                        </Col>
+                                                    </Col>
+                                                    <Col span={11} offset={2}>
 
-                                        </Col>
-                                    </Col>
-                                </Col>
-                                <Col span={24} className='park-mag-fenltt' >租客信息</Col>
-                                <Col span={24} className='park-mag-fenl'>
-                                    <Col span={24} className='park-mag-itm'>
-                                        <Col span={11}>
-                                            <Col span={6}>车主姓名：</Col>
-                                            <Col span={18}>
-                                                <Input placeholder="请输入姓名" value={this.state.tenant_name} onChange={(e) => this.inputValue('tenant_name', e)} />
+                                                    </Col>
+                                                </Col>
                                             </Col>
-                                        </Col>
-                                        <Col span={11} offset={2}>
-                                            <Col span={6}>车主电话：</Col>
-                                            <Col span={18}><Input maxLength={11} placeholder="请输入电话" value={this.state.tenant_mobile} onChange={(e) => this.inputValue('tenant_mobile', e)} /></Col>
-                                        </Col>
-                                    </Col>
+                                            <Col span={24} className='park-mag-fenltt' >
+                                                {this.state.park_status===3?'车位信息':'租客信息'}
+                                            </Col>
+                                        </div>
+                                    )
+                                }
+                                <Col span={24} className='park-mag-fenl'>
+                                    {
+                                        this.state.is_xianzh_no && (
+                                            <div style={{ width: '100%' }}>
+                                                <Col span={24} className='park-mag-itm'>
+                                                    <Col span={11}>
+                                                        <Col span={6}>车主姓名：</Col>
+                                                        <Col span={18}>
+                                                            <Input placeholder="请输入姓名" value={this.state.tenant_name} onChange={(e) => this.inputValue('tenant_name', e)} />
+                                                        </Col>
+                                                    </Col>
+                                                    <Col span={11} offset={2}>
+                                                        <Col span={6}>车主电话：</Col>
+                                                        <Col span={18}><Input maxLength={11} placeholder="请输入电话" value={this.state.tenant_mobile} onChange={(e) => this.inputValue('tenant_mobile', e)} /></Col>
+                                                    </Col>
+                                                </Col>
+
+                                            </div>
+                                        )
+                                    }
                                     <Col span={24} className='park-mag-itm'>
+                                    {
+                                        this.state.is_xianzh_no && (
                                         <Col span={11}>
                                             <Col span={6}>车牌号码：</Col>
                                             <Col span={18}>
                                                 <Input maxLength={8} placeholder="请输入车牌号码" value={this.state.car_number} onChange={(e) => this.inputValue('car_number', e)} />
                                             </Col>
                                         </Col>
+                                        )
+                                    }
                                         <Col span={11} offset={2}>
                                             <Col span={6}>车位状态：</Col>
                                             <Col span={18}>
@@ -429,66 +538,74 @@ class ParksManage extends Component {
                                         </Col>
                                     </Col>
                                     {
-                                        this.state.cur_status===1|| this.state.cur_status===4?(
+                                        this.state.cur_status === 1 || this.state.cur_status === 4 ? (
                                             <Col span={24} className='park-mag-itm'>
-                                                <Col span={11}>
-                                                </Col>
+                                                {
+                                                    this.state.is_xianzh_no && (
+                                                        <Col span={11}>
+                                                        </Col>
+                                                    )
+                                                }
                                                 <Col span={11} offset={2}>
                                                     <Col span={6}>是否出租：</Col>
                                                     <Col span={18}>
-                                                        <Radio.Group onChange={this.changeChuzu} style={{width:'100%'}} value={this.state.is_lease}>
+                                                        <Radio.Group onChange={this.changeChuzu} style={{ width: '100%' }} value={this.state.is_lease}>
                                                             <Col span={12}><Radio style={radioStyle} value={1}>是</Radio></Col>
                                                             <Col span={12}><Radio style={radioStyle} value={0}>否</Radio></Col>
                                                         </Radio.Group>
                                                     </Col>
                                                 </Col>
                                             </Col>
-                                        ):('')
+                                        ) : ('')
                                     }
-                                    <Col span={24} className='park-mag-itm'>
-                                        <Col span={11}>
-                                            <Col span={6}>门牌号：</Col>
-                                            <Col span={18}>
-                                                <Input placeholder="请输入门牌号" value={this.state.tenant_house_number} onChange={(e) => this.inputValue('tenant_house_number', e)} />
-                                            </Col>
-                                        </Col>
-                                        <Col span={11} offset={2}>
-                                            <Col span={6}>车位租期：</Col>
-                                            <Col span={18}>
-                                                <Input placeholder="请输入租期" value={this.state.park_period} onChange={(e) => this.inputValue('park_period', e)} />
-                                            </Col>
-                                        </Col>
-                                    </Col>
-                                    {this.state.tenant_state === true && (
-                                        <Col span={24}>
-                                            <Col span={8}>
-                                                <Col span={5}></Col>
-                                                <Col span={19} className="add-up">
-                                                    <Upload
-                                                        name="avatar"
-                                                        listType="picture-card"
-                                                        showUploadList={false}
-                                                        beforeUpload={this.beforeUpload}
-                                                    >
-                                                        {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
-                                                    </Upload>
+                                    {
+                                        this.state.is_xianzh_no && (
+                                            <div style={{ width: '100%' }}>
+                                                <Col span={24} className='park-mag-itm'>
+                                                    <Col span={11}>
+                                                        <Col span={6}>门牌号：</Col>
+                                                        <Col span={18}>
+                                                            <Input placeholder="请输入门牌号" value={this.state.tenant_house_number} onChange={(e) => this.inputValue('tenant_house_number', e)} />
+                                                        </Col>
+                                                    </Col>
+                                                    <Col span={11} offset={2}>
+                                                        <Col span={6}>车位租期：</Col>
+                                                        <Col span={18}>
+                                                            <Input placeholder="请输入租期" value={this.state.park_period} onChange={(e) => this.inputValue('park_period', e)} />
+                                                        </Col>
+                                                    </Col>
                                                 </Col>
-                                            </Col>
-                                            <Col span={8} >
-                                                <Col span={5}></Col>
-                                                <Col span={19} className="add-up">
-                                                    <Upload
-                                                        name="avatar"
-                                                        listType="picture-card"
-                                                        showUploadList={false}
-                                                        beforeUpload={this.beforeUpload_0}
-                                                    >
-                                                        {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
-                                                    </Upload>
-                                                </Col>
-                                            </Col>
-                                        </Col>
-                                    )}
+                                                {this.state.tenant_state === true&&this.state.cur_status !== 3 && (
+                                                    <Col span={24}>
+                                                        <Col span={8}>
+                                                            <Col span={5}></Col>
+                                                            <Col span={19} className="add-up">
+                                                                <Upload
+                                                                    name="avatar"
+                                                                    listType="picture-card"
+                                                                    showUploadList={false}
+                                                                    beforeUpload={this.beforeUpload}
+                                                                >
+                                                                    {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                                                </Upload>
+                                                            </Col>
+                                                        </Col>
+                                                        <Col span={8} >
+                                                            <Col span={5}></Col>
+                                                            <Col span={19} className="add-up">
+                                                                <Upload
+                                                                    name="avatar"
+                                                                    listType="picture-card"
+                                                                    showUploadList={false}
+                                                                    beforeUpload={this.beforeUpload_0}
+                                                                >
+                                                                    {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
+                                                                </Upload>
+                                                            </Col>
+                                                        </Col>
+                                                    </Col>
+                                                )}
+                                            </div>)}
                                 </Col>
                                 <Col span={24} className="add-ctrl">
                                     <Col span={11}>
@@ -511,12 +628,12 @@ class ParksManage extends Component {
                                         </Col>
                                         <Col span={7} offset={1}>
                                             <Col span={10}>业主电话：</Col>
-                                            <Col span={14}>{this.state.owner_mobile}</Col>
+                                            <Col span={14}>{this.state.owner_phone}</Col>
                                         </Col>
                                         <Col span={7} offset={1}>
                                             <Col span={10}>门牌号：</Col>
                                             <Col span={14}>
-                                                {this.state.owner_house_number}
+                                                {this.state.house_number}
                                             </Col>
                                         </Col>
                                     </Col>
@@ -565,7 +682,7 @@ class ParksManage extends Component {
                                         </Col>
                                     </Col>
                                     {
-                                        this.state.cur_status !== 3&&this.state.cur_status !== 4 && (
+                                        this.state.cur_status !== 3 && this.state.cur_status !== 4 && (
                                             <Col span={24} className='park-mag-itm_inp'>
                                                 <Col span={8}>
                                                     <Col span={5}></Col>

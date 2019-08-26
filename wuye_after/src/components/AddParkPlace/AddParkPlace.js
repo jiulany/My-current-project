@@ -82,7 +82,11 @@ class AddParkPlace extends Component {
                     this.props.history.go(-1)
                 }, 2000)
             }).catch(res => {
-                message.error(res.msg);
+                if(res.code===500){
+                    message.error('添加失败');
+                }else{
+                    message.error(res.msg);
+                }
                 this.setState({
                     start_park_number: "",
                     end_park_number: ""
@@ -131,6 +135,11 @@ class AddParkPlace extends Component {
             let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
                 end_park_number: re
+            })
+        }
+        if (p === 'park_region') {
+            this.setState({
+                park_region: e.currentTarget.value
             })
         }
     }
@@ -189,15 +198,7 @@ class AddParkPlace extends Component {
                         <Col span={9}>
                             <Col span={6}>区号：</Col>
                             <Col span={18}>
-                                <Select style={{ width: '100%' }} value={this.state.park_region} placeholder="请选择车位状态" onChange={this.seleparkRegion} allowClear={true}>
-                                    {
-                                        this.state.park_region_list && this.state.park_region_list.map((item, inx) => {
-                                            return (
-                                                <Option value={item.park_region} key={inx}>{item.park_region}</Option>
-                                            )
-                                        })
-                                    }
-                                </Select>
+                                <Input placeholder="请输入区号" value={this.state.park_region} onChange={(e) => this.inputValue('park_region', e)} />
                             </Col>
                         </Col>
                         <Col span={9} offset={1}>

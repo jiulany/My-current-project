@@ -23,6 +23,11 @@ class Head extends Component {
         community_value:next.defaultValue
       })
     }
+    if(next.communityList!==this.state.community_list){
+      this.setState({
+        community_list:next.communityList,
+      })
+    }
   }
   signOut = () => {
     this.props.signOut()
@@ -32,13 +37,16 @@ class Head extends Component {
     store.dispatch({ type: "CHANGE_COMMUNITY", value: e })
     Cookies.set('community_id',e, { expires: 30 });
   }
+  toIndex=()=>{
+    this.props.toControl()
+  }
   render() {
     // 在父 route 中，被匹配的子 route 变成 props
     return (
       <div>
         <Row>
           <Col span={3} className="head-logo">
-            <img src={require('../../images/LOGO.png')} alt="" />
+            <img style={{cursor:'pointer'}} onClick={this.toIndex} src={require('../../images/LOGO.png')} alt="" />
           </Col>
           <Col span={13}>2019年6月25日
           <Select className='head-sle-xiaoq'

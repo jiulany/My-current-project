@@ -12,6 +12,7 @@ class Login extends Component {
     }
     componentDidMount() {
         if (Cookies.get('account') !== '' || Cookies.get('password') !== '') {
+            console.log(Cookies.get('account'),"ss")
             this.setState({
                 account: Cookies.get('account'),
                 password: Cookies.get('password'),
@@ -47,16 +48,17 @@ class Login extends Component {
         this.setState({
             loading:true
         })
+        localStorage.setItem("token","")
         http('/login/token', {
             method: 'POST', data: {
                 username: this.state.account,
                 password: this.state.password
             }
         }).then(res => {
+            localStorage.setItem("token",res.data.token)
             http('/login/user_info', {
                 method: 'POST', data: {}
             }).then(res => {
-                console.log(res)
                 Cookies.set('user_id', res.data.id, { expires: 30 });
                 // Cookies.set('community_id', res.data[0].id, { expires: 30 });
                 Cookies.set('name', res.data.name, { expires: 30 });
@@ -91,7 +93,7 @@ class Login extends Component {
                             <Col span={2} className='login-ico'>
                                 <img src={require('../../images/login_ico0.png')} alt="" />
                             </Col>
-                            <Col offset={1} span={21}><input type="text" onInput={(e) => this.inputValue('account', e)} placeholder='请输入账号' /></Col>
+                            <Col offset={1} span={21}><input type="text" value={this.state.account} onInput={(e) => this.inputValue('account', e)} placeholder='请输入账号' /></Col>
                         </Col>
                     </Col>
                     <Col span={24} className='login-itm'>
@@ -99,7 +101,7 @@ class Login extends Component {
                             <Col span={2} className='login-ico'>
                                 <img src={require('../../images/login_ico1.png')} alt="" />
                             </Col>
-                            <Col offset={1} span={21}><input type="password" maxLength='6' onInput={(e) => this.inputValue('password', e)} placeholder='请输入账号' /></Col>
+                            <Col offset={1} span={21}><input type="password" value={this.state.password} maxLength='6' onInput={(e) => this.inputValue('password', e)} placeholder='请输入账号' /></Col>
                         </Col>
                     </Col>
                     <Col span={24} className='login-itm-t0'>

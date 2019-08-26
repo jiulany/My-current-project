@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button, message } from 'antd';
 import Cookies from 'js-cookie'
+import store from '../../reducer/reducer'
 import http from '../../api/http';
 //css样式在home.css
 
@@ -191,6 +192,7 @@ class AddQuarters extends Component {
                     community_person_mobile: '',
                 })
                 setTimeout(() => {
+                    store.dispatch({ type: "CHANGE_COMMUNITY", value:{is_change:true} })
                     this.props.history.go(-1)
                 }, 2000)
             }).catch(res => {

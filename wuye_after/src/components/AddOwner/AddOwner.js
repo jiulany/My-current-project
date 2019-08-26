@@ -19,13 +19,22 @@ class AddOwner extends Component {
             tenant_state: false,
             loading: false,
             is_xiugai: false,
-            image_url: [] //省份证正反index=0正，1为反
+            image_url: [], //省份证正反index=0正，1为反
+            owner_name:'',
+            owner_phone:'',
+            title_number:'',
+            area:'',
+            number_residents:'',
+            status:''
         }
     }
-    componentDidMount() {
+    componentWillMount(){
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
+                this.setState({
+                    is_xiugai: true
+                })
                 http('/owner/owner_update_info', {
                     method: 'get', data: {
                         id: query.update_id
@@ -35,7 +44,6 @@ class AddOwner extends Component {
                     a[0] = res.data[0].just_idk
                     a[1] = res.data[0].back_idk
                     this.setState({
-                        is_xiugai: true,
                         door_number: res.data[0].house_number,
                         owner_name: res.data[0].owner_name,
                         owner_phone: res.data[0].owner_phone,
@@ -290,7 +298,8 @@ class AddOwner extends Component {
             console.log(res)
             this.setState({
                 household_id: res.data.id,
-                area: res.data.area
+                area: res.data.area,
+                status:res.data.status
             })
         }).catch(res => {
             message.error(res.msg);
@@ -311,7 +320,7 @@ class AddOwner extends Component {
         const uploadButton = (pan) => (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">{pan ? "租客身份证正面照" : "租客身份证反面照"}</div>
+                <div className="ant-upload-text">{pan ? "国徽面" : "头像面"}</div>
             </div>
         );
         // 在父 route 中，被匹配的子 route 变成 props
@@ -331,7 +340,7 @@ class AddOwner extends Component {
                         </Col>
                         <Col span={7}>
                             <Col span={5}>门牌号：</Col>
-                            <Col span={19}><Input onBlur={this.blurGetHuzhu} placeholder="请输入门牌号" value={this.state.door_number} onChange={(e) => this.inputValue('door_number', e)} /></Col>
+                            <Col span={19}><Input disabled={this.state.is_xiugai?true:false} onBlur={this.blurGetHuzhu} placeholder="请输入门牌号" value={this.state.door_number} onChange={(e) => this.inputValue('door_number', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>

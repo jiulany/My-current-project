@@ -40,7 +40,11 @@ class AddWuYe extends Component {
                     this.props.history.go(-1)
                 },2000)
             }).catch(res => {
-                message.error(res.msg);
+                if(res.code===500){
+                    message.error('添加失败');
+                }else{
+                    message.error(res.msg);
+                }
                 this.setState({
                     floor: '',
                     unit: '',

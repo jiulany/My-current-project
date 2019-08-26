@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button,DatePicker } from 'antd';
-import http, { baseURL } from '../../api/http';
+import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button, DatePicker } from 'antd';
+import http from '../../api/http';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import store from '../../reducer/reducer'
 import moment from 'moment';
@@ -21,7 +21,7 @@ class FloorManage extends Component {
             tenant_state: false,
             loading: false,
             image_url: [],
-            is_change: false,
+            is_change: 1,
             data: [],
             data_row: [],
             data_cow: [],
@@ -183,17 +183,9 @@ class FloorManage extends Component {
     clickItem = (inx, e) => {
         let cur_click = this.state.data_main[inx]
         this.setState({
-            mod_title: `${cur_click.floor_don}栋${cur_click.unit}单元${cur_click.house_number}`
+            mod_title: `${cur_click.floor_don}栋${cur_click.unit}单元${cur_click.house_number}`,
+            is_change: 1,
         })
-        if (cur_click.status === '2') {//闲置状态
-            this.setState({
-                is_change: true,
-            })
-        } else {
-            this.setState({//非闲置状态
-                is_change: false,
-            })
-        }
         if (parseInt(cur_click.status) === 4) {
             this.setState({
                 tenant_state: true
@@ -204,12 +196,12 @@ class FloorManage extends Component {
             })
         }
         let a = this.state.image_url
-        a[0] = baseURL + cur_click.just_idk
-        a[1] = baseURL + cur_click.back_idk
+        a[0] = cur_click.just_idk
+        a[1] = cur_click.back_idk
         console.log(moment(cur_click.tenant_time))
         this.setState({
             show_model: true,
-            household_id:cur_click.id,
+            household_id: cur_click.id,
             door_number: cur_click.door_number,
             owner_name: cur_click.owner_name,
             owner_phone: cur_click.owner_phone,
@@ -219,7 +211,7 @@ class FloorManage extends Component {
             tenant_phone: cur_click.tenant_phone,
             lease_term: cur_click.lease_term,
             title_number: cur_click.title_number,
-            tenant_time:cur_click.tenant_time,
+            tenant_time: cur_click.tenant_time,
             show_tenant_time: moment(cur_click.tenant_time),
             image_url: a,
             area: cur_click.area,
@@ -234,8 +226,9 @@ class FloorManage extends Component {
             })
         }
         if (p === 'owner_phone') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                owner_phone: e.currentTarget.value
+                owner_phone: re
             })
         }
         if (p === 'door_number') {
@@ -244,18 +237,21 @@ class FloorManage extends Component {
             })
         }
         if (p === 'title_number') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                title_number: e.currentTarget.value
+                title_number: re
             })
         }
         if (p === 'area') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                area: e.currentTarget.value
+                area: re
             })
         }
         if (p === 'number_residents') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
-                number_residents: e.currentTarget.value
+                number_residents: re
             })
         }
         if (p === 'renter_name') {
@@ -284,6 +280,7 @@ class FloorManage extends Component {
             formData.append('title_number', _thisst.title_number)
             formData.append('number_residents', _thisst.number_residents)
             formData.append('status', _thisst.status)
+            formData.append('area', _thisst.area)
             formData.append('renter_name', _thisst.renter_name)
             formData.append('tenant_phone', _thisst.tenant_phone)
             formData.append('tenant_time', _thisst.tenant_time)
@@ -411,11 +408,11 @@ class FloorManage extends Component {
     }
     modifyStat = () => {
         this.setState({
-            is_change: true
+            is_change: 2
         })
     }
     seleState = (e) => {
-        if (e === 4) {
+        if (e === 4||e===3) {
             this.setState({
                 tenant_state: true,
                 status: e
@@ -434,17 +431,36 @@ class FloorManage extends Component {
         if (this.state.status === 3) { return '装修' }
         if (this.state.status === 4) { return '出租' }
     }
-    ruzhuTime=(e)=>{
+    ruzhuTime = (e) => {
         this.setState({
             tenant_time: moment(e).format('YYYY-MM-DD'),
-            show_tenant_time:e
+            show_tenant_time: e
+        })
+    }
+    openHistory = () => {
+
+        http('/owner/owner_payment', {
+            method: 'get',
+            data: {
+                household_id: this.state.data_main[this.state.inx].id
+            }
+        }).then(res => {
+            console.log(res)
+            this.setState({
+                pay_dt: res.data
+            })
+        }).catch(res => {
+            message.error(res.msg);
+        })
+        this.setState({
+            is_change: 3
         })
     }
     render() {
         const uploadButton = (pan) => (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">{pan ? "租客身份证正面照" : "租客身份证反面照"}</div>
+                <div className="ant-upload-text">{pan ? "国徽面" : "头像面"}</div>
             </div>
         );
         // 在父 route 中，被匹配的子 route 变成 props
@@ -499,7 +515,7 @@ class FloorManage extends Component {
                         onCancel={this.deleCurItem}
                     >
                         {
-                            this.state.is_change && <Row>
+                            this.state.is_change === 2 && <Row>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
                                         <Col span={6}>业主姓名：</Col>
@@ -528,7 +544,7 @@ class FloorManage extends Component {
                                     <Col span={11}>
                                         <Col span={6}>房屋面积：</Col>
                                         <Col span={18}>
-                                            <Input disabled placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} />
+                                            <Input placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} />
                                         </Col>
                                     </Col>
                                     {this.state.tenant_state !== true && (
@@ -553,10 +569,7 @@ class FloorManage extends Component {
                                     <Col span={11} offset={2}>
                                         <Col span={6}>缴费状态：</Col>
                                         <Col span={18}>
-                                            <Select style={{ width: '100%' }} placeholder="请选择缴费状态" allowClear={true}>
-                                                <Option value="已付费">已付费</Option>
-                                                <Option value="未付费">未付费</Option>
-                                            </Select>
+                                            <Button onClick={this.openHistory} type='primary' style={{ color: 'rgba(0, 0, 0, 0.65)', height: "25px", width: "57px", fontSize: "12px" }}>查看</Button>
                                         </Col>
                                     </Col>
                                 </Col>
@@ -583,7 +596,7 @@ class FloorManage extends Component {
                                             </Col>
                                             <Col span={11} offset={2}>
                                                 <Col span={6}>入住时间：</Col>
-                                                <Col span={18}><DatePicker style={{width:'100%'}} value={this.state.show_tenant_time} locale={locale} onChange={this.ruzhuTime} placeholder="选择入住日期" /></Col>
+                                                <Col span={18}><DatePicker style={{ width: '100%' }} value={this.state.show_tenant_time} locale={locale} onChange={this.ruzhuTime} placeholder="选择入住日期" /></Col>
                                             </Col>
                                         </Col>
                                     )
@@ -637,7 +650,7 @@ class FloorManage extends Component {
                             </Row>
                         }
                         {
-                            !this.state.is_change && <Row>
+                            this.state.is_change === 1 && <Row>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
                                         <Col span={6}>业主姓名：</Col>
@@ -671,12 +684,12 @@ class FloorManage extends Component {
                                         </Col>
                                     </Col>
                                     {
-                                        this.state.tenant_state!==true&&(
+                                        this.state.tenant_state !== true && (
                                             <Col span={11} offset={2}>
                                                 <Col span={6}>居住人数：</Col>
                                                 <Col span={18}>{this.state.number_residents}</Col>
                                             </Col>
-                                        ) 
+                                        )
                                     }
                                 </Col>
                                 <Col span={24} className='floor-mag-itm'>
@@ -689,12 +702,12 @@ class FloorManage extends Component {
                                     <Col span={11} offset={2}>
                                         <Col span={6}>缴费状态：</Col>
                                         <Col span={18}>
-                                            未交费
+                                            <Button onClick={this.openHistory} type='primary' style={{ color: 'rgba(0, 0, 0, 0.65)', height: "25px", width: "57px", fontSize: "12px" }}>查看</Button>
                                         </Col>
                                     </Col>
                                 </Col>
                                 {
-                                    this.state.tenant_state===true&&(
+                                    this.state.tenant_state === true && (
                                         <Col span={24} className='floor-mag-itm'>
                                             <Col span={11}>
                                                 <Col span={6}>租户姓名：</Col>
@@ -712,7 +725,7 @@ class FloorManage extends Component {
                                     )
                                 }
                                 {
-                                    this.state.tenant_state===true&&(
+                                    this.state.tenant_state === true && (
                                         <Col span={24} className='floor-mag-itm'>
                                             <Col span={11}>
                                                 <Col span={6}>居住人数：</Col>
@@ -721,7 +734,7 @@ class FloorManage extends Component {
                                                 </Col>
                                             </Col>
                                             <Col span={11} offset={2}>
-                                                <Col span={6}>租客电话：</Col>
+                                                <Col span={6}>入住时间：</Col>
                                                 <Col span={18}>
                                                     {this.state.tenant_time}
                                                 </Col>
@@ -730,7 +743,7 @@ class FloorManage extends Component {
                                     )
                                 }
                                 {
-                                    this.state.tenant_state===true&&(
+                                    this.state.tenant_state === true && (
                                         <Col span={24} className='floor-mag-itm'>
                                             <Col span={11}>
                                                 <Col span={6}>租期：</Col>
@@ -762,6 +775,42 @@ class FloorManage extends Component {
                                     <Col span={24} className="add-ctrl-it floor-mag-xiugai" onClick={this.modifyStat}><Button type="primary">修改</Button></Col>
                                 </Col>
                             </Row>
+                        }
+                        {
+                            this.state.is_change === 3 && (
+                                <Row>
+                                    <Col span={24}>
+                                        <Col span={5} className='hist-it'><div className='hist-it-mc'></div>日期</Col>
+                                        <Col span={7} className='hist-it'><div className='hist-it-mc'></div>缴费项</Col>
+                                        <Col span={7} className='hist-it'><div className='hist-it-mc'></div>费用</Col>
+                                        <Col span={5} className='hist-it'><div className='hist-it-mc'></div>状态</Col>
+                                    </Col>
+                                    <Col span={24} className='hist-item-ct'>
+                                        {
+                                            this.state.pay_dt && this.state.pay_dt.map((item, inx) => {
+                                                let type=""
+                                                if(item.type===1){type='水费'}
+                                                if(item.type===2){type='电费'}
+                                                if(item.type===3){type='气费'}
+                                                if(item.type===4){type='物业费'}
+                                                if(item.type===5){type='垃圾费'}
+                                                if(item.type===6){type='车费'}
+                                                let status=''
+                                                if(item.status===0){status='未交费'}
+                                                if(item.status===1){status='已缴费'}
+                                                return (
+                                                    <Col span={24} className='hist-item'>
+                                                        <Col span={5}>{item.year+'-'+item.month}</Col>
+                                                        <Col span={7}>{type}</Col>
+                                                        <Col span={7}>{item.total_price}</Col>
+                                                        <Col span={5}>{status}</Col>
+                                                    </Col>
+                                                )
+                                            })
+                                        }
+                                    </Col>
+                                </Row>
+                            )
                         }
                     </Modal>
                 </Col>

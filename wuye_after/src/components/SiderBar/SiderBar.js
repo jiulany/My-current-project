@@ -25,6 +25,9 @@ const list = [
       },
       {
         title: "垃圾费", path: "/index/garbage_list"
+      },
+      {
+        title: "停车费", path: "/index/stopcar_list"
       }
     ]
   },

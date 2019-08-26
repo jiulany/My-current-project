@@ -15,14 +15,17 @@ import AddOwner from "../../components/AddOwner/AddOwner"
 import AddRepair from "../../components/AddRepair/AddRepair"
 import AddPay0 from "../../components/AddPay0/AddPay0"
 import AddPay1 from "../../components/AddPay1/AddPay1"
+import AddParkStop from "../../components/AddParkStop/AddParkStop"
 import AddNotice from "../../components/AddNotice/AddNotice"
 import AddQuarters from "../../components/AddQuarters/AddQuarters"
 import AddWuYe from "../../components/AddWuYe/AddWuYe"
 import FloorManage from "../../components/FloorManage/FloorManage"
 import ParksManage from "../../components/ParksManage/ParksManage"
+import ChargingManage from "../../components/ChargingManage/ChargingManage"
 import AddParkPlace from "../../components/AddParkPlace/AddParkPlace"
 import AddParkFloor from "../../components/AddParkFloor/AddParkFloor"
-import PayDetails from '../../components/PayDetails/PayDetails';
+import PayDetails from '../../components/PayDetails/PayDetails'
+import PayDetailsCar from '../../components/PayDetails/PayDetailsCar'
 const { Header, Content, Sider } = Layout;
 const { confirm } = Modal;
 class Home extends Component {
@@ -31,9 +34,17 @@ class Home extends Component {
     this.state = {
       cur_breadcrumb: "",
       change_path: '',
-      switch_route: true
+      switch_route: true,
+      commit_change:null
     }
     store.subscribe(() => {
+      if(store.getState().controlCommunity.value){
+        if(store.getState().controlCommunity.value.is_change){
+          this.setState({
+            commit_change:true
+          })
+        }
+      }
       this.setState({
         cur_breadcrumb: store.getState().controlBreadcrumb.cur_breadcrumb
       })
@@ -43,7 +54,7 @@ class Home extends Component {
     matchPath(this.props.location.pathname)
   }
   componentWillMount() {
-    Cookies.set('community_id', '', { expires: 30 });
+    // Cookies.set('community_id', '', { expires: 30 });
     http('/community', {
       method: 'get', data: {}
     }).then(res => {
@@ -76,7 +87,7 @@ class Home extends Component {
       })
     }
   }
-  componentWillUpdate(nextSprops) {
+  componentWillUpdate(nextSprops,nextState) {
     if (nextSprops.location.pathname !== this.props.location.pathname) {//判断前后两路由是否不等，防止无限循环
       matchPath(nextSprops.location.pathname)
       if (Cookies.get('login') === 'false' || Cookies.get('login') === undefined) {
@@ -89,6 +100,25 @@ class Home extends Component {
           switch_route: true
         })
       }
+    }
+    if(nextState.commit_change!==this.state.commit_change&&nextState.commit_change===true){
+      http('/community', {
+        method: 'get', data: {}
+      }).then(res => {
+        this.setState({
+          community_list: res.data,
+          defaultValue: res.data[0].id,
+          commit_change:false
+        })
+        Cookies.set('community_id', res.data[0].id, { expires: 30 })
+      }).catch(res => {
+        message.error(res.msg);
+        setTimeout(() => {
+          this.setState({
+            loading: false
+          })
+        }, 1000);
+      })
     }
   }
   signOut = () => {
@@ -113,6 +143,9 @@ class Home extends Component {
       defaultValue: e
     })
   }
+  toControl=()=>{
+    this.props.history.push('/')
+  }
   render() {
     // 在父 route 中，被匹配的子 route 变成 props
     return (
@@ -121,7 +154,7 @@ class Home extends Component {
           <Layout>
             <Header name={11} className="header">
               {/* 头 */}
-              <Head changeCommunite={this.changeCommunite} signOut={this.signOut} communityList={this.state.community_list} defaultValue={this.state.defaultValue} />
+              <Head changeCommunite={this.changeCommunite} signOut={this.signOut} toControl={this.toControl} communityList={this.state.community_list} defaultValue={this.state.defaultValue} />
             </Header>
             <Layout>
               {/* 侧边栏 */}
@@ -160,6 +193,10 @@ class Home extends Component {
                   <Route exact path="/index/garbage_list" component={TableList} ></Route>
                   <Route path="/index/garbage_list/add_garbage" component={AddPay1} ></Route>
                   <Route path="/index/garbage_list/pay_details" component={PayDetails} ></Route>
+                  {/* 停车费*/}
+                  <Route exact path="/index/stopcar_list" component={TableList} ></Route>
+                  <Route path="/index/stopcar_list/add_stopcar" component={AddParkStop} ></Route>
+                  <Route path="/index/stopcar_list/pay_details" component={PayDetailsCar} ></Route>
                   {/* 创建小区*/}
                   <Route exact path="/index/quarters_list" component={TableList} ></Route>
                   <Route path="/index/quarters_list/add_quarters" component={AddQuarters} ></Route>
@@ -177,6 +214,8 @@ class Home extends Component {
                   <Route exact path="/index/floor_manage" component={FloorManage} ></Route>
                   {/* 停车位管理*/}
                   <Route exact path="/index/parking_manage" component={ParksManage} ></Route>
+                  {/*充电管理管理*/}
+                  <Route exact path="/index/charging_manage" component={ChargingManage} ></Route>
                 </Content>
               </Layout>
             </Layout>

@@ -24,12 +24,12 @@ function controlCommunity(state = {}, actions) {
     switch (actions.type) {
         case 'CHANGE_COMMUNITY':
             let cur_st = state
-            cur_st.value=actions.value
+            cur_st.value = actions.value
             return cur_st
         default:
             return state
     }
 }
-const reducer = combineReducers({ controlBreadcrumb,controlSiderbar,controlCommunity })
+const reducer = combineReducers({ controlBreadcrumb, controlSiderbar, controlCommunity })
 const store = createStore(reducer)
 export default store

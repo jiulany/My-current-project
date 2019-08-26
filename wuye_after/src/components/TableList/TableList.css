@@ -134,6 +134,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 position: relative;
+margin-right: 10px
 }
 .table-list-paystzz{
     position: absolute;
@@ -199,4 +200,49 @@ border-radius: 0
     height: 25px;
     width: 80px;
     margin-left: 10px;
+}
+.baoxiu-model-body{
+    padding:15px 50px;
+    padding-left: 100px;
+    position: relative;
+}
+.baoxiu-model-it{
+    color: #333333 !important;
+    padding: 10px 0;
+}
+.baoxiu-model-quxiao {
+    margin-top: 40px;
+    display: flex;
+justify-content: center
+}
+.baoxiu-model-quxiao div{
+    width:88px;
+height:30px;
+background:rgba(245,245,245,1);
+border-radius:15px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+.baoxiu-model-paidan {
+    margin-top: 40px
+}
+.baoxiu-model-paidan div{
+    width:88px;
+height:30px;
+background:rgba(253,209,0,1);
+border-radius:15px;
+display: flex;
+justify-content: center;
+align-items: center;
+cursor: pointer;
+}
+.baoxiu-model-add{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #FDD100;
+    font-size: 18px;
+    cursor: pointer;
 }

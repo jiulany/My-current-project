@@ -75,3 +75,32 @@
 .floor-mag-actitem{
     background: #fdd100
 }
+.hist-it{
+padding: 5px ;
+text-align: center;
+position: relative;
+border-right: 1px solid rgba(255,209,0,1);
+}
+.hist-it:last-child{
+    border-right:none;
+}
+.hist-it-mc{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:rgba(255,209,0,1);
+    opacity: 0.2;
+}
+.hist-item-ct{
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: scroll
+}
+.hist-item{
+    padding: 10px 0 ;
+text-align: center;
+position: relative;
+border-bottom:1px solid rgba(240,240,240,1);
+}

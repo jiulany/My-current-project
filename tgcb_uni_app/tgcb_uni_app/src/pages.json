@@ -1,0 +1,598 @@
+{
+	"pages": [
+		{
+			"path": "pages/app/app",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh":false,
+				"usingComponents" : {
+				}
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "pagesA",
+			"pages": [
+				{
+					"path": "balance/balance",
+					"style": {
+						"navigationBarTitleText": "余额",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "personal/personal",
+					"style": {
+						"navigationBarTitleText": "个人信息",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "recharge/recharge",
+					"style": {
+						"navigationBarTitleText": "充值",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "balance_details/balance_details",
+					"style": {
+						"navigationBarTitleText": "余额明细",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "integral/integral",
+					"style": {
+						"navigationBarTitleText": "积分",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "integral_details/integral_details",
+					"style": {
+						"navigationBarTitleText": "积分明细",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "integral_store/integral_store",
+					"style": {
+						"navigationBarTitleText": "积分兑换",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "integral_store_dt/integral_store_dt",
+					"style": {
+						"navigationBarTitleText": "积分商品详情",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "yearly_inspection/yearly_inspection",
+					"style": {
+						"navigationBarTitleText": "车辆年检",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_yuyue/my_yuyue",
+					"style": {
+						"navigationBarTitleText": "我的预约",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_yuyue_details/my_yuyue_details",
+					"style": {
+						"navigationBarTitleText": "预约详情",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "invitation/invitation",
+					"style": {
+						"navigationBarTitleText": "邀请码",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "violation/violation",
+					"style": {
+						"navigationBarTitleText": "违章处理",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_car/my_car",
+					"style": {
+						"navigationBarTitleText": "我的车辆",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "payment_manage/payment_manage",
+					"style": {
+						"navigationBarTitleText": "密码管理",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "set_pwd/set_pwd",
+					"style": {
+						"navigationBarTitleText": "设置密码",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "update_pwd/update_pwd",
+					"style": {
+						"navigationBarTitleText": "修改密码",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "about_us/about_us",
+					"style": {
+						"navigationBarTitleText": "关于我们",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "about_togogo/about_togogo",
+					"style": {
+						"navigationBarTitleText": "关于脱狗",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "feedback/feedback",
+					"style": {
+						"navigationBarTitleText": "投诉建议",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "join_us/join_us",
+					"style": {
+						"navigationBarTitleText": "加入我们",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_add_car/my_add_car",
+					"style": {
+						"navigationBarTitleText": "添加车辆信息",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_ticket/my_ticket",
+					"style": {
+						"navigationBarTitleText": "卡券",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_address/my_address",
+					"style": {
+						"navigationBarTitleText": "地址管理",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_address_addtx/my_address_addtx",
+					"style": {
+						"navigationBarTitleText": "新建地址",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				},
+				{
+					"path": "my_address_addtc/my_address_addtc",
+					"style": {
+						"navigationBarTitleText": "新建地址",
+						"enablePullDownRefresh":false,
+						"usingComponents" : {
+						}
+					}
+				}
+			]
+		},
+		{
+			"root": "pagesB",
+			"pages": [
+			{
+				"path": "vip_buy_order/vip_buy_order",
+				"style": {
+					"navigationBarTitleText": "订单",
+					"usingComponents": {}
+				}
+			},
+			{
+				"path": "collectCars_record/collectCars_record",
+				"style": {
+					"navigationBarTitleText": "收车记录",
+					"usingComponents": {}
+				}
+			},
+				{
+					"path": "collectCars/collectCars",
+					"style": {
+						"navigationBarTitleText": "现金收车",
+						"usingComponents": {}
+					}
+				},
+				{
+				"path": "park_emergency/park_emergency",
+				"style": {
+					"navigationBarTitleText": "应急停车",
+					"usingComponents": {}
+				}
+			},
+			{
+				"path": "car_wash_buyOrder/car_wash_buyOrder",
+				"style": {
+					"navigationBarTitleText": "提交订单",
+					"usingComponents": {}
+				}
+			},
+
+
+				{
+				"path": "park_record/park_record",
+				"style": {
+					"navigationBarTitleText": "停车记录",
+					"usingComponents": {}
+				}
+			},
+			{
+				"path": "park_upload/park_upload",
+				"style": {
+					"navigationBarTitleText": "上传凭证",
+					"usingComponents": {}
+				}
+			},
+			{
+				"path": "welfare/welfare",
+				"style": {
+					"navigationBarTitleText": "车友福利",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "cosmetology/cosmetology",
+				"style": {
+					"navigationBarTitleText": "美容",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "maintain/maintain",
+				"style": {
+					"navigationBarTitleText": "选择保养项目",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "maintain_shop/maintain_shop",
+				"style": {
+					"navigationBarTitleText": "匹配商品",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_check/car_check_add",
+				"style": {
+					"navigationBarTitleText": "车辆年检",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_check/record",
+				"style": {
+					"navigationBarTitleText": "年检记录",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_check/car_add",
+				"style": {
+					"navigationBarTitleText": "车辆年检",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_check/car_check",
+				"style": {
+					"navigationBarTitleText": "车辆年检",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_add/car_add",
+				"style": {
+					"navigationBarTitleText": "添加车辆信息",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "new_car/new_car",
+				"style": {
+					"navigationBarTitleText": "新车福利专场",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "old_car/old_car",
+				"style": {
+					"navigationBarTitleText": "老车专场",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "network_car/network_car",
+				"style": {
+					"navigationBarTitleText": "网约车福利专场",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_cosmetology/car_cosmetology",
+				"style": {
+					"navigationBarTitleText": "洗车美容包季",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "car_cosmetology/car_cosmetology_year",
+				"style": {
+					"navigationBarTitleText": "洗车美容包年",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "cosmetologys/cosmetologys",
+				"style": {
+					"navigationBarTitleText": "洗车美容套餐",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "repair/repair",
+				"style": {
+					"navigationBarTitleText": "维修",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "choice_store/choice_store",
+				"style": {
+					"navigationBarTitleText": "选择门店",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "lately/lately",
+				"style": {
+					"navigationBarTitleText": "离我最近",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "storeDetail/storeDetail",
+				"style": {
+					"navigationBarTitleText": "门店详情",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			},
+			{
+				"path": "pay/pay",
+				"style": {
+					"navigationBarTitleText": "立即支付",
+					"enablePullDownRefresh":false,
+					"usingComponents" : {
+					}
+				}
+			}
+		]},
+		{
+			"root" : "pagesC",
+			"pages": [
+				{
+					"path": "order/order",
+					"style": {
+						"navigationBarTitleText": "订单列表",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "order_detail/order_detail",
+					"style": {
+						"navigationBarTitleText": "订单详情",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "vip_state/vip_state",
+					"style": {
+						"navigationBarTitleText": "会员权益",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "vip_buy/vip_buy",
+					"style": {
+						"navigationBarTitleText": "会员权益",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "explain/explain",
+					"style": {
+						"navigationBarTitleText": "使用说明",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "vip_buy_qy/vip_buy_qy",
+					"style": {
+						"navigationBarTitleText": "会员权益",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "car_wash_info/car_wash_info",
+					"style": {
+						"navigationBarTitleText": "完善预约信息",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "shop/shop",
+					"style": {
+						"navigationBarTitleText": "浅水半岛店",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "explain_function/explain_function",
+					"style": {
+						"navigationBarTitleText": "使用方法",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "explain_problem/explain_problem",
+					"style": {
+						"navigationBarTitleText": "常见问题",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "park_select/park_select",
+					"style": {
+						"navigationBarTitleText": "查违章",
+						"usingComponents": {}
+					}
+				},
+				{
+					"path": "chat/chat",
+					"style": {
+						"navigationBarTitleText": "脱狗专家",
+						"usingComponents": {}
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"mp-alipay": {
+			"titleBarColor": "#FFFFFF"
+		}
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

@@ -12,9 +12,9 @@
                    {{staff.staff&&staff.staff.staff_info.account.slice(0,3)}}****{{staff.staff.staff_info.account.slice(7)}}
                </cover-view>
                <cover-view class="span24 sucorder-hd-line">
-                   <cover-view class="span16 sucorder-hd-dist">距您{{staff.distance}}}km</cover-view>
+                   <cover-view class="span16 sucorder-hd-dist">距您{{staff.distance}}km</cover-view>
                    <cover-view class="span8 sucorder-hd-dtl">
-                       <cover-view class="sucorder-hd-detail">订单详情</cover-view>
+                       <cover-view class="sucorder-hd-detail" @tap="toDetail">订单详情</cover-view>
                    </cover-view>
                </cover-view>
            </cover-view>
@@ -88,6 +88,10 @@
             },
             toCancel(){
                 this.model=false
+            },
+            toDetail(){
+            uni.setStorageSync('details', this.staff);
+            uni.navigateTo({url: '/pages/order_details/order_details'});
             },
             toOk(){
                 uni.showLoading({

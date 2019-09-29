@@ -35,13 +35,20 @@
                 </view>
             </view>
         </view>
-        <view class="span24 ordetail-btm">
-			<view  >服务完成</view>
+        <view class="span24 ordetail-btm" v-if="details.order_status===3">
+			<view  @tap="openOver">服务完成</view>
 		</view>
+    <min-action-sheet ref="as">
+      <view style="padding: 32rpx">
+        <view style="font-size: 32rpx">确定吗？</view>
+        <text style="color: #585858;">完成后无法恢复哦</text>
+    </view>
+    </min-action-sheet>
 	</view>
 </template>
 
 <script>
+import minActionSheet from '@/components/min-action-sheet/min-action-sheet'
 	export default {
 		data() {
 			return {
@@ -68,11 +75,52 @@
                 index_2:0,
                 details:null
 			}
-		},
+        },
+        components:{minActionSheet},
 		onLoad() {
             this.details=uni.getStorageSync('details')
 		},
 		methods: {
+            openOver(){
+                let _this=this
+                this.$refs.as.handleShow({
+        actions: [
+          {
+            name: '确认',
+            color: '#007aff'
+          }
+        ],
+        success: (res) => {
+          switch (res.id) {
+            // -1代表取消按钮
+            case -1:
+              break
+            case 0:
+                uni.showLoading({
+    title: '请稍等'
+});
+                _this.$http({ url: `api/confirm_order` ,data:{
+                order_id:_this.details.id
+          },method:"post"}).then(res => {
+              uni.showToast({
+    title: '完成',
+    duration: 1000
+});
+              setTimeout(()=>{
+uni.navigateBack({
+    delta: 1
+});
+              },1500)
+                uni.hideLoading()
+          })
+          .catch(res => {
+                uni.hideLoading()
+                });
+              break
+          }
+        }
+      })
+            },
             changeType(e){
                 console.log(e)
             },

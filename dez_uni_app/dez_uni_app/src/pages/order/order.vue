@@ -6,7 +6,7 @@
         <view class="span24 order-ct">
 <swiper :current="TabCur" duration="300" @change="swiperChange">
   <swiper-item>
-      <scroll-view class="scroll-view" :scroll-y="true">
+      <scroll-view class="scroll-view" :scroll-y="true" @scrolltolower="scrolltolower">
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in incomplete" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
@@ -27,7 +27,7 @@
     </scroll-view>
   </swiper-item>
   <swiper-item>
-      <scroll-view class="scroll-view" :scroll-y="true">
+      <scroll-view class="scroll-view" :scroll-y="true" @scrolltolower="scrolltolower">
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in completed" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
@@ -40,14 +40,14 @@
         </view>
         <view class="span24 order-it-line">
             <view class="span15">{{item.internal_order_sn}}</view>
-            <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view>
+            <!-- <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view> -->
         </view>
     </view>
     </view>
     </scroll-view>
   </swiper-item>
   <swiper-item>
-      <scroll-view class="scroll-view" :scroll-y="true">
+      <scroll-view class="scroll-view" :scroll-y="true" @scrolltolower="scrolltolower">
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in close" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
@@ -60,7 +60,7 @@
         </view>
         <view class="span24 order-it-line">
             <view class="span15">{{item.internal_order_sn}}</view>
-            <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view>
+            <!-- <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view> -->
         </view>
     </view>
     </view>
@@ -104,11 +104,15 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
           completed:[],
           completed_page:1,
           close:[],
-          close_page:1
+          close_page:1,
+          loading_ok:true
 			}
 		},
 		onLoad() {
-            this.loadList()
+            
+        },
+        onShow(){
+                this.loadList(true)
         },
         components:{WucTab},
 		methods: {
@@ -160,6 +164,7 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
                 this.sur_model=false
             },
         loadList(re){
+            this.loading_ok=false
             let status=null
             let page=null
             if(this.TabCur===0){
@@ -193,13 +198,19 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
                 status:status,
                 page:page
           }}).then(res => {
+              this.loading_ok=true
+              uni.hideLoading()
               if(status===2){
                   if(re){
                       this.incomplete=res.data.data
                   }else{
                   this.incomplete=this.incomplete.concat(res.data.data)
                   }
+                  if(res.data.data.length===0){
+
+                  }else{
                   this.incomplete_page=this.incomplete_page+1
+                  }
               }
               if(status===4){
                   if(re){
@@ -207,7 +218,12 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
                   }else{
                   this.completed=this.completed.concat(res.data.data)
                   }
+                  if(res.data.data.length===0){
+
+                  }else{
                   this.completed_page=this.completed_page+1
+                  }
+                  
               }
               if(status===5){
                   if(re){
@@ -215,10 +231,22 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
                   }else{
                   this.close=this.close.concat(res.data.data)
                   }
+                  if(res.data.data.length===0){
+
+                  }else{
                   this.close_page=this.close_page+1
+                  }
               }
           })
           .catch(res => {});
+        },
+        scrolltolower(){
+            uni.showLoading({
+    title: '加载中'
+});
+if(this.loading_ok){
+                this.loadList()
+}
         },
         swiperChange(e){
             this.TabCur=e.detail.current

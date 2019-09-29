@@ -76,13 +76,6 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
         components: { HMmessages},
 		onLoad() {
             let _this=this
-    uni.getLocation({
-    type: 'wgs84',
-    success: function (res) {
-         _this.longitude=res.longitude
-        _this.latitude=res.latitude
-    }
-});
         this.$http({
         url: `api/goods_class`,data: {}
         }).then(res => {
@@ -98,16 +91,13 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
       //获取表单传入地址
       address: _this.full_address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
       success: function(res) {//成功后的回调
-        console.log(res);
         var res = res.result;
         _this.latitude= res.location.lat;
         _this.longitude= res.location.lng;
       },
       fail: function(error) {
-          console.log(error)
       },
       complete: function(res) {
-          console.log(res)
           if(res.status!=0){
                _this.full_address=''
              _this.HMmessages.show(res.message, { icon: "error" });
@@ -162,8 +152,8 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
           contacts:this.contacts,
           mobile:this.mobile,
           full_address:this.full_address,
-          lng:104.08046,//this.longitude,
-          lat:30.6722,//this.latitude,
+          lng:this.longitude,//,
+          lat:this.latitude,//,
           class_id:this.type_array[1][this.index_2].id,
           class_name:this.type_array[0][this.index_1].class_name+'-'+this.type_array[1][this.index_2].class_name
         }

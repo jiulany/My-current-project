@@ -14,9 +14,18 @@
 				<view>附近师傅<span>32</span>个</view>
 			</view>
 			<view class="span24 index-sf-line">
-				<view class="span7 index-fj-it" v-for="item in list" :key="item.id">
-					<view class="span24 index-fj-touxiang"><image   mode="aspectFit" :src='item.head'></image></view>
-					<view class="span24 index-fj-name">{{item.surname}}师傅</view>
+				<view class="span24 index-fj-it" v-for="item in list" :key="item.id">
+					<view class="span6 index-fj-touxiang"><image   mode="aspectFit" :src="item.head!=''?item.head:'../../static/images/touxiang.png'"></image></view>
+					<view class="span18 index-fj-name">
+						<view class="span24">
+							<view class="span20" style="color:black">{{item.surname}}师傅</view>
+							<view class="span4 index-fj-call"><image  @tap="call(item,$event)"  mode="aspectFit" src='../../static/images/dianhua.png'></image></view>
+						</view>
+						<view class="span24">
+							<view class="span12" style="color:black">工种：{{item.work_type?item.work_type:''}}</view>
+							<view class="span12 index-fj-call" style="justify-content:flex-end">{{item.phone?item.phone:''}}</view>
+						</view>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -42,6 +51,11 @@
           .catch(res => {});
 		},
 		methods: {
+			call(item,e){
+				uni.makePhoneCall({
+    phoneNumber: item.account 
+});
+			},
 			toAppoint(){
 				uni.navigateTo({url: '/pages/appointment/appointment'});
 			},
@@ -113,9 +127,8 @@
 	}
 	.index-fj-it{
 		background: white;
-		padding: 9rpx 20rpx 29rpx 20rpx;
+		padding: 9rpx 20rpx 20rpx 20rpx;
 		border-radius:10rpx;
-		width: 197rpx;
 		margin-bottom: 20rpx
 	}
 	.index-sf{
@@ -145,15 +158,15 @@
 		color: #409CCB;
 	}
 	.index-fj-touxiang{
-		justify-content: center
+		justify-content: center;
+		align-items: center
 	}
 	.index-fj-touxiang image{
-		width: 142rpx;
-		height: 142rpx;
+		width: 106rpx;
+		height: 106rpx;
 	}
 	.index-fj-name{
         font-size:28rpx;
-		background:rgba(249,249,249,1);
         color:rgba(64,156,203,1);
 		justify-content: center;
 		border-radius:5rpx;
@@ -176,5 +189,13 @@
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(255,255,255,1);
+	}
+	.index-fj-call{
+		justify-content: flex-end;
+		padding-right: 20rpx
+	}
+	.index-fj-call image{
+		width:30rpx;
+		height: 30rpx;
 	}
 </style>

@@ -2,23 +2,23 @@
     <view class="car_inspection">
         <view class="car_header">
             <view class="car_header_top">
-                <image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567221655&di=909de690b86f6239aebafb350faa9c02&imgtype=jpg&er=1&src=http%3A%2F%2Fimage.bitautoimg.com%2Fappimage-630-w0%2Fappimage%2Fmedia%2F20181008%2Fw630_h369_78a6ed7737294ee1b29c255e19bc694b.jpeg"> </image>
+                <image :src="carData.car.vehicle.url"> </image>
                 <view class="car_content">
-                    <view>川A123654</view>
-                    <view>宝马2017款220敞篷轿跑车</view>
+                    <view>{{carData.car.car_num}}</view>
+                    <view>{{carData.car.sales_name}}</view>
                 </view>
             </view>
             <view class="car_bottom">
                 <view>接受办理进度手机号</view>
-                <view>18782899732</view>
+                <view><input type="text" @change="phoneChange"></view>
             </view>
         </view>
         <view class="car_box">
             <view class="car_item">
                 <view class="car_item_name">
-                    选择检测站
+                    选择交车店铺
                 </view>
-                <view class="uni-input">浅水半岛店</view>
+                <view class="uni-input">{{shop.name}}</view>
                 <view class="icon">
                     <i class="iconfont icon-xiayibu"></i>
                 </view>
@@ -49,20 +49,33 @@
         <view class="car_box">
             <view class="car_item">
                 <view class="car_item_name">
-                    服务费用
+                    定金费用
                 </view>
-                <view class="price">￥100.00</view>
+                <view class="price">￥{{carData.price}}</view>
             </view>
         </view>
         <view class="footer">
-            <view class="footer_price">￥100.00</view>
-            <view class="btn">去结算</view>
+            <view class="footer_price">￥{{carData.price}}</view>
+            <view class="btn" @tap="goCloseAccount">提交订单</view>
         </view>
+
     </view>
 </template>
 
 <script>
+    import { OrderModel } from "../../model/order"
+    const orderModel = new OrderModel();
+  
     export default {
+        components:{
+        },
+        props:{
+            carData:{
+                type:Object,
+                default:{},
+                
+            }
+        },
         data() {
             const currentDate = this.getDate({
                 format: true
@@ -72,7 +85,9 @@
                 array: ['中国', '美国', '巴西', '日本'],
                 index: 0,
                 date: currentDate,
-                time: '12:01'
+                time: '12:01',
+                phone: '',
+                shop:{}
             }
         },
         name: "car_inspection",
@@ -85,6 +100,17 @@
              }
          },
         methods:{
+            phoneChange(e) {
+                var phone = e.detail.value;
+                if(!(/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/.test(phone))){
+                    uni.showToast({
+                        title:'手机号码有错，请重新输入',
+                        icon:'none'
+                    });
+                    return false;
+                }
+                this.phone = phone;
+            },
             bindDateChange: function(e) {
                 this.date = e.target.value
             },
@@ -105,6 +131,47 @@
                 month = month > 9 ? month : '0' + month;;
                 day = day > 9 ? day : '0' + day;
                 return `${year}-${month}-${day}`;
+            },
+             _provider(){
+               return new Promise((resolve,reject)=>{
+                    uni.getProvider({
+                        service: 'payment',
+                        success: function (res) {
+                            console.log(res.provider[0])
+                            resolve(res.provider[0])
+                        }}
+                    )
+                })
+
+            },
+            goCloseAccount() {
+                let params = {
+                    car_num: this.carData.car.car_num,
+                    epuipmen_id: this.carData.car.equipmen_id,
+                    vehicle_id: this.carData.car.vehicle_id,
+                    phone: this.phone,
+                    appointment_date: this.date,
+                    appointment_time: this.time,
+                    review_station: this.shop.name,
+                    type : 7
+                }
+                orderModel.createOrder(params).then( res => {
+                    if (res.code == 200 || res.code == 201) {
+                        let data = res.data
+                        uni.navigateTo({
+                            url:`/pagesB/pay/pay?type=commodity&data=` + JSON.stringify(data.internal_payment_sn)
+                        })
+                    }
+                    
+                } )
+            },
+            
+        },
+        mounted(){
+            
+            if (uni.getStorageSync('shop')) {
+                console.log(JSON.parse(uni.getStorageSync('shop')))
+                this.shop = JSON.parse(uni.getStorageSync('shop'))	
             }
         }
     }

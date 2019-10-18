@@ -35,6 +35,12 @@
 			"style": {
 				"navigationBarTitleText": "成功接单"
 			}
+		},
+		{
+			"path": "pages/master/master",
+			"style": {
+				"navigationBarTitleText": "师傅端"
+			}
 		}
 	],
 	"globalStyle": {

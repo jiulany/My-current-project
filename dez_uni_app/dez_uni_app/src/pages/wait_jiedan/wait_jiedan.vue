@@ -4,7 +4,7 @@
         <view class="span24 ">
             <view class="span24 waitjd-status">
                 <view class="waitjd-blur">
-                    <view class="waitjd-blur0" @tap="toSuccess">
+                    <view class="waitjd-blur0" >
                         {{min}}:{{sec}}
                     </view>
                 </view>

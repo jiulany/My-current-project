@@ -1,0 +1,1 @@
+<image style="{{('width:100%;height:100%;background-image: url('+alt+'); background-size:100% 100%')}}" src="{{src}}" mode="{{mode}}" data-event-opts="{{[['error',[['imgError',['$event']]]]]}}" binderror="__e"></image>

@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/my/my",
+    "pages/balance/balance",
+    "pages/recharge/recharge",
+    "pages/balance_details/balance_details",
+    "pages/integral/integral",
+    "pages/integral_details/integral_details",
+    "pages/integral_store/integral_store",
+    "pages/integral_store_dt/integral_store_dt",
+    "pages/my_yuyue/my_yuyue",
+    "pages/my_yuyue_details/my_yuyue_details",
+    "pages/invitation/invitation",
+    "pages/violation/violation",
+    "pages/my_car/my_car"
+  ],
+  "window": {
+    "defaultTitle": "Hello uniapp",
+    "titleBarColor": "#FFFFFF",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "textColor": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "backgroundColor": "#F8F8F8",
+    "items": [
+      {
+        "pagePath": "pages/index/index",
+        "name": "首页",
+        "icon": "static/component.png",
+        "activeIcon": "static/componentHL.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "name": "门店",
+        "icon": "static/api.png",
+        "activeIcon": "static/apiHL.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "name": "洗车",
+        "icon": "static/extui.png",
+        "activeIcon": "static/extuiHL.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "name": "商城",
+        "icon": "static/template.png",
+        "activeIcon": "static/templateHL.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "name": "我的",
+        "icon": "static/template.png",
+        "activeIcon": "static/templateHL.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "page-head": "/components/page-head",
+    "page-foot": "/components/page-foot",
+    "u-link": "/components/uLink",
+    "u-row": "/components/dl-grid/row",
+    "u-col": "/components/dl-grid/col"
+  }
+}

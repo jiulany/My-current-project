@@ -1,0 +1,48 @@
+.top {
+  width: 100%;
+  padding: 40rpx 126rpx 20rpx 40rpx;
+  color: #666;
+}
+.main {
+  width: 100%;
+  height: 622rpx;
+  background: #fff;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  padding-top: 22rpx;
+}
+.main .list {
+  height: 90rpx;
+}
+.main view:nth-child(4) .right {
+  display: inline-block;
+  width: 530rpx;
+  height: 62rpx;
+  line-height: 36rpx;
+  vertical-align: -50%;
+}
+.left {
+  display: inline-block;
+  color: #999;
+  padding-left: 32rpx;
+}
+.right {
+  display: inline-block;
+  padding-left: 42rpx;
+}
+.button {
+  float: right;
+  display: inline-block;
+  width: 170rpx;
+  height: 54rpx;
+  color: #666;
+  font-size: 28rpx;
+  background: #FDD000;
+  line-height: 54rpx;
+  margin: 0;
+  margin-right: 34rpx;
+}
+.active {
+  color: #FF5622;
+}
+

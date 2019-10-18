@@ -4,11 +4,11 @@
 		<view class="line2">
 			<view class="line2_left">
 				<image src="../../static/image/addr.png"></image>
-				<text>脱狗车宝（浅水半岛店）</text>
+				<text>{{shop.name}}</text>
 			</view>
 			<view class="line2_right">
 				<image src="../../static/image/addr.png"></image>
-				<image src="../../static/image/right.png"></image>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
 		</view>
 		<view class="line3">
@@ -23,18 +23,18 @@
 			</view>
 			<text class="price">￥{{price}}</text>
 		</view>
-		<view class="line4">
+		<view class="line4" @tap="change">
 			<text>更换车辆</text>
 			<view class="l4_right">
-				<text>{{car_num}}</text>
-				<image src="../../static/image/right.png"></image>
+				<text>{{choose_car.car_num}}</text>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
 		</view>
 		<view class="line5">
 			<text>实付款</text>
 			<text>￥{{price}}</text>
 		</view>
-<!--				<view class="line6">-->
+<!--		<view class="line6">-->
 <!--			<text>订单编号</text>-->
 <!--			<text>123456789101</text>-->
 <!--		</view>-->
@@ -52,26 +52,32 @@
 		data(){
 			return {
 				list:[],
-				car_num:"",
 				name:"",
 				price:"",
 				cover:"",
 				sku_name:"",
-				type:""
+				type:"",
+				choose_car:"",
+				shop:{}
 			}
 		},
 		methods: {
+			change(){
+				uni.navigateTo({
+					url: "/pagesA/my_car/my_car?type=car_check"
+				});
+			},
 			submitOrder(){
 				if (this.type == 'package') {
 					let data = {
 						package_id:this.list.id,
-						car_num:this.car_num
+						car_num:this.choose_car.car_num
 					}
 					this._commitPackageCreate(data)
 				} else {
 					let data = {
 						sku_id:this.list.id,
-						car_num:this.car_num
+						car_num:this.choose_car.car_num
 					}
 					this._commitParkingCreate(data)
 				}
@@ -82,7 +88,7 @@
 					if(res.data){
 						let data = res.data
 						uni.navigateTo({
-							url:'/pagesB/pay/pay?data='+ JSON.stringify(data.internal_payment_sn)
+							url:'/pagesB/pay/pay?type=commodity&data='+ JSON.stringify(data.internal_payment_sn)
 						})
 					}
 				})
@@ -92,7 +98,7 @@
 					if(res.data){
 						let data = res.data
 						uni.navigateTo({
-							url:'/pagesB/pay/pay?data='+ JSON.stringify(data.internal_payment_sn)
+							url:'/pagesB/pay/pay?type=commodity&data='+ JSON.stringify(data.internal_payment_sn)
 						})
 					}
 				})
@@ -110,11 +116,12 @@
 						this.price = res.data.original_price
 						this.sku_name = res.data.sku_name
 						if(res.data.user_cars.length >0 ) {
-							this.car_num = list.user_cars[0].car_num
+							this.choose_car = this.list.user_cars[0]
 						}
 					}
 				})
 			},
+			// 加载 套餐订单
 			__packageConfirmOrder(params)
 			{
 				let data = {
@@ -128,7 +135,7 @@
 					this.cover = data.cover
 					this.price = data.price.price
 					if(data.user_cars.length >0 ) {
-						this.car_num = list.user_cars[0].car_num
+						this.choose_car = list.user_cars[0]
 					}
 				})
 			}
@@ -141,6 +148,18 @@
 			} else {
 				this._confirmOrder(data.id)
 			}
+			
+		},
+		onShow(){
+			  let choice_car = uni.getStorageSync("choice_car");
+				if (choice_car) {
+					this.choose_car = JSON.parse(choice_car);
+					console.log(this.choose_car);
+				}
+
+				if (uni.getStorageSync('shop')) {
+					this.shop = JSON.parse(uni.getStorageSync('shop'))	
+				}
 			
 		}
 	}

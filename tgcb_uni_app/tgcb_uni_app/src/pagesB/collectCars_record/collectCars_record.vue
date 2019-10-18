@@ -1,19 +1,21 @@
 <template>
     <view class="collectCars_record">
         <view class="collectCars_record_item">
-            <view class="item_top">
-                <view class="item_top_left">申请收车</view>
-                <view class="item_top_right">
-                    <view class="item_btn_left">催收</view>
-                    <view class="item_btn_right">删除</view>
+            <block v-for=" (item,index) in recordList" :key="index">
+                <view class="item_top">
+                    <view class="item_top_left">申请收车</view>
+                    <view class="item_top_right">
+                        <view class="item_btn_left" @tap="reminder(item.id)">催单</view>
+                        <view class="item_btn_right">删除</view>
+                    </view>
                 </view>
-            </view>
-            <view class="item_content">
-                您申请收车的车型为：迪奥A3 2018款 纪念版，正在等待客服处理！
-            </view>
-            <view class="item_bottom">
-                2019-08-23 10:29:47
-            </view>
+                <view class="item_content">
+                    您申请收车的车型为：{{item.sales_name}}，正在等待客服处理！
+                </view>
+                <view class="item_bottom">
+                    {{item.created_at}}
+                </view>
+            </block>
         </view>
         <view class="collectCars_record_desc">
             <view>使用说明</view>
@@ -24,8 +26,66 @@
 </template>
 
 <script>
+    import { IndexModel } from "../../model/index";
+    const indexModel = new IndexModel();
     export default {
-        name: "collectCars_record"
+        name: "collectCars_record",
+        data() {
+            return {
+                recordList: [],
+                recordData: {
+                    page: 1,
+                    size: 10
+                }
+                
+            }
+        },
+        methods: {
+            // 提交记录
+            getSubRecord() {
+                indexModel.subRecord(this.recordData).then(res => {
+                    if(res.code !== 200) {
+                        uni.showToast({
+                            title: '获取失败，请稍后重试',
+                            icon: 'none'
+                        });
+                    }
+                    if(res.code == 200){
+                        let a = this.recordList.concat(res.data)
+                        this.recordList = a;
+                        if(res.data.length==0){
+                        }else{
+                            this.recordData={page:this.recordData.page+1,size:1}
+                        }
+                        console.log(this.recordList);
+                        this.recovery_log_id = res.data.id;
+                    }
+                });
+            },
+            // 催单
+            reminder(id) {
+                console.log(id);
+                let recovery_log_id = id;
+                console.log(recovery_log_id);
+                indexModel.reminder({recovery_log_id:recovery_log_id}).then( (res) => {
+                    console.log(res);
+                    if((res.code == 201) || (res.code == 200)) {
+                        uni.showToast({
+                        title: res.message,
+                        icon: 'none'
+                    });
+                    }
+                   
+                } );
+            }
+        },
+        onLoad() {
+            this.getSubRecord();
+        },
+        onReachBottom() {
+            this.getSubRecord();
+            console.log(123);
+        }
     }
 </script>
 
@@ -38,6 +98,7 @@
         display: flex;
         flex-direction: column;
         padding: 0 30rpx;
+        margin-bottom: 10rpx;
     }
     .item_top{
         margin-top: 20rpx;

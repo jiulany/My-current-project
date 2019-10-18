@@ -1,0 +1,205 @@
+
+page {
+  background-color: #f5f5f5;
+  height: 100%;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+.my {
+  height: 100vh;
+  padding-bottom: 300rpx;
+    overflow: scroll;
+}
+.my-bg {
+  background: #fdd000;
+  height: 300rpx;
+  width: 100%;
+}
+.my-content{
+    padding: 20rpx;
+    padding-bottom: 300rpx;
+    margin-top: -130rpx;
+}
+.my-head{
+    padding: 10rpx;
+    padding-bottom: 20rpx;
+    background: #fdd000;
+}
+.my-head-box {
+  width: 126rpx;
+  height:126rpx;
+  border-radius: 126rpx;
+  overflow: hidden;
+  position: relative;
+}
+.get-user-button{
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  opacity: 0;
+}
+.auth-button::after{
+  border: none !important;
+}
+.my-head image{
+width: 126rpx;
+height:126rpx;
+border-radius: 60rpx
+}
+.my-name{
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end
+}
+.my-phone{
+    -webkit-box-align: top;
+    -webkit-align-items: top;
+        -ms-flex-align: top;
+            align-items: top
+}
+.my-head-end{
+    -webkit-box-pack:end;
+    -webkit-justify-content:flex-end;
+        -ms-flex-pack:end;
+            justify-content:flex-end;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center
+}
+.my-qiandao{
+    width:146rpx;
+height:48rpx;
+background:rgba(255,255,255,1);
+-webkit-box-shadow: 1px 2px 16px 0px rgba(155, 135, 36, 0.44);
+        box-shadow: 1px 2px 16px 0px rgba(155, 135, 36, 0.44);
+border-radius:24rpx;
+-webkit-box-pack: center;
+-webkit-justify-content: center;
+    -ms-flex-pack: center;
+        justify-content: center;
+color: #fdd000;position: relative;
+top: 20rpx;
+right: 10rpx;
+}
+.my-jifen{
+    font-size: 10rpx;
+    color: white;
+}
+.my-jifen-ico image{
+    height: 19rpx;
+    width: 19rpx;
+    position: relative;
+    top: 16rpx;
+    margin-right: 10rpx;
+}
+.my-zic-tt{
+  font-size: 30rpx;
+  padding: 13rpx 0;
+  font-weight: 600;
+}
+.my-item{
+  background:#ffffff;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 44rpx 27rpx 50rpx 27rpx;
+  background:rgba(255,255,255,1);
+-webkit-box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
+        box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
+}
+.my-item-dif{
+  padding: 44rpx 27rpx 20rpx 27rpx;
+}
+.my-item-dif0{
+  padding: 20rpx 27rpx 20rpx 27rpx;
+}
+.my-item-dif1{
+  background: white;
+  padding: 32rpx 0;
+  border-top: 1px solid #f5f5f5;
+  background:rgba(255,255,255,1);
+-webkit-box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
+        box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
+}
+.my-item-dif1 view{
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center
+}
+.my-item-dif1-ico {
+  padding: 0 30rpx;
+}
+.my-item-dif1-ico image{
+  height: 32rpx;
+}
+.my-item-dif1-ico ._i{
+  font-size: 38rpx;
+}
+.my-item-ico{
+  height: 60rpx !important;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center
+}
+.my-item-ico image{
+  height:55rpx
+}
+.my-item-tx{
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 26rpx;
+  height: 50rpx;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 25rpx
+}
+.my-item-syu{
+  height: 40rpx
+}
+.my-sign-model .uni-close-bottom{
+  display: none !important
+}
+.my-sign-bg{    
+  width:520rpx;
+  height:300rpx;
+  background: url('https://imgcdn.tuogouchebao.com/my_qiandao_model.png');
+  background-size: 100% 100%;
+  position: relative;
+  left: 20rpx;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center
+}
+.my-sign-bg view{
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+  top:78rpx;
+  right: 20rpx;
+}
+.my-sign-bg-jifen{
+  top:85rpx !important;
+  font-size: 55rpx;
+  color: white
+}
+.my-sign-close{
+  top:180rpx !important;
+}
+.my-sign-close image{
+  height: 50rpx;
+  width: 50rpx
+}
+
+

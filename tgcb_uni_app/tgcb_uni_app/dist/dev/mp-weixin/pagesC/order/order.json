@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "订单列表",
+  "usingComponents": {
+    "order-list": "/components/orderList/orderList",
+    "no-data": "/components/noData/noData",
+    "choice-pay-type": "/components/choice_pay_type/choice_pay_type",
+    "popup-layer": "/components/popup-layer/popup-layer"
+  }
+}

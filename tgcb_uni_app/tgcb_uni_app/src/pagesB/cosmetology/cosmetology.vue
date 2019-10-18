@@ -1,6 +1,6 @@
 <template>
     <view class="cosmetology">
-        <view class="cosmetology_box" v-for="(item,index) in list">
+        <view class="cosmetology_box" v-for="(item,index) in list" :key="index">
             <view class="cosmetology_box_items">
                 <view class="cosmetology_box_item_1">
                     <radio-group @click="radioChange(item)">
@@ -31,7 +31,7 @@
                 <view class="all ">全选</view>
             </view>
             <view class="cosmetology_footer_item_2 all">
-                <i class="iconfont icon-kefu"></i>
+                <i class="iconfont icon-kefu" style="line-height:35rpx"></i>
                 <view class="phone">客服</view>
             </view>
             <view class="cosmetology_footer_item_3">
@@ -55,13 +55,12 @@
 
     export default {
         name: "cosmetology",
-    
         components:{
             anImage
         },
         data(){
             return {
-                no_pic:config.no_pic,
+                no_pic: getApp().globalData.no_pic,
                 allChecked:false,
                 sumPrice:"0.00",
                 list:[],
@@ -85,6 +84,13 @@
                 this.list = JSON.parse(JSON.stringify(list))
             },
             order_buy(){
+                if (this.sumData.length <= 0) {
+                    uni.showToast({
+                        title : '请选择服务',
+                        icon : 'none'
+                    })
+                    return false;
+                }
                 let data = JSON.stringify(this.sumData)
                 uni.navigateTo({
                     url:"/pagesB/car_wash_buyOrder/car_wash_buyOrder?data="+ data
@@ -93,7 +99,6 @@
             _getCosmetology(data){
                 indexModel.getCosmetology(data).then((res) => {
                     console.log(res.data)
-                    uni.hideLoading()
                     if(res.data) {
                         this.list = res.data.data
                     }
@@ -128,11 +133,12 @@
             }
         },
         onLoad(options){
-            console.log(options)
-            uni.showLoading({
-                title:'loading...',
-                mask:true
-            })
+            // console.log(options)
+            // uni.showLoading({
+            //     title:'loading...',
+            //     mask:true
+            // })
+            
             uni.setNavigationBarTitle({
                 title:options.title
             })

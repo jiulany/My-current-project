@@ -1,0 +1,1 @@
+<view class="my"><my vue-id="1" user="{{user}}" userDisplayData="{{userDisplayData}}" data-event-opts="{{[['^bindgetuserinfo',[['bindgetuserinfo']]]]}}" bind:bindgetuserinfo="__e" bind:__l="__l"></my><tab-bar vue-id="2" address="4" bind:__l="__l"></tab-bar></view>

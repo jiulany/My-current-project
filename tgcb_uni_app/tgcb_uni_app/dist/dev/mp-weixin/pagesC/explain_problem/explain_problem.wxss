@@ -1,0 +1,15 @@
+
+page{
+	background: #FFFFFF;
+}
+.box1{
+	padding: 40rpx 30rpx 40rpx 30rpx; 
+	border-bottom: 1px solid #F0F0F0;
+}
+.box1>view:first-child{
+	color: #000000 !important;
+}
+.box1>view{
+	color: #999999;
+}
+

@@ -1,0 +1,78 @@
+
+page {
+    background: #fff;
+}
+.product-img {
+    width: 702rpx;
+    height: 497rpx;
+    margin: 24rpx 0 0 22rpx;
+}
+.product-img ._img {
+    width: 100%;
+    height: 100%;
+}
+.price {
+    height: 50rpx;
+    padding-top: 50rpx;
+    padding-left: 25rpx;
+    border-top: 1rpx solid #E2DED7;
+}
+.price .new-price {
+    color: #F75C3E;
+    font-size: 43rpx;
+    font-weight: bold;
+}
+.price .old-price {
+    color: #C6C6C6;
+    font-size: 29rpx;
+    text-decoration: line-through;
+    margin-left: 20rpx;
+}
+.name {
+    height: 50rpx;
+    color: #474747;
+    font-size: 31rpx;
+    font-weight: bold;
+    padding-left: 25rpx;
+    margin-top: 20rpx;
+}
+.info .title {
+    display: block;
+    padding-left: 25rpx;
+    color: #474747;
+    font-size: 24rpx;
+    font-weight: 500;
+    margin-top: 36rpx;
+}
+.info .text {
+    display: block;
+    font-size: 22rpx;
+    color: #474747;
+    font-weight: 500;
+    padding: 0 25rpx;
+    margin-top: 30rpx;
+}
+.bottom {
+    position: fixed;
+    bottom: 0;
+    height: 98rpx;
+    width: 100%;
+}
+.bottom .inventory { 
+    float: left;
+    width: 194rpx;
+    text-align: center;
+    line-height: 38rpx;
+    background: #FFFEFF;
+    padding-top: 10rpx;
+}
+.bottom .buy {
+    float: right;
+    width: 556rpx;
+    background: #FDD000;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-align: center;
+    line-height: 98rpx;
+}
+

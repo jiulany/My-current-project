@@ -2,7 +2,7 @@
     <view class="pay">
         <view class="pay_top">
             <view class="title">请选择支付方式</view>
-            <view class="price">￥{{list.total_price}}</view>
+            <view class="price" v-if="list.total_price">￥{{list.total_price}}</view>
         </view>
         <view class="pay_content">
             <view class="pay_content_header">
@@ -11,22 +11,22 @@
                 </view>
                 <view class="pay_content_box">
                     <view class="pay_content_title">钱包支付</view>
-                    <view class="pay_content_desc">本单最多可用￥{{list.use_red_packet}}</view>
+                    <!-- <view class="pay_content_desc">本单最多可用￥{{list.use_red_packet}}</view> -->
                 </view>
                 <view class="pay_content_radion">
                     <radio-group  @tap="radioChange('1')">
-                         <radio value="1" :disabled="pay_checked=='1'" color="#FDD000" />
+                         <radio value="1" :disabled="balance_lock" :checked="pay_checked == 1" color="#FDD000" />
                     </radio-group>
-                </view>
+                </view> 
             </view>
             <view class="pay_red">
-                <view class="pay_red_left">红包余额({{list.red_packet_price}})</view>
-                <view class="pay_red_right">本单可用({{list.use_red_packet}})</view>
+                <view class="pay_red_left" v-if="list.red_packet_price">红包余额({{list.red_packet_price}})</view>
+                <view class="pay_red_right" v-if="list.use_red_packet">本单可用({{list.use_red_packet}})</view>
             </view>
 <!--            钱包-->
             <view class="pay_red">
-                <view class="pay_red_left">钱包余额（{{list.balance}}）</view>
-                <view class="pay_red_right">本单可用({{list.use_balance}})</view>
+                <view class="pay_red_left" v-if="list.balance">钱包余额（{{list.balance}}）</view>
+                <view class="pay_red_right" v-if="list.use_balance">本单可用({{list.use_balance}})</view>
             </view>
             <view class="pay_content_header pay_box_top">
                 <view class="icon">
@@ -38,12 +38,12 @@
                 </view>
                 <view class="pay_content_radion">
                     <radio-group @tap="radioChange('2')">
-                        <radio value="2" :checked="pay_checked" color="#FDD000" />
+                        <radio value="2" :checked="pay_checked == 2" color="#FDD000" />
                     </radio-group>
                 </view>
             </view>
         </view>
-        <view class="pay_btn" @tap="_subPay">
+        <view class="pay_btn" @tap="_subPay" v-if="list.total_price || list.total_price == 0">
             去支付￥{{list.total_price}}
         </view>
     </view>
@@ -57,18 +57,73 @@
         data(){
             return{
                 pay_checked:true,
+                balance_lock:true,
                 list:[]
             }
         },
         methods:{
             _subPay(){
-                let data = {
-                    internal_payment_sn:this.list.internal_payment_sn,
-                    type:1
+                if (this.list.total_price == 0) {
+                    let params = {
+                        internal_payment_sn:this.list.internal_payment_sn,
+                    }
+                    orderModel.paymentForFree(params).then((res)=>{
+                        if (res.code == 200) {
+                            uni.showToast({
+                                title:res.message,
+                            })
+                            setTimeout(()=>{
+                                uni.navigateTo({
+                                     url:`/pagesC/payment_finish/payment_finish?internal_payment_sn=${this.list.internal_payment_sn}`
+                                 })
+                            },2000)
+                        }
+                    })
+                } else {
+                    if (this.pay_checked == 1) {
+                        if (this.list.is_password_payment == 0) {
+                            this.$emit('close_pay_type')
+                            uni.navigateTo({
+                                     url:`/pagesB/payment_index/payment_index?internal_payment_sn=${this.list.internal_payment_sn}`
+                            })
+                        } else {
+                            uni.showModal({
+                                title: "支付提示",
+                                content: '您已开通免密支付,确认直接支付该订单?',
+                                success: showResult => {
+                                    if (showResult.confirm) {
+                                        this.$emit('close_pay_type')
+                                        // plus.runtime.openURL(openUrl);
+                                        let params = {
+								            internal_payment_sn:this.list.internal_payment_sn
+							            }
+                                        orderModel.yuonpay(params).then((res) => {
+                                            if (res.code == 200) {
+                                                uni.showToast({
+                                                    title:'支付成功',
+                                                })
+                                                setTimeout(()=>{
+                                                     uni.navigateTo({
+                                                        url:`/pagesC/payment_finish/payment_finish?internal_payment_sn=${this.list.internal_payment_sn}`
+                                                    })
+                                                },2000)
+                                            }
+							            })
+                                    }
+                                }
+                            })
+                        }
+                    } else {
+                        let data = {
+                            internal_payment_sn:this.list.internal_payment_sn,
+                            type:1
+                        }
+                        orderModel.subPay(data).then((res) => {
+                            this._pay(res.data)
+                        })
+                    }
+                    
                 }
-                orderModel.subPay(data).then((res) => {
-                    this._pay(res.data)
-                })
             },
              _provider(){
                return new Promise((resolve,reject)=>{
@@ -102,18 +157,6 @@
                     }
                 })
             },
-            _getOrder(id){
-                let data={
-                    id
-                }
-                orderModel.getOrders(data).then((res) => {
-                    if(res.data){
-                        this.list = res.data
-                        this.pay_checked = this.list.pay_type == 2 ? true : false
-                    }
-
-                })
-            },
             radioChange(id){
                 if(this.list.pay_type == 2 && id == "1") {
                     this.pay_checked = false
@@ -122,12 +165,46 @@
                         icon:'none'
                     })
                 } else {
-                    this.pay_checked = id == "2" ? true : false
+                    this.pay_checked = id
                 }
+            },
+            _getOrder(internal_payment_sn){
+                let data={
+                    internal_payment_sn : internal_payment_sn
+                }
+                orderModel.getOrders(data).then((res) => {
+                    if(res.data){
+                        this.list = res.data
+                        this.balance_lock = res.data.pay_type == 2 ? true : false;
+                        this.pay_checked = this.list.pay_type
+                    }
+
+                })
+            },
+            _getAnnualReview(internal_payment_sn){
+                let data={
+                    internal_payment_sn : internal_payment_sn
+                }
+                orderModel.getAnnualReview(data).then((res) => {
+                    if(res.data){
+                        this.list = res.data
+                        this.balance_lock = res.data.pay_type == 2 ? true : false;
+                        this.pay_checked = this.list.pay_type
+                    }
+
+                })
             }
         },
         onLoad(option){
-            this._getOrder(JSON.parse(option.data))
+            switch(option.type){
+                case 'commodity':
+                    this._getOrder(JSON.parse(option.data))
+                    break;
+                case 'annual_review':
+                    this._getAnnualReview(JSON.parse(option.data))
+                    break;
+            }
+            
         }
     }
 </script>

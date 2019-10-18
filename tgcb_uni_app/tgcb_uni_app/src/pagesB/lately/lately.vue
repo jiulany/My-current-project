@@ -1,14 +1,14 @@
 <template>
     <view class="choice_store">
-        <view class="store_content">
-                <image src="https://dimg07.c-ctrip.com/images/fd/tg/g5/M06/EF/FC/CggYsVcfF4KAaNlZAAgZ0NlSHDc344_R_1600_10000_Mtg_7.jpg"></image>
+        <view class="store_content" v-for="(item,index) in shops" :key="index">
+                <image :src="item.image"></image>
                 <view class="content_right_list">
                     <view class="content_right_list_top">
-                        <view class="list_top_title">脱狗车保（浅水半岛店）</view>
-                        <view><i class="iconfont icon-shouye"></i>45.km</view>
+                        <view class="list_top_title">{{item.name}}</view>
+                        <view><i class="iconfont icon-shouye"></i>{{item.distance}}km</view>
                     </view>
                     <view class="content_right_list_address">
-                        四川省青羊区狮码路28号
+                        {{item.address}}
                     </view>
                     <view class="content_right_list_bottom">
                         <view class="list_bottom_left">
@@ -18,30 +18,41 @@
                     </view>
                 </view>
         </view>
-        <view class="store_content">
-            <image src="https://dimg07.c-ctrip.com/images/fd/tg/g5/M06/EF/FC/CggYsVcfF4KAaNlZAAgZ0NlSHDc344_R_1600_10000_Mtg_7.jpg"></image>
-            <view class="content_right_list">
-                <view class="content_right_list_top">
-                    <view class="list_top_title">脱狗车保（浅水半岛店）</view>
-                    <view><i class="iconfont icon-shouye"></i>45.km</view>
-                </view>
-                <view class="content_right_list_address">
-                    四川省青羊区狮码路28号
-                </view>
-                <view class="content_right_list_bottom">
-                    <view class="list_bottom_left">
-                        <view>店长：陈丽</view>
-                    </view>
-                    <view class="list_bottom_btn">联系店长</view>
-                </view>
-            </view>
-        </view>
+       
     </view>
 </template>
 
 <script>
+import {IndexModel} from '../../model/index.js'
+const  indexModel = new IndexModel()
     export default {
-        name: "choice_store"
+        name: "choice_store",
+        data(){
+            return {
+                shops:[]
+            }
+        },
+        methods:{
+            getShop()
+            {
+                let self = this
+                uni.getLocation({
+                   type: 'wgs84',
+                    success: function (res) {
+                        let params = {
+                            longitude:res.longitude,
+                            latitude:res.latitude,
+                        }
+                        indexModel.getShopList(params).then((res) => {
+                            self.shops = res.data
+                        })
+                    }
+                }); 
+            }
+        },
+        onLoad(){
+            this.getShop()
+        }
     }
 </script>
 

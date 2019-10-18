@@ -1,0 +1,1 @@
+<view style="width:329rpx;position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);"><view style="width:329rpx;height:294rpx;"><image style="width:100%;height:100%;" src="https://imgcdn.tuogouchebao.com/tupian@2x.png"></image></view><view style="text-align:center;margin-top:10rpx;color:#333333;font-family:PingFang SC;">{{title}}</view></view>

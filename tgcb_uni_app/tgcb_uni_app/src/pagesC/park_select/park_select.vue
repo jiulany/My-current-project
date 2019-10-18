@@ -1,39 +1,99 @@
 <template>
 	<view>
 		<view class="line1">填写车辆信息</view>
-		<view class="line2_list">
+		<!-- <view class="line2_list">
 			<text>品牌车型</text>
 			<input placeholder="请填写车型" />
-		</view>
-		<view class="line3_list">
+		</view> -->
+		<!-- <view class="line3_list">
 			<text>车牌号码</text>
 			<view class="l3l_center">
 				<text>川</text>
 				<image src="../../static/image/xiala.png"></image>
 			</view>
 			<input placeholder="请输入车牌" />
-		</view>
-		<view class="line4_list">
+		</view> -->
+		<view class="line4_list" @tap="_chooseCar">
+            <text>车牌号</text>
+			<view class="l2l_right">
+            	<text>{{!choice_car.car_num ? '请选择车辆' : choice_car.car_num}}</text>
+			</view>
+        </view>
+		<!-- <view class="line4_list">
 			<text>查询城市</text>
 			<view class="l2l_right">
 				<text>成都</text>
-				<image src="../../static/image/right.png"></image>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
-		</view>
-		<view class="line2_list">
+		</view> -->
+		<view class="line4_list">
 			<text>车架号</text>
-			<input placeholder="必填" />
+			<input placeholder="输入车架号后8位" :value="frameno" style="text-align: right;" @change="framenoChange" />
 		</view>
-		<view class="line2_list">
+		<!-- <view class="line4_list">
 			<text>发动机号</text>
-			<input placeholder="必填" />
-		</view>
-		<view class="select_btn">立即查询</view>
+			<input placeholder="必填" style="text-align: right;" @input="enginenoChange"/>
+		</view> -->
+		<view class="select_btn" @tap="query">立即查询</view>
 		<view class="last_txt">车辆信息为当地交管局查询所需，我们将严格保密，请您放心填写！点击确定即视为同意《隐私政策》</view>
 	</view>
 </template>
 
 <script>
+	export default {
+		data(){
+			return {
+				choice_car:"",
+				city:"",
+				frameno:"",
+				engineno:""
+			}
+		},
+		 methods: {    
+			_chooseCar(){
+				uni.navigateTo({
+        			url: "/pagesA/my_car/my_car?type=violation_enquiry"
+ 				});
+			},
+			// 输入车架号
+			framenoChange(event){
+				// fixMe 限制最小8位
+				this.frameno = event.detail.value;
+			},
+			// 输入发动机号
+			enginenoChange(event){
+				this.engineno = event.detail.value
+			},
+			// 查询
+			query(){
+				if(!(/^[A-Za-z0-9]{8,8}$/).test(this.frameno)) {
+					uni.showToast({
+						title: '车架号输入有误，请重新输入',
+						icon: 'none'
+					});
+				}else {
+					let params = {
+						car_id : this.choice_car.id,
+						frameno: this.frameno,
+						engineno: this.engineno
+					}
+					uni.navigateTo({
+						url:`/pagesC/park_list/park_list?data=` + JSON.stringify(params)
+					})
+				}
+				
+			}
+		 },
+		 onShow(){
+			 console.log(uni.getStorageSync("choice_car"))
+			 if (uni.getStorageSync("choice_car")) {
+					this.choice_car = JSON.parse(uni.getStorageSync("choice_car"))
+					this.frameno = this.choice_car.frameno
+					console.log(this.choice_car)
+					uni.setStorageSync('choice_car','')
+      		}
+		 }
+	}
 </script>
 
 <style>

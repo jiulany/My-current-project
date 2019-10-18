@@ -1,0 +1,31 @@
+.vehicle-item-title {
+  background: #e1e1e1;
+  padding: 10rpx 0;
+  text-align: center;
+  color: #ffff;
+}
+.vehicle-item {
+  padding: 30rpx 0;
+  border-bottom: 0.1rpx solid #e1e1e1;
+}
+.brand-title {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 20rpx;
+}
+.brand-title .brand-logo-box {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 20rpx;
+}
+.brand-title .brand-logo-box .brand-logo-image {
+  width: 100%;
+  height: 100%;
+}
+

@@ -1,0 +1,1 @@
+<view class="mall"><mall vue-id="1" bind:__l="__l"></mall><tab-bar vue-id="2" address="3" bind:__l="__l"></tab-bar></view>

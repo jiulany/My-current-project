@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "添加车辆信息",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "keyboader": "/components/keyboader/keyboader"
+  }
+}

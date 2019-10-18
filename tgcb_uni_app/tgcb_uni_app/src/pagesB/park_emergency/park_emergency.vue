@@ -2,113 +2,150 @@
 	<view class="content">
 		<map style="width: 100%; height: 100%;" :latitude="latitude" :scale="scale"  :longitude="longitude" :markers="markers" >
 		<cover-view class="addr_txt">
-			<text class="at_txt1">当前位置</text>
-			<text class="at_txt2">四川省成都市金牛区星辉中路20号</text>
+			<cover-view class="at_txt1">当前位置</cover-view>
+			<cover-view class="at_txt2">{{address}}</cover-view>
 		</cover-view>
 		<cover-view class="scale">
 			<cover-view class="scale_item" @click="scale_add">+</cover-view>
 			<cover-view class="scale_item" @click="scale_edd">-</cover-view>
 		</cover-view>
-<!--			会员权益-->
-		<cover-image @click="_stop_vip" class="stop" src="https://imgcdn.tuogouchebao.com/yingjitingche.png"></cover-image>
-		<cover-view class="foot_btn" @click="stop_go">
+		<!--会员权益-->
+		<cover-image @click="_to_vip_buy" class="stop" src="https://imgcdn.tuogouchebao.com/yingjitingche.png"></cover-image>
+		<!-- <cover-view class="foot_btn" @click="stop_go"> -->
+		<cover-view class="foot_btn" @click="parking">
 			停在这里
 		</cover-view>
-		<cover-view class="mengban" v-show="!stop_vip && stop_start">
-			<cover-view class="hint_box">
+		
+		<cover-view class="mengban" v-show="choicePopup || failPopup" @tap="closePopup">
+			
+		</cover-view>
+
+		<!-- 请购买会员 -->
+		<cover-view class="hint_box" v-show="!choicePopup && failPopup" >
 				<cover-view class="hb_line1">温馨提示</cover-view>
 				<cover-view class="hb_line2">停车失败，请先购买会员权益！</cover-view>
-				<cover-view class="hb_line3" @click="go_buy">去购买</cover-view>
-			</cover-view>
+				<cover-view class="hb_line3" @click="_to_vip_buy">去购买</cover-view>
 		</cover-view>
 
-		<cover-view class="mengban" v-show="stop_vip">
-			<cover-view class="hint2_box">
-				<view class="h2b_line1">
-					<text>川A32413</text>
-					<view>已成会员</view>
-				</view>
-				<view class="h2b_line2">
-					<view class="h2l">选择车辆</view>
-					<view class="h2l_list">
-						<image src="../../static/img/tab_sle_shangcheng.png"></image>
-						<text>川AFYS38 奔驰</text>
-					</view>
-					<view class="h2l_list">
-						<image src="../../static/img/tab_sle_shangcheng.png"></image>
-						<text>川AFYS38 奔驰</text>
-					</view>
-					<view class="h2l_list">
-						<image src="../../static/img/tab_sle_shangcheng.png"></image>
-						<text>川AFYS38 奔驰</text>
-					</view>
-				</view>
-				<view class="yes_btn">确定</view>
-				<image src="../../static/img/tab_sle_shangcheng.png" class="topleft_icon"></image>
+		<!-- 选择车辆 -->
+		<cover-view class="hint2_box" v-show="choicePopup" @tap="closeChoicePopup">
+			<cover-view class="h2b_line1">
+				<cover-view>{{choiceCar.car_num}}</cover-view>
+				<cover-view v-if="choiceCar.parking_car && choiceCar.parking_car.day_num > 0" class="vip-button">已成会员</cover-view>
 			</cover-view>
+			<cover-view class="h2b_line2">
+				<cover-view class="h2l">选择车辆</cover-view>
+				<cover-view class="h2l_list" v-for="(item,index) in carList" :key="index" @tap="choice(item)">
+					<cover-image class="car_brand_image" :src="item.vehicle.brand.url"></cover-image>
+					<cover-view>{{item.car_num}}</cover-view>
+				</cover-view>
+			</cover-view>
+			<cover-view class="yes_btn" @tap="choiceFinished">确定</cover-view>
+			<cover-image :src="choiceCar.vehicle.brand.url" class="topleft_icon"></cover-image>
 		</cover-view>
-
 		
 		</map>
-	</view>
 	</view>
 </template>
 
 <script>
+import {IndexModel} from '../../model/index'
+import {UserModel} from '../../model/user'
+const indexModel = new IndexModel()
+const userModel = new UserModel()
 	export default {
 		data() {
 			return {
-				stop_vip:false,
-				stop_start:false,
-				scale:10,
+				choicePopup:false,
+				failPopup:false,
+				scale:18,
 				title: 'map',
+				address:'',
 				latitude: 30.674958,
 				longitude: 104.064283,
-				markers: [
-					{
-						iconPath: "/resources/others.png",
-						id: 0,
-						latitude: 30.689928,
-						longitude: 104.049478,
-						width: 50,
-						height: 50
-					},
-					{
-						id: 1,
-						latitude: 30.689928,
-						longitude: 104.049478,
-						iconPath: '../../../static/location.png',
-						width: 50,
-						height: 50
-
-					}, {
-						id: 2,
-						latitude: 39.90,
-						longitude: 116.39,
-						iconPath: '../../../static/location.png',
-						width: 50,
-						height: 50
-					}]
+				markers: [],
+				carList:[],
+				choiceCar:""
 			}
 		},
 		methods: {
-			_stop_vip(){
+			_to_vip_buy(){
+				this.choicePopup = false;
+				this.failPopup = false;
 				uni.navigateTo({
 					url:'/pagesC/vip_buy/vip_buy'
 				})
 			},
-			go_buy(){
-				this.stop_vip = true
-			},
+			// 地图放大
 			scale_add(){
 				this.scale = this.scale < 20 ? this.scale + 2 : 20
 			},
+			// 地图缩小
 			scale_edd(){
 				this.scale = this.scale > 4 ? this.scale - 2 : 4
 			},
-			stop_go(){
-				this.stop_start = true
-			}
+			// 停车
+			parking()
+			{
+				userModel.getCars().then((res) => {
+					this.carList = res.data
+					if (!this.choiceCar) {
+						this.choiceCar = res.data[0]
+					}
+					this.choicePopup = true
+				})
+			},
+			// 选择汽车
+			choice(item){
+				this.choiceCar = item
+			},
+			// 确定
+			choiceFinished(){
+				this.choicePopup = false
+				if (this.choiceCar.parking_car && this.choiceCar.parking_car.day_num > 0) {
+					let params = {
+						car_num:this.choiceCar.car_num,
+						address:this.address,
+						longitude:this.longitude,
+						latitude:this.latitude,
+					}
+					console.log(params)
+					indexModel.parking(params).then((res) => {
+						uni.showToast({
+							title : res.message,
+							icon : 'none'
+						})
+					})
+				} else {
+					this.failPopup = true;
+				}
+			},
+			closePopup(){
+				this.choicePopup = false;
+				this.failPopup = false;
+			},
+			
+		},
+		onShow(){
+			 	let self = this
+				uni.getLocation({
+					type: 'wgs84',
+					geocode:true,
+					success: function (res) {
+						// fixMe 获取address
+						console.log(res)
+						self.longitude = res.longitude
+						self.latitude = res.latitude
+						// this.address = res.address
+						self.markers.push({
+							iconPath :"https://imgcdn.tuogouchebao.com/location_icon.png",
+							width:24,
+							height:35,
+							longitude:self.longitude,
+							latitude:self.latitude,
+						})
+					}
+				}); 
 		}
 	}
 </script>
@@ -189,9 +226,10 @@
 	.hint2_box{
 		width:618.35rpx;
 		background:rgba(255,255,255,1);
-		border-radius:4.83rpx;
-		top: 447.46rpx;
-		left: 65.83rpx;
+		border-radius:8rpx;
+		top:50%;
+		left:50%;
+		transform: translate(-50%,-50%);
 		position: absolute;
 		z-index: 1;
 	}
@@ -207,7 +245,7 @@
 		color: #666666;
 		font-size: 39.85rpx;
 	}
-	.h2b_line1>view{
+	.h2b_line1 .vip-button{
 		width:157.6rpx;
 		height:57.36rpx;
 		background:rgba(253,208,0,1);
@@ -226,11 +264,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 27.17rpx;
+		margin-top: 41.17rpx;
 	}
-	.h2l_list>image{
+	.car_brand_image{
 		width: 35.02rpx;
 		height: 35.02rpx;
+		margin-right: 20rpx;
+
 	}
 	.h2l_list>text{
 		color: #666666;
@@ -261,9 +301,9 @@
 	}
 	.topleft_icon{
 		position: absolute;
-		width: 42.27rpx;
-		height: 42.27rpx;
-		top: 106rpx;
+		width: 80rpx;
+		height: 80rpx;
+		top: 120rpx;
 		left: 54.34rpx;
 	}
 	.scale{

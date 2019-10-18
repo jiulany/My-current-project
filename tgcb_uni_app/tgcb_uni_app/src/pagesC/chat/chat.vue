@@ -52,13 +52,12 @@
 
 <script>
 import {ChatModel} from '../../model/chat.js'
-import {config} from '@/common/utils/congfig.js'
 import { setTimeout } from 'timers';
 const chatModel = new ChatModel()
 export default {
   data() {
     return {
-		no_pic:config.no_pic,
+		no_pic:getApp().globalData.no_pic,
 		inputValue:"",
 		message:[],
 		receiver_id:1,
@@ -179,6 +178,7 @@ export default {
         uni.onSocketMessage(function(res) {
         console.log("收到服务器信息" + JSON.stringify(res));
         let data = JSON.parse(res.data)
+        console.log(data)
         switch(data.type){
           case 'client_id':
               self._online(data.client_id,'nick_name','avatar_url')

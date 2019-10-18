@@ -1,0 +1,199 @@
+
+.order.data-v-5c34f996,.content.data-v-5c34f996,.swiper.data-v-5c34f996{
+     height: 100%;
+     overflow: hidden;
+}
+.order_top.data-v-5c34f996{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    text-align: center;
+    height: 98rpx;
+    background: #F7F7F7;
+}
+.order_item.data-v-5c34f996{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: center;
+    height: 98rpx;
+    line-height: 98rpx;
+}
+.active.data-v-5c34f996 {
+    background: #FDD000;
+    display: block;
+    color: #fff;
+}
+.swiper-box.data-v-5c34f996{
+    overflow: scroll;
+}
+.mile.data-v-5c34f996 {
+    color: #666666;
+    font-size: 34rpx;
+    color: #666666;
+    padding: 66rpx 0 0 34rpx;
+}
+.item.data-v-5c34f996 {
+    position: relative;
+    width: 704rpx;
+    height: 301rpx;
+    background: #fff;
+    margin: 26rpx 0 0 24rpx;
+}
+.head.data-v-5c34f996 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    height: 71rpx;
+    background: #FDD000;
+    -webkit-box-pack: left;
+    -webkit-justify-content: left;
+        -ms-flex-pack: left;
+            justify-content: left;
+}
+.head text.data-v-5c34f996 {
+    width: 286rpx;
+    line-height: 71rpx;
+    padding-left: 66rpx;
+    color: #333333;
+    font-size: 32rpx;
+    font-weight: 500;
+}
+.main.data-v-5c34f996 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding-top: 40rpx;
+    padding-left: 12rpx;
+    color: #666666;
+    font-size: 30rpx;
+}
+.main text.data-v-5c34f996:nth-child(3) {
+    margin-top: 20rpx;
+}
+.button1.data-v-5c34f996 {
+    position: absolute;
+    top: 100rpx;
+    right: 36rpx;
+    width: 18rpx;
+    height: 26rpx;
+    color: #4A4A4A;
+    font-size: 40rpx;
+}
+.button2.data-v-5c34f996 {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 98rpx;
+    background: #FDD000;
+    color: #474747;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-align: center;
+    line-height: 98rpx;
+}
+.base.data-v-5c34f996 {
+    width: 100%;
+    height: 40rpx;
+    padding: 40rpx 0 0 35rpx;
+    color: #666666;
+    font-size: 30rpx;
+    margin: 0;
+}
+.items.data-v-5c34f996 {
+    width: 700rpx;
+    height: 318rpx;
+    background: #fff;
+    margin: 25rpx 0 0 25rpx;
+}
+.items ._img.data-v-5c34f996 {
+    width: 33rpx;
+    height: 23rpx;
+    margin-left: 20rpx;
+}
+.items .header.data-v-5c34f996 {
+    overflow: hidden;
+}
+.items .box.data-v-5c34f996 {
+    overflow: hidden;
+}
+.items .items_name.data-v-5c34f996 {
+    width: 350rpx;
+    color: #333333;
+    font-size: 32rpx;
+    margin-left: 20rpx;
+    font-weight: 500;
+}
+.items .items_num.data-v-5c34f996 {
+    float: right;
+    width: 350rpx;
+    text-align: right;
+    color: #474747;
+    font-size: 32rpx;
+    margin-right: 29rpx;
+}
+.items .items_interval.data-v-5c34f996 {
+    color: #333333;
+    font-size: 32rpx;
+    font-weight: 500;
+    padding-left: 69rpx;
+}
+.remain_mile.data-v-5c34f996,
+.remain_day.data-v-5c34f996 {
+    float: left;
+    width: 303rpx;
+    height: 135rpx;
+    background: #F5F5F5;
+    margin: 49rpx 0 0 31rpx;
+}
+.pro.data-v-5c34f996 {
+    width: 241rpx;
+    border-radius: 50rpx;
+    overflow: hidden;
+    margin: 10rpx 0 0 31rpx;
+}
+.text.data-v-5c34f996 {
+    color: #333333;
+    font-size: 30rpx;
+    margin: 28rpx 0 0 54rpx;
+}
+.button3.data-v-5c34f996 {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 98rpx;
+    background: #FDD000;
+    color: #474747;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-align: center;
+    line-height: 98rpx;
+}
+

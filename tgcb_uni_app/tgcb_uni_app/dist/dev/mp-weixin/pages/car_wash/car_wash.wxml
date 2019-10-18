@@ -1,0 +1,1 @@
+<view><car_wash vue-id="1" bind:__l="__l"></car_wash><tab-bar vue-id="2" address="2" bind:__l="__l"></tab-bar></view>

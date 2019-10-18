@@ -1,11 +1,14 @@
 <template>
     <view class="new_car">
         <view class="banner">
-            <image src="https://www.buick.com.cn/img/newregal/newregal/kv1.jpg"></image>
+            <image :src="banners.image"></image>
         </view>
         <view class="new_car_box">
-            <view class="new_car_box_items" v-for="item in list">
-                <image :src="item.commodity_image_thum"></image>
+            <view class="new_car_box_items" v-for="(item,index) in list" :key="index">
+                <view class="image-box">
+                    <an-image :src="item.commodity_image_thum" :alt="no_pic"></an-image>
+                </view>
+                
                 <view class="desc">
                     <view class="title">{{item.commodity_name}}</view>
                     <view class="price">￥{{item.min_price}}</view>
@@ -19,13 +22,22 @@
 <script>
     import {CarModel} from '../../model/car'
     const carModel = new CarModel()
+    import {IndexModel} from '../../model/index'
+    const indexModel = new IndexModel()
+    import anImage from '@/components/an-image/an-image.vue'
+    
     export default {
         name: "network_car",
+        components:{
+            anImage
+        },
         data(){
             return{
+                no_pic:getApp().globalData.no_pic,
                 list:[],
                 page:1,
-                size: 10
+                size: 10,
+                banners:{}
             }
         },
         onLoad(options){
@@ -38,6 +50,7 @@
                 recommend_type:options.recommend_type
             }
             this._carNew(data)
+            this.getBanner(options.advertising_space)
         },
         methods:{
             _carNew(data){
@@ -45,6 +58,12 @@
                     if(res.data){
                         this.list = res.data.data
                     }
+                })
+            },
+            getBanner(advertising_space)
+            {
+                indexModel.getBanner({advertising_space:advertising_space}).then((res) => {
+                    this.banners = res.data[0]
                 })
             }
         }
@@ -58,7 +77,7 @@
     }
     .banner image{
         width: 100%;
-        height: 430rpx;
+        /* height: 430rpx; */
     }
     .new_car_box{
         padding-top: 20rpx;
@@ -88,7 +107,7 @@
         flex-direction: column;
         justify-content: space-around;
     }
-    .new_car_box_items image{
+    .new_car_box_items .image-box{
         margin-left: 34rpx;
         margin-right: 54rpx;
         width:155rpx;

@@ -1,0 +1,258 @@
+
+.line1 {
+		width: 701.69rpx;
+		height: 121.37rpx;
+		background: rgba(253, 208, 0, 1);
+		margin: 0 auto;
+		line-height: 121.37rpx;
+		text-align: center;
+		color: #474747;
+		font-size: 36.23rpx;
+		margin-top: 36.23rpx;
+}
+.suk_name{
+	color: #999;
+}
+.line2 {
+		margin: 0 auto;
+		width: 702.29rpx;
+		height: 82.12rpx;
+		background: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		        box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		    -ms-flex-pack: justify;
+		        justify-content: space-between;
+		/* padding: 0 18.11rpx; */
+		padding-left: 18.11rpx;
+		-webkit-box-sizing: border-box;
+		        box-sizing: border-box;
+		margin-top: 51.32rpx;
+}
+.line2>view {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		    -ms-flex-pack: center;
+		        justify-content: center;
+}
+.line2_left>image:first-child {
+		width: 36.23rpx;
+		height: 36.23rpx;
+}
+.line2_left>text:nth-child(2) {
+		color: #474747;
+		font-size: 27.77rpx;
+		margin-left: 18rpx;
+}
+.line2_right>image:first-child {
+		width: 44rpx;
+		height: 44rpx;
+}
+.line2_right>image:nth-child(2) {
+		width: 58rpx;
+		height: 58rpx;
+		margin-left: 24.15rpx;
+}
+.line3 {
+		width: 702.29rpx;
+		height: 174.51rpx;
+		background: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		        box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		margin: 0 auto;
+		margin-top: 12.07rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		padding: 0 23.55rpx 0 18.11rpx;
+		-webkit-box-sizing: border-box;
+		        box-sizing: border-box;
+		position: relative;
+}
+.line3>image {
+		width: 114.13rpx;
+		height: 114.13rpx;
+}
+.l3_center {
+		height: 130rpx;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: column;
+		    -ms-flex-direction: column;
+		        flex-direction: column;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		    -ms-flex-pack: justify;
+		        justify-content: space-between;
+		margin-left: 30.79rpx;
+}
+.l3_c_top {
+		color: #474747;
+		font-size: 24.15rpx;
+}
+.suk_name{
+		font-size: 21rpx;
+}
+.l3_c_bottom>text:first-child {
+		color: #909090;
+		font-size: 21.73rpx;
+}
+.l3_c_bottom>text:nth-child(2) {
+		color: #909090;
+		font-size: 28.98rpx;
+}
+.price {
+		color: #F75C3E;
+		font-size: 27.77rpx;
+		position: absolute;
+		right: 23.55rpx;
+		bottom: 32rpx;
+}
+.line4 {
+		width: 702.29rpx;
+		height: 82.12rpx;
+		background: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		        box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		margin: 0 auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		    -ms-flex-pack: justify;
+		        justify-content: space-between;
+		padding-left: 18.11rpx;
+		-webkit-box-sizing: border-box;
+		        box-sizing: border-box;
+		margin-top: 3.01rpx;
+}
+.line4>text {
+		color: #474747;
+		font-size: 24.15rpx;
+}
+.l4_right {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+}
+.l4_right>text {
+		color: #474747;
+		font-size: 27.77rpx;
+}
+.l4_right>image {
+		width: 58rpx;
+		height: 58rpx;
+}
+.line5{
+				width: 702.29rpx;
+		height: 82.12rpx;
+		background: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		        box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		margin: 0 auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		    -ms-flex-pack: justify;
+		        justify-content: space-between;
+		padding: 0 18.11rpx;
+		-webkit-box-sizing: border-box;
+		        box-sizing: border-box;
+		margin-top: 3.01rpx;
+}
+.line5>text:first-child{
+		color: #474747;
+		font-size: 24.15rpx;
+}
+.line5>text:nth-child(2){
+		color: #F75C3E;
+		font-size: 27.77rpx;
+}
+.line6{
+						width: 702.29rpx;
+		height: 82.12rpx;
+		background: rgba(255, 255, 255, 1);
+		-webkit-box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		        box-shadow: 0px 1.2rpx 2.41rpx 0px rgba(0, 0, 0, 0.04);
+		margin: 0 auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		-webkit-box-pack: justify;
+		-webkit-justify-content: space-between;
+		    -ms-flex-pack: justify;
+		        justify-content: space-between;
+		padding: 0 18.11rpx;
+		-webkit-box-sizing: border-box;
+		        box-sizing: border-box;
+		margin-top: 12.68rpx;
+}
+.line6>text:first-child{
+		color: #474747;
+		font-size: 24.15rpx;
+}
+.line6>text:nth-child(2){
+		color: #474747;
+		font-size: 27.77rpx;
+}
+.footbtn{
+		width: 100%;
+		height: 88.16rpx;
+		text-align: center;
+		line-height: 88.16rpx;
+		color: #474747;
+		font-size: 36.23rpx;
+		background: #FDD000;
+		position: fixed;
+		bottom: 0;
+}
+

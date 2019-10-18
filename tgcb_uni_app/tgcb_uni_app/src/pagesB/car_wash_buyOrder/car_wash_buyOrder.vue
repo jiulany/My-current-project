@@ -1,18 +1,22 @@
 <template>
 	<view>
 		<view class="line1">脱狗服务订单</view>
-		<view class="line2">
+		<view class="line2" @tap="changeShop">
 			<view class="line2_left">
-				<image src="../../static/image/addr.png"></image>
-				<text>脱狗车宝（浅水半岛店）</text>
+				<i class="iconfont icon-mendian1"></i>
+				<text>{{shop.name}}</text>
 			</view>
 			<view class="line2_right">
 				<image src="../../static/image/addr.png"></image>
-				<image src="../../static/image/right.png"></image>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
 		</view>
-		<view class="line3" v-for="(item,index) in data.order">
-			<image :src="item.commodity.commodity_image_thum"></image>
+		<view class="line3" v-for="(item,index) in data.order" :key="index">
+			<!-- <image :src="item.commodity.commodity_image_thum"></image> -->
+			<view class="image-box" :class="no_pic">
+				<an-image :src="item.commodity.commodity_image_thum"  :alt="no_pic"></an-image>
+			</view>
+			
 			<view class="l3_center">
 				<view class="l3_c_top">{{item.commodity.commodity_name}}</view>
 				<view class="l3_c_bottom">
@@ -26,18 +30,19 @@
 			<text>洗车类型</text>
 			<view class="l4_right">
 				<text>川123123</text>
-				<image src="../../static/image/right.png"></image>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
 		</view>
-		<view class="line5">
+		<view class="line5" v-if="data.length > 0">
 			<text>商品总价</text>
 			<text>￥{{data.order_payment_price}}</text>
 		</view>
-		<view class="line4" v-if="data.coupon && data.coupon.length>0">
+		<view class="line4" v-if="data.coupon && data.coupon.length>0" @tap="choiceCoupons">
 			<text>优惠卡券</text>
 			<view class="l4_right">
-				<text>省：简洗车身省10元</text>
-				<image src="../../static/image/right.png"></image>
+				<text v-if="data.coupon_content.name && useCoupon">{{data.coupon_content.name}} -￥{{data.coupon_price}}</text>
+				<text v-else style="color:#474747">暂无可用</text>
+				<view class="iconfont icon-xiayibu"></view>
 			</view>
 		</view>
 		<radio-group  @change.stop="radioChange" @tap="radios">
@@ -63,39 +68,65 @@
 </template>
 
 <script>
+	import anImage from '@/components/an-image/an-image.vue'
 	import {OrderModel} from "../../model/order";
 	const  orderModel = new OrderModel()
 	export default {
 		name :'car_wash_buyOrder',
+		components:{
+            anImage
+        },
 		data(){
 			return {
+				no_pic:getApp().globalData.no_pic,
 				confirm:'',
 				data:[],
-				appointment_type:1
+				appointment_type:1,
+				shop:{},
+				useCoupon:1,
+				options:""
 			}
 		},
-		onLoad(data) {
-			uni.showLoading({
-				title:'loading...',
-				mask:true
-			})
-			let list = JSON.stringify(JSON.parse(data.data))
-			this.confirm = list
-			let form = {
-				confirm:this.confirm,
-				car_id:0,
-				coupon_id:0
+		onLoad(options){
+			uni.setStorageSync('use_coupon',1)
+			this.options = options
+			this.__init()
+		},
+		onShow(){
+			this.__init()
+			this.useCoupon = uni.getStorageSync('use_coupon')
+			if (uni.getStorageSync('shop')) {
+				this.shop = JSON.parse(uni.getStorageSync('shop'))	
 			}
-			this._commitOrder(form)
 		},
 		methods:{
+			__init(){
+				uni.showLoading({
+				title:'loading...',
+				mask:true
+				})
+				if (!this.confirm) {
+					let list = JSON.stringify(JSON.parse(this.options.data))
+					this.confirm = list
+				}
+				
+				let coupon_id = uni.getStorageSync('coupon_id')
+				let form = {
+					confirm:this.confirm,
+					car_id:0,
+					coupon_id:coupon_id,
+					use_coupon : this.useCoupon
+				}
+				
+				this._commitOrder(form)
+			},
 			radios(){
 				return false
 				let id = this.appointment_type
 				if(id == 2 || id == 3) {
 					uni.setStorageSync('appointments',null)
 					uni.navigateTo({
-						url:'/pagesC/car_wash_info/car_wash_info'
+						url:'/pagesC/car_wash_info/car_wash_info?id=' + id
 					})
 				} else {
 					uni.setStorageSync('appointments',null)
@@ -116,15 +147,16 @@
 				}
 			},
 			subOrder(){
+				let coupon_id = uni.getStorageSync('coupon_id')
 				let form = {
 					confirm:this.confirm,
 					car_id:0,
-					coupon_id:0
+					coupon_id:coupon_id,
+					use_coupon : this.useCoupon
 				}
 				form.appointment_type = this.appointment_type
 				let appointment_data = uni.getStorageSync('appointments')
 				form.appointment_data = appointment_data
-				console.log(appointment_data)
 				if(!appointment_data && form.appointment_type !=1){
 					uni.showToast({
 						title:'请完预约善信息',
@@ -139,7 +171,7 @@
 					if(res.data){
 						let data = res.data
 						uni.navigateTo({
-							url:'/pagesB/pay/pay?data='+ JSON.stringify(data.internal_payment_sn)
+							url:'/pagesB/pay/pay?type=commodity&data='+ JSON.stringify(data.internal_payment_sn)
 						})
 					}
 				})
@@ -151,6 +183,17 @@
 						this.data = res.data
 					}
 				})
+			},
+			choiceCoupons()
+			{
+				uni.navigateTo({
+					url:'/pagesB/choice_ticket/choice_ticket?confirm=' + this.confirm
+				})
+			},
+			changeShop(){
+				 uni.navigateTo({
+        			url:`/pagesB/choice_store/choice_store`
+      			 })
 			}
 		}
 	}
@@ -230,7 +273,7 @@
 		position: relative;
 	}
 
-	.line3>image {
+	.line3 .image-box {
 		width: 114.13rpx;
 		height: 114.13rpx;
 	}

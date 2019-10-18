@@ -1,0 +1,83 @@
+
+.car_cosmetology.data-v-4e5177aa{
+    height: 100%;
+    background: #fff;
+}
+.banner image.data-v-4e5177aa{
+    height: 309rpx;
+    width: 100%;
+}
+.box.data-v-4e5177aa{
+}
+.title.data-v-4e5177aa{
+    text-align: center;
+    font-size:36rpx;
+    color:rgba(51,51,51,1);
+}
+.box_radio.data-v-4e5177aa{
+    width: 75rpx;
+}
+.box_items.data-v-4e5177aa{
+    padding-left: 25rpx;
+    padding-right: 35rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 120rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    border-bottom: #F0F0F0 1rpx solid;
+}
+.box_items_title.data-v-4e5177aa{
+    width: 375rpx;
+    font-size:32rpx;
+    color:rgba(51,51,51,1);
+}
+.box_items_price.data-v-4e5177aa{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: right;
+    padding-right: 30rpx;
+    font-size:36rpx;
+    color:rgba(255,62,62,1);
+}
+.box_desc.data-v-4e5177aa{
+    font-size:30rpx;
+    color:rgba(102,102,102,1);
+}
+.box_desc_title.data-v-4e5177aa{
+    padding-left: 25rpx;
+    margin-top: 29rpx;
+    text-align: left;
+    font-size: 30rpx;
+}
+.box_detail.data-v-4e5177aa{
+    padding-right: 20rpx;
+    margin-top: 43rpx;
+    padding-left: 25rpx;
+    background: #fff;
+    padding-bottom: 100rpx;
+}
+.box_btn.data-v-4e5177aa{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    line-height: 98rpx;
+    font-size:36rpx;
+    color: #474747;
+    height:98rpx;
+    background:rgba(253,208,0,1);
+}
+

@@ -9,6 +9,7 @@
 							<view v-if="showSelect" style="margin-right: 20upx;">
 								<uni-icon :type="item.checked ? 'checkbox-filled' : 'circle'" :color="item.checked ? '#007aff' : '#aaa'" size="24" />
 							</view>
+							<view><image class="brand_logo" :src="item.logo"></image></view>
 							<view class="uni-list-item__content">{{ item.name }}</view>
 						</view>
 					</view>
@@ -64,11 +65,13 @@
 			// console.log(this.options)
 			this.lists = this.options.map(value => {
 				// console.log(value)
-				let items = value.data.map(item => {
+				let items = value.data.map((item,index) => {
 					let obj = {};
 					// for (let key in item) {
 					obj['key'] = value.letter;
 					obj['name'] = item
+					obj['brand_id'] = value.brand_ids[index]
+					obj['logo'] = value.logos[index]
 					// }
 					obj.checked = item.checked ? item.checked : false;
 					return obj;
@@ -107,6 +110,8 @@
 			},
 			onClick(idx, index) {
 				let obj = {};
+				
+	
 				for (let key in this.lists[idx].items[index]) {
 					obj[key] = this.lists[idx].items[index][key];
 				}
@@ -125,6 +130,7 @@
 						});
 					});
 				}
+				// console.log(obj)
 				this.$emit('click', {
 					item: obj,
 					select: select
@@ -201,7 +207,8 @@
 		content: '';
 		-webkit-transform: scaleY(.5);
 		transform: scaleY(.5);
-		background-color: #c8c7cc
+		background-color: #c8c7cc;
+		display: flex;
 	}
 
 	.uni-indexed {
@@ -264,5 +271,9 @@
 		font-size: 70upx;
 		color: #fff;
 		background-color: rgba(0, 0, 0, .5)
+	}
+	.brand_logo{
+		width: 50rpx;
+		height: 50rpx;
 	}
 </style>

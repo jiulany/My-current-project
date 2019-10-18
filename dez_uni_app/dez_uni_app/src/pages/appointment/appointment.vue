@@ -5,13 +5,17 @@
                 <view class="span6 appo-form-key">服务类型</view>
                 <view class="span18 appo-form-val">
                     <picker mode = "multiSelector"  :value="[0, 0]" @change="changeType" :range="type_array" @columnchange="columnChange" range-key="class_name">
-                        <view class="uni-input">{{type_array[0][index_1].class_name+'-'+type_array[1][index_2].class_name}}</view>
+                        <view class="uni-input">{{type_array===null?'':(type_array[0][index_1].class_name+'-'+type_array[1][index_2].class_name)}}</view>
                     </picker>
                 </view>
             </view>
             <view class="span24 appo-form-it">
-                <view class="span6 appo-form-key">服务地址</view>
-                <view class="span18 appo-form-val"><input @blur="soAdress" v-model="full_address" type="text" placeholder="请输入服务地址"></view>
+                <view class="span6 appo-form-key">区域</view>
+                <view class="span18 appo-form-val"><input @blur="soAdress" v-model="aa_address" type="text" placeholder="请输入区域地址"></view>
+            </view>
+            <view class="span24 appo-form-it">
+                <view class="span6 appo-form-key">详细地址</view>
+                <view class="span18 appo-form-val"><input @blur="soAdress" v-model="bb_address" type="text" placeholder="请输入详细地址"></view>
             </view>
             <view class="span24 appo-form-it">
                 <view class="span6 appo-form-key">服务需求</view>
@@ -25,7 +29,7 @@
                 <view class="span6 appo-form-key">联系电话</view>
                 <view class="span18 appo-form-val"><input maxlength="11" v-model="mobile" type="number" placeholder="请输入联系电话"></view>
             </view>
-            <view class="span24 appo-form-it" style="padding-right:0">
+            <!-- <view class="span24 appo-form-it" style="padding-right:0">
                 <view class="span24 appo-form-key">上传图片<span>（最多四张）</span></view>
                 <view class="span24 appo-form-val appo-form-val-tp">
                     <view class="appo-form-pt" v-for="(item,inx) in image_list" :key="inx"><image   mode="aspectFit" :src='item'></image>
@@ -33,7 +37,7 @@
                     <view class="appo-form-pt"><image @tap="seleTp"  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_add_photo.png'></image>
                     </view>
                 </view>
-            </view>
+            </view> -->
         </view>
         <view class="span24">
             <view class="span24 appo-tip">温馨提示</view>
@@ -65,17 +69,24 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
                 index_2:0,
                 image_list:[],
                 upl_list:[],
-                full_address:null,
+                full_address:'',
+                aa_address:'',
+                bb_address:'',
                 remarks:null,
                 contacts:null,
                 mobile:null,
                 longitude:null,
                 latitude:null,
+                if_click:true
 			}
         },
         components: { HMmessages},
+        onShow(){
+                this.if_click=true
+        },
 		onLoad() {
-            let _this=this
+            let _this=this  
+           this.getAddress()
         this.$http({
         url: `api/goods_class`,data: {}
         }).then(res => {
@@ -85,11 +96,24 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
         })
 		},
 		methods: {
-            soAdress(){
+            getAddress(){
                 let _this=this
-             qqmapsdk.geocoder({
+ uni.getLocation({
+    type: 'wgs84',
+    success: function (res) {
+            qqmapsdk.reverseGeocoder({
+        location: {
+          latitude: res.latitude,
+          longitude: res.longitude
+        },
+      success: function(res) {//成功后的回调
+      console.log(res)
+      _this.aa_address=res.result.address_component.province+res.result.address_component.city+res.result.address_component.district
+      _this.bb_address=res.result.address_component.street_number
+      _this.full_address=res.result.address_component.province+res.result.address_component.city+res.result.address_component.district+res.result.address_component.street_number
+      qqmapsdk.geocoder({
       //获取表单传入地址
-      address: _this.full_address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
+      address: res.result.address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
       success: function(res) {//成功后的回调
         var res = res.result;
         _this.latitude= res.location.lat;
@@ -106,6 +130,45 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
           }
       }
     })
+      },
+      fail: function(error) {
+        console.error(error);
+      },
+      complete: function(res) {
+        console.log(res);
+      }
+    })
+    }
+});
+            },
+            soAdress(){
+                let _this=this
+                if(this.full_address==''){
+
+                }else{
+ qqmapsdk.geocoder({
+      //获取表单传入地址
+      address:_this.aa_address+_this.bb_address, //地址参数，例：固定地址，address: '北京市海淀区彩和坊路海淀西大街74号'
+      success: function(res) {//成功后的回调
+        var res = res.result;
+        _this.latitude= res.location.lat;
+        _this.longitude= res.location.lng;
+      },
+      fail: function(error) {
+      },
+      complete: function(res) {
+          if(res.status!=0){
+               _this.full_address=''
+               _this.aa_address=''
+               _this.bb_address=''
+             _this.HMmessages.show(res.message, { icon: "error" });
+          }else{
+
+          }
+      }
+    })
+                }
+            
             },
             changeType(e){
                 this.index_1=e.detail.value[0]
@@ -116,7 +179,7 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
                 uni.chooseImage({
     count: 4,
     sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-    sourceType: ['album'], //从相册选择
+    sourceType: ['album','camera'], //从相册选择
     success: function (res) {
          _this.image_list=res.tempFilePaths
     }
@@ -140,6 +203,13 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
                 
             },
             toYuyue(){
+                if(this.if_click){
+                    console.log("Sss")
+                    if(this.remarks==null||this.remarks==''||this.contacts==null||this.contacts==''||this.mobile==null||this.mobile==''){
+                        
+             this.HMmessages.show('请检查是否输入完全', { icon: "error" });
+                    }else{
+                         this.if_click=false
             Promise.all(this.image_list.map((item,inx)=>{
                 return this.upLoad(inx)
             })).then(res=>{
@@ -165,11 +235,15 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
               },1500)
         })
         .catch(res => {
+            this.if_click=true
              this.HMmessages.show(res.msg, { icon: "error" });
         });
             }).catch(res=>{
+                this.if_click=true
             console.log(res)
             })
+                    }
+                }
             }
 		}
 	}
@@ -249,7 +323,8 @@ padding: 0 0 0 21rpx
 .appo-btm{
 		position: fixed;
 		bottom: 0;
-		padding: 18rpx 0;
+		padding: 25rpx 0;
+		padding-bottom: 50rpx;
 		background: white;
 		justify-content: center
 	}

@@ -1,0 +1,1 @@
+<view class="{{(('col data-v-4c0b1efc')+' '+colClass)}}" style="{{(colStyle)}}"><slot></slot></view>

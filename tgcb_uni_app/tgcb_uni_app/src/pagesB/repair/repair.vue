@@ -1,6 +1,6 @@
 <template>
     <view class="cosmetology">
-        <view class="cosmetology_box" v-for="(item,index) in list">
+        <view class="cosmetology_box" v-for="(item,index) in list" :key="index">
             <view class="cosmetology_box_items">
                 <view class="cosmetology_box_item_1">
                     <radio-group @click="radioChange(item.id.toString())">

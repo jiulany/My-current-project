@@ -2,7 +2,7 @@
     <view class="app">
         <swiper class="swiper" :current="active" duration="0" @change="swiperChange">
             <swiper-item>
-                <index :list="list" :activities="activities" :activities_title="activities_title"></index>
+                <index :list="list" :shops="shops" :activities="activities" :activities_title="activities_title"></index>
             </swiper-item>
             <swiper-item>
                 <store></store>
@@ -18,8 +18,8 @@
             </swiper-item>
         </swiper>
         
-        <cover-view class="tab">
-            <cover-view :class="active==0?'item active':'item'" @click="active=0">
+        <view class="tab">
+            <cover-view :class="active==0?'item active':'item'" @click="active=0" >
                 <cover-view>
                     <cover-image v-if="active==0"  class="index_img" src="https://imgcdn.tuogouchebao.com/index_active.png"></cover-image>
                     <cover-image v-else  class="index_img" src="https://imgcdn.tuogouchebao.com/index.png"></cover-image>
@@ -33,13 +33,13 @@
                 </cover-view>
                 <cover-view>门店</cover-view>
             </cover-view>
-            <cover-view :class="active==2?'item-add active':'item-add'" @click="active=2">
-                <cover-view>
-                    <cover-image class="car_img" src="https://imgcdn.tuogouchebao.com/tab_sle_xiche.png"></cover-image>
-                    <cover-view  class="index_img" ></cover-view>
-                </cover-view>
-                <cover-view>洗车</cover-view>
-            </cover-view>
+            <view :class="active==2?'item-add active':'item-add'" @click="active=2">
+                <view>
+                        <cover-image class="car_img" src="https://imgcdn.tuogouchebao.com/tab_sle_xiche.png"></cover-image>
+                    <view  class="index_img" ></view>
+                </view>
+                <view>洗车</view>
+            </view>
             <cover-view :class="active==3?'item active':'item'" @click="active=3">
                 <cover-view>
                     <cover-image v-if="active==3" class="index_img" src="https://imgcdn.tuogouchebao.com/shoping_mall_active.png"></cover-image>
@@ -54,7 +54,7 @@
                 </cover-view>
                 <cover-view>我的</cover-view>
             </cover-view>
-        </cover-view>
+        </view>
     </view>
 </template>
 
@@ -78,7 +78,12 @@
                 activities_title:{},
                 user:{},
                 valve:false,
-                userInfo:[]
+                userInfo:[],
+                wash_list:[],
+                longitude:'',
+                latitude:'',
+                shops:[],
+                shop_id:0
             }
         },
         components:{
@@ -95,7 +100,6 @@
                     success: res => {
                         console.log(res)
                         if (res.errMsg === 'login:ok') {
-
                             // 获取code
                             const code = res.code
                             uni.setStorageSync('code', code)
@@ -183,10 +187,11 @@
                         this.user = res.data
                     }
                 })
-            }
+            },
+           
         },
 
-        onLoad:function(){
+        onLoad(){
             //#ifdef MP-WEIXIN
             this._login()
             // #endif
@@ -198,17 +203,34 @@
 
             console.log('onLoad')
             // this.getapps()
-            
+           
             uni.getSystemInfo({
                 success:res=>{
                     this.height = res.screenHeight;
                 }
             })
+            
         },
         onShow(){
             if (this.valve) {
                 this._getUserInfo()
             }
+            let self = this
+            // 获取经纬度
+            uni.getLocation({
+                type: 'wgs84',
+                success: function (res) {
+                    let params = {
+                        longitude:res.longitude,
+                        latitude:res.latitude,
+                    }
+                    indexModel.getShopList(params).then((res) => {
+                        self.shops = res.data
+                        console.log('shops')
+                        console.log(self.shops)
+                    })
+                }
+            }); 
         },
         watch:{
             deep: true,
@@ -301,4 +323,5 @@
         margin-bottom: 12rpx;
         margin-top: 15rpx;
     }
+   
 </style>

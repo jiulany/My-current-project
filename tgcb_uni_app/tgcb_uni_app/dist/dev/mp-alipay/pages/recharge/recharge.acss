@@ -1,0 +1,86 @@
+
+page {
+  background-color: #ffffff;
+  height: 100%;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+.recharge-bnr .swiper-item {
+  height: 100%;
+  width: 100%;
+}
+.recharge-bnr .swiper-item ._img {
+  height: 100%;
+  width: 100%;
+}
+.recharge-ct {
+  padding: 28rpx 20rpx;
+}
+.recharge-btn-box {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-content: space-around;
+      -ms-flex-line-pack: distribute;
+          align-content: space-around;
+}
+.recharge-btn-box::after {
+  content: "";
+  width: 29.166667%;
+  height: 47rpx;
+}
+.recharge-btn {
+  height: 94rpx;
+  background: #fdd000;
+  margin-top: 30rpx;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 8rpx;
+  /* border: 1px solid #fdd100 */
+}
+.recharge-btn view {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.recharge-jine {
+  height: 32rpx;
+}
+.recharge-youhui {
+  font-size: 22rpx;
+  color: #e41717;
+}
+.recharge-zdy {
+  border: 1px solid #fdd100;
+  height: 80rpx;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20rpx;
+  border-radius: 8rpx;
+}
+.recharge-zdy input {
+  width: 100%;
+  text-align: center;
+}
+.recharge-sr {
+  position: fixed;
+  bottom: 0;
+  background: #fdd000;
+  height: 80rpx;
+  font-size: 36rpx;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+

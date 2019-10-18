@@ -1,0 +1,109 @@
+
+page {
+    background: #FFFEFF;
+}
+.top {
+    width: 700rpx;
+    height: 100rpx;
+    background: #FDD000;
+    font-size: 36rpx;
+    font-weight: bold;
+    text-align: center;
+    line-height: 100rpx;
+    margin: 25rpx;
+}
+.address {
+    width: 700rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    font-size: 32rpx;
+    font-weight: bold;
+    margin: 25rpx 25rpx 0 25rpx;
+    background: #fff;
+    border: 1rpx solid #ccc;
+}
+.order-details {
+    width: 700rpx;
+    height: 400rpx;
+    background: #fff;
+    margin: 10rpx 25rpx 0 25rpx;
+    border: 1rpx solid #ccc;
+}
+.order-details .info {
+    width: 100%;
+    height: 199rpx;
+    border-bottom: 1rpx solid #ccc;
+}
+.order-details .info view {
+    float: left;
+    margin-top: 25rpx;
+}
+.order-details .info .product-img {
+    width: 100rpx;
+    height: 150rpx;
+    border: 1rpx solid #ccc;
+     margin-left: 50rpx;
+}
+.order-details .info ._img {
+    width: 100%;
+    height: 100%;
+}
+.order-details .info .price {
+    width: 150rxp;
+    height: 150rpx;
+    margin-left: 50rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+.order-details .info .count {
+    float: right;
+    width: 40rpx;
+    height: 150rpx;
+    line-height: 240rpx;
+}
+.order-details .total,
+ .order-details .number {
+     width: 100%;
+     height: 99rpx;
+     line-height: 99rpx;
+     border-bottom: 1rpx solid #ccc;
+     display: -webkit-box;
+     display: -webkit-flex;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-pack: justify;
+     -webkit-justify-content: space-between;
+         -ms-flex-pack: justify;
+             justify-content: space-between;
+}
+.button {
+     position: fixed;
+     bottom: 0;
+     background: #FDD000;
+     width: 100%;
+     height: 98rpx;
+     line-height: 98rpx;
+     text-align: center;
+     font-size: 36rpx;
+     font-weight: bold;
+}
+

@@ -1,0 +1,60 @@
+
+.collectCars_box.data-v-2e0580cb{
+    background: #fff;
+}
+.collectCarsItem.data-v-2e0580cb{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 113rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 0 30rpx;
+    border-bottom: #F0F0F0 solid 1prx;
+    font-size:32rpx;
+}
+.collectCarsItemValue.data-v-2e0580cb{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: right;
+    color: #999999;
+    font-size:30rpx;
+}
+.iconfont.data-v-2e0580cb{
+    width: 60rpx;
+}
+.collectCars_record.data-v-2e0580cb{
+    margin-top: 20rpx;
+    height: 120rpx;
+    line-height: 120rpx;
+    text-align: center;
+    color: #FDD000;
+    font-size:30rpx;
+}
+.collectCars_btn.data-v-2e0580cb{
+    text-align: center;
+    background: #FDD000;
+    font-size:36rpx;
+    color: #FFFFFF;
+    position: fixed;
+    height: 80rpx;
+    line-height: 80rpx;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+

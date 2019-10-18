@@ -1,0 +1,7 @@
+
+.placeholder {
+  color: #b5b8c2;
+  font-size: 30rpx;
+}
+
+

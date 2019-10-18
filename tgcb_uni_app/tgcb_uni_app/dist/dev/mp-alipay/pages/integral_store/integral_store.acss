@@ -1,0 +1,49 @@
+
+page {
+  background-color: #f5f5f5;
+  height: 100%;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+.integral-store{
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 20rpx
+}
+.integral-store-it{
+    background: white;
+    width: 48.433333%;
+    margin-top: 20rpx;
+    padding: 10rpx 15rpx 30rpx 15rpx
+}
+.integral-store::after{
+    content: ''
+}
+.integral-store-t{
+    height: 280rpx;
+    margin-bottom: 15rpx
+}
+.integral-store-t image{
+    height: 100%;
+}
+.integral-store-ms{
+height: 100rpx;
+line-height: 50rpx
+}
+.integral-store-jg{
+    color: #E41717;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end
+}
+.integral-store-nm{
+    font-size:33rpx;
+    -webkit-box-align: end;
+    -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+            align-items: flex-end
+}
+

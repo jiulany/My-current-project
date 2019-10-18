@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "新车福利专场",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "an-image": "/components/an-image/an-image"
+  }
+}

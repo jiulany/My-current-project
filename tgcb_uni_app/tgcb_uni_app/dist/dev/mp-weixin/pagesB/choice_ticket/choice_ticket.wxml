@@ -1,0 +1,1 @@
+<view class="span24 myticket"><my_ticket vue-id="1" list="{{list}}" data-event-opts="{{[['^choice',[['choice']]]]}}" bind:choice="__e" bind:__l="__l"></my_ticket><view data-event-opts="{{[['tap',[['noUse',['$event']]]]]}}" class="bottom" bindtap="__e">不使用卡券</view></view>

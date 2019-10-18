@@ -1,6 +1,6 @@
 <template>
     <view class="personal">
-        <view class="personal_item">
+        <!-- <view class="personal_item">
             <view class="name">
                 免密支付
             </view>
@@ -8,11 +8,11 @@
                 <view class="uni-list">
                 <view class="uni-list-cell uni-list-cell-pd">
                     <view class="uni-list-cell-db"></view>
-                    <switch :checked="checked" />
+                    <switch :checked="checked" @change="change" />
                 </view>
                 </view>
             </view>
-        </view>
+        </view> -->
         <view class="personal_item">
             <view class="name">
                 被保人信息
@@ -54,6 +54,9 @@
                 uni.navigateTo({
                     url:'/pagesA/payment_manage/payment_manage'
                 })
+            },
+            change(){
+                
             }
         }
     }

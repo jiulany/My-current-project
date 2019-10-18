@@ -5,233 +5,104 @@
 			<swiper :current="TabCur3" class="swiper" duration="300" :circular="true" indicator-color="rgba(255,255,255,0)"
 			 indicator-active-color="rgba(255,255,255,0)" @change="swiperChange3">
 				<swiper-item>
-					<view class="park_con">
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
+					<scroll-view scroll-y style="height: 100%;" @scrolltolower="lower">
+						<view class="park_con" >
+							<view class="park_list" v-for="(item,index) in list1" :key="index">
+								<image src=""></image>
+								<view class="pl_center">
+									<view>{{item.created_at}}</view>
+									<view>{{item.address}}</view>
+									<view class="pc_bottom">
+										<text v-if="item.status == 0">未上传</text>
+										<text v-else-if="item.status == 3" class="status_error">审核未通过</text>
+										<text v-else>已上传</text>
+										<text v-if="item.status != 3">{{item.car_num}}</text>
+										<text v-else class="details" @tap="openDetails(item)">详情</text>
+									</view>
 								</view>
+								<!-- <view class="pc_right" v-if="item.status == 1">上传成功</view> -->
+								<view class="pc_right_success" v-if="item.status == 0" @click="up_card(item.id)">上传凭证</view>
+								<view class="pc_right_success" v-else-if="item.status == 3"  @click="up_card(item.id)">重新上传</view>
+								<view class="pc_right_success" v-else @click="checkImage(item)">查看凭证</view>
 							</view>
-							<view class="pc_right">上传成功</view>
 						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right_success" @click="up_card">上传凭证</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
-								</view>
-							</view>
-							<view class="pc_right">上传成功</view>
-						</view>
-
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-					<view class="park_con">
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已上传</text>
-									<text>川A32413</text>
+					<scroll-view scroll-y style="height: 100%;" @scrolltolower="lower">
+						<view class="park_con">
+							<view class="park_list" v-for="(item,index) in list2" :key="index">
+								<image src=""></image>
+								<view class="pl_center">
+									<view>{{item.created_at}}</view>
+									<view>{{item.address}}</view>
+									<view class="pc_bottom">
+										<text v-if="item.status == 0">未上传</text>
+										<text v-else-if="item.status == 3" class="status_error">审核未通过</text>
+										<text v-else>已上传</text>
+										<text v-if="item.status != 3">{{item.car_num}}</text>
+										<text v-else class="details" @tap="openDetails(item)">详情</text>
+									</view>
 								</view>
+								<!-- <view class="pc_right" v-if="item.status == 1">上传成功</view> -->
+								<view class="pc_right_success" v-if="item.status == 0" @click="up_card(item.id)">上传凭证</view>
+								<view class="pc_right_success" v-else-if="item.status == 3"  @click="up_card(item.id)">重新上传</view>
+								<view class="pc_right_success" v-else @click="checkImage(item)">查看凭证</view>
 							</view>
-							<view class="pc_right">上传成功</view>
 						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>审核通过</text>
-								</view>
-							</view>
-							<view class="pc_right_success" @click="chackan">查看凭证</view>
-						</view>
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text class="status_error">审核未通过</text>
-									<text class="details">详情</text>
-								</view>
-							</view>
-							<view class="pc_right_success">重新上传</view>
-						</view>
-					</view>
+					</scroll-view>
 				</swiper-item>
 				<swiper-item>
-					<view class="park_con">
-						<view class="park_list">
-							<image src=""></image>
-							<view class="pl_center">
-								<view>2019-4-24 14:04</view>
-								<view>四川省成都市金牛区星辉中路20号</view>
-								<view class="pc_bottom">
-									<text>已到帐</text>
-									<text class="status_error"> +100.00元</text>
+					<scroll-view scroll-y style="height: 100%;" @scrolltolower="lower">
+						<view class="park_con">
+							<view class="park_list" v-for="(item,index) in list3" :key="index">
+								<image src=""></image>
+								<view class="pl_center">
+									<view>2019-4-24 14:04</view>
+									<view>四川省成都市金牛区星辉中路20号</view>
+									<view class="pc_bottom">
+										<text v-if="item.status == 0">未上传</text>
+										<text v-else-if="item.status == 3" class="status_error">审核未通过</text>
+										<text v-else>已上传</text>
+										<text v-if="item.status != 3">{{item.car_num}}</text>
+										<text v-else class="details" @tap="openDetails(item)">详情</text>
+									</view>
 								</view>
+								<!-- <view class="pc_right" v-if="item.status == 1">上传成功</view> -->
+								<view class="pc_right_success" v-if="item.status == 0" @click="up_card(item.id)">上传凭证</view>
+								<view class="pc_right_success" v-else-if="item.status == 3"  @click="up_card(item.id)">重新上传</view>
+								<view class="pc_right_success" v-else @click="checkImage(item)">查看凭证</view>
 							</view>
-							<view class="pc_right_success" @click="chackan">查看凭证</view>
 						</view>
-					</view>
+					</scroll-view>
 				</swiper-item>
 			</swiper>
-<!--			查看凭证-->
-<!--			<view class="see">-->
-<!--				<view class="see_img">-->
-<!--					<image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566089739124&di=0dc203746222abda5948f33c7185b390&imgtype=0&src=http%3A%2F%2Fp2.qhimgs4.com%2Ft01b6b028f82d9d29cb.jpg"></image>-->
-<!--				</view>-->
-<!--			</view>-->
+			<!-- 查看凭证-->
+			<view class="see" @tap="close" v-if="imagePopup">
+				<view class="see_img">
+					<image :src="imageUrl"></image>
+				</view>
+			</view> 
 		</view>
 <!--审核未通过原因-->
-<!--		<view class="mengban">-->
-<!--			<view class="fail_box">-->
-<!--				<view class="fb1">-->
-<!--					<image src="../../static/image/cha.png"></image>-->
-<!--				</view>-->
-<!--				<image src="https://imgcdn.tuogouchebao.com/shenheweitongguo.png" class="fb2"></image>-->
-<!--				<view class="fb3">审核未通过原因</view>-->
-<!--				<view class="fb4">1.该违章记录不存在，请确认违章记录存在之后重新上传。</view>-->
-<!--			</view>-->
-<!--		</view>-->
+		<view class="mengban" v-show="detailPopup">
+			<view class="fail_box">
+					<view class="fb1" @tap="closeDetailsPopup">
+						<image src="../../static/image/cha.png"></image>
+					</view>
+					<image src="https://imgcdn.tuogouchebao.com/shenheweitongguo.png" class="fb2"></image>
+					<view class="fb3">审核未通过原因</view>
+					<view class="fb4">{{remarks}}</view>
+				</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	import WucTab from '@/components/wuc-tab/wuc-tab2.vue';
+import {UserModel} from '../../model/user'
+const userModel = new UserModel();
+import WucTab from '@/components/wuc-tab/wuc-tab2.vue';
+import { parse } from 'path';
 	export default {
 		data() {
 			return {
@@ -243,43 +114,146 @@
 				}, {
 					name: '已到账'
 				}],
+				list1:[],
+				list2:[],
+				list3:[],
+				stutas1:true,
+				stutas2:true,
+				stutas3:true,
+				page1:1,
+				page2:1,
+				page3:1,
+				size: 10,
+				status : 0,
+				imagePopup:false,
+				imageUrl:"",
+				flag: true,
+				detailPopup:false,
+				remarks : ""
 			}
 		},
 		components: {
 			WucTab
 		},
 		methods: {
-			up_card(){
+			lower() {
+				if(this.flag == true) {
+					this.getList();
+				}
+			},
+			up_card(record_id){
 				uni.navigateTo({
-					url:'/pages/park_upload/park_upload'
+					url:'/pagesB/park_upload/park_upload?record_id=' + record_id
 				})
 			},
 			swiperChange3(e) {
-				let {
-					current
-				} = e.target;
+				let {current} = e.target;
 				this.TabCur3 = current;
+				this.status = current;
+				if(e.detail.current == 0 && this.page1 == 1) {
+					this.getList();
+				}
+				if(e.detail.current == 1 && this.page2 == 1) {
+					this.getList();
+				}
+				if(e.detail.current == 2 && this.page3 == 1) {
+					this.getList();
+				}
 			},
+			getList()
+			{
+				let params = {
+					size: this.size,
+					status: this.status
+				}
+				switch(this.TabCur3) {
+					case 0 : 
+						params.page = this.page1;
+						break;
+					case 1:
+						params.page = this.page2;
+						break;
+					case 2:
+						params.page = this.page3;
+						break;
+				}
+				userModel.parkingRecode(params).then((res) => {
+					if(res.code == 200) {
+						if(this.TabCur3 == 0) {
+							this.list1 = this.list1.concat(res.data)
+                        	if(res.data.length==0){
+								this.flag = false;
+                        	}else{
+								this.flag = true;
+                            	this.page1 = this.page1+1;
+							}
+							console.log(this.list1.length);
+						}
+						if(this.TabCur3 == 1) {
+							this.list2 = this.list2.concat(res.data)
+							if(res.data.length==0) {
+								this.flag = false;
+							}else {
+								this.flag = true;
+								this.page2 = this.page2+1;
+							}
+						}
+						if(this.TabCur3 == 2) {
+							this.list3 = this.list3.concat(res.data)
+							if(res.data.length == 0) {
+								this.flag = false;
+							}else {
+								this.flag = true;
+								this.page3 = this.page3+1
+							}
+						}
+					}
+				})
+			},
+			close(){
+				this.imagePopup = false
+			},
+			checkImage(item){
+				this.imagePopup = true
+				this.imageUrl = item.apply.voucher_image
+			},
+			openDetails(item){
+				this.detailPopup = true;
+				this.remarks = item.apply.remarks
+			},
+			closeDetailsPopup(){
+				this.detailPopup = false;
+			}
+
+		},
+		onShow(){
+			this.list1 = [];
+			this.list2 = [];
+			this.list3 = [];
+			this.page1 = 1;
+			this.page2 = 1;
+			this.page3 = 1;
+			this.getList();
 		}
 	}
 </script>
 
 <style>
 	.content,swiper{
-		height: 84vh;
+		height: 85vh;
 	}
 	page {
 		overflow: hidden;
 		background: #FFFFFF;
 	}
 	swiper-item{
-		overflow: hidden;
-}
+		overflow: scroll;
+	}
 	.park_con{
 		width: 100%;
 		position: absolute;
-		overflow: scroll;
-		height: 85vh;
+		/* overflow: scroll; */
+		height: 80vh;
 	}
 	.park_list {
 		display: flex;
@@ -292,7 +266,7 @@
 		border-bottom: none;
 	}
 	.park_list:first-of-type{
-		margin-top: 0 !important;
+		margin-top: 0rpx !important;
 	}
 	.park_list>image {
 		width: 106.47rpx;
@@ -322,7 +296,7 @@
 	.pc_right {
 		width: 163.94rpx;
 		height: 52.02rpx;
-		border: 1px solid rgba(253, 208, 0, 1);
+		border: 1rpx solid rgba(253, 208, 0, 1);
 		border-radius: 4.83rpx;
 		color: #FDD000;
 		font-size: 22.98rpx;
@@ -426,5 +400,11 @@
 		width:474rpx;
 		height:557rpx;
 	}
-
+	.details{
+		width:51rpx;
+		height:25rpx;
+		background:rgba(224,224,224,1);
+		border-radius:5rpx;
+		margin-left: 10rpx;
+	}
 </style>

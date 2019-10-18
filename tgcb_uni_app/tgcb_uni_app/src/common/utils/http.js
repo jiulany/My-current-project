@@ -10,6 +10,10 @@ class HTTP {
         let systemInfo = uni.getStorageSync('SystemInfo')
         // url = ((systemInfo == 'devtools' || systemInfo == 'ios' || systemInfo == 'android') ? config.api_base_url + url: config.h5_url+ url)
         url = (systemInfo != 'other'  ? config.api_base_url + url: config.h5_url+ url)
+        uni.showLoading({
+            title:"loading...",
+            mask:true
+        })
         const code = uni.getStorageSync('code')
         const skey = uni.getStorageSync('skey')
         
@@ -35,6 +39,7 @@ class HTTP {
             },
             success: (res) => {
                 const code  = res.statusCode.toString()
+                
                 if (code.startsWith('2')) {
                     if (res.data.code < 400) {
                         resolve(res.data)
@@ -46,6 +51,7 @@ class HTTP {
                         })
                         setTimeout(()=>{
                             reject(res.data)
+                            // resolve(res.data)
                         },2000)
                     }
                 } else {
@@ -57,6 +63,7 @@ class HTTP {
                     const error_code = res.data.error_code
                     this._show_error(error_code)
                 }
+                uni.hideLoading()
             },fail:(err) => {
                 reject(err)
                 console.log(err)

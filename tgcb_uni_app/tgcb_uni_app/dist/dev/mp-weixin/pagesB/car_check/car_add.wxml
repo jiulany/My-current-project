@@ -1,0 +1,1 @@
+<car-inspection vue-id="1" carData="{{carData}}" class="data-v-6470550c" bind:__l="__l"></car-inspection>

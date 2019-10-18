@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员权益",
+  "usingComponents": {
+    "wuc-tab": "/components/wuc-tab/wuc-tab",
+    "tab-bar": "/components/tab-bar/tabBar"
+  }
+}

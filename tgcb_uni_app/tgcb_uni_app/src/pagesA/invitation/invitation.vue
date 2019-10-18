@@ -7,8 +7,10 @@
           <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/invi_step.png'></image>
         </view>
         <view class="span24 invite-inp">
-          <input class="span20 invite-inp-k"/>
-          <view class="span4 invite-inp-jh">激活</view>
+          <view class="span20 invite-inp-k">
+              <input :value="input_invitation_code" @input="changeValue" />
+          </view>
+          <view class="span4 invite-inp-jh" @tap="invite">激活</view>
         </view>
         <view class="span24 invite-inp-nm"> 我的邀请码[{{invitation_code}}] </view>
         <view class="span24 invite-inp-yaoq">立即邀请</view>
@@ -29,17 +31,47 @@
   </view>
 </template>
 <script>
+import {UserModel} from "../../model/user";
+const  userModel = new UserModel()
 export default {
   data() {
     return {
-        invitation_code:''
+        invitation_code:'',
+        input_invitation_code:''
     };
   },
   methods: {
     toIndex(){
-      uni.switchTab({
+      uni.navigateTo({
         url: "/pages/index/index"
       });
+    },
+    changeValue(e){
+        this.input_invitation_code = e.detail.value;
+      },
+    invite()
+    {
+        if(!(/^[A-Za-z0-9]+$/).test(this.input_invitation_code)) {
+          uni.showToast({
+            title: '邀请码只能包含数字和字母',
+            icon: 'none'
+          });
+        }else {
+          let params = {
+          invitation_code: this.input_invitation_code
+          }
+          userModel.activate(params).then((res) => {
+            uni.showToast({
+              title:res.message,
+              icon:'none'
+            })
+            if (res.code == 201) {
+              this.input_invitation_code = ''
+              uni.navigateBack()
+            }
+        })
+        }
+        
     }
   },
   components: {},
@@ -95,6 +127,10 @@ height: 100%;
   justify-content: center;
   margin-top: 75rpx;
   position: relative;
+}
+.invite-inp-k input{
+  width: 50%;
+  margin: auto auto;
 }
 .invite-inp-k{
 height:68rpx;

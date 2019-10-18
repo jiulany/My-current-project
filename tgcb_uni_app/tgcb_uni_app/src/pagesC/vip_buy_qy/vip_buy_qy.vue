@@ -69,19 +69,19 @@
 		</view>
 		<view class="list">
 			<text>停车记录</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 		<view class="list">
 			<text>会员权益</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 		<view class="list">
 			<text>使用方法</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 		<view class="list">
 			<text>常用问题</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 	</view>
 </template>

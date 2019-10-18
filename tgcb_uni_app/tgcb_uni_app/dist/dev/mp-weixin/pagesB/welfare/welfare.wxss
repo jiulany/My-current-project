@@ -1,0 +1,52 @@
+
+.welfare.data-v-7e447a11{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-flex-flow: wrap;
+        -ms-flex-flow: wrap;
+            flex-flow: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 0 20rpx;
+}
+.welfare_item.data-v-7e447a11{
+    margin-top: 10rpx;
+    background: #fff;
+    height: 520rpx;
+    width: 340rpx;
+    margin-bottom: 10rpx;
+}
+.image-box.data-v-7e447a11{
+    height: 360rpx;
+    width: 340rpx;
+    position: relative;
+}
+.image-box image.data-v-7e447a11{
+    /* height: 360rpx;
+    width: 340rpx; */
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+.title.data-v-7e447a11{
+        margin-left: 15rpx;
+}
+.price.data-v-7e447a11{
+        margin-left: 15rpx;
+        color: #F75C3E;
+}
+

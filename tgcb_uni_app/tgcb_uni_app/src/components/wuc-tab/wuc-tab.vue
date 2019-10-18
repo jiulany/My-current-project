@@ -1,14 +1,14 @@
 <template>
-  <scroll-view class="wuc-tab" :class="tabClass" :style="tabStyle" scroll-with-animation scroll-x :scroll-left="scrollLeft">
-    <div v-if="!textFlex">
-      <div class="wuc-tab-item" :class="[index === tabCur ? selectClass + ' cur':'']" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
+  <scroll-view class="wuc-tab" :class="tabClass"  scroll-with-animation scroll-x :scroll-left="scrollLeft">
+    <div v-if="!textFlex" >
+      <div class="wuc-tab-item" :style="tabStyle" :class="[index === tabCur ? selectClass + ' cur':'']" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
         <text :class="item.icon"></text>
         <span>{{item.name}}</span>
       </div>
     </div>
 
     <div class="flex text-center" v-if="textFlex">
-      <div class="wuc-tab-item flex-sub" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
+      <div class="wuc-tab-item flex-sub" :style="tabStyle" :class="index === tabCur ? selectClass + ' cur':''" v-for="(item,index) in tabList" :key="index" :id="index" @tap="tabSelect(index,$event)">
         <text :class="item.icon"></text>
         <span>{{item.name}}</span>
       </div>

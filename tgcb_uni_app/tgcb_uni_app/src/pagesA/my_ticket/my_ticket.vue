@@ -2,91 +2,75 @@
   <view class="span24 myticket">
       <view class="span24 myticket-hd">
           <view :class="cur_hd===1?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(1)">全部</view>
-          <view :class="cur_hd===2?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(2)">已使用</view>
-          <view :class="cur_hd===3?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(3)">未使用</view>
+          <view :class="cur_hd===2?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(2)">未使用</view>
+          <view :class="cur_hd===3?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(3)">已使用</view>
           <view :class="cur_hd===4?'span6 myticket-hd-itac':'span6 myticket-hd-it'" @tap="clickTap(4)">已过期</view>
       </view>
-      <view v-if="cur_hd===1" class="span24 myticket-ct">
-          <view class="span24 myticket-it1">
-              <view class="myticket-it-bg"><image   src='https://imgcdn.tuogouchebao.com/coupon_kapian.png'></image></view>
-              <view class="span24 myticket-it1-row1">
-                  <view class="span20 myticket-it1-nm">680包年卡</view>
-                  <view class="span4 myticket-it1-tm">有效</view>
-              </view>
-              <view class="span24 myticket-it1-row2">
-                  <view class="span12 myticket-it1-used">蜡洗：30/已用20</view>
-                  <view class="span12 myticket-it1-used">去异味：1/已用1</view>
-                  <view class="span12 myticket-it1-used">打蜡：1/已用0</view>
-              </view>
-              <view class="span24 myticket-it1-row3">
-                  <view class="span14 myticket-it1-limit">有效期2019.01.08 - 2020.01.08</view>
-                  <view class="span10 myticket-it1-carnum">绑定车牌：川A12321</view>
-              </view>
-          </view>
-          <view class="span24 myticket-it1">
-              <view class="myticket-it-bg"><image src='https://imgcdn.tuogouchebao.com/coupon_kapian.png'></image></view>
-              <view class="span24 myticket-it1-row1">
-                  <view class="span20 myticket-it1-nm">680包年卡</view>
-                  <view class="span4 myticket-it1-tm">有效</view>
-              </view>
-              <view class="span24 myticket-it1-row2">
-                  <view class="span12 myticket-it1-used">洗车包年：无限卡/已用30次</view>
-              </view>
-              <view class="span24 myticket-it1-row3">
-                  <view class="span14 myticket-it1-limit">有效期2019.01.08 - 2020.01.08</view>
-                  <view class="span10 myticket-it1-carnum">绑定车牌：川A12321</view>
-              </view>
-          </view>
-          <view class="span24 myticket-it">
-              <view class="span24">
-                  <view class="span18 myticket-ty">简洗车身</view>
-                  <view class="span6 myticket-jg">￥10</view>
-              </view>
-              <view class="span24">
-                  <view class="span18 myticket-tm">有效日期：2019.4.1-4.30</view>
-                  <view class="span6 myticket-limit">无门槛</view>
-              </view>
-              <view class="span24">
-                  <view class="span24 myticket-adr">车辆车牌：川A13232</view>
-              </view>
-              <view class="span24 myticket-line"></view>
-              <view class="span24">
-                  <view class="span18 myticket-avl">年度会员类仅可抵扣简洗车辆订单</view>
-                  <view class="span6 myticket-btn">
-                      <view class="myticket-use">立即使用</view>
-                  </view>
-              </view>
-              <view class="myticket-it-lft"></view>
-              <view class="myticket-it-rht"></view>
-          </view>
+      <view v-if="cur_hd===1" class="span24">
+        <my_ticket :list="list1" />
       </view>
       <view v-if="cur_hd===2" class="span24 myticket-ct">
-          2
+          <my_ticket :list="list2" />
       </view>
       <view v-if="cur_hd===3" class="span24 myticket-ct">
-          3
+          <my_ticket :list="list3" />
       </view>
       <view v-if="cur_hd===4" class="span24 myticket-ct">
-          4
+          <my_ticket :list="list4" />
       </view>
   </view>
 </template>
 
 <script> 
+import {UserModel} from "../../model/user";
+const  userModel = new UserModel()
+import my_ticket from "../../components/my_ticket/my_ticket"
 export default {
   data() {
     return {
-        cur_hd:1
+        cur_hd:1,
+        list1:[],
+        list2:[],
+        list3:[],
+        list4:[],
     };
+  },
+  components:{
+      my_ticket
   },
   methods: {
       clickTap(val){
           console.log(val)
           this.cur_hd=val
+          this.getUserCoupons(val)
+      },
+      getUserCoupons(status){
+          let params = {
+              confirm : '',
+              status : status
+          }
+          userModel.getUserCoupons(params).then((res) => {
+              switch(status){
+                  case 1:
+                      this.list1 = res.data
+                      break;
+                  case 2:
+                      this.list2 = res.data
+                      break;
+                  case 3:
+                      this.list3 = res.data
+                      break;
+                  case 4:
+                      this.list4 = res.data
+                      break;
+              }
+              
+          })
       }
   },
   components: {},
   onLoad() {
+      this.getUserCoupons(1)
   },
   onShow() {},
   onHide() {}

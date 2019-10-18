@@ -1,0 +1,134 @@
+page {
+  background: #fff;
+}
+.service {
+  position: relative;
+  width: 100%;
+  height: 57rpx;
+  background: #F5F5F5;
+}
+.choose {
+  float: left;
+  padding-left: 24rpx;
+  color: #FFA82C;
+  font-size: 28rpx;
+}
+.kefu {
+  float: right;
+  width: 139rpx;
+  height: 53rpx;
+  background: #fff;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+  color: #666666;
+  font-size: 28rpx !important;
+}
+.kefu ._i {
+  display: inline-block;
+  margin-right: 10rpx;
+  font-size: 32rpx !important;
+}
+.part {
+  width: 100%;
+  margin-top: 20rpx;
+  margin-bottom: 120rpx;
+  font-size: 0;
+}
+.part .item {
+  position: relative;
+  display: inline-block;
+  width: 249rpx;
+  height: 279rpx;
+  border: 1rpx solid #F5F5F5;
+  text-align: center;
+  /* margin-left: -1rpx; */
+  /* margin-top: -1rpx; */
+}
+.part .item .image-box {
+  display: block;
+  height: 120rpx;
+  width: 120rpx;
+  /* border: 1rpx solid #000; */
+  margin: 30rpx auto;
+  position: relative;
+}
+.part .item .image-box image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.part .item .name {
+  display: block;
+  height: 50rpx;
+  width: 100%;
+  color: #666666;
+  font-size: 28rpx;
+}
+.part .item .price {
+  display: block;
+  height: 50rpx;
+  width: 100%;
+  color: #F75C3E;
+  font-size: 28rpx;
+}
+.bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 99rpx;
+  background: #ffffff;
+  border-top: 1rpx solid #F0F0F0;
+  z-index: 999;
+}
+.bottom .total {
+  display: inline-block;
+  width: 377rpx;
+  height: 99rpx;
+  color: #474747;
+  font-size: 30rpx;
+  padding-left: 134rpx;
+}
+.bottom .button {
+  display: inline-block;
+  width: 240rpx;
+  height: 99rpx;
+  background: #FDD000;
+  color: #474747;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  line-height: 98rpx;
+}
+.checked {
+  background: #000000;
+  opacity: 0.15;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  filter: alpha(opacity=27);
+}
+.checked_img {
+  width: 88rpx;
+  height: 88rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+.red {
+  color: #F75C3E;
+  font-size: 30rpx;
+}
+

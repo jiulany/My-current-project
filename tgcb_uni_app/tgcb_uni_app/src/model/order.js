@@ -15,16 +15,24 @@ class OrderModel extends HTTP {
             data
         })
     }
-    //美容
+    //收银台
     getOrders(data){
         return this.request({
-            url: '/orders/cashier?internal_payment_sn='+ data.id
+            url: '/orders/cashier?internal_payment_sn='+ data.internal_payment_sn + '&order_id=' + data.order_id
         })
     }
     //提交订单
     subPay(data){
         return this.request({
             url: '/wechat/payment',
+            method:'POST',
+            data
+        })
+    }
+    // 0元支付
+    paymentForFree(data){
+        return this.request({
+            url : `/orders/paymentForFree`,
             method:'POST',
             data
         })
@@ -80,6 +88,20 @@ class OrderModel extends HTTP {
     getOrderDetails(id) {
         return this.request({
             url: `/orders/${id}`
+        })
+    }
+    // 订单完成页面
+    finishDetails(data){
+        return this.request({
+            url : `/orders/finishDetails`,
+            data
+        })
+    }
+    // 获取年检订单(年检收银台)
+    getAnnualReview(data){
+        return this.request({
+            url: `/annualReview/cashier`,
+            data
         })
     }
 }

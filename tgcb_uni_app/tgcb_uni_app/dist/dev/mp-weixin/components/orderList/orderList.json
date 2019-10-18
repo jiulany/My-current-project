@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "an-image": "/components/an-image/an-image"
+  },
+  "component": true
+}

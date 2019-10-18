@@ -4,7 +4,7 @@
         <image mode="aspectFit"  src='https://imgcdn.tuogouchebao.com/balance_ico.png'></image>
     </view>
     <view class="span24 balance-ms">我的零钱</view>
-    <view class="span24 balance-num">¥{{user.balance}}</view>
+    <view class="span24 balance-num" v-if="user.balance">¥{{user.balance}}</view>
     <view class="span24 balance-rech" @tap='toRecharge'><button>充值</button></view>
     <view class="span24 balance-yue"  @tap='toBalanceDetails'>余额明细</view>
 </view>
@@ -29,7 +29,7 @@ export default {
       },
       toRecharge(){
           uni.navigateTo({
-        url: "/pages/recharge/recharge"
+        url: "/pagesA/recharge/recharge"
       });
       },
       toBalanceDetails(){

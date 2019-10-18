@@ -1,0 +1,16 @@
+.about_togogo {
+  padding: 26rpx;
+}
+.about_togogo .title {
+  padding: 20rpx 0;
+}
+.about_togogo .finish {
+  background: #FBD731;
+  font-size: 36rpx;
+  color: #ffff;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-top: 126rpx;
+  text-align: center;
+}
+

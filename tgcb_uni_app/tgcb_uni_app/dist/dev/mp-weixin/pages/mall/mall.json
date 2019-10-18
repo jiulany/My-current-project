@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "商城",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tab-bar": "/components/tab-bar/tabBar",
+    "mall": "/components/mall/mall",
+    "uni-swiper-dot": "/node-modules/@dcloudio/uni-ui/lib/uni-swiper-dot/uni-swiper-dot"
+  }
+}

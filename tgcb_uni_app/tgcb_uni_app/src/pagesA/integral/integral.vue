@@ -2,11 +2,15 @@
   <view class="span24 integral">
     <view class="span24 integral-it" @tap='toIntegralDetails'>
       <view class="span22 integral-ms">积分明细</view>
-      <view class="span2  integral-it-rico"><image mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+      <view class="span2  integral-it-rico">
+        <view class="iconfont icon-xiayibu"></view>
+      </view>
     </view>
     <view class="span24 integral-it" @tap='toIntegralStore'>
       <view class="span22 integral-ms">积分兑换</view>
-      <view class="span2 integral-it-rico"><image mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+      <view class="span2  integral-it-rico">
+        <view class="iconfont icon-xiayibu"></view>
+      </view>
     </view>
   </view>
 </template>

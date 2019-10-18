@@ -1,0 +1,75 @@
+
+.card {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.box {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  width: 456rpx;
+  height: 462rpx;
+  margin: 0 auto;
+  margin-top: 300rpx;
+  padding-left: 56rpx;
+  padding-top: 98rpx;
+  background: url('https://imgcdn.tuogouchebao.com/index_quick_card.png') no-repeat center center;
+  background-size: 493rpx;
+}
+.close {
+  position: absolute;
+  top: -70rpx;
+  right: 0rpx;
+  width: 52rpx;
+  height: 52rpx;
+  border: 5rpx solid #fff;
+  font-size: 64rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 43rpx;
+  border-radius: 50%;
+  font-weight: lighter;
+}
+.item {
+  width: 165rpx;
+  height: 163rpx;
+  background: #fff;
+  margin-right: 62rpx;
+  background: url('https://imgcdn.tuogouchebao.com/index_quick_item.png') no-repeat center center;
+  background-size: 165rpx;
+  color: #fff;
+}
+.item text {
+  display: block;
+}
+.text {
+  font-size: 38rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: rgba(253, 208, 0, 1);
+  margin-top: 26rpx;
+  margin-left: 46rpx;
+}
+.experience {
+  font-size: 26rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  /* color:rgba(255,255,255,1); */
+  margin-left: 34rpx;
+  margin-top: 24rpx;
+}
+

@@ -3,12 +3,15 @@
       <view class="span24">
 <!--          <view class="span24 bal-details-moth">本月</view>-->
           <view class="span24 bal-details-ct">
-              <view class="span24 bal-details-itm" v-for="(item,index) in  list" :kye="index">
+              <view class="span24 bal-details-itm" v-for="(item,index) in  list" v-if="list.length > 0" :key="index">
                   <view class="span18">
                       <view class="span24 bal-details-tt">{{item.name}}</view>
                       <view class="span24 bal-details-tm">{{item.created_at}}</view>
                   </view>
                   <view class="span6 bal-details-mny">{{item.money}}</view>
+              </view>
+              <view v-else>
+                   <no-data title="暂无明细" ></no-data>
               </view>
           </view>
       </view>
@@ -16,6 +19,7 @@
 </template>
 <script>
     import {UserModel} from "../../model/user";
+    import noData from "../../components/noData/noData"
     const  userModel = new UserModel()
 export default {
   data() {
@@ -37,7 +41,7 @@ export default {
           })
       },
   },
-  components: {},
+  components: {noData},
   onLoad: function() {
       this._getBalance()
   },

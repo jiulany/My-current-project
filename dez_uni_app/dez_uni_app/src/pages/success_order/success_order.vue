@@ -2,17 +2,17 @@
 	<view class="sucorder span24">
 		<map style="width: 100%; height: 100%;" :latitude="latitude" :longitude="longitude" :markers="covers" :polyline="polyline">
         <cover-view class="span24 sucorder-hd">
-           <cover-view class="span6 sucorder-hd-tp"><cover-image :src="staff.staff&&staff.staff.staff_info.head"></cover-image></cover-view>
+           <cover-view class="span6 sucorder-hd-tp"><cover-image :src="staff===null?'':staff.staff.staff_info.head"></cover-image></cover-view>
            <cover-view class="span18">
                <cover-view class="span24 sucorder-hd-line">
-                   <cover-view class="span16">{{staff.staff&&staff.staff.staff_info.surname+'师傅'}}</cover-view>
+                   <cover-view class="span16">{{staff===null?'':staff.staff.staff_info.surname+'师傅'}}</cover-view>
                    <cover-view class="span8 sucorder-hd-cancel" @tap="openCancel">取消订单</cover-view>
                </cover-view>
                <cover-view class="span24 sucorder-hd-line">
-                   {{staff.staff&&staff.staff.staff_info.account.slice(0,3)}}****{{staff.staff.staff_info.account.slice(7)}}
+                   {{staff===null?'':staff.staff.staff_info.account.slice(0,3)}}****{{staff===null?'':staff.staff.staff_info.account.slice(7)}}
                </cover-view>
                <cover-view class="span24 sucorder-hd-line">
-                   <cover-view class="span16 sucorder-hd-dist">距您{{staff.distance}}km</cover-view>
+                   <cover-view class="span16 sucorder-hd-dist">距您{{staff===null?'':staff.distance}}km</cover-view>
                    <cover-view class="span8 sucorder-hd-dtl">
                        <cover-view class="sucorder-hd-detail" @tap="toDetail">订单详情</cover-view>
                    </cover-view>

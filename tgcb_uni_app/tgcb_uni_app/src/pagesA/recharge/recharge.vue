@@ -12,7 +12,7 @@
         >
           <swiper class="swiper-box" @change="change">
             <swiper-item v-for="(item ,index) in info" :key="index">
-              <view class="swiper-item" v-for="item in recharges.banners">
+              <view class="swiper-item" v-for="item in recharges.banners" :key="index">
                 <img :src="item.image" alt />
               </view>
             </swiper-item>

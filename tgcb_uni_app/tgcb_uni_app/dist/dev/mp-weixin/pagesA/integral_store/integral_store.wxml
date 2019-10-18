@@ -1,0 +1,2 @@
+<view class="span24 integral-store"><view data-event-opts="{{[['tap',[['tointegralStoreDt',['$event']]]]]}}" class="span11 integral-store-it" bindtap="__e"><view class="span24 integral-store-t"><image mode="aspectFit" src="../../static/img/xichebaoji.png"></image></view><view class="span24 integral-store-ms">汽车玻璃水夏季雨刷车季
+通用专用</view><view class="span24"><view class="span14 integral-store-nm">玻璃水</view><view class="span10 integral-store-jg">5000积分</view></view></view></view>

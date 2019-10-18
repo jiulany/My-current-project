@@ -5,16 +5,18 @@
               <image mode="aspectFit" src='../../static/img/my_cheliang.png'></image>
           </view>
           <view class="span20 mycar-lj-tt">车辆年检查询</view>
-          <view class="span2 mycar-lj-rtr"><image mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+          <view class="span2 mycar-lj-rtr">
+              <view class="iconfont icon-xiayibu"></view>
+          </view>
       </view>
-      <view class="car_content" v-for="(item,index) in list" :key='index'>
+      <view class="car_content" v-for="(item,index) in list" :key='index' @tap="choice(item)">
           <view class="car_header">{{item.car_num}}</view>
           <view class="car_content_box">
-              <image src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566678612476&di=e00f1d5aa7286c8fb11e81151f115620&imgtype=0&src=http%3A%2F%2Fdealer0.autoimg.cn%2Fdl%2F11999%2Fnewsimg%2F130485706781331845.jpg"></image>
+              <image :src="item.vehicle.brand.url"></image>
                 <view class="car_title">
-                    宝马 4系 2014款 420i Gran Coupe 时尚型 2.0T
+                    {{item.sales_name}}
                 </view>
-              <view class="car_content_right" v-if="!type">
+              <view class="car_content_right" @tap="edit(item.id)" v-if="!type">
                   编辑
               </view>
           </view>
@@ -23,20 +25,21 @@
                   <radio class="radios" color="#FDCE33"></radio>
                   <span>设为默认</span>
               </view>
-              <view><i class="iconfont icon-shouye "></i></view>
+              <view><i class="iconfont icon-lajitong " style="font-size:50rpx;" @tap="deleteCar(item.id,index)"></i></view>
           </view>
       </view>
       <view class="span24 car_add" @tap="toAddCar">+ 添加车辆</view>
   </view>
 </template>
 <script>
-    import {UserModel} from "../../model/user";
-    const  userModel = new UserModel()
+import {UserModel} from "../../model/user";
+import { deflate } from 'zlib';
+const  userModel = new UserModel()
 export default {
   data() {
     return {
-        type:'',
-        list:[]
+        list:[],
+        options:{}
     };
   },
   methods: {
@@ -54,16 +57,49 @@ export default {
       },
       toAddCar(){
           uni.navigateTo({url:'/pagesA/my_add_car/my_add_car'})
+      },
+      deleteCar(id,index){
+          let params = {
+            car_id:id
+          }
+          userModel.deleteCar(params).then((res) => {
+              uni.showToast({
+                  title:res.message,
+                  icon:'none'
+              })
+              console.log(res)
+              if (res.code == 204) {
+                  this.list.splice(index,1)
+                  console.log('splice')
+              }
+          })
+      },
+      choice(item)
+      {   
+          console.log(this.options.type)
+          switch(this.options.type) {
+              case 'manual':
+              case 'violation_enquiry':
+              case 'car_check':
+                uni.setStorageSync('choice_car',JSON.stringify(item))
+                uni.navigateBack()
+              break;
+          }
+      },
+      edit(id)
+      {
+          console.log(`/pagesA/my_add_car/my_add_car?car_id=` + id)
+          uni.navigateTo({
+              url:`/pagesA/my_add_car/my_add_car?car_id=` + id
+          })
       }
   },
   components: { },
   onLoad: function(options) {
-      if(options.type){
-          this.type = options.type
-      }
-      this._getCar()
+      this.options = options
   },
   onShow: function() {
+      this._getCar()
   },
   onHide: function() {}
 };
@@ -77,7 +113,8 @@ page {
   line-height: 1.8;
 }
 .mycar{
-    padding: 24rpx
+    padding: 24rpx;
+    margin-bottom:100rpx;
 }
 .car_title{
     width: 327rpx;

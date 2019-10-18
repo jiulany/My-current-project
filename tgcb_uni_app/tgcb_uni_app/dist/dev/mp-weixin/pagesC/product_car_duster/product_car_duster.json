@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "汽车用品洗车刷子扫灰除尘掸子车用蜡拖",
+  "usingComponents": {
+    "uni-swiper-dot": "/node-modules/@dcloudio/uni-ui/lib/uni-swiper-dot/uni-swiper-dot"
+  }
+}

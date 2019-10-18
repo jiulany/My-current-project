@@ -1,0 +1,8 @@
+.about_togogo {
+  padding: 26rpx;
+}
+.about_togogo .content {
+  font-size: 28rpx;
+  color: #333333;
+}
+

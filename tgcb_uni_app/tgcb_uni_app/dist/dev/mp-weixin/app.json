@@ -1,0 +1,161 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/store/store",
+    "pages/car_wash/car_wash",
+    "pages/mall/mall",
+    "pages/my/my"
+  ],
+  "subPackages": [
+    {
+      "root": "pagesA",
+      "pages": [
+        "balance/balance",
+        "personal/personal",
+        "recharge/recharge",
+        "balance_details/balance_details",
+        "integral/integral",
+        "integral_details/integral_details",
+        "integral_store/integral_store",
+        "integral_store_dt/integral_store_dt",
+        "yearly_inspection/yearly_inspection",
+        "my_yuyue/my_yuyue",
+        "my_yuyue_details/my_yuyue_details",
+        "invitation/invitation",
+        "violation/violation",
+        "my_car/my_car",
+        "payment_manage/payment_manage",
+        "set_pwd/set_pwd",
+        "update_pwd/update_pwd",
+        "about_us/about_us",
+        "about_togogo/about_togogo",
+        "feedback/feedback",
+        "join_us/join_us",
+        "my_add_car/my_add_car",
+        "car_brand_list/car_brand_list",
+        "my_ticket/my_ticket",
+        "my_address/my_address",
+        "my_address_addtx/my_address_addtx",
+        "my_address_addtc/my_address_addtc",
+        "my_insurance/my_insurance",
+        "my_insurance_add/my_insurance_add",
+        "delay/delay",
+        "delay_apply/delay_apply",
+        "delay_select_number/delay_select_number",
+        "delay_submit/delay_submit",
+        "maintenance_manual/maintenance_manual",
+        "maintenance_record/maintenance_record",
+        "maintenance_schedule/maintenance_schedule",
+        "maintenance_record_add/maintenance_record_add"
+      ]
+    },
+    {
+      "root": "pagesB",
+      "pages": [
+        "vip_buy_order/vip_buy_order",
+        "collectCars_record/collectCars_record",
+        "collectCars/collectCars",
+        "park_emergency/park_emergency",
+        "car_wash_buyOrder/car_wash_buyOrder",
+        "park_record/park_record",
+        "park_upload/park_upload",
+        "welfare/welfare",
+        "cosmetology/cosmetology",
+        "maintain/maintain",
+        "maintain_shop/maintain_shop",
+        "car_check/car_check_add",
+        "car_check/record",
+        "car_check/car_add",
+        "car_check/car_check",
+        "car_add/car_add",
+        "new_car/new_car",
+        "old_car/old_car",
+        "network_car/network_car",
+        "car_cosmetology/car_cosmetology",
+        "car_cosmetology/car_cosmetology_year",
+        "cosmetologys/cosmetologys",
+        "repair/repair",
+        "choice_store/choice_store",
+        "lately/lately",
+        "storeDetail/storeDetail",
+        "pay/pay",
+        "choice_ticket/choice_ticket",
+        "payment_index/payment_index"
+      ]
+    },
+    {
+      "root": "pagesC",
+      "pages": [
+        "order/order",
+        "order_detail/order_detail",
+        "vip_state/vip_state",
+        "vip_buy/vip_buy",
+        "explain/explain",
+        "vip_buy_qy/vip_buy_qy",
+        "car_wash_info/car_wash_info",
+        "shop/shop",
+        "explain_function/explain_function",
+        "explain_problem/explain_problem",
+        "park_select/park_select",
+        "park_list/park_list",
+        "apply/apply",
+        "chat/chat",
+        "payment_finish/payment_finish",
+        "sub_order/sub_order",
+        "product_glass_water/product_glass_water",
+        "product_car_duster/product_car_duster",
+        "product_car_shampoo/product_car_shampoo",
+        "product_fingerprint_lock/product_fingerprint_lock",
+        "product_fingerprint_lock_internet/product_fingerprint_lock_internet",
+        "product_intelligent_lock/product_intelligent_lock"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Hello uniapp",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "backgroundColorTop": "#F4F5F6"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/store/store",
+        "text": "门店"
+      },
+      {
+        "pagePath": "pages/car_wash/car_wash",
+        "text": "洗车"
+      },
+      {
+        "pagePath": "pages/mall/mall",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "演示定位能力"
+    }
+  },
+  "usingComponents": {
+    "page-head": "/components/page-head",
+    "page-foot": "/components/page-foot",
+    "u-link": "/components/uLink",
+    "u-row": "/components/dl-grid/row",
+    "u-col": "/components/dl-grid/col"
+  }
+}

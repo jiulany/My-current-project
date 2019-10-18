@@ -1,0 +1,163 @@
+
+.cosmetology.data-v-a1043d52{
+    height: 100%;
+    background: #FFFFFF;
+}
+.cosmetology_box.data-v-a1043d52{
+    background: #FFFFFF;
+}
+.cosmetology_box .cosmetology_box_items.data-v-a1043d52{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    height: 178rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-bottom: solid 1rpx #E2DED7;
+    margin-left: 15rpx;
+    margin-right: 15rpx;
+}
+.cosmetology_box_items.data-v-a1043d52:last-child{
+    border-bottom: none;
+}
+.cosmetology_box_item_1.data-v-a1043d52{
+    width: 87rpx;
+    text-align: center;
+}
+.cosmetology_box_item_2.data-v-a1043d52,.cosmetology_box_item_2 image.data-v-a1043d52{
+    width: 117rpx;
+    height: 117rpx;
+}
+.cosmetology_box_item_3.data-v-a1043d52{
+    height: 117rpx;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-left: 20rpx;
+}
+.cosmetology_box_item_3 .title.data-v-a1043d52{
+    font-size:28rpx;
+    font-weight:500;
+    color:#474747
+}
+.cosmetology_box_item_3 .desc.data-v-a1043d52{
+    font-size:25rpx;
+    color: #999999;
+}
+.cosmetology_box_item_4.data-v-a1043d52{
+    padding-right: 20rpx;
+    text-align: right;
+    color:#F75C3E;
+    font-weight:bold;
+    font-size: 30rpx;
+}
+.cosmetology_footer.data-v-a1043d52{
+    padding-left: 15rpx;
+    padding-right: 10rpx;
+    border-top: solid 1rpx #F5F5F5;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 125rpx;
+    background: #FFFFFF;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.cosmetology_footer_item_1.data-v-a1043d52{
+    width: 87rpx;
+    text-align: center;
+}
+.cosmetology_footer_item_2.data-v-a1043d52{
+    padding-top: 14rpx;
+    width: 87rpx;
+    text-align: center;
+    line-height: 26rpx;
+}
+.cosmetology_footer_item_3.data-v-a1043d52{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+.cosmetology_footer_item_4.data-v-a1043d52{
+    width:202rpx;
+    height:78rpx;
+    background:#FDCE33;
+    border-radius:39px;
+    margin-right: 20rpx;
+    text-align: center;
+    line-height: 78rpx;
+    font-size:36rpx;
+    color:rgba(255,255,255,1);
+    margin-left: 70rpx;
+}
+.sumprice.data-v-a1043d52{
+    font-size:28rpx;
+    font-weight:500;
+    color:rgba(51,51,51,1);
+}
+.sumpriceNum.data-v-a1043d52{
+    margin-left: 10rpx;
+    font-size:28rpx;
+    font-weight:bold;
+    color:rgba(247,92,62,1);
+}
+.fonter_h.data-v-a1043d52{
+    height: 125rpx;
+}
+.all.data-v-a1043d52{
+    color: #959595;
+}
+.icon-kefu.data-v-a1043d52{
+    font-size: 26px;
+}
+
+
+

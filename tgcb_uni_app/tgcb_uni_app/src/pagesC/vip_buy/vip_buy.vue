@@ -10,6 +10,7 @@
       :tabCur.sync="TabCur3"
       tab-class="text-center text-black tab_h"
       select-class="bg-orange"
+      tabStyle="height:100rpx;line-height:100rpx"
     ></wuc-tab>
     <swiper
       :current="TabCur3"
@@ -19,14 +20,14 @@
       indicator-color="rgba(255,255,255,0)"
       indicator-active-color="rgba(255,255,255,0)"
       @change="swiperChange3"
-      style="height:84vh;overflow: hidden"
+      style="height:92vh;overflow: hidden"
     >
       <!-- 买前须知 -->
       <swiper-item>
         <view class="buy_old">
           <image :src="list.banners" class="showpic" />
           <view class="viplistbox">
-            <block v-for="(item,index) in vals">
+            <block v-for="(item,index) in vals" :key="index">
               <view class="viplist" @click="_vip_list(item.id)">
                 <view class="vl_left">
                   <view class="vip_left_box">
@@ -59,7 +60,7 @@
             </view>
           </view>
           <view class="total" v-if="list.text">
-            <view  v-for="(item,index) in list.text.record">
+            <view  v-for="(item,index) in list.text.record" :key="index">
               <text>{{item.key}}</text>
               <text>{{item.value}}</text>
             </view>
@@ -77,22 +78,25 @@
           <view class="vip_detail">
             <view class="center_con">
 <!--              未过期会员-->
-            <view class="vip_state_list">
-              <image  src="https://imgcdn.tuogouchebao.com/kapian.png"></image>
+            <view class="vip_state_list" v-for="(item,index) in my_parking_cars" :key="index">
+              <image v-if="item.parking_car.day_num > 0" src="https://imgcdn.tuogouchebao.com/kapian.png"></image>
+              <image v-else src="https://imgcdn.tuogouchebao.com/kapian2.png"></image>
               <view class="vsl_con">
                 <view class="vc_line_one">
                   <view class="vlo_left">
                     <text>车牌：</text>
-                    <text>川A342536</text>
+                    <text>{{item.car_num}}</text>
                   </view>
-                  <text class="vlo_right">已购买</text>
+                  <text v-if="item.parking_car.day_num > 0" class="vlo_right">已购买</text>
+                  <text v-else class="vlo_right">未购买</text>
                 </view>
                 <view class="vc_line_two">
                   <view class="vltw_left">
                     <text>期限：</text>
-                    <text>2019.04.26-2019.07.26</text>
+                    <text v-if="item.parking_car.day_num > 0">2019.04.26-2019.07.26</text>
+                    <text v-else>-</text>
                   </view>
-                  <text class="vltw_right">有效</text>
+                  <text v-if="item.parking_car.day_num > 0" class="vltw_right">有效</text>
                 </view>
                 <view class="vc_line_three">
                   <view class="vlth_left">
@@ -103,13 +107,14 @@
                   </view>
                   <view class="vlth_right">
                     <image src="../../static/img/juli@2x.png"></image>
-                    <text>续费</text>
+                    <text v-if="item.parking_car.day_num > 0">续费</text>
+                    <text v-else>购买</text>
                   </view>
                 </view>
               </view>
             </view>
 <!--              已过期会员-->
-            <view class="vip_state_list">
+            <!-- <view class="vip_state_list">
                 <image  src="https://imgcdn.tuogouchebao.com/kapian2.png"></image>
                 <view class="vsl_con">
                   <view class="vc_line_one">
@@ -140,24 +145,26 @@
                   </view>
                 </view>
               </view>
-          </view>
+          </view> -->
+
           <view @tap='toParkingRecord' class="list">
             <text>停车记录</text>
-            <image src="../../static/image/right.png"></image>
+            <view class="iconfont icon-xiayibu"></view>
           </view>
           <view @tap='toVipState' class="list">
             <text>会员权益</text>
-            <image src="../../static/image/right.png"></image>
+            <view class="iconfont icon-xiayibu"></view>
           </view>
           <view @tap='toExplain' class="list">
             <text>使用方法</text>
-            <image src="../../static/image/right.png"></image>
+            <view class="iconfont icon-xiayibu"></view>
           </view>
           <view class="list" @tap="tpproblem">
             <text>常用问题</text>
-            <image src="../../static/image/right.png"></image>
+            <view class="iconfont icon-xiayibu"></view>
           </view>
          </view>
+          </view>
       </swiper-item>
     </swiper>
     <!-- 弹窗 -->
@@ -168,7 +175,7 @@
           <text>会员权益包/{{attr_value}}</text>
         </view>
         <view class="fp2">
-          <view class="fp2list" v-for="(item,index) in vals_list" @tap.stop="_vals_checked(item.id)">
+          <view class="fp2list" v-for="(item,index) in vals_list" @tap.stop="_vals_checked(item.id)" :key="index">
             <image src="https://imgcdn.tuogouchebao.com/parking_xuanzhong.png" v-if="item.checked"></image>
             <image src="https://imgcdn.tuogouchebao.com/weixuanzhong.png" v-else></image>
             <view class="f2l_top">{{item.sku_name}}</view>
@@ -210,7 +217,8 @@ export default {
         {
           name: "会员权益"
         }
-      ]
+      ],
+      my_parking_cars:[]
     };
   },
   components: {
@@ -236,9 +244,9 @@ export default {
       })
       this.vals_list =  JSON.parse(JSON.stringify(vals_list))
     },
-    // 接口
-    _getCarVip(){
-      stopCarModel.getCarVip().then((res)=>{
+    // 应急停车 买前须知 
+    _list(){
+      stopCarModel.getParkingService().then((res)=>{
         if(res.data) {
           this.list = res.data
           this.vals = res.data.attribute[0].vals
@@ -261,7 +269,6 @@ export default {
     },
     // 获取期限
     _getVal(id){
-      console.log(id)
       let vals_time = this.vals_time
       const vals_list = []
       vals_time.filter((item,index)=>{
@@ -275,10 +282,6 @@ export default {
       let { current } = e.target;
       this.TabCur3 = current;
     },
-
-    _vip_buy(){
-    },
-
     go_pay(){
       console.log(this.symbol_list)
      if(this.symbol_list.id) {
@@ -287,34 +290,40 @@ export default {
        });
      }
     },
+    myVip(){
+      stopCarModel.getMyParkingCars().then((res) => {
+        this.my_parking_cars = res.data
+      })
+    },
     // 停车记录
     toParkingRecord()
     {
        uni.navigateTo({
-        url: "/pages/park_record/park_record"
+        url: "/pagesB/park_record/park_record"
       });
     },
     // 会员权益
     toVipState(){
        uni.navigateTo({
-        url: "/pages/vip_state/vip_state"
+        url: "/pagesC/vip_state/vip_state"
       });
     },
     // 使用说明
     toExplain(){
       uni.navigateTo({
-        url:'/pages/explain_function/explain_function'
+        url:'/pagesC/explain_function/explain_function'
       })
     },
     // 常见问题
     tpproblem(){
       uni.navigateTo({
-        url:'/pages/explain_problem/explain_problem'
+        url:'/pagesC/explain_problem/explain_problem'
       })
     }
   },
   onLoad: function() {
-    this._getCarVip()
+    this._list()
+    this.myVip()
   },
   onShow: function() {},
   onHide: function() {}
@@ -334,6 +343,7 @@ swiper-item{
   overflow: hidden;
 }
 .buy_old{
+  width: 100%;
   padding-top: 10rpx;
   position: absolute;
   height: 100vh;
@@ -820,7 +830,7 @@ swiper-item{
     .vip_detail{
       width: 100%;
       position: absolute;
-      height: 100vh;
+      height: 100%;
       overflow: scroll;
       background: #fff;
     }

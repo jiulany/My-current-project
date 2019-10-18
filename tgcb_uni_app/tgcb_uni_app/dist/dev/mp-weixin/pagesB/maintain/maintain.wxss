@@ -1,0 +1,170 @@
+
+.maintain.data-v-24877e97{
+    padding-bottom: 98rpx;
+    overflow: hidden;
+}
+.maintain_title.data-v-24877e97{
+    height: 97rpx;
+    color:#474747;
+    font-size:32rpx;
+    line-height: 97rpx;
+    padding-left: 29rpx;
+}
+.maintain_box.data-v-24877e97{
+    background: #FFFFFF;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-flex-flow: wrap;
+        -ms-flex-flow: wrap;
+            flex-flow: wrap;
+    padding: 0 20rpx;
+}
+.maintain_box_items.data-v-24877e97{
+    /* margin-left: 25rpx; */
+    /* margin-right: 25rpx; */
+    position: relative;
+    margin-bottom: 20rpx;
+}
+.maintain_box_title.data-v-24877e97{
+    height: 74rpx;
+    font-size:30rpx;
+    color: #474747;
+    line-height: 74rpx;
+}
+.maintain_box_image image.data-v-24877e97{
+    height: 195rpx;
+    width: 200rpx;
+    display: block;
+}
+.btn.data-v-24877e97{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #DEDEDE;
+    height: 98rpx;
+    line-height: 98rpx;
+    text-align: center;
+    font-size:36rpx;
+    z-index: 9999;
+}
+.checked.data-v-24877e97{
+    background:rgba(0,0,0,1);
+    opacity:0.27;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index:99;
+    filter:alpha(Opacity=27)
+}
+.checked_img.data-v-24877e97{
+    width: 88rpx;
+    height: 88rpx;
+    position: absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+    z-index: 9999;
+}
+.active.data-v-24877e97{
+    background: #FDD000 !important;
+}
+.maintain_car.data-v-24877e97{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:rgba(0,0,0,0.34);
+    z-index: 99999;
+}
+.car.data-v-24877e97 {
+    width:612rpx;
+    height: 447rpx;
+    position: fixed;
+    top:50%;
+    left: 50%;
+    margin-left: -302rpx;
+    margin-top: -223rpx;
+    background: #fff;
+    z-index: 999999;
+    border-radius:8rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.car_box.data-v-24877e97{
+    height: 270rpx;
+    overflow: scroll;
+}
+.car_title.data-v-24877e97{
+    font-size:32rpx;
+    font-weight:500;
+    color:rgba(71,71,71,1);
+    margin-top: 41rpx;
+    margin-left: 36rpx;
+}
+.car_icon.data-v-24877e97{
+    width: 60rpx;
+    height: 60rpx;
+    margin-left: 23rpx;
+    display: block;
+    margin-top: 8rpx;
+    margin-right: 24rpx;
+}
+.car_name.data-v-24877e97{
+    font-size:30rpx;
+    font-weight:500;
+    color:rgba(71,71,71,1);
+    margin-top: 5rpx;
+}
+.car_radio.data-v-24877e97{
+    width: 42rpx;
+    height: 42rpx;
+}
+.car_list.data-v-24877e97{
+    margin-left: 36rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+.car_btn.data-v-24877e97{
+    width:172rpx;
+    height:55rpx;
+    background:rgba(253,208,0,1);
+    position: absolute;
+    bottom: 35rpx;
+    left: 50%;
+    margin-left: -96rpx;
+    text-align: center;
+    font-size:32rpx;
+    font-weight:500;
+    color:rgba(71,71,71,1);
+}
+

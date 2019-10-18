@@ -1,0 +1,8 @@
+{
+  "defaultTitle": "我的",
+  "pullRefresh": true,
+  "usingComponents": {
+    "tab-bar": "/components/tab-bar/tabBar",
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}

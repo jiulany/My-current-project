@@ -96,7 +96,7 @@ swiper {
 	border-right: 1px solid #A3A3A3;
 }
 .wuc-tab-item.cur {
-    border-bottom: 2.41rpx solid #FDD000;
+    border-bottom: 6.41rpx solid #FDD000;
 }
 
 .wuc-tab.fixed {

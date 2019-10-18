@@ -1,64 +1,69 @@
 <template>
     <view class="orders" catchtap='hiddenKeyboard'>
-        <view class='top'>
-            <view class='shopTop' v-if="orders.delivery_type == 1">
-                <view class='shopTopLeft'>
-                    <image src='../../img/shop.png' class='shopIcon'></image>
+        <view class="main">    
+            <view class='top'>
+                <view class='shopTop' v-if="orders.delivery_type == 1">
+                    <view class='shopTopLeft'>
+                        <image src='../../img/shop.png' class='shopIcon'></image>
+                    </view>
+                    <view class='shopTopTitle'>{{orders.shop.name}}</view>
                 </view>
-                <view class='shopTopTitle'>{{orders.shop.name}}</view>
-            </view>
-            <view class='shopTopLeft shopTopTitle' v-if="orders.delivery_type == 2">
-                物流配送
-            </view>
-            <view class='topRight'>
-                {{status[orders.order_status]}}
-            </view>
-        </view>
-        <view class='orderContent' @tap='onOrder' :data-id="orders.id" v-for="(item) in orders.details" :key="index">
-<!--            <image class='orderImg' :src="item.sku.image.commodity_image_thum"></image>-->
-            <an-image  class='orderImg' :src="item.sku.image.commodity_image_thum" :alt="no_pic"></an-image>
-            <view class='title'>
-                <view>
-                    {{item.commodity_name}}
+                <view class='shopTopLeft shopTopTitle' v-if="orders.delivery_type == 2">
+                    物流配送
                 </view>
-                <view class='desc'>
-                    {{item.sku_name}}
+                <view class='topRight'>
+                    {{status[orders.order_status]}}
                 </view>
             </view>
-            <view class='price'>
-                <view class='prices'>￥{{item.original_price}}</view>
-                <text class='nums'>x{{item.number}}</text>
+            <view class='orderContent' @tap='onOrder' :data-id="orders.id" v-for="(item,index) in orders.details" :key="index">
+    <!--            <image class='orderImg' :src="item.sku.image.commodity_image_thum"></image>-->
+                <an-image  class='orderImg' :src="item.sku.image.commodity_image_thum" :alt="no_pic"></an-image>
+                <view class='title'>
+                    <view>
+                        {{item.commodity_name}}
+                    </view>
+                    <view class='desc'>
+                        {{item.sku_name}}
+                    </view>
+                </view>
+                <view class='price'>
+                    <view class='prices'>￥{{item.original_price}}</view>
+                    <text class='nums'>x{{item.number}}</text>
+                </view>
             </view>
-        </view>
-        <view class='pirceSum'>
-            <view class='priceDecs' v-if="orders.order_status === 1">
-                等待付款
+            <view class='pirceSum'>
+                <view class='priceDecs' v-if="orders.order_status === 1">
+                    等待付款
+                </view>
+                <view class='priceDecs' v-else>
+                    实付款
+                </view>
+                <view class='priceSums'>￥{{orders.order_payment_price}}</view>
             </view>
-            <view class='priceDecs' v-else>
-                实付款
+            <view class='pircebtn' v-if="orders.order_status === 1">
+                <button class='orderBtn' @tap='onclose' >取消订单</button>
+                <button class='orderBtn active' @tap='onpay(orders.id,$event)'  >付款</button>
             </view>
-            <view class='priceSums'>￥{{orders.order_payment_price}}</view>
-        </view>
-        <view class='pircebtn' v-if="orders.order_status === 1">
-            <button class='orderBtn' catchtap='onclose' >取消订单</button>
-            <button class='orderBtn active' catchtap='onpay'  >付款</button>
-        </view>
-<!--        <i-modal title="请输入支付密码" :visible="visible1" @ok="handleClose2" @cancel="handleClose1">-->
-<!--            <view class='nuame1' catchtap='showKeyboard1'>-->
-<!--                <text class='pwdnum'>{{inppwx}} </text>-->
-<!--                <view class='className'></view>-->
-<!--            </view>-->
-<!--        </i-modal>-->
-<!--        <i-modal title="选择支付方式" visible="{{ wxPayStatus }}" actions="{{ actions }}" show-cancel="{{false}}" show-ok="{{false}}" action-mode="{{ vertical }}"  >-->
-<!--            <view class="btn-wx btn-l" catchtap="handleClickpay" data-id="0" v-if="assets_len>0">余额支付</view>-->
-<!--            <view class="btn-wx btn-m"  catchtap="handleClickpay" data-id="1">微信支付</view>-->
-<!--        </i-modal>-->
-        <view v-if="keyShow" :class="keyShow?'hind_box':'keyboard'">
-            <view class='complete' catchtap='hiddenKeyboard'>完成</view>
-            <view class='key_box'>
-                <text :class='index%3==0?"keys":"border0"' {{(index==9||index==11)&&"bg_color"}}' v-for='(item) in KeyboardKeys' :key='this' @tap='keyTap' :data-keys='item'>{{item}}</text>
+
+        <!-- <i-modal title="请输入支付密码" :visible="visible1" @ok="handleClose2" @cancel="handleClose1">
+            <view class='nuame1' catchtap='showKeyboard1'>
+                <text class='pwdnum'>{{inppwx}} </text>
+                <view class='className'></view>
             </view>
-        </view>
+        </i-modal> -->
+        <!-- <i-modal title="选择支付方式" visible="{{ wxPayStatus }}" actions="{{ actions }}" show-cancel="{{false}}" show-ok="{{false}}" action-mode="{{ vertical }}"  >
+            <view class="btn-wx btn-l" catchtap="handleClickpay" data-id="0" v-if="assets_len>0">余额支付</view>
+            <view class="btn-wx btn-m"  catchtap="handleClickpay" data-id="1">微信支付</view>
+        </i-modal> -->
+
+            <view v-if="keyShow" :class="keyShow?'hind_box':'keyboard'">
+                <view class='complete' @tap='hiddenKeyboard'>完成</view>
+                <view class='key_box'>
+                    <text :class='index%3==0?"keys":"border0"' {{(index==9||index==11)&&"bg_color"}} v-for='(item,index) in KeyboardKeys' :key='index' @tap='keyTap' :data-keys='item'>{{item}}</text>
+                </view>
+            </view>
+        </view>    
+        
     </view>
 </template>
 
@@ -72,16 +77,17 @@
     } from '../../model/user.js'
     const userModel = new UserModel()
     import anImage from '@/components/an-image/an-image.vue'
-    import {config} from '../../common/utils/congfig'
+    
+  
     export default {
         name: "orderList",
         components:{
-            anImage
+            anImage,
         },
         data () {
             return {
-                no_pic:config.no_pic,
-                status: ["全部", "待付款", "待配送", "已完成", "交易关闭"],
+                no_pic:getApp().globalData.no_pic,
+                status: ["全部", "待付款", "待使用", "已完成", "交易关闭"],
                 inppwd: '',
                 inppwx: '',
                 inpname: '',
@@ -253,14 +259,14 @@
                 })
             },
             // 余额支付、
-            onpay(e) {
-                const internal_payment_sn = e.currentTarget.dataset.id
-                const zfid = e.currentTarget.dataset.zfid
-                this.setData({
-                    wxPayStatus:true,
-                    internal_payment_sn,
-                    zfid
-                })
+            onpay(order_id,e) {
+    
+                // const internal_payment_sn = e.currentTarget.dataset.id
+                // const zfid = e.currentTarget.dataset.zfid
+                // this.wxPayStatus = true
+                // this.internal_payment_sn = internal_payment_sn
+                // this.zfid = zfid
+                this.$emit('choice_pay_type',order_id)
             },
             oncommitOrder() {
                 this.setData({
@@ -351,7 +357,7 @@
 <style scoped>
     /* components/orderList/orderList.wxss */
 
-    .orders {
+    .orders .main {
         display: flex;
         flex-direction: column;
         width: 92%;
@@ -365,20 +371,20 @@
         align-items: center;
         padding-top: 10rpx;
     }
-    .btn-wx{
+    /* .btn-wx{
         padding-top:15px;
         height: 65rpx;
         font-size: 16px;
         line-height: 80rpx;
         border-top:solid 1rpx #efefef;
-    }
-    .btn-l{
+    } */
+    /* .btn-l{
         line-height: 35rpx;
 
-    }
-    .btn-m{
+    } */
+    /* .btn-m{
         padding-top:5rpx;
-    }
+    } */
     .shopTopLeft {
         font-size: 35rpx;
         margin-left: 20rpx;
@@ -478,7 +484,7 @@
     .pircebtn {
         display: flex;
         flex-direction: row;
-        height: 80rpx;
+        /* height: 80rpx; */
         align-items: center;
         justify-content: flex-end;
     }
@@ -507,7 +513,7 @@
     button::after {
         border: none;
     }
-    .nuame1 {
+    /* .nuame1 {
         margin: 0 auto;
         display: flex;
         flex-direction: row;
@@ -521,17 +527,17 @@
         padding: 0rpx;
         border-radius: 10rpx;
         justify-content: center;
-    }
-    .className {
+    } */
+    /* .className {
         width: 2rpx;
         height: 35rpx;
         background: #666;
         border-radius: 6rpx;
         animation: twinkling 1s infinite;
-    }
-    .pwdnum{
+    } */
+    /* .pwdnum{
         color: black
-    }
+    } */
     .className1 {
         width: 2rpx;
         height: 35rpx;

@@ -1,16 +1,16 @@
 <template>
     <scroll-view scroll-y style="height: 100vh;">
       <!-- 地址 -->
-      <view class="inx-ads span24">
+      <view class="inx-ads span24" @tap="changeShop">
         <view class="inx-ads-it span2" style="justify-content:center">
           <i  class="iconfont" ></i>
         </view>
         <view class="inx-ads-it span3" style="font-size:30rpx;font-weight:bold">成都</view>
-        <view class="inx-ads-it span15">最近店铺：脱狗车宝（浅水半岛店）</view>
+        <view class="inx-ads-it span15" v-if="shop">最近店铺：{{shop['name']}}</view>
         <view class="inx-ads-it span1">
           <i  class="iconfont" ></i>
         </view>
-        <view class="inx-ads-it span3" style="justify-content:center">2.3km</view>
+        <view class="inx-ads-it span3" style="justify-content:center" v-if="shop">{{shop['distance']}}KM</view>
       </view>
       <!-- 轮播 -->
       <view class="inx-bnr" style="width:100%;">
@@ -32,24 +32,24 @@
       </view>
       <!-- 功能 -->
       <view class="icons">
-        <view class="icon_item" v-for="(item,index) in list.icons" @tap="icon_url(item.url)">
+        <view class="icon_item" v-for="(item,index) in list.icons" @tap="icon_url(item.url)" :key="index">
           <image :src="item.image"></image>
           <view>{{item.name}} </view>
         </view>
       </view>
-<!--     活动-->
+      <!-- 活动-->
       <view class="span24 inx-hdong">
         <view class="span24 activities_title">
           <image :src="activities_title.image"></image>
         </view>
         <view class="span24 active_box">
-          <view class="active_box_item" v-for="(item,index) in activities.content" @click="active(item.url)">
+          <view class="active_box_item" v-for="(item,index) in activities.content" @click="active(item.url)" :key="index">
             <image :src="item.image"></image>
           </view>
 
         </view>
       </view>
-<!--     购车专场 -->
+      <!-- 购车专场 -->
       <view class="span24 car_shop">
         <view  v-for="(item,index) in list.others" :key="index" v-if="index < 3" class="car_shop_item1" @click="car_shop(item.url)">
           <view class="car_shop_box">
@@ -64,17 +64,19 @@
         </view>
 
       </view>
-<!--      保养-->
+      <!--保养-->
       <view class="span24 maintain">
         <view class="maintain_item" v-for="(item,index) in list.others" :key="index" v-if="index > 2" @click="car_shop(item.url)">
           <image :src="item.image"></image>
           <view class="maintain_item_desc">{{item.title}}</view>
         </view>
-
       </view>
+
       <view class="inx-bottomtp" v-if="list.ad">
         <img :src="list.ad.image">
       </view>
+
+
      <view class="discount" v-show="discount">
       <view class="discount_box">
         <image src="https://imgcdn.tuogouchebao.com/tankuang.png"></image>
@@ -84,6 +86,7 @@
       </view>
     </view>
     </scroll-view>
+
 </template>
 <script>
   import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
@@ -101,7 +104,10 @@ export default {
     },
     activities_title:{
       type:Object
-    }
+    },
+    shop:{
+      type:Object
+    },
   },
   data() {
     return {
@@ -114,7 +120,8 @@ export default {
         color: "#fff",
         selectedBackgroundColor: "rgba(253, 208, 0, 0.7)",
         selectedBorder: "1px rgba(253, 208, 0, 0.7) solid"
-      }
+      },
+      
     };
   },
   methods: {
@@ -166,6 +173,12 @@ export default {
       uni.navigateTo({
         url: "/pages/cosmetology/cosmetology"
       });
+    },
+    changeShop()
+    {
+      uni.navigateTo({
+        url:`/pagesB/choice_store/choice_store`
+      })
     }
   },
   components: {
@@ -180,6 +193,9 @@ export default {
   //   uni.hideTabBar();
   // },
   // onHide: function() {},
+  mounted(){
+    
+  },
   watch:{
     list(val){
       console.log(val)
@@ -334,6 +350,7 @@ page {
   }
   .discount_box image{
     height: 552rpx;
+    width: 658rpx;
   }
   .icon{
     width: 200rpx;

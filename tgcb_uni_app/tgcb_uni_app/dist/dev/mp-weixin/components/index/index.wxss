@@ -1,0 +1,246 @@
+
+page {
+  background-color: #ffffff;
+  height: 100%;
+}
+.icon_item{
+  width: 180rpx;
+  margin-top: 25rpx;
+  font-size:26rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.icon_item image{
+  height: 75px !important;
+  width: 76px !important;
+}
+.inx-ads {
+  padding: 10rpx 0rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.inx-ads-it {
+  font-size: 25rpx;
+}
+.inx-bnr .swiper-item {
+  height: 100%;
+  width: 100%;
+}
+.inx-bnr .swiper-item ._img {
+  height: 100%;
+  width: 100%;
+}
+.inx-hdong-tt {
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 36rpx;
+  font-weight: 600;
+  padding: 70rpx 0 10rpx 0;
+}
+.activities_title{
+  width: 326rpx;
+  height: 76rpx;
+  margin: 40rpx auto;
+}
+.activities_title image{
+  width: 100%;
+  height: 100%;
+}
+.active_box{
+  margin-top: 10rpx;
+  padding: 0 10rpx;
+  -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+          justify-content: space-around;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+.active_box_item{
+  width: 336rpx;
+  height:160rpx;
+  background:rgba(255,255,255,1);
+  -webkit-box-shadow:0rpx 2rpx 16rpx 0rpx rgba(218, 218, 218, 0.35);
+          box-shadow:0rpx 2rpx 16rpx 0rpx rgba(218, 218, 218, 0.35);
+  border-radius:10rpx;
+  text-align: center;
+  margin-bottom: 26rpx;
+}
+.active_box_item image{
+  width: 334rpx;
+  height:150rpx;
+}
+.car_shop{
+    padding-left: 33rpx;
+    padding-right: 26rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    padding-top: 113rpx;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-bottom: 29rpx;
+}
+.car_shop .car_shop_item1:first-child image{
+    width:156rpx;
+    height:146rpx;
+}
+.car_shop .car_shop_item1:nth-child(2) image{
+  width:154rpx;
+  height:146rpx;
+}
+.car_shop .car_shop_item1:last-child image{
+  width:187rpx;
+  height:146rpx;
+}
+.car_shop_box_title{
+    text-align: center;
+    font-size:32rpx;
+    color:rgba(102,102,102,1);
+}
+.car_shop_box_desc{
+    font-size:24rpx;
+    text-align: center;
+    color:rgba(153,153,153,1);
+}
+.maintain{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding-left: 33rpx;
+    padding-right: 54rpx;
+    margin-bottom: 75rpx;
+}
+.maintain_item,.maintain_item image{
+    width: 146rpx;
+}
+.maintain_item image{
+  height: 145rpx;
+  margin-bottom: 30rpx;
+}
+.maintain_item_desc{
+    text-align: center;
+    color: #666666;
+}
+.discount{
+    position: fixed;
+    background:rgba(0,0,0,0.3);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.discount_box{
+    width: 658rpx;
+    margin: 0 auto;
+    margin-top: 228rpx  ;
+}
+.discount_box image{
+    height: 552rpx;
+    width: 658rpx;
+}
+.icon{
+    width: 200rpx;
+    height: 150rpx;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 150rpx;
+}
+.icon-guanbi{
+    font-size: 45px;
+    color: #fff;
+}
+.table{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+.icons{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.inx-bottomtp{
+  width: 100%;
+  height: 200rpx;
+  margin-bottom: 200rpx;
+}
+.inx-bottomtp ._img{
+  height: 200rpx;
+  width: 100%;
+}
+

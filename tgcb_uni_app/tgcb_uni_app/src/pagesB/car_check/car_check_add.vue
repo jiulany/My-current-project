@@ -1,7 +1,7 @@
 <template>
     <view class="car_check_add">
         <view class="car_check_box">
-            <view class="icon">
+            <view class="icon" @tap="goAddCar()">
                 <i class="iconfont icon-zengjia"></i>
             </view>
             <view class="car_desc">
@@ -19,8 +19,36 @@
 </template>
 
 <script>
+import { UserModel } from "../../model/user";
+const userModel = new UserModel();
     export default {
-        name: "car_check_add.vue"
+        name: "car_check_add",
+        data() {
+            return {
+
+            }
+        },
+        methods: {
+            goAddCar() {
+                uni.redirectTo({
+                    url: "/pagesA/my_add_car/my_add_car"
+                });
+            },
+             _getUserCar() {
+                userModel.getCars().then(res => {
+                    let data = res.data;
+                    if (data.length > 0 ) {
+                        uni.navigateTo({
+                            url : `/pagesB/car_check/car_check`
+                        })
+                    }
+                });
+            },
+        },
+        onShow()
+        {
+           this._getUserCar();
+        }
     }
 </script>
 

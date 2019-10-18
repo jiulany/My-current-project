@@ -1,10 +1,10 @@
 <template>
-  <uni-popup ref="popup" type="bottom" maskClick="false" class="keyboarder-model">
+  <uni-popup ref="popup" type="bottom" maskClick="false" class="keyboarder-model" @change="change">
     <view class="keyboard">
       <view class="keyboard_ct">
         <view v-if="tep_act==0">
           <view class="pro_lover">
-            <view catchtap="closeKeyboard">完成</view>
+            <view @tap="closeKeyboard">完成</view>
           </view>
           <view class="pro_l0">
             <view class="key" v-for="item in province_0" @tap="clickPro(item,$event)" :key="item">{{item}}</view>
@@ -21,7 +21,7 @@
         </view>
         <view v-if="tep_act>0?true:false">
           <view class="pro_lover">
-            <view catchtap="closeKeyboard">完成</view>
+            <view @tap="closeKeyboard">完成</view>
           </view>
           <view class="pro_l0" v-if="tep_act>1?true:false">
             <view class="key" v-for="item in num" :key="item" @tap="clickNum(item,$event)">{{item}}</view>
@@ -52,7 +52,7 @@
           </view>
         </view>
         <view class="keyboard_dele" @tap="clickdele">
-          <i class="iconfont iconchexiao"></i>
+          <i class="iconfont icon-chexiao1"></i>
         </view>
       </view>
     </view>
@@ -86,6 +86,9 @@ export default {
         console.log(this.value)
       this.$emit("changeValue", this.value);
     },
+    closeKeyboard(){
+      this.$emit("close");
+    },
     clickLet(item,e) {
       var that = this;
       if (this.tep_act <= 8) {
@@ -106,6 +109,12 @@ export default {
         this.value = b
         console.log(this.value)
         this.$emit("changeValue", this.value);
+      }
+    },
+    change(e){
+      if(e.show){
+      }else{
+      this.$emit("close");
       }
     },
     clickdele() {
@@ -131,13 +140,15 @@ export default {
   components: { uniPopup },
   watch: {
     visible(val) {
+      console.log(val,"ss")
       this.visible_dt = val;
     },
     visible_dt(val) {
+      console.log(val)
       if (val) {
         this.$refs.popup.open();
       } else {
-        this.$refs.popup.open();
+        this.$refs.popup.close();
       }
     }
   },

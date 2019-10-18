@@ -7,7 +7,7 @@
             套餐详情
         </view>
 <!--        套餐详情-->
-         <block v-for="(item,index) in info.details" v-key="index">
+         <block v-for="(item,index) in info.details" v-key="index" :key="index">
                 <view class="box">
                     <image class="img_item" :src="item.image"></image>
                 <view class="box_items">
@@ -44,8 +44,8 @@
         <view class="footer_h"></view>
         <view class="footer_btn">
             <view class="footer_btn_box">
-                <view class="footer_title">惊喜价：<span class="footer_title_price">￥{{info.prices[0].price}}</span></view>
-                <view class="footer_desc">原价：<span>￥{{info.prices[0].original_price}}</span></view>
+                <view class="footer_title">惊喜价：<span class="footer_title_price" v-if="info.prices[0].price">￥{{info.prices[0].price}}</span></view>
+                <view class="footer_desc">原价：<span v-if="info.prices[0].original_price">￥{{info.prices[0].original_price}}</span></view>
             </view>
             <view class="footer_btn_submit" @tap="goBuy">立即购买</view>
         </view>

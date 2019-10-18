@@ -11,7 +11,8 @@
 		<view class="span24">
 			<view class="span24 index-sf">
 				<image   mode="aspectFit" src='../../static/images/weixiu.png'></image>
-				<view>附近师傅<span>32</span>个</view>
+				<view>附近师傅<span>{{list.length}}</span>个</view>
+				<view class="index-rz-sf" @tap="toMaster">点击认证师傅端</view>
 			</view>
 			<view class="span24 index-sf-line">
 				<view class="span24 index-fj-it" v-for="item in list" :key="item.id">
@@ -43,18 +44,23 @@
 			}
 		},
 		onLoad() {
-			this.$http({ url: `api/index` ,data:{
+			setTimeout(()=>{
+			this.$http({ url:`api/home`,data:{
           }}).then(res => {
 			  this.list=res.data
 
           })
           .catch(res => {});
+			},3000)
 		},
 		methods: {
 			call(item,e){
 				uni.makePhoneCall({
     phoneNumber: item.account 
 });
+			},
+			toMaster(){
+				uni.navigateTo({url: '/pages/master/master'});
 			},
 			toAppoint(){
 				uni.navigateTo({url: '/pages/appointment/appointment'});
@@ -175,7 +181,8 @@
 	.index-btm{
 		position: fixed;
 		bottom: 0;
-		padding: 18rpx 0;
+		padding: 25rpx 0;
+		padding-bottom:50rpx;
 		background: white;
 		justify-content: center
 	}
@@ -197,5 +204,17 @@
 	.index-fj-call image{
 		width:30rpx;
 		height: 30rpx;
+	}
+	.index-rz-sf{
+width:212rpx;
+position: absolute;
+right: 26rpx;
+height:45rpx;
+background:rgba(64,156,203,1);
+border-radius:10rpx;
+font-size:24rpx !important;
+font-family:PingFang SC;
+font-weight:500;
+color:rgba(255,255,255,1) !important;
 	}
 </style>

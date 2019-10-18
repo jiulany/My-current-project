@@ -1,0 +1,143 @@
+
+page {
+  background-color: #f5f5f5;
+  height: 100%;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+.mycar{
+    padding: 24rpx;
+    margin-bottom:100rpx;
+}
+.car_title{
+    width: 327rpx;
+    font-size:26rpx;
+}
+.mycar-lj{
+    padding: 20rpx 33rpx;
+    background: white
+}
+.mycar-lj-ico {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center
+}
+.mycar-lj-ico image{
+    height: 27rpx;
+    width: 34rpx
+}
+.mycar-lj-rtr image{
+    height: 25rpx;
+    width: 20rpx;
+    text-align: end
+}
+.mycar-lj-rtr{
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+            justify-content: flex-end
+}
+.mycar-lj-tt{
+    font-size: 30rpx
+}
+.car_content{
+    margin-top: 22rpx;
+    width: 100%;
+padding-bottom: 20rpx;
+    background: #fff;
+}
+.car_content_box image{
+    margin-left: 27rpx;
+    width: 103rpx;
+    height: 101rpx;
+    margin-right: 52rpx;
+}
+.car_content_box{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin-top: 24rpx;
+}
+.car_header{
+    margin-top: 25rpx;
+    margin-left: 31rpx;
+    font-size:32rpx;
+}
+.car_content_right{
+     -webkit-box-flex: 1;
+     -webkit-flex: 1;
+         -ms-flex: 1;
+             flex: 1;
+     text-align: right;
+     padding-right: 23rpx;
+}
+.car_bottom{
+     margin-top: 20rpx;
+     display: -webkit-box;
+     display: -webkit-flex;
+     display: -ms-flexbox;
+     display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+     -webkit-box-align: center;
+     -webkit-align-items: center;
+         -ms-flex-align: center;
+             align-items: center;
+     padding:0 35rpx;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+.car_bottom .iconfont{
+    color: #999 !important;
+}
+.radios_box{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.car_add{
+    height: 97rpx;
+    background: white;
+    color: #fdd000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    -webkit-box-shadow: 0 -1px 2px rgba(0,0,0,.1);
+            box-shadow: 0 -1px 2px rgba(0,0,0,.1);
+    font-size: 30rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center
+}
+

@@ -1,11 +1,11 @@
 <template>
     <view class="maintain" @touchmove="touchmove">
-        <block v-for="(item,index) in list">
+        <block v-for="(item,index) in list" :key="index">
             <view class="maintain_title">
                 {{item.classify_name}}
             </view>
             <view class="maintain_box">
-                <view class="maintain_box_items" @tap="choose(index,key)" v-for="(value,key) in item.children">
+                <view class="maintain_box_items" @tap="choose(index,key)" v-for="(value,key) in item.children" :key="key">
                     <view class="maintain_box_title">
                         {{value.classify_name}}
                     </view>
@@ -14,8 +14,7 @@
                     </view>
                     
                     <view  v-if="value.checked==true">
-                        <view class="checked">
-                        </view>
+                        <view class="checked"></view>
                         <image class="checked_img" src="../../../../../static/maintain/xuanze.png"></image>
                     </view>
 
@@ -80,7 +79,7 @@
             </view>
         </view> -->
 
-        <view class="btn active">下一步</view>
+        <view class="btn active" @tap="toShop">下一步</view>
     </view>
 </template>
 
@@ -120,6 +119,12 @@
                 }
                 this.list = JSON.parse(JSON.stringify(this.list))
                 console.log(this.choosed)
+            },
+            toShop()
+            {
+                uni.navigateTo({
+                    url:`/pagesB/maintain_shop/maintain_shop?classify_ids=${JSON.stringify(this.choosed)}`
+                })
             }
         },
         onLoad()
@@ -127,6 +132,7 @@
 
         },
         onShow(){
+            this.choosed = []
             this.getData()
         },
         watch:{
@@ -158,10 +164,11 @@
     flex-direction: row;
     justify-content: space-between;
     flex-flow: wrap;
+    padding: 0 20rpx;
 }
 .maintain_box_items{
-    margin-left: 25rpx;
-    margin-right: 25rpx;
+    /* margin-left: 25rpx; */
+    /* margin-right: 25rpx; */
     position: relative;
     margin-bottom: 20rpx;
 }
@@ -205,8 +212,8 @@
     height: 88rpx;
     position: absolute;
     top:50%;
-    margin-top: -24rpx;
-    margin-left: 44rpx;
+    left:50%;
+    transform: translate(-50%,-50%);
     z-index: 9999;
 }
 .active{

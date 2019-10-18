@@ -1,0 +1,105 @@
+.car_check {
+  background: #ffffff;
+}
+.car_check .car_check_box {
+  padding-bottom: 73rpx;
+  margin-top: 20rpx;
+  background: #ffffff;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.car_check .car_check_box_img {
+  margin-top: 47rpx;
+  display: block;
+  padding-top: 20rpx;
+  width: 200rpx;
+  height: 200rpx;
+  position: relative;
+}
+.car_check .car_check_box_img image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+.car_check .car_name {
+  font-size: 36rpx;
+  font-weight: 400;
+  color: #333333;
+}
+.car_check .footer {
+  text-align: center;
+  line-height: 68rpx;
+  width: 455rpx;
+  height: 68rpx;
+  background: #fdd000;
+  border-radius: 32rpx;
+  font-size: 32rpx;
+  margin-top: 99rpx;
+  color: #ffffff;
+}
+.car_check .car_select {
+  font-size: 32rpx;
+  color: #fdd000;
+  position: absolute;
+  top: 21rpx;
+  right: 35rpx;
+}
+.car_check .car_select_left {
+  font-size: 32rpx;
+  color: #fdd000;
+  position: absolute;
+  top: 21rpx;
+  left: 35rpx;
+}
+.car_check .footer_desc {
+  text-align: center;
+  color: #fdd000;
+  margin-top: 46rpx;
+  font-size: 24rpx;
+}
+.car_check .can_review {
+  text-align: center;
+  padding-bottom: 70rpx;
+}
+.car_check .can_review .can_review_title {
+  width: 100%;
+  height: 68rpx;
+  line-height: 68rpx;
+  background: #FDD000;
+  color: #ffffff;
+}
+.car_check .can_review .item-label {
+  font-size: 24rpx;
+  color: #666666;
+  margin-top: 66rpx;
+}
+.car_check .can_review .item-val {
+  color: #333333;
+  font-size: 30rpx;
+}
+.car_check .can_review .to-add {
+  width: 455rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  background: #fdd000;
+  border-radius: 32rpx;
+  margin: 209rpx auto;
+  color: #ffffff;
+}
+

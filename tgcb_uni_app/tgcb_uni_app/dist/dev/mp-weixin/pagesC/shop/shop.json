@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "浅水半岛店",
+  "usingComponents": {
+    "segmented-control": "/components/uni-segmented-control/uni-segmented-control2"
+  }
+}

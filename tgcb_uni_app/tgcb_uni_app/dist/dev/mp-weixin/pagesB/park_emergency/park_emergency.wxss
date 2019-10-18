@@ -1,0 +1,215 @@
+
+page {
+	width: 100%;
+	height: 100%;
+}
+.content {
+	width: 100%;
+	height: 100%;
+}
+.addr_txt{
+	width: 688.4rpx;
+	height: 84.54rpx;
+	margin: 0 auto;
+	background: #FFFFFF;
+	margin-top: 13.28rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+}
+.at_txt1{
+	color: #FDD000;
+	font-size: 21.73rpx;
+}
+.at_txt2{
+	color: #474747;
+	font-size: 24.15rpx;
+	margin-top: 13.28rpx;
+}
+.foot_btn{
+	height: 84.54rpx;
+	background: #FDD000;
+	color: #FFFFFF;
+	font-size: 28.98rpx;
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	line-height: 84.54rpx;
+	width: 100%;
+}
+.hint_box{
+	width:618.35rpx;
+	height:385.26rpx;
+	background:rgba(255,255,255,1);
+	border-radius:4.83rpx;
+	text-align: center;
+	top: 447.46rpx;
+	left: 65.83rpx;
+	position: absolute;
+	z-index: 1;
+}
+.hb_line1{
+	color: #FDD000;
+	font-size: 28.98rpx;
+	margin-top: 32.6rpx;
+}
+.hb_line2{
+	color: #474747;
+	font-size: 25.36rpx;
+	margin-top: 64rpx;
+}
+.hb_line3{
+	width:544.08rpx;
+	height:71.85rpx;
+	background:rgba(253,208,0,1);
+	border-radius:4.83rpx;
+	color: #474747;
+	font-size: 28.98rpx;
+	text-align: center;
+	line-height: 71.85rpx;
+	margin: 93.59rpx auto 0 auto;
+}
+.hint2_box{
+	width:618.35rpx;
+	background:rgba(255,255,255,1);
+	border-radius:8rpx;
+	top:50%;
+	left:50%;
+	-webkit-transform: translate(-50%,-50%);
+	    -ms-transform: translate(-50%,-50%);
+	        transform: translate(-50%,-50%);
+	position: absolute;
+	z-index: 1;
+}
+.h2b_line1{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	    -ms-flex-pack: justify;
+	        justify-content: space-between;
+	height: 109.9rpx;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	border-bottom: 1px solid #F5F5F5;
+	padding: 0 26.57rpx 0 99.63rpx;
+}
+.h2b_line1>text{
+	color: #666666;
+	font-size: 39.85rpx;
+}
+.h2b_line1 .vip-button{
+	width:157.6rpx;
+	height:57.36rpx;
+	background:rgba(253,208,0,1);
+	border-radius:6.03rpx;
+	color: #FFFFFF;
+	font-size: 30.19rpx;
+	text-align: center;
+	line-height: 57.36rpx;
+}
+.h2l{
+	color: #666666;
+	font-size: 28.98rpx;
+	margin-top: 14.49rpx;
+}
+.h2l_list{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	margin-top: 41.17rpx;
+}
+.car_brand_image{
+	width: 35.02rpx;
+	height: 35.02rpx;
+	margin-right: 20rpx;
+}
+.h2l_list>text{
+	color: #666666;
+	font-size: 28.98rpx;
+	margin-left: 18.11rpx;
+}
+.h2l{
+	text-align: center;
+}
+.yes_btn{
+	width:152.77rpx;
+	height:45.89rpx;
+	background:rgba(253,208,0,1);
+	border-radius:6.03rpx;
+	color: #FFFFFF;
+	font-size: 28.98rpx;
+	text-align: center;
+	line-height: 45.89rpx;
+	margin: 21.73rpx auto 12.68rpx auto;
+}
+.mengban{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0,0,0,0.1);
+}
+.topleft_icon{
+	position: absolute;
+	width: 80rpx;
+	height: 80rpx;
+	top: 120rpx;
+	left: 54.34rpx;
+}
+.scale{
+	font-size: 50rpx;
+	text-align: center;
+	position: fixed;
+	right: 20rpx;
+	width: 60rpx;
+	height: 150rpx;
+	background: #FDD000;
+	bottom: 345rpx;
+}
+.scale_item{
+	height: 75rpx;
+	line-height: 75rpx;
+}
+.scale_item:first-child{
+	border-bottom: solid 1rpx #FFFFFF;
+}
+.stop{
+	width:155rpx;
+	height:195rpx;
+	position: fixed;
+	top:300rpx;
+	left: 28rpx;
+	text-align: center;
+}
+
+
+

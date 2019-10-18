@@ -1,17 +1,24 @@
 <script>
-    //app.js
-    import {
-        UserModel
-    } from './model/user.js'
-    const userModel = new UserModel()
+//app.js
+import {config} from '@/common/utils/congfig.js'
+import { UserModel } from "./model/user.js";
+const userModel = new UserModel();
+import { IndexModel } from "./model/index.js";
+const indexModel = new IndexModel();
 export default {
-    data(){
-        return{
-            userInfo:[]
-        }
-    },
+  data() {
+    return {
+      userInfo: []
+    };
+  },
+ 
   onLaunch: function() {
-     uni.setStorageSync('SystemInfo', uni.getSystemInfoSync().platform)
+    uni.hideTabBar();
+    uni.clearStorageSync()
+
+    let self = this
+    
+    uni.setStorageSync("SystemInfo", uni.getSystemInfoSync().platform);
 
     // #ifdef APP-PLUS
     // 锁定屏幕方向
@@ -22,7 +29,7 @@ export default {
       data: {
         appid: plus.runtime.appid,
         version: plus.runtime.version,
-        imei: plus.device.imei,
+        imei: plus.device.imei
       },
       success: res => {
         console.log("success", res);
@@ -45,97 +52,102 @@ export default {
 
     // #endif
 
-  //#ifdef MP-WEIXIN
-  uni.getProvider({
-      service: 'oauth',
-      success: function (res) {
-          console.log(res)
-          if (~res.provider.indexOf('qq')) {
-              uni.login({
-                  provider: 'qq',
-                  success: function (loginRes) {
-                      console.log(JSON.stringify(loginRes));
-                  }
-              });
-          }
+    //#ifdef MP-WEIXIN
+    uni.getProvider({
+      service: "oauth",
+      success: function(res) {
+        console.log(res);
+        if (~res.provider.indexOf("qq")) {
+          uni.login({
+            provider: "qq",
+            success: function(loginRes) {
+              console.log(JSON.stringify(loginRes));
+            }
+          });
+        }
       }
-  });
-  uni.showLoading({
-      title:'loading...',
-      mask:true
-  })
-  // 登录
-  // uni.login({
-  //     provider: 'weixin',
-  //     success: res => {
-  //         console.log(res)
-  //         if (res.errMsg === 'login:ok') {
-  //             // 获取code
-  //             const code = res.code
-  //             uni.setStorageSync('code', code)
-  //             // 调用获取openid接口
-  //             userModel.getOpenid().then(res => {
-  //                 uni.hideLoading()
-  //                 // 所以此处加入 callback 以防止这种情况
-  //                 if (res.data) {
-  //                     this.userInfo = res.data
-  //                     const openId = res.data.userinfo.openId
-  //                     const datas = res.data.skey
-  //                     if (openId) {
-  //                         uni.setStorageSync('openId', openId)
-  //                         uni.setStorageSync('skey', datas)
-  //                     } else {
-  //                         userModel._show_error()
-  //                     }
-  //                     // this.globalData.checkLogin = true
-  //                     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
-  //                     // 所以此处加入 callback 以防止这种情况
-  //
-  //                     // if (this.checkLoginReadyCallback) {
-  //                     //     this.checkLoginReadyCallback(res);
-  //                     // }
-  //                 } else {
-  //                     // this.globalData.checkLogin = true
-  //                     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
-  //                     // 所以此处加入 callback 以防止这种情况
-  //                     // if (this.checkLoginReadyCallback) {
-  //                     //     this.checkLoginReadyCallback(res);
-  //                     // }
-  //                     // userModel._show_error()
-  //                 }
-  //             }).catch(e=>{
-  //                 uni.showToast({
-  //                     title: '服务器异常',
-  //                     icon:'none'
-  //                 })
-  //                 // setTimeout(()=>{
-  //                 //     this.globalData.checkLogin = true
-  //                 //     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
-  //                 //     // 所以此处加入 callback 以防止这种情况
-  //                 //     if (this.checkLoginReadyCallback) {
-  //                 //         this.checkLoginReadyCallback(res);
-  //                 //     }
-  //                 // },1000)
-  //             })
-  //         } else {
-  //             // code获取失败
-  //             uni.showToast({
-  //                 title: '微信授权登陆失败,请检测网络重新进入！',
-  //                 icon:'none',
-  //                 mask:true,
-  //                 duration:50000000
-  //             })
-  //             return false
-  //         }
-  //     }
-  // })
-  
-  // #endif
+    });
+    // uni.showLoading({
+    //     title:'loading...',
+    //     mask:true
+    // })
+
+    // 登录
+    // uni.login({
+    //     provider: 'weixin',
+    //     success: res => {
+    //         console.log(res)
+    //         if (res.errMsg === 'login:ok') {
+    //             // 获取code
+    //             const code = res.code
+    //             uni.setStorageSync('code', code)
+    //             // 调用获取openid接口
+    //             userModel.getOpenid().then(res => {
+    //                 uni.hideLoading()
+    //                 // 所以此处加入 callback 以防止这种情况
+    //                 if (res.data) {
+    //                     this.userInfo = res.data
+    //                     const openId = res.data.userinfo.openId
+    //                     const datas = res.data.skey
+    //                     if (openId) {
+    //                         uni.setStorageSync('openId', openId)
+    //                         uni.setStorageSync('skey', datas)
+    //                     } else {
+    //                         userModel._show_error()
+    //                     }
+    //                     // this.globalData.checkLogin = true
+    //                     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
+    //                     // 所以此处加入 callback 以防止这种情况
+    //
+    //                     // if (this.checkLoginReadyCallback) {
+    //                     //     this.checkLoginReadyCallback(res);
+    //                     // }
+    //                 } else {
+    //                     // this.globalData.checkLogin = true
+    //                     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
+    //                     // 所以此处加入 callback 以防止这种情况
+    //                     // if (this.checkLoginReadyCallback) {
+    //                     //     this.checkLoginReadyCallback(res);
+    //                     // }
+    //                     // userModel._show_error()
+    //                 }
+    //             }).catch(e=>{
+    //                 uni.showToast({
+    //                     title: '服务器异常',
+    //                     icon:'none'
+    //                 })
+    //                 // setTimeout(()=>{
+    //                 //     this.globalData.checkLogin = true
+    //                 //     //由于这里是网络请求，可能会在 Page.onLoad 之后才返回
+    //                 //     // 所以此处加入 callback 以防止这种情况
+    //                 //     if (this.checkLoginReadyCallback) {
+    //                 //         this.checkLoginReadyCallback(res);
+    //                 //     }
+    //                 // },1000)
+    //             })
+    //         } else {
+    //             // code获取失败
+    //             uni.showToast({
+    //                 title: '微信授权登陆失败,请检测网络重新进入！',
+    //                 icon:'none',
+    //                 mask:true,
+    //                 duration:50000000
+    //             })
+    //             return false
+    //         }
+    //     }
+    // })
+
+    // #endif
   },
-    globalData: {
-        userInfo: null,
-        checkLogin: false
-    },
+  globalData: {
+    api_base_url:config.api_base_url,
+    userInfo: null,
+    checkLogin: false,
+    no_pic:config.no_pic,  
+    shop: {},
+    phone:''
+  },
   onShow: function() {
     console.log("App Show");
   },
@@ -150,6 +162,7 @@ export default {
 /* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 @import "./common/uni.css";
 /* 以下样式用于 hello uni-app 演示所需 */
+
 page {
   background-color: #f4f5f6;
   height: 100%;
@@ -325,10 +338,10 @@ page {
   flex-wrap: wrap;
   box-sizing: border-box;
 }
-.keyboarder-model .uni-popup__wrapper-box{
-    padding: 0 !important
+.keyboarder-model .uni-popup__wrapper-box {
+  padding: 0 !important;
 }
-.keyboarder-model .uni-popup__mask{
+.keyboarder-model .uni-popup__mask {
   opacity: 0 !important;
 }
 /* #endif*/

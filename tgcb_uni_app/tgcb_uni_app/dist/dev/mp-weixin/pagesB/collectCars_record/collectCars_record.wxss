@@ -1,0 +1,84 @@
+
+.collectCars_record.data-v-1e823c17{
+    margin-top: 20rpx;
+}
+.collectCars_record_item.data-v-1e823c17{
+    background: #fff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    padding: 0 30rpx;
+    margin-bottom: 10rpx;
+}
+.item_top.data-v-1e823c17{
+    margin-top: 20rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+.item_top_right.data-v-1e823c17{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+.item_content.data-v-1e823c17{
+    margin-top: 10rpx;
+    margin-bottom: 10rpx;
+    font-size: 24rpx;
+}
+.item_bottom.data-v-1e823c17{
+    color: #999;
+    margin-bottom: 10rpx;
+}
+.item_btn_left.data-v-1e823c17{
+    width: 117rpx;
+    height: 46rpx;
+    font-size:28rpx;
+    color: #FFFFFF;
+    line-height: 46rpx;
+    border-radius: 20rpx;
+    text-align: center;
+    background: #FDD000;
+}
+.item_btn_right.data-v-1e823c17{
+    width: 117rpx;
+    height: 46rpx;
+    font-size:28rpx;
+    color: #FFFFFF;
+    line-height: 46rpx;
+    border-radius: 20rpx;
+    text-align: center;
+    margin-left: 15rpx;
+    background: #B2B2B2;
+}
+.collectCars_record_desc.data-v-1e823c17{
+    width: 596rpx;
+    margin: 0 auto;
+    margin-top: 50rpx;
+    text-align: center;
+    color: #999999;
+    font-size: 24rpx;
+}
+

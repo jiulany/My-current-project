@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "车辆年检",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "car-inspection": "/components/car_inspection/car_inspection"
+  }
+}

@@ -2,14 +2,14 @@
 	<view class="content">
 		<view @tap='toExplanFun' class="row_list">
 			<text>使用方法</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 		<view @tap='toProblem' class="row_list">
 			<text>常见问题</text>
-			<image src="../../static/image/right.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 		</view>
 		<view class="foot_txt">
-			<image src="../../static/image/sigh.png"></image>
+			<view class="iconfont icon-xiayibu"></view>
 			<text>最终解释权归脱狗车宝所有</text>
 		</view>
 	</view>

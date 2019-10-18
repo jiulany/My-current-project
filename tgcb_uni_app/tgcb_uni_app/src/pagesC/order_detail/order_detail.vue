@@ -29,7 +29,8 @@
         </view>
         <view class="orders" v-for="(item , index ) in order.details" :key="index">
             <view class='orderContent'>
-                <image class='orderImg' :src='item.sku.image.commodity_image_thum'></image>
+                <!-- <image class='orderImg' :src='item.sku.image.commodity_image_thum'></image> -->
+                <an-image  class='orderImg' :src="item.sku.image.commodity_image_thum" :alt="no_pic"></an-image>
                 <view class='title'>
                     <view>
                         {{item.commodity_name}}
@@ -53,11 +54,11 @@
             </view>
             <view class='orderAdd orderH' v-if="order.pay_type > 0">
                 <view>支付方式</view>
-                <view v-if="order.pay_type === 1">余额支付</view>
+                <view v-if="order.pay_type === 1">钱包支付</view>
                 <view v-if="order.pay_type === 2">微信支付</view>
                 <view v-if="order.pay_type === 3">现金支付</view>
                 <view v-if="order.pay_type === 4">农商</view>
-                <view v-if="order.pay_type === 5">红包余额</view>
+                <view v-if="order.pay_type === 5">商品优惠券</view>
             </view>
             <view class='orderAdd orderH' v-if="order.freight > 0">
                 <view>物流运费：</view>
@@ -78,7 +79,7 @@
             </view>
             <view class='orderprice orderH'>
                 <view>实付款：</view>
-                <view class='priceNum'>￥{{order.order_total_price}}</view>
+                <view class='priceNum'>￥{{order.order_payment_price}}</view>
             </view>
             <view class='pircebtn' v-if="order.order_status === 1">
                 <button class='orderBtn' @tap='onclose'  >取消订单</button>
@@ -107,10 +108,15 @@
 <script>
     import {OrderModel} from "../../model/order";
     const orderModel = new  OrderModel()
+    import anImage from '@/components/an-image/an-image.vue'
     export default {
         name: "order_detail",
+         components:{
+            anImage
+        },
         data() {
             return {
+                no_pic:getApp().globalData.no_pic,
                 order: [],
                 KeyboardKeys: [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0, '<'],
                 status: ["全部", "待付款", "待配送", "已完成"],
@@ -144,15 +150,11 @@
         },
         methods:{
             showKeyboard1(e) {
-                this.setData({
-                    keyShow: true
-                });
+                this.keyShow = true
             },
             hiddenKeyboard() {
-                this.setData({
-                    keyShow: false,
-                    wxPayStatus:false
-                })
+                this.keyShow = false
+                this.wxPayStatus = false
             },
             keyTap(e) {
                 //判断是否是输入密码
@@ -166,10 +168,8 @@
                     case '<': //如果点击删除键就删除字符串里的最后一个
                         let dels = this.data.dels
                         if (dels) {
-                            this.setData({
-                                inputEnds: content,
-                                dels: false
-                            })
+                            this.inputEnds = content
+                            this.dels = false
                         }
                         content = content.toString().substr(0, content.toString().length - 1);
                         contentx = contentx.toString().substr(0, contentx.toString().length - 1)
@@ -181,25 +181,23 @@
                         }
                         break
                 }
-                this.setData({
-                    inppwd: content,
-                    inppwx: contentx
-                });
+                this.inppwd = content
+                this.inppwx = contentx
                 // --------------
 
             },
             textPaste(e){
-                const id = e.currentTarget.dataset.id
-                wx.setClipboardData({
-                    data: id,
+                uni.setClipboardData({
+                    data: '你是我的',
                     success: function (res) {
-                        wx.getClipboardData({
-                            success: function(res) {
-                                wx.showToast({
-                                    title: '复制成功',
-                                })
-                            }
-                        })
+                        console.log(res)
+                        // uni.getClipboardData({
+                        //     success: function(res) {
+                        //         uni.showToast({
+                        //             title: '复制成功',
+                        //         })
+                        //     }
+                        // })
                     }
                 })
             },
@@ -215,7 +213,7 @@
             // 取消订单
             onclose(e) {
                 const id = e.currentTarget.dataset.id
-                wx.showModal({
+                uni.showModal({
                     content: '确定取消订单吗？',
                     success: res => {
                         if (res.confirm) {
@@ -232,15 +230,15 @@
                         id
                     }).then((res) => {
                         if (res.code === 200) {
-                            wx.showToast({
+                            uni.showToast({
                                 title: '取消订单成功'
                             })
-                            wx.setStorageSync('dapay', true)
+                            uni.setStorageSync('dapay', true)
                             setTimeout(() => {
-                                wx.navigateBack({})
+                                uni.navigateBack({})
                             },2000)
                         } else {
-                            wx.showToast({
+                            uni.showToast({
                                 title: '取消订单失败',
                                 icon: 'none'
                             })
@@ -248,32 +246,25 @@
                     })
                 }
             },
-            handleOpen1() {
-                this.setData({
-                    visible1: true,
-                    inppwx: '',
-                    inppwd: ''
-                });
-            },
 
-            handleClose1() {
-                this.setData({
-                    visible1: false,
-                    inppwx: '',
-                    inppwd: ''
-                });
-            },
+            // handleClose1() {
+            //     this.setData({
+            //         visible1: false,
+            //         inppwx: '',
+            //         inppwd: ''
+            //     });
+            // },
             handleClose2() {
                 const pwd = this.data.inppwd
                 if (pwd.toString().length < 1) {
-                    wx.showToast({
+                    uni.showToast({
                         title: '请填写支付密码',
                         icon: 'none'
                     })
                     return false
                 }
                 if (pwd.toString().length < 6) {
-                    wx.showToast({
+                    uni.showToast({
                         title: '请输入6位密码',
                         icon: 'none'
                     })
@@ -288,13 +279,11 @@
                 }
                 userModel.getpwdcheck(data).then((res) => {
                     if (res.data.status === true) {
-                        this.setData({
-                            visible1: false,
-                        });
+                        this.visible1 = false
                         //创建订单
                         this.oncommitOrder()
                     } else {
-                        wx.showToast({
+                        uni.showToast({
                             title: '密码错误',
                             icon: 'none'
                         })
@@ -302,9 +291,7 @@
                 })
             },
             handleClickpaycolse() {
-                this.setData({
-                    wxPayStatus: false
-                })
+                this.wxPayStatus = false
             },
             handleClickpay(e) {
                 const index = e.currentTarget.dataset.id;
@@ -314,9 +301,7 @@
                 } else if (index === '1') {
                     this.wxPay(internal_payment_sn)
                 }
-                this.setData({
-                    wxPayStatus: false
-                })
+                this.wxPayStatus = false
             },
             // 微信支付
             wxPay(internal_payment_sn) {
@@ -330,31 +315,31 @@
                 orderModel.onPay(paylist).then((res) => {
                     const data = JSON.parse(res.data)
                     var time = new Date().getTime()
-                    wx.requestPayment({
+                    uni.requestPayment({
                         timeStamp: data.timeStamp,
                         nonceStr: data.nonceStr,
                         package: data.package,
                         signType: 'MD5',
                         paySign: data.paySign,
                         success(res) {
-                            wx.showToast({
+                            uni.showToast({
                                 title: '支付成功',
                                 icon: 'none'
                             })
-                            wx.setStorageSync('dapay', true)
+                            uni.setStorageSync('dapay', true)
                             setTimeout(() => {
-                                wx.navigateBack({})
+                                uni.navigateBack({})
                             }, 2000)
                         },
                         fail(res) {
-                            wx.showToast({
+                            uni.showToast({
                                 title: '支付失败！',
                                 icon: 'none'
                             })
                         }
                     })
                 }).catch((e) => {
-                    wx.showToast({
+                    uni.showToast({
                         title: '支付失败！',
                         icon: 'none'
                     })
@@ -363,30 +348,26 @@
             sumpay(internal_payment_sn){
                 const MPWD = wx.getStorageSync('MPWD')
                 if (MPWD === true) {
-                    wx.showModal({
+                    uni.showModal({
                         title: '你已经开通免密支付',
                         content: '是否继续完成支付',
                         success: res => {
                             if (res.confirm) {
-                                // wx.setStorageSync('MPWD', true)
+                                // uni.setStorageSync('MPWD', true)
                                 this.oncommitOrder()
-                                this.setData({
-                                    inppwx: '',
-                                    inppwd: '',
-                                    internal_payment_sn
-                                });
+                                this.inppwx = ''
+                                this.inppwd = ''
+                                this.internal_payment_sn = internal_payment_sn
                             } else if (res.cancel) {
                             }
                         }
                     })
                     return false
                 } else {
-                    this.setData({
-                        visible1: true,
-                        inppwx: '',
-                        inppwd: '',
-                        internal_payment_sn
-                    });
+                    this.visible1 = true
+                    this.inppwx = ''
+                    this.inppwd = ''
+                    this.internal_payment_sn = internal_payment_sn
                 }
             },
             // 余额支付、
@@ -394,20 +375,16 @@
                 const internal_payment_sn = e.currentTarget.dataset.id
                 const zfid = e.currentTarget.dataset.zfid
                 console.log(zfid)
-                this.setData({
-                    wxPayStatus: true,
-                    internal_payment_sn,
-                    zfid
-                })
+                this.wxPayStatus = true,
+                this.internal_payment_sn = internal_payment_sn
+                this.zfid = zfid
             },
             oncommitOrder() {
                 var that = this
-                wx.setStorageSync('dapay', false)
-                this.setData({
-                    visible1: false,
-                    inppwx: '',
-                    inppwd: ''
-                }); zfid
+                uni.setStorageSync('dapay', false)
+                this.visible1 = false,
+                this.inppwx = ''
+                this.inppwd = ''
                 const internal_payment_sn = this.data.internal_payment_sn
                 const zfid = this.data.zfid
                 orderModel.yuonpay({
@@ -415,18 +392,18 @@
                     internal_payment_sn:zfid
                 }).then((res) => {
                     if (res.code === 200) {
-                        wx.showToast({
+                        uni.showToast({
                             title: '支付成功！',
                             icon: 'none',
                             duration: 1000
                         })
-                        wx.setStorageSync('dapay', true)
+                        uni.setStorageSync('dapay', true)
                         setTimeout(() => {
-                            wx.navigateBack({})
+                            uni.navigateBack({})
                         }, 2000)
                     }
                 }).catch((e) => {
-                    wx.showToast({
+                    uni.showToast({
                         title: '支付生成失败！',
                         icon: 'none'
                     })

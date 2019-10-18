@@ -1,0 +1,33 @@
+
+@keyframes fadeio {
+    /*设置内容由显示变为隐藏*/
+0% {
+        opacity: 0;
+}
+    /* 50% {
+        opacity: 0;
+    } */
+100% {
+        opacity: 1;
+}
+}
+@-webkit-keyframes fadeio {
+    /*设置内容由显示变为隐藏*/
+0% {
+        opacity: 0;
+}
+    /* 50% {
+        opacity: 0;
+    } */
+100% {
+        opacity: 1;
+}
+}
+.fadenum {
+    -webkit-animation: fadeio 2s;
+            animation: fadeio 2s;
+    /* -webkit-animation: fadeio 2s infinite; */
+    /* -moz-animation: fadeio 2s infinite;
+    -o-animation: fadeio 2s infinite; */
+}
+

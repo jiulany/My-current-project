@@ -4,7 +4,9 @@
     <view class="span24 violation-it" >
       <view class="span22 violation-ms">
         <image mode="aspectFit" src='../../static/img/my_weizhang.png'></image>  违章处理 <span class="violation-xz">目前只支持门店处理</span> </view>
-      <view class="span2  violation-it-rico"><image mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+      <view class="span2  violation-it-rico">
+        <view class="iconfont icon-xiayibu"></view>
+      </view>
     </view>
   </view>
   </view>

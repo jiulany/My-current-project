@@ -9,25 +9,36 @@
         <view class="content">
             <swiper class="swiper" :current="active" duration="0" @change="swiperChange">
                 <swiper-item class="swiper-box" v-for="(item,index) in 4" :key="index">
-                    <scroll-view scroll-y style="height: 100%;"  @scrolltolower="lower">
-                        <block v-if="orders.length > 0" v-for="(item) in orders" :key="item.id">
-                            <order-list :orders="item"></order-list>
-                    
-                        </block>
-                        <block v-else style="height:100%;background:red">
-                             <image src="https://imgcdn.tuogouchebao.com/tupian@2x.png"></image>
-                        </block>
+                    <scroll-view scroll-y style="height: 100%;padding-bottom: 120rpx;"  @scrolltolower="lower">
+                      
+                        <view v-if="orders.length > 0" v-for="(item) in orders" :key="item.id">
+                            <order-list :orders="item" @choice_pay_type="choicePayType" ></order-list>
+                        </view>
+                        
+                        <view v-if="orders.length <= 0" >
+                            <no-data title="暂无订单" ></no-data>
+                        </view>
+                        
                     </scroll-view>
                 </swiper-item>
             </swiper>
 
         </view>
+
+          <popup-layer ref="popupRef" :direction="'top'">
+            <view class="zidingyiBox">
+                <choice-pay-type style="width:100%" :order_id="order_id" @close_pay_type="closePayType"> </choice-pay-type>  
+            </view>
+          </popup-layer>
     </view>
 </template>
 
 <script>
     import {OrderModel} from "../../model/order";
     import orderList from '../../components/orderList/orderList'
+    import noData from "../../components/noData/noData"
+    import popupLayer from '@/components/popup-layer/popup-layer.vue';
+    import choicePayType from '@/components/choice_pay_type/choice_pay_type.vue'
     const orderModel = new  OrderModel()
 
     export default {
@@ -41,22 +52,16 @@
                     status: 0,
                     page: 1,
                     size: 10,
-                }
+                },
+                order_id:0,
+                type:0
             }
         },
-        onLoad(option){
-            let type = option.type
-            uni.showLoading({
-                title:'loading...',
-                icon: 'none'
-            })
-            let orderData = this.orderData
-            orderData.status = type
-            this.active = type
-            this._getOrder(orderData)
-        },
         components:{
-            orderList
+            orderList,
+            noData,
+            choicePayType,
+            popupLayer
         },
         methods:{
             lower(){
@@ -91,14 +96,36 @@
                        let orderData = this.orderData
                        orderData.page = orderData.page + 1
                        this.orderData = orderData
-                      this.orders = JSON.parse(JSON.stringify(orders))
-                       console.log(this.orders )
+                       this.orders = JSON.parse(JSON.stringify(orders))
+                      
                        this.status =  true
                    } else {
                        this.status =  false
                    }
+                     console.log(this.orders.length)
+                    console.log(this.orders)
                 })
+               
+            },
+            choicePayType(order_id){
+                this.order_id = order_id
+                this.$refs.popupRef.show()
+            },
+            closePayType(){
+                this.$refs.popupRef.close()
             }
+        },
+         onLoad(option){
+            this.type = option.type
+           
+        },
+        onShow(){
+            this.orders = []
+            let orderData = this.orderData
+            orderData.status = this.type
+            orderData.page = 1
+            this.active = this.type
+            this._getOrder(orderData)
         }
     }
 </script>

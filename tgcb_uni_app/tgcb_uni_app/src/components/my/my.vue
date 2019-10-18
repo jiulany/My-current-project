@@ -1,28 +1,34 @@
 <template>
   <view class="my">
     <view class="my-sign-model">
-      <uni-popup ref="popup" :show='showSignModel' :animation='true' :maskClick='true' type="center" >
+      <uni-popup ref="popup" @hidePopup="switchSignModel" :show='showSignModel' :animation='true' :maskClick='true' type="center" >
         <view class="my-sign-bg">
           <view class="span24">感谢本次签到</view>
           <view class="span24">积分</view>
           <view class="span24 my-sign-bg-jifen">+80</view>
-          <view class="span24 my-sign-bg-jifen my-sign-close">
-            <image mode="aspectFit" @tap='switchSignModel' src='../../static/img/my_qiandao_close.png'></image>
-          </view>
         </view>
       </uni-popup>
     </view>
     <view class="my-bg">
         <view class="my-head span24">
-            <view class="span6 my-head">
-                <image  src='../../static/img/my_head.png'></image>
+            <view class="span5 my-head">
+              <view class="my-head-box">
+                  <!-- <button  class="span24 my-name get-user-button" open-type="getUserInfo" @getuserinfo="bindgetuserinfo"></button> -->
+                  <image v-if="userDisplayData.avatar_url" :src='userDisplayData.avatar_url'></image>
+                  <image v-else  src='../../static/img/my_head.png'></image>
+              </view>
             </view>
-            <view class="span12">
-                <view class="span24 my-name">我是小程序</view>
-                <view class="span24 my-phone">13688******</view>
+            <view class="span12" v-if="JSON.stringify(userDisplayData) != '{}'">
+                <view class="span24 my-name">{{userDisplayData.nick_name}}</view>
+                <view class="span24 my-phone" v-if="userDisplayData.phone">{{userDisplayData.phone}}</view>
             </view>
+
+            <view class="span12" style="align-items: center;" v-if="JSON.stringify(userDisplayData) == '{}'">
+                <button class="auth-button span24 my-name" style="background: none;width: auto;height: 100rpx;margin: 0;padding: 0;border:none"  open-type="getUserInfo" @getuserinfo="bindgetuserinfo">点击获取昵称</button>
+            </view>
+
             <view class="span6 my-head-end">
-                <view class="span24 my-qiandao" @tap='switchSignModel'>签到</view>
+                <!-- <view class="span24 my-qiandao" @tap='switchSignModel'>签到</view> -->
                 <view class="span24 my-jifen">
                     <view class="span4 my-jifen-ico">
                         <image  src='../../static/img/jifen.png'></image>
@@ -56,8 +62,8 @@
         <view class="span24" v-if="showAssets">
             <view class="my-zic-tt">我的资产</view>
             <view class="span24 my-item my-item-dif">
-                <view class="span4" v-for="(item) in user.assets.icons" @tap="_icons(item.url)">
-                    <view class="span24 my-item-ico"><i style="font-size:40rpx !important" :class="`iconfont`+' '+item.icon"></i></view>
+                <view class="span4" v-for="(item,index) in user.assets.icons" @tap="_icons(item.url)" :key="index">
+                    <view class="span24 my-item-ico"><i style="font-size:50rpx !important;color:#000000" :class="`iconfont`+' '+item.icon"></i></view>
                     <view class="span24 my-item-tx">{{item.name}}</view>
                     <view class="span24 my-item-syu">{{item.value}}</view>
               </view>
@@ -101,17 +107,19 @@
           </view>
         </view>
         <view class="span24 my-item my-item-dif0">
-          <view class="span4">
+          <view class="span4" @tap='toPayManage'>
             <view class="span24 my-item-ico"><image mode="aspectFit" src='../../static/img/my_zhifu.png'></image></view>
             <view class="span24 my-item-tx">支付管理</view>
           </view>
-          <view class="span4">
+          <!-- <view class="span4" @tap="toMyInsurance"> -->
+          <view class="span4" @tap="toYearlyInspection">
             <view class="span24 my-item-ico"><image mode="aspectFit" src='../../static/img/my_baoxian.png'></image></view>
-            <view class="span24 my-item-tx">我的保险</view>
+            <!-- <view class="span24 my-item-tx">我的保险</view> -->
+            <view class="span24 my-item-tx">车辆年检</view>
           </view>
-          <view class="span4">
+          <view class="span4" @tap="_delay">
             <view class="span24 my-item-ico"><image mode="aspectFit" src='../../static/img/my_yanbao.png'></image></view>
-            <view class="span24 my-item-tx">延保</view>
+            <view class="span24 my-item-tx">我的延保</view>
           </view>
           <view class="span4" @tap='toMyAddress'>
             <view class="span24 my-item-ico"><image mode="aspectFit" src='../../static/img/my_dizhi.png'></image></view>
@@ -119,42 +127,80 @@
           </view>
         </view>
         </view>
+        <!-- <view class="span24 my-item-dif1" @tap="_delay">
+          <view class="span3 my-item-dif1-ico">
+            <i class="iconfont icon-wodeyanbao"></i>
+          </view>
+          <view class="span18">我的延保</view>
+          <view class="span3 my-item-dif1-ico">
+            <view class="iconfont icon-xiayibu"></view>
+          </view>
+        </view> -->
+
         <view class="span24 my-item-dif1" @tap="_user">
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_gerenxinxi.png'></image></view>
+          <!-- <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_gerenxinxi.png'></image></view> -->
+          <view class="span3 my-item-dif1-ico">
+            <i class="iconfont icon-gerenxinxi"></i>
+          </view>
           <view class="span18">个人信息</view>
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+           <view class="span3 my-item-dif1-ico">
+            <view class="iconfont icon-xiayibu"></view>
+          </view>
         </view>
-        <view class="span24 my-item-dif1">
+        <!-- <view class="span24 my-item-dif1">
           <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_kefu.png'></image></view>
           <view class="span18">在线客服</view>
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
-        </view>
-        <view class="span24 my-item-dif1">
+          <view class="span3 my-item-dif1-ico">
+            <view class="iconfont icon-xiayibu"></view>
+          </view>
+        </view> -->
+        <!-- <view class="span24 my-item-dif1">
           <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_youxi.png'></image></view>
           <view class="span18">游戏中心</view>
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
-        </view>
+          <view class="span3 my-item-dif1-ico">
+            <view class="iconfont icon-xiayibu"></view>
+          </image></view>
+        </view> -->
         <view class="span24 my-item-dif1" @tap="_aboutUs">
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_guanyuwomen.png'></image></view>
+          <!-- <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/my_guanyuwomen.png'></image></view> -->
+          <view class="span3 my-item-dif1-ico">
+            <i class="iconfont icon-guanyuwomen1"></i>
+          </view>
           <view class="span18">关于我们</view>
-          <view class="span3 my-item-dif1-ico"><image  mode="aspectFit" src='../../static/img/ico_right.png'></image></view>
+          <view class="span3 my-item-dif1-ico">
+            <view class="iconfont icon-xiayibu"></view>
+          </view>
         </view>
     </view>
+
+  
+    
+
+    
   </view>
 </template>
 <script>
 import uniPopup from "../uni-popup/uni-popup.vue"
-import my_ticketVue from '../../../../../tgjb_uni_app/tgjb_uni_app/src/pages/my_ticket/my_ticket.vue';
+import {UserModel} from "../../model/user";
+const  userModel = new UserModel()
+
 export default {
+  components: {
+    uniPopup,
+  },
   data() {
     return {
       showSignModel:false,
-        showAssets:false
+      showAssets:false,
+      payShow:false,
     };
   },
     props:{
         user:{
             type:Object
+        },
+        userDisplayData : {
+          type : Object
         }
     },
   methods: {
@@ -178,6 +224,11 @@ export default {
           uni.navigateTo({
               url
           })
+      },
+      _delay(){
+        uni.navigateTo({
+          url:`/pagesA/delay_submit/delay_submit`
+        })
       },
     switchSignModel(){
       this.showSignModel=!this.showSignModel
@@ -221,13 +272,33 @@ export default {
       uni.navigateTo({
         url: "/pagesA/my_car/my_car"
       });
+    },
+    toPayManage(){
+      uni.navigateTo({
+        url: "/pagesA/payment_manage/payment_manage"
+      });
+    },
+    toMyInsurance(){
+      uni.navigateTo({
+        url:`/pagesA/my_insurance/my_insurance`
+      })
+    },
+    toYearlyInspection(){
+      uni.navigateTo({
+        url:`/pagesA/yearly_inspection/yearly_inspection`
+      })
+    },
+    bindgetuserinfo(res){
+      console.log(res)
+      this.$emit('bindgetuserinfo',res)
     }
   },
-  components: {uniPopup},
+  
   onLoad: function() {
       console.log(2)
   },
   mounted(){
+      
       console.log(1111)
   },
   onShow: function() {
@@ -275,7 +346,23 @@ page {
 .my-head{
     padding: 10rpx;
     padding-bottom: 20rpx;
-    background: #fdd000
+    background: #fdd000;
+}
+.my-head-box {
+  width: 126rpx;
+  height:126rpx;
+  border-radius: 126rpx;
+  overflow: hidden;
+  position: relative;
+}
+.get-user-button{
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  opacity: 0;
+}
+.auth-button::after{
+  border: none !important;
 }
 .my-head image{
 width: 126rpx;
@@ -305,7 +392,7 @@ right: 10rpx;
 }
 .my-jifen{
     font-size: 10rpx;
-    color: white
+    color: white;
 }
 .my-jifen-ico image{
     height: 19rpx;
@@ -342,8 +429,14 @@ box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
 .my-item-dif1 view{
   align-items: center
 }
+.my-item-dif1-ico {
+  padding: 0 30rpx;
+}
 .my-item-dif1-ico image{
   height: 32rpx;
+}
+.my-item-dif1-ico i{
+  font-size: 38rpx;
 }
 .my-item-ico{
   height: 60rpx !important;
@@ -363,7 +456,7 @@ box-shadow:0px 2px 5px 0px rgba(51,51,51,0.06);
   height: 40rpx
 }
 .my-sign-model .uni-close-bottom{
-display: none !important
+  display: none !important
 }
 .my-sign-bg{    
   width:520rpx;
@@ -392,4 +485,5 @@ display: none !important
   height: 50rpx;
   width: 50rpx
 }
+
 </style>

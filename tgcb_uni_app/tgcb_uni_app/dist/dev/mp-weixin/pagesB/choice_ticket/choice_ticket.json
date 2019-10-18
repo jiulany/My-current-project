@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "选择卡券",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "my_ticket": "/components/my_ticket/my_ticket"
+  }
+}

@@ -3,11 +3,11 @@
         <view class="banner">
             <image :src="info.cover"></image>
         </view>
-        <view class="title">
+        <view class="title" v-if="info.keyword">
             {{info.keyword}}详情
         </view>
         <view class="box">
-            <view class="box_items" v-for="item in info.prices">
+            <view class="box_items" v-for="(item,index) in info.prices" :key="index">
                 <radio-group class="box_radio" @change="radioChange">
                     <radio :value="item" color="#FDD000" />
                 </radio-group>

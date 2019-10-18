@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "洗车",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tab-bar": "/components/tab-bar/tabBar",
+    "car_wash": "/components/car_wash/car_wash"
+  }
+}

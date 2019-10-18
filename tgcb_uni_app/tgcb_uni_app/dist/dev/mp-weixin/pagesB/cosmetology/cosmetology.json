@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "美容",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "an-image": "/components/an-image/an-image"
+  }
+}

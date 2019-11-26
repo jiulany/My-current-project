@@ -1,0 +1,304 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/store/store",
+			"style": {
+				"navigationBarTitleText": "商城",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/service/service",
+			"style": {
+				"navigationBarTitleText": "服务",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/cell_bind/cell_bind",
+			"style": {
+				"navigationBarTitleText": "绑定房屋",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/goods_details/goods_details",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/housekeeper/housekeeper",
+			"style": {
+				"navigationBarTitleText": "管家",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/open_door/open_door",
+			"style": {
+				"navigationBarTitleText": "开门",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/switch_quarters/switch_quarters",
+			"style": {
+				"navigationBarTitleText": "切换小区",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/pay/pay",
+			"style": {
+				"navigationBarTitleText": "缴费",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/pay_details/pay_details",
+			"style": {
+				"navigationBarTitleText": "账单详情",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/service_intro/service_intro",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/service_appointment/service_appointment",
+			"style": {
+				"navigationBarTitleText": "预约",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/pay_success/pay_success",
+			"style": {
+				"navigationBarTitleText": "",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/charge/charge",
+			"style": {
+				"navigationBarTitleText": "充电",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/charge_details/charge_details",
+			"style": {
+				"navigationBarTitleText": "充电详情",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/surplus_details/surplus_details",
+			"style": {
+				"navigationBarTitleText": "电卡",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/repair/repair",
+			"style": {
+				"navigationBarTitleText": "我的报修",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_order/my_order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_order_details/my_order_details",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_nopark/my_nopark",
+			"style": {
+				"navigationBarTitleText": "我的车位",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_park/my_park",
+			"style": {
+				"navigationBarTitleText": "我的车位",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_park_bdcar/my_park_bdcar",
+			"style": {
+				"navigationBarTitleText": "我的车辆",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_nocar/my_nocar",
+			"style": {
+				"navigationBarTitleText": "我的车辆",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_car/my_car",
+			"style": {
+				"navigationBarTitleText": "我的车辆",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_car_bdpark/my_car_bdpark",
+			"style": {
+				"navigationBarTitleText": "我的车位",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_address/my_address",
+			"style": {
+				"navigationBarTitleText": "地址",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_address_add/my_address_add",
+			"style": {
+				"navigationBarTitleText": "添加地址",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_house/my_house",
+			"style": {
+				"navigationBarTitleText": "房屋列表",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_ticket/my_ticket",
+			"style": {
+				"navigationBarTitleText": "卡券",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_appoint/my_appoint",
+			"style": {
+				"navigationBarTitleText": "我的预约",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_appoint_cancel/my_appoint_cancel",
+			"style": {
+				"navigationBarTitleText": "取消预约",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_appoint_history/my_appoint_history",
+			"style": {
+				"navigationBarTitleText": "历史预约",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_invoice/my_invoice",
+			"style": {
+				"navigationBarTitleText": "我的发票",
+				"usingComponents": {}
+			}
+		},
+		{
+			"path": "pages/my_invoice_details/my_invoice_details",
+			"style": {
+				"navigationBarTitleText": "发票",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/my_invoice_pep/my_invoice_pep",
+			"style": {
+				"navigationBarTitleText": "发票",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/my_invoice_success/my_invoice_success",
+			"style": {
+				"navigationBarTitleText": "提交成功",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/notice_list/notice_list",
+			"style": {
+				"navigationBarTitleText": "小区公告",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/buy_goods/buy_goods",
+			"style": {
+				"navigationBarTitleText": "购买",
+				"usingComponents": {}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#fdd000",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/images/shouye-weixuanzhong.png",
+			"selectedIconPath": "static/images/shouye.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/service/service",
+			"iconPath": "static/images/fuwu-weixuanzhong.png",
+			"selectedIconPath": "static/images/fuwu.png",
+			"text": "服务"
+		}, {
+			"pagePath": "pages/store/store",
+			"iconPath": "static/images/shangcheng-weixuanzhong.png",
+			"selectedIconPath": "static/images/shangcheng.png",
+			"text": "商城"
+		}, {
+			"pagePath": "pages/my/my",
+			"iconPath": "static/images/wode-weixuanzhong.png",
+			"selectedIconPath": "static/images/wode.png",
+			"text": "我的"
+		}]
+	}
+}

@@ -10,8 +10,9 @@
   <i-col span="24" i-class='adc_itm'>
     <i-col span="24" catchtap="openKeyboard">车辆车牌</i-col>
     <i-col span="24" i-class='adc_inp'>
-      <custom-input placeholder='请输入车辆车牌' model="{{cp}}"></custom-input>
-      <view class='zhez' catchtap="openKeyboard"></view>
+      <input placeholder='请输入车辆车牌' value="{{cp}}" maxlength='8'bindinput='inpchepai'></input>
+      <!-- <custom-input placeholder='请输入车辆车牌' model="{{cp}}"></custom-input> -->
+      <!-- <view class='zhez' catchtap="openKeyboard"></view> -->
     </i-col>
   </i-col>
   <i-col span="24" i-class='adc_itm' catchtap="getCarColor">
@@ -47,7 +48,7 @@
       <button size='default' catchtap='sumbit'>保存</button>
     </i-col>
   </i-col>
-  <key-board showkKeyBoard="{{openKeyBoard}}" catchchangeValue="keyBoardValue"></key-board>
+  <!-- <key-board showkKeyBoard="{{openKeyBoard}}" catchchangeValue="keyBoardValue"></key-board> -->
   <i-modal title="确认重置" visible="{{ visible1 }}" bind:ok="handleClose1" bind:cancel="handleClose1">
     <view>确定要重置支付密码吗？</view>
   </i-modal>

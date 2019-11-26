@@ -39,7 +39,6 @@ class AddPay0 extends Component {
                         cost_type: query.cost_type
                     }
                 }).then(res => {
-                    console.log(res)
                     this.setState({
                         is_xiugai: true,
                         house_number: res.data.house_number,

@@ -112,7 +112,6 @@ class Home extends Component {
         })
         Cookies.set('community_id', res.data[0].id, { expires: 30 })
       }).catch(res => {
-        message.error(res.msg);
         setTimeout(() => {
           this.setState({
             loading: false
@@ -216,12 +215,18 @@ class Home extends Component {
                   <Route exact path="/index/parking_manage" component={ParksManage} ></Route>
                   {/*充电管理管理*/}
                   <Route exact path="/index/charging_manage" component={ChargingManage} ></Route>
+                  {/*小区审核*/}
+                  <Route exact path="/index/quarters_examine" component={TableList} ></Route>
+                  {/*车位审核*/}
+                  <Route exact path="/index/park_examine" component={TableList} ></Route>
                 </Content>
               </Layout>
             </Layout>
           </Layout>
         }
+         {!this.state.switch_route &&
         <Route path="/index/Login" component={Login} />
+         }
       </div>
     )
   }

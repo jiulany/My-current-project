@@ -1,5 +1,5 @@
 import md5 from './md5.js';
-const baseUrl = "https://testapi.baodi520.com"  //https://testapi.baodi520.com http://192.168.31.164  tzl:http://192.168.31.26 lc:http://192.168.31.9" tgapi_staging.baodi520.com
+const baseUrl = "https://api2.tuogouchebao.com"  // http://192.168.31.164  tzl:http://192.168.31.26 lc:http://192.168.31.9" tgapi_staging.baodi520.com
 const key = "qifengverygood2019"
 export default function (data, method) {
   return new Promise((resolve, reject) => {

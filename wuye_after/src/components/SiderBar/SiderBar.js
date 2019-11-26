@@ -48,6 +48,16 @@ const list = [
     ]
   },
   { title: "充电管理", icon: require('../../images/icon_sider_gonggao.png'), path: '/index/charging_manage' },
+  {
+    title: "审核管理", icon: require('../../images/shengheguanli.png'), list: [
+      {
+        title: "小区审核", path: "/index/quarters_examine"
+      },
+      {
+        title: "车位审核", path: "/index/park_examine"
+      },
+    ]
+  },
 ]
 class SiderBar extends Component {
   constructor(props) {

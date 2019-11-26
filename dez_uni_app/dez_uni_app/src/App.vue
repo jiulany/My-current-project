@@ -1,28 +1,7 @@
 <script>
-import {base_url} from './api/http'
 	export default {
 		onLaunch: function() {
-			let _this=this
-    uni.getProvider({
-      service: "oauth",
-      success: function(res) {
-        uni.login({
-          provider: res.provider[0],
-          success: function(loginRes) {
-            console.log(loginRes)
-             uni.request({ url: `${base_url}api/login`,
-             header: {
-             'X-WX-Code': loginRes.code //自定义请求头信息
-             },
-             method:"post",
-             success: (res) => {
-		         uni.setStorageSync("skey", res.data.data.skey);
-             }
-            })
-          }
-        });
-      }
-    });
+       
 		},
 		onShow: function() {
 			console.log('App Show')

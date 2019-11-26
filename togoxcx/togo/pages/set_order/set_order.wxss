@@ -341,9 +341,10 @@ margin-top: 20rpx
 .zhez{
   width: 100%;
   height: 100%;
-  z-index: 100;
+  z-index: 9999;
   position: absolute;
-  top: 0
+  top: 0;
+  left: 0
 }
 .xiala{
   width: 35rpx;
@@ -359,7 +360,7 @@ margin-top: 20rpx
   background: white;
   box-shadow: 0 3px 14px 0px rgba(0, 0, 0, 0.12);
   font-weight: 400;
-  z-index: 999;
+  z-index: 10000;
   max-height: 550rpx;
   overflow-y: scroll
 }

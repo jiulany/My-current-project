@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "的装"
+				"navigationBarTitleText": "的装",
+				"enablePullDownRefresh":true
 			}
 		},
 		{

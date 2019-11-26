@@ -139,7 +139,7 @@ getPhoneNumber(n){
     systemInfo: null,//客户端设备信息                                  
     yanghu: [],
     goods: {},
-    baseUrl: "https://testapi.baodi520.com", //https://testapi.baodi520.com http://192.168.31.131 tzl:http://192.168.31.26 lc:http://192.168.31.9 //tgapi_staging.baodi520.com
+    baseUrl: "https://api2.tuogouchebao.com", // http://192.168.31.131 tzl:http://192.168.31.26 lc:http://192.168.31.9 //tgapi_staging.baodi520.com
     openid_phone: null,
     userId: null,
     tabBar: {

@@ -1,7 +1,7 @@
 import axios from "axios"
 import qs from 'qs';
 import Cookies from 'js-cookie'
-const url_dev = "https://propertyapi.tuogouchebao.com/"//192.168.31.157:8001 property.tuogouchebao.com/ http://192.168.31.213:8001/
+const url_dev = "http://192.168.31.159:8001/"//192.168.31.157:8001 property.tuogouchebao.com/ http://192.168.31.213:8001/
 const url_pro = "https://propertyapi.tuogouchebao.com/" 
 export const baseURL = process.env.NODE_ENV === "development" ? url_dev : url_pro
 var _axios = axios.create({ //axios默认配置

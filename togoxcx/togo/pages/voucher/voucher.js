@@ -123,6 +123,7 @@ Page({
         type: 'warning'
       });
     } else {
+      console.log(that.data.up_img)
       wx.uploadFile({
         url: app.globalData.baseUrl + `/?s=park.catedit`, // 仅为示例，非真实的接口地址
         filePath: that.data.up_img,

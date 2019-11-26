@@ -59,6 +59,12 @@ Page({
       })
     }
   },
+  inpchepai(event){
+    var that = this
+    that.setData({
+      cp: event.detail.value
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

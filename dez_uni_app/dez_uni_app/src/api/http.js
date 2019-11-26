@@ -7,7 +7,6 @@ export default function http(val,upl) {
             a.header={"X-WX-Skey":uni.getStorageSync('skey')}
         }
         if(!upl){
-            console.log(a)
             uni.request({
             ...a,
             success:function (res) {
@@ -19,7 +18,6 @@ export default function http(val,upl) {
             }
             })
         }else{
-            console.log(a)
             uni.uploadFile({
                 ...a,
                 success:function (res) {

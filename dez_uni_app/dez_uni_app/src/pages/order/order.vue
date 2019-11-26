@@ -10,17 +10,26 @@
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in incomplete" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
-            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>{{item.created_at}}</view>
+            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>订单号：{{item.internal_order_sn}}</view>
             <view class="span9 order-it-sta" v-if="item.order_status===2">预约中</view>
             <view class="span9 order-it-sta" v-if="item.order_status===3">服务中</view>
+            <view class="span15 order-it-creattm">{{item.created_at}}</view>
         </view>
         <view class="span24 order-it-line">
             <view class="span15">类型</view>
             <view class="span9 order-it-leix">{{item.class_name}}</view>
         </view>
+        <view class="span24 order-it-line" v-if="item.staff!==null">
+            <view class="span15">{{item.staff.staff_info.surname+'师傅'}}</view>
+            <view class="span9 order-it-leix" @tap.stop="call(item,$event)"><image mode="aspectFit" src='../../static/images/dianhua_0.png'></image>{{item.staff.staff_info.account}}</view>
+        </view>
         <view class="span24 order-it-line">
-            <view class="span10">{{item.internal_order_sn}}</view>
-            <view class="span14 order-it-xq"><view v-if="item.order_status===2||item.order_status===3" @tap.stop="openCancel(item,$event)">取消</view ><view v-if="item.order_status===3" @tap.stop="openSur(item,$event)">确认</view></view>
+            <!-- <view class="span8">{{item.staff===null?'未接单':item.staff.staff_info.account}}</view> -->
+            <view class="span24 order-it-xq">
+                <view v-if="item.order_status===3" @tap.stop="changeMaster(item,$event)">更换师傅</view >
+                <view class="order-it-cancel" v-if="item.order_status===2||item.order_status===3" @tap.stop="openCancel(item,$event)">取消订单</view>
+                <view class="order-it-wanc" v-if="item.order_status===3" @tap.stop="openSur(item,$event)">完成</view>
+            </view>
         </view>
     </view>
     </view>
@@ -31,16 +40,17 @@
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in completed" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
-            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>{{item.created_at}}</view>
+            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>订单号：{{item.internal_order_sn}}</view>
             <view class="span9 order-it-sta">已完成</view>
+            <view class="span24 order-it-creattm">{{item.created_at}}</view>
         </view>
         <view class="span24 order-it-line">
             <view class="span15">类型</view>
             <view class="span9 order-it-leix">{{item.class_name}}</view>
         </view>
-        <view class="span24 order-it-line">
-            <view class="span15">{{item.internal_order_sn}}</view>
-            <!-- <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view> -->
+        <view class="span24 order-it-line" v-if="item.staff!==null">
+            <view class="span15">{{item.staff.staff_info.surname+'师傅'}}</view>
+            <view class="span9 order-it-leix" @tap.stop="call(item,$event)"><image mode="aspectFit" src='../../static/images/dianhua_0.png'></image>{{item.staff.staff_info.account}}</view>
         </view>
     </view>
     </view>
@@ -51,16 +61,17 @@
           <view style="padding-bottom:200rpx">
     <view class="span24 order-it" v-for="item in close" :key="item.id"  @tap="toDetails(item,$event)">
         <view class="span24 order-it-line">
-            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>{{item.created_at}}</view>
+            <view class="span15 order-it-tm"><view class="order-it-tm-ico"></view>订单号：{{item.internal_order_sn}}</view>
             <view class="span9 order-it-sta">已取消</view>
+            <view class="span24 order-it-creattm">{{item.created_at}}</view>
         </view>
         <view class="span24 order-it-line">
             <view class="span15">类型</view>
             <view class="span9 order-it-leix">{{item.class_name}}</view>
         </view>
-        <view class="span24 order-it-line">
-            <view class="span15">{{item.internal_order_sn}}</view>
-            <!-- <view class="span9 order-it-xq"><view @tap.stop="openCancel(item,$event)">取消</view></view> -->
+        <view class="span24 order-it-line" v-if="item.staff!==null">
+            <view class="span15">{{item.staff.staff_info.surname+'师傅'}}</view>
+            <view class="span9 order-it-leix" @tap.stop="call(item,$event)"><image mode="aspectFit" src='../../static/images/dianhua_0.png'></image>{{item.staff.staff_info.account}}</view>
         </view>
     </view>
     </view>
@@ -86,6 +97,15 @@
                 <view class="span12 model-cancel" @tap="toCancelSur">取消</view>
             </view>
 </view>
+<view style="background:rgba(0,0,0,0.2);height:100%;width:100%;position:fixed;top:0;left:0" v-if="mas_model"></view>
+        <view class="model" v-if="mas_model">
+            <view class="span24 model-tt">确认更换</view>
+            <view  class="span24 model-body">确认更换师傅吗</view>
+            <view class="span24 model-foot">
+                <view class="span12 model-sur" @tap="toOkSurMas">确认</view>
+                <view class="span12 model-cancel" @tap="toCancelSurMas">取消</view>
+            </view>
+</view>
 	</view>
 </template>
 
@@ -99,6 +119,7 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
           sleCurItem:null,
           model:false,
           sur_model:false,
+          mas_model:false,
           incomplete:[],
           incomplete_page:1,
           completed:[],
@@ -119,11 +140,20 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
             tabChange(index) {
             this.TabCur = index;
         },
-         openCancel(item,e){
+        call(item,e){
+uni.makePhoneCall({
+    phoneNumber: item.staff.staff_info.account //仅为示例
+});
+        },
+        changeMaster(item,e){//更换师傅
+                this.sleCurItem=item
+                this.mas_model=true
+            },
+         openCancel(item,e){//取消
                 this.sleCurItem=item
                 this.model=true
             },
-            openSur(item,e){
+            openSur(item,e){//确认
                 this.sleCurItem=item
                 this.sur_model=true
             },
@@ -141,6 +171,29 @@ import WucTab from '@/components/wuc-tab/wuc-tab.vue';
           .catch(res => {
                 uni.hideLoading()
                 });
+            },
+            toOkSurMas(){ //确认更换师傅
+                uni.showLoading({
+    title: '请稍等'
+});
+                this.$http({ url: `api/change_staff` ,data:{
+                order_id:this.sleCurItem.id,
+                staff_id:this.sleCurItem.staff.id
+          },method:"post"}).then(res => {
+                this.loadList(true)
+                this.mas_model=false
+                uni.hideLoading()
+                setTimeout(() => {
+                    uni.navigateTo({url: `/pages/wait_jiedan/wait_jiedan?order_id=${this.sleCurItem.id}`});
+                }, 1500);
+          })
+          .catch(res => {
+                uni.hideLoading()
+                this.mas_model=false
+                });
+            },
+            toCancelSurMas(){
+                this.mas_model=false
             },
             toOkSur(){
                 uni.showLoading({
@@ -329,6 +382,13 @@ margin-right: 14rpx;
     position: relative;
     left: -10rpx
 }
+.order-it-creattm{
+    font-size:26rpx;
+    align-items: center;
+    position: relative;
+    left: -10rpx;
+    color: #999999;
+}
 .order-it-sta{
     justify-content: flex-end;
 font-size:30rpx;
@@ -336,8 +396,21 @@ font-family:PingFang SC;
 font-weight:500;
 color:rgba(252,187,60,1);
 }
+.order-it-cancel{
+    justify-content: flex-end;
+font-size:30rpx;
+font-family:PingFang SC;
+font-weight:500;
+color:#999999;
+}
 .order-it-leix{
-    justify-content: flex-end
+    justify-content: flex-end;
+    align-items: center
+}
+.order-it-leix image{
+width: 32rpx;
+height: 32rpx;
+margin-right: 10rpx
 }
 .order-it-xq{
     justify-content: flex-end
@@ -351,11 +424,13 @@ border-radius:10rpx;
 font-size:28rpx;
 font-family:PingFang SC;
 font-weight:500;
-color:rgba(154,154,154,1);
 text-align: center
 }
-.order-it-xq view:nth-of-type(2){
-    color: rgba(252,187,60,1)
+.order-it-cancel{
+    color: #666666
+}
+.order-it-wanc{
+    color: #409CCB
 }
 .model{
     width: 400rpx;

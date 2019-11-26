@@ -12,7 +12,6 @@ class Login extends Component {
     }
     componentDidMount() {
         if (Cookies.get('account') !== '' || Cookies.get('password') !== '') {
-            console.log(Cookies.get('account'),"ss")
             this.setState({
                 account: Cookies.get('account'),
                 password: Cookies.get('password'),

@@ -105,6 +105,12 @@ export const breadcrumb_path = [{
 }, {//停车费详情
     path: "/index/stopcar_list/pay_details",
     value: "缴费详情"
+}, {//小区审核
+    path: "/index/quarters_examine",
+    value: "审核管理-小区审核"
+}, {//车位审核
+    path: "/index/park_examine",
+    value: "审核管理-车位审核"
 }]
 export function matchPath(path) {
     for (let i in breadcrumb_path) {

@@ -8,7 +8,7 @@
                    <cover-view class="span16">{{staff===null?'':staff.staff.staff_info.surname+'师傅'}}</cover-view>
                    <cover-view class="span8 sucorder-hd-cancel" @tap="openCancel">取消订单</cover-view>
                </cover-view>
-               <cover-view class="span24 sucorder-hd-line">
+               <cover-view class="span24 sucorder-hd-line" @tap="call">
                    {{staff===null?'':staff.staff.staff_info.account.slice(0,3)}}****{{staff===null?'':staff.staff.staff_info.account.slice(7)}}
                </cover-view>
                <cover-view class="span24 sucorder-hd-line">
@@ -35,8 +35,8 @@
 	export default {
 		data() {
 			return {
-            latitude: 39.909,
-            longitude: 116.39742,
+            latitude: 30.67,
+            longitude: 104.07,
             staff:null,
             covers: null,
             polyline:null,
@@ -83,6 +83,12 @@
             },3000)
 		},
 		methods: {
+            call(){
+                console.log("sss")
+                uni.makePhoneCall({
+    phoneNumber: this.staff.staff.staff_info.account
+});
+            },
             openCancel(){
                 this.model=true
             },
@@ -134,11 +140,13 @@ clearInterval(this.time_out)
     justify-content: center;
     padding: 20rpx 0;
     font-size: 30rpx;
-    padding-bottom: 0
+    padding-bottom: 0;
+    text-align: center
 }
 .model-body{
     padding: 40rpx 0;
     justify-content: center;
+    text-align: center
 }
 .model-foot{
     border-top: 2rpx solid #f5f5f5
@@ -148,11 +156,13 @@ clearInterval(this.time_out)
     justify-content: center;
     border-right: 1rpx solid #f5f5f5;
     color:#409CCB;
+    text-align: center
 }
 .model-cancel{
     padding: 20rpx 0;
     border-left: 1rpx solid #f5f5f5;
     justify-content: center;
+    text-align: center
 }
 .sucorder{
 height: 100vh;

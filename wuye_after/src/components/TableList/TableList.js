@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Input, Pagination, Modal, Spin, Icon, message, DatePicker } from 'antd';
-import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem } from './TableListconf'
+import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem, yeZhuStatus, fangWuType ,stopCarStatus} from './TableListconf'
 import moment from 'moment';
 import Cookies from 'js-cookie'
 import http from '../../api/http';
@@ -208,6 +208,54 @@ class TableList extends Component {
             deleModel: false
         })
     }
+    quadtCancel = () => {
+        this.setState({
+            quadt_show: false
+        })
+    }
+    quadtOk = () => {
+        this.setState({
+            quadt_loading: true
+        })
+        if(this.state.quaorpark){
+            http('/examine/pass_household', { method: 'post', data: { id: this.state.cur_quadt.id, status: this.state.cur_quadt.status } }).then(res => {
+                message.success(res.msg, 3)
+                this.initialRender()
+                this.setState({
+                    quadt_loading: false,
+                    quadt_show: false
+                })
+            }).catch(res => {
+                message.error(res.msg, 3)
+                this.setState({
+                    quadt_loading: false
+                })
+            })
+        }
+        if(!this.state.quaorpark){
+            http('/examine/pass_space', { method: 'post', data: { id: this.state.cur_quadt.id, status: this.state.cur_quadt.status } }).then(res => {
+                message.success(res.msg, 3)
+                this.initialRender()
+                this.setState({
+                    quadt_loading: false,
+                    quadt_show: false
+                })
+            }).catch(res => {
+                message.error(res.msg, 3)
+                this.setState({
+                    quadt_loading: false
+                })
+            })
+        }
+    }
+    openQuadtModel = (it, val, e) => {
+        console.log(it)
+        this.setState({
+            quadt_show: true,
+            quaorpark: val,
+            cur_quadt: it
+        })
+    }
     matchPath(val) {
         switch (val) {
             case "/index/ye_list":
@@ -273,6 +321,16 @@ class TableList extends Component {
             case "/index/parking_list":
                 this.setState({
                     ...HEAD_CONF.PARKING_LIST
+                })
+                break
+            case "/index/quarters_examine":
+                this.setState({
+                    ...HEAD_CONF.QUARTERS_EXAMINE
+                })
+                break
+            case "/index/park_examine":
+                this.setState({
+                    ...HEAD_CONF.PARK_EXAMINE
                 })
                 break
             default:
@@ -343,6 +401,34 @@ class TableList extends Component {
             }
         }
     }
+    sleExamine = (p, e) => {
+        if (p === "yishenhe") {
+            if (this.state.is_examine === 1) {
+                this.setState({
+                    is_examine: 2
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_examine: 1
+                })
+                this.initialRender(1)
+            }
+        }
+        if (p === "daishenhe") {
+            if (this.state.is_examine === 0) {
+                this.setState({
+                    is_examine: 2
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_examine: 0
+                })
+                this.initialRender(0)
+            }
+        }
+    }
     sleServieStatus = (p, e) => {
         if (p === "fuwuzhong") {
             if (this.state.is_assign === 1) {
@@ -398,14 +484,13 @@ class TableList extends Component {
         }
     }
     baoxiuXiangqing = (item, e) => {
-        console.log(item, e)
         this.setState({
             baoxiuModel: true,
             is_dele_loading: true,
             baoxiu: {},
             is_paid: false,
             baoxiu_tt: '订单信息',
-            cur_baoxiu:item
+            cur_baoxiu: item
         })
         http(`/repair/find/${item.id}/`, { method: 'get', data: {} }).then(res => {
             let a = res.data
@@ -461,16 +546,16 @@ class TableList extends Component {
             baoxiu_assign: a
         })
     }
-    addServicePep=()=>{
+    addServicePep = () => {
         this.setState({
-            is_dele_loading:true
+            is_dele_loading: true
         })
-        http('/repair/assigns', { method: 'post', data: { order_id:this.state.cur_baoxiu.id,assigns:this.state.baoxiu_assign } }).then(res => {
+        http('/repair/assigns', { method: 'post', data: { order_id: this.state.cur_baoxiu.id, assigns: this.state.baoxiu_assign } }).then(res => {
             this.initialRender()
             message.info(res.msg, 3)
             this.setState({
-                is_dele_loading:false,
-                baoxiuModel:false,
+                is_dele_loading: false,
+                baoxiuModel: false,
                 baoxiu_assign: [{
                     assign_name: "",
                     assign_phone: ""
@@ -479,7 +564,7 @@ class TableList extends Component {
         }).catch(res => {
             message.error(res.msg, 3)
             this.setState({
-                is_dele_loading:false,
+                is_dele_loading: false,
                 baoxiu_assign: [{
                     assign_name: "",
                     assign_phone: ""
@@ -522,6 +607,18 @@ class TableList extends Component {
                                 </Col>
                             </Col>
                         }
+                        {
+                            this.state.is_shiw_tbhead === 3 &&
+                            <Col span={24} className='table-list-ms'>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6} className='table-list-payst'>
+                                    <Col span={5} className='table-list-payed'><div onClick={(e) => this.sleExamine('yishenhe', e)} className={this.state.is_examine === 1 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>已审核</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.sleExamine('daishenhe', e)} className={this.state.is_examine === 0 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>待审核</div><span></span></Col>
+                                </Col>
+                            </Col>
+                        }
                     </Col>
                     <Col span={3} className="table-list-add">
                         <Button type="primary" shape="round" onClick={this.addItme} className="table-list-addbtn">
@@ -552,7 +649,8 @@ class TableList extends Component {
                                                 xiuGAiCurItem: this.xiuGAiCurItem,
                                                 xQCurItem: this.xQCurItem,
                                                 addParkPlace: this.addParkPlace,
-                                                baoxiuXiangqing: this.baoxiuXiangqing
+                                                baoxiuXiangqing: this.baoxiuXiangqing,
+                                                openQuadtModel: this.openQuadtModel
                                             })
                                         )
                                     })
@@ -571,6 +669,45 @@ class TableList extends Component {
                     <Spin indicator={antIcon} spinning={this.state.is_dele_loading} >
                         <p>删除后将不能恢复，是否删除该条数据？</p>
                     </Spin>
+                </Modal>
+                {/* 小区审核详情 */}
+                <Modal title={this.state.quaorpark?'小区审核-详情':'车位审核-详情'} visible={this.state.quadt_show} onOk={this.quadtOk} className='quadt-model' okText='通过审核' cancelText="取消"
+                    onCancel={this.quadtCancel} confirmLoading={this.state.quadt_loading}
+                >
+                    {this.state.quaorpark ?(
+                        <Row>
+                            <Col span={24} className="quadt-model-tt">物业信息</Col>
+                            <Col span={8} className="quadt-model-it">姓名：{this.state.cur_quadt && this.state.cur_quadt.house.owner_name}</Col>
+                            <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.house.owner_phone}</Col>
+                            <Col span={8} className="quadt-model-it">楼号：{this.state.cur_quadt && this.state.cur_quadt.house.house_number}</Col>
+                            <Col span={8} className="quadt-model-it">房屋状态：<span >{this.state.cur_quadt && yeZhuStatus(this.state.cur_quadt.house.status)}</span></Col>
+
+                            <Col span={24} className="quadt-model-tt">审核信息</Col>
+                            <Col span={8} className="quadt-model-it">姓名：{this.state.cur_quadt && this.state.cur_quadt.name}</Col>
+                            <Col span={8} className="quadt-model-it">身份号：{this.state.cur_quadt && this.state.cur_quadt.idcard}</Col>
+                            <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.phone}</Col>
+                            <Col span={8} className="quadt-model-it">审核状态：{this.state.cur_quadt && fangWuType(this.state.cur_quadt.status)}</Col>
+                        </Row>):(
+                            <Row>
+                            <Col span={24} className="quadt-model-tt">物业信息</Col>
+                            <Col span={8} className="quadt-model-it">姓名：{this.state.cur_quadt && this.state.cur_quadt.spaces.owner_name}</Col>
+                            <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.spaces.owner_phone}</Col>
+                            <Col span={8} className="quadt-model-it">车位编号：{this.state.cur_quadt && this.state.cur_quadt.spaces.park_name}</Col>
+                            <Col span={8} className="quadt-model-it">车位状态：{this.state.cur_quadt && stopCarStatus( this.state.cur_quadt.spaces.park_status)}</Col>
+                            <Col span={8} className="quadt-model-it">租客姓名：{this.state.cur_quadt && this.state.cur_quadt.spaces.tenant_name}</Col>
+                            <Col span={8} className="quadt-model-it">租客电话：{this.state.cur_quadt && this.state.cur_quadt.spaces.tenant_mobile}</Col>
+
+                            <Col span={24} className="quadt-model-tt">审核信息</Col>
+                            <Col span={8} className="quadt-model-it">姓名：{this.state.cur_quadt && this.state.cur_quadt.name}</Col>
+                            <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.phone}</Col>
+                            <Col span={8} className="quadt-model-it">车位编号：{this.state.cur_quadt && this.state.cur_quadt.spaces.park_name}</Col>
+                            <Col span={24} className="quadt-model-it">审核状态：{this.state.cur_quadt && fangWuType(this.state.cur_quadt.status)}</Col> 
+                            <Col span={8} className="quadt-model-it"><img className="quadt-model-shimg" src={this.state.cur_quadt && this.state.cur_quadt.just_idk}  alt="" /></Col>
+                            <Col span={8} className="quadt-model-it"><img className="quadt-model-shimg" src={this.state.cur_quadt && this.state.cur_quadt.back_idk}  alt="" /></Col>
+                        </Row>
+                        )
+                    }
+
                 </Modal>
                 <Modal title={this.state.baoxiu_tt} visible={this.state.baoxiuModel}
                     className='park-mag-mod' onCancel={this.cancelBaoxiuModel}

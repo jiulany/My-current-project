@@ -33,7 +33,7 @@ class Head extends Component {
     this.props.signOut()
   }
   handleSelectChange=(e)=>{
-    this.props.changeCommunite(e)  //CNM磨劳资一下午
+    this.props.changeCommunite(e)  //
     store.dispatch({ type: "CHANGE_COMMUNITY", value: e })
     Cookies.set('community_id',e, { expires: 30 });
   }

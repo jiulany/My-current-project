@@ -194,6 +194,9 @@ border-radius: 0
 .table-list-xiugai-f:hover{
     background: #50a2f5
 }
+.table-list-xiugai-f:focus{
+    background: #50a2f5
+}
 .table-list-add{
     font-size: 12px;
     color: black;
@@ -245,4 +248,25 @@ cursor: pointer;
     color: #FDD100;
     font-size: 18px;
     cursor: pointer;
+}
+.quadt-model-tt{
+font-size:16px;
+font-family:Microsoft YaHei;
+color:rgba(51,51,51,1);
+}
+.quadt-model {
+    width: 700px !important;
+}
+.quadt-model .ant-modal-body{
+    padding: 24px 50px;
+}
+.quadt-model .quadt-model-tt{
+    padding: 30px 0 20px 0;
+}
+.quadt-model .quadt-model-it{
+    padding: 10px 0;
+}
+.quadt-model-shimg{
+    height: 80px;
+    width: 80px;
 }

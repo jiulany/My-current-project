@@ -26,7 +26,7 @@ function payType(pay_type){
         return '在线支付(银行卡支付)'
     }
 }
-function stopCarStatus(st){
+export function stopCarStatus(st){
     if(st===1){
         return '闲置'
     }
@@ -40,7 +40,8 @@ function stopCarStatus(st){
         return '人防'
     }
 }
-function yeZhuStatus(st){
+export function yeZhuStatus(st){
+    console.log(st)
     if(st===1){
         return '自住'
     }
@@ -52,6 +53,25 @@ function yeZhuStatus(st){
     }
     if(st===4){
         return '出租'
+    }
+}
+function shenFen(st){
+    if(st===1){
+        return '业主'
+    }
+    if(st===2){
+        return '家属'
+    }
+    if(st===3){
+        return '租客'
+    }
+}
+export function fangWuType(st){
+    if(st===0){
+        return (<span style={{ color: '#F56047' }}>待审核</span>)
+    }
+    if(st===1){
+        return (<span style={{ color: '#333333' }}>已审核</span>) 
     }
 }
 function baoXiuStatus(order_status,is_assign){
@@ -154,6 +174,18 @@ export const HEAD_CONF = {
         dele_title: "删除停车位信息",
         add_path: '/index/parking_list/add_park_floor',
         add_place_path: '/index/parking_list/add_parks',
+    },
+    QUARTERS_EXAMINE: {//小区审核列表
+        head: ['姓名', '电话','楼号', '身份','身份证号','房屋状态','操作'],
+        dele_title: "删除停车位信息",
+        inp_ziduan:"搜索：姓名,电话",
+        is_shiw_tbhead: 3
+    },
+    PARK_EXAMINE: {//车位审核列表
+        head: ['姓名', '电话', '车位编号','身份','车位状态','操作'],
+        dele_title: "删除停车位信息",
+        inp_ziduan:"搜索：姓名,电话",
+        is_shiw_tbhead: 3
     }
 }
 export function mapAddressToTd(path, item, methods) {
@@ -459,6 +491,45 @@ export function mapAddressToTd(path, item, methods) {
             </tr>
         )
     }
+    if (path === "/index/quarters_examine") {   // QUARTERS_EXAMINE
+        return (
+            <tr key={item.id}>
+                <td >{item.name}</td>
+                <td >{item.phone}</td>
+                <td >{item.house.house_number}</td>
+                <td >{item.idcard}</td>
+                <td >{shenFen(item.type)}</td>
+                <td >{fangWuType(item.status)}</td>
+                <td style={{ width: '17%' }}>
+                    <Button style={{background:'##3399FF'}} type="primary" shape="round" className="table-list-xiugai-f"onClick={(e) => methods.openQuadtModel(item,true, e)}>
+                        详情
+                    </Button>
+                    <Button type="primary" shape="round" className="table-list-dele"onClick={(e) => methods.deleCurItem(item, e)}>
+                        删除
+                    </Button>
+                </td>
+            </tr>
+        )
+    }
+    if (path === "/index/park_examine") {   // PARK_EXAMINE
+        return (
+            <tr key={item.id}>
+                <td >{item.name}</td>
+                <td >{item.phone}</td>
+                <td >{item.spaces.park_name}</td>
+                <td >{shenFen(item.type)}</td>
+                <td >{fangWuType(item.status)}</td>
+                <td style={{ width: '17%' }}>
+                    <Button style={{background:'##3399FF'}} type="primary" shape="round" className="table-list-xiugai-f"onClick={(e) => methods.openQuadtModel(item,false, e)}>
+                        详情
+                    </Button>
+                    <Button type="primary" shape="round" className="table-list-dele"onClick={(e) => methods.deleCurItem(item, e)}>
+                        删除
+                    </Button>
+                </td>
+            </tr>
+        )
+    }
 }
 
 export function getPageTotal(path, condition) {
@@ -629,6 +700,20 @@ export function getTableList(path, page, limit, condition,date,status,service) {
                 reject(res)
             })
         }
+        if (path === "/index/quarters_examine") {//小区审核列表
+            http('/examine/household', { method: 'get' , data: { page: page, limit: limit, condition: condition,status:status } }).then(res => {
+                resolve(res.data)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/index/park_examine") {//车位审核列表
+            http('/examine/space', { method: 'get' , data: { page: page, limit: limit, condition: condition,status:status } }).then(res => {
+                resolve(res.data)
+            }).catch(res => {
+                reject(res)
+            })
+        }
     })
 }
 export function deleItem(path, id) {//删除按钮
@@ -641,7 +726,7 @@ export function deleItem(path, id) {//删除按钮
             })
         }
         if (path === "/index/repair_manage") {//报修管理
-            http('/repair/repairDel', { method: 'POST', data: { id: id } }).then(res => {
+            http('/repair/del', { method: 'POST', data: { id: id } }).then(res => {
                 resolve(res)
             }).catch(res => {
                 reject(res)

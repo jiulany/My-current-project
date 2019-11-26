@@ -1,0 +1,169 @@
+.table-list-mainctrl{
+    padding: 18px
+}
+.table-list-payst{
+    display: flex;
+    justify-content: flex-end
+}
+.table-list-payed{
+    width:98px;
+height:38px;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+margin-right: 10px
+}
+.table-list-payno{
+width:98px;
+height:38px;
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+margin-right: 10px
+}
+.table-list-add{
+    text-align: end
+}
+
+.table-list-add .table-list-addbtn{
+    color: black;
+    width: 88px;
+    font-size: 15px
+}
+.chrg-mag-main{
+    height: 525px;
+    overflow-y: scroll;
+    background: white;
+}
+.chrg-mag-box{
+    width: 10.5%;
+}
+.chrg-mag-chazuo{
+    text-align: center;
+}
+.chrg-mag-nm{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+.chrg-mag-last{
+    text-align: center;
+    padding-top: 5px;
+}
+.chrg-mag-bk{
+    background: rgba(240,244,248,1);
+}
+.chrg-mag-main::-webkit-scrollbar {
+    width:7px;
+    height: 7px;
+  }
+  .chrg-mag-main::-webkit-scrollbar-thumb{
+    background-color:#fdd000;
+  }
+  .chrg-mag-stat{
+      width: 8px;
+      position: absolute;
+      right: 20px   ;
+      bottom: -5px;
+  }
+  .chrg-mag-stat-no>div{
+    width:8px;
+    height:8px;
+    border:1px solid rgba(220,220,220,1);
+    border-radius:50%;
+    margin-bottom: 10px;
+  }
+  .chrg-mag-stat-gr>div{
+    width:8px;
+    height:8px;
+    background:rgba(95,212,63,1);
+    border-radius:50%;
+    margin-bottom: 10px;
+  }
+  .chrg-mag-stat-rd>div{
+    width:8px;
+    height:8px;
+    background:rgba(255,92,92,1);
+    margin-bottom: 10px;
+    border-radius:50%;
+  }
+  .chrg-mag-left{
+      height: 261px;
+      background: white;
+      width: 49.5%;
+      padding-top: 81px;
+  }
+  .chrg-mag-right{
+    height: 261px;
+    background: white;
+    width:50.1%;
+    padding-top: 81px;
+    margin-left: 0.4%;
+}
+  .chrg-mag-line{
+      margin-bottom: 40px;
+  }
+  .chrg-mag-use{
+      padding-left: 23%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+  }
+  .chrg-mag-full{
+    display: flex;
+    align-items: center;
+  }
+  .chrg-mag-kong{
+    padding-left: 23%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .chrg-mag-use >div{
+    width:17px;
+    height:17px;
+    background:rgba(95,212,63,1);
+    border-radius:50%;
+    margin-right: 20px;
+    display: inline-block;
+  }
+  .chrg-mag-kong >div{
+    width:17px;
+height:17px;
+border:1px solid rgba(220,220,220,1);
+border-radius:50%;
+margin-right: 20px;
+border-radius:50%;
+display: inline-block;
+  }
+  .chrg-mag-none >div{
+
+    width:17px;
+height:17px;
+margin-right: 20px;
+background:white;
+border-radius:50%;
+display: inline-block;
+  }
+  .chrg-mag-full >div{
+    width:17px;
+height:17px;
+margin-right: 20px;
+background:rgba(255,92,92,1);
+border-radius:50%;
+display: inline-block;
+  }
+  .chrg-mag-dt{
+    width:70px !important;
+    height:25px !important;
+    background:rgba(253,209,0,1) !important;
+    border-radius:19px !important;
+    text-align: center;
+    line-height: 25px;
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+  }

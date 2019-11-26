@@ -2,7 +2,7 @@
   <view class="nav bc_white">
     <view class="{{selected?'red':'default'}}" bindtap="selected">美容</view>
     <view class="{{selected1?'red':'default'}}" bindtap="selected1">养护</view>
-    <view class="{{selected2?'red':'default'}}" bindtap="selected2">活动</view>
+    <view class="{{selected2?'red':'default'}}" bindtap="selected2">维修</view>
   </view>
   <view class="{{selected?'show':'hidden'}}">
     <i-row>

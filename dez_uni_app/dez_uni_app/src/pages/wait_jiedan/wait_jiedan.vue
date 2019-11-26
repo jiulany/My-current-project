@@ -1,6 +1,6 @@
 <template>
 	<view class="waitjd span24">
-        <view class="span24 waitjd-cancel">取消订单</view>
+        <view class="span24 waitjd-cancel"></view>
         <view class="span24 ">
             <view class="span24 waitjd-status">
                 <view class="waitjd-blur">
@@ -116,6 +116,7 @@ time_out:null,
 }
 .waitjd-cancel{
     padding: 43rpx 37rpx 10rpx 0;
+    height: 100rpx;
     justify-content: flex-end;
 font-size:28rpx;
 font-family:PingFang SC;

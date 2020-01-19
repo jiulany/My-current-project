@@ -1,5 +1,5 @@
 
-export const base_url="http://192.168.31.162:8001/" //https://propertyapi.tuogouchebao.com http://192.168.31.159:8001/
+export const base_url="https://propertyapi.tuogouchebao.com/" //https://propertyapi.tuogouchebao.com http://192.168.31.167:8001/
 export default function http(val,upl) {
     return new Promise((resolve,reject)=>{
         let a=val
@@ -12,7 +12,7 @@ export default function http(val,upl) {
         if(uni.getStorageSync('skey')){
             a.header={"X-WX-Skey":uni.getStorageSync('skey')}
         }
-        if(!upl){
+        if(!upl){ 
             uni.request({
             ...a,
             success:function (res) {

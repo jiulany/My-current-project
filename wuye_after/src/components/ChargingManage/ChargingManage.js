@@ -12,6 +12,9 @@ class ChargingManage extends Component {
     }
     componentDidMount() {
     }
+    toTableList=()=>{
+        this.props.history.push('/index/charging_list')
+    }
     render() {
         // 在父 route 中，被匹配的子 route 变成 props
         return (
@@ -80,7 +83,7 @@ class ChargingManage extends Component {
                         <Row>
                             {
                                 this.state.list.map((item, inx) => {
-                                    return <Col span={3} className="chrg-mag-box">
+                                    return <Col span={3} className="chrg-mag-box" key={inx}>
                                         <Col span={24} className="chrg-mag-nm">001</Col>
                                         <Col span={24} className="chrg-mag-chazuo"><img src={require('../../images/chazuo.png')} alt="" />
                                             {/* <Col span={24} className="chrg-mag-stat">
@@ -116,7 +119,7 @@ class ChargingManage extends Component {
                         </Col>
                         <Col span={24}>
                             <Col span={12} className="chrg-mag-kong">今日充电总时长  20</Col>
-                            <Col span={12} className="chrg-mag-none"><div className="chrg-mag-dt">详单</div></Col>
+                            <Col span={12} className="chrg-mag-none"><div className="chrg-mag-dt" onClick={this.toTableList}>详单</div></Col>
                         </Col>
                     </Col>
                 </Col>

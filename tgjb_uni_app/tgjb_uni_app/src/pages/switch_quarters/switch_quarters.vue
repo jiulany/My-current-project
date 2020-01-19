@@ -6,13 +6,13 @@
       <view class="span24 switchqur-it" v-for="item in my_community" :key="item.community_id">
           <view class="span16">
               <view class="span24 switchqur-name">小区名称：{{item.community}}</view>
-              <view class="span24 switchqur-addr"><image class="switchqur-dw"  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_dingwei.png'></image>{{item.community_address}}</view>
+              <view class="span24 switchqur-addr"><image class="switchqur-dw"  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_dingwei.png'></image><view>{{item.community_address}}</view></view>
           </view>
           <view class="span8">
-              <view class="span13 switchqur-sle">
-                <span v-if="item.status===0" style="color:rgba(153,153,153,1)">(审核中)</span><image v-else @tap="seleCommit(item,$event)"  mode="aspectFit" :src="item.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>
+              <view class="span16 switchqur-sle">
+                <span v-if="item.status===0" style="color:rgba(153,153,153,1)">(审核中)</span><span v-if="item.status===2" style="color:rgba(153,153,153,1)">(审核不通过)</span><image v-if="item.status===1" @tap="seleCommit(item,$event)"  mode="aspectFit" :src="item.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>
               </view>
-              <view class="span11 switchqur-dele">
+              <view class="span8 switchqur-dele">
                 <image  mode="aspectFit" @tap="openDeleModel(item,$event)" src='https://imgcdn.tuogouchebao.com/property_delete.png'></image>
                 </view>
           </view>
@@ -23,6 +23,10 @@
       @complete="HMmessages = $refs.HMmessages"
       @clickMessage="clickMessage"
     ></HMmessages>
+    <view class="span24 queshen" v-if="show_default">
+        <view class="span24 queshen-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image></view>
+        <view class="span24 queshen-tt">还没有预约数据~</view>
+    </view>
   </view>
 </template>
 
@@ -35,6 +39,7 @@ export default {
         my_community:[],
         showModel:null,
         curClickItem:null,
+        show_default:false
     };
   },
   methods: {
@@ -45,6 +50,12 @@ export default {
       seleCommit(item,e){
           uni.setStorageSync('community_selected', item);
           this.reLoadList()
+          var a=setTimeout(()=>{
+uni.navigateBack({
+    delta: 1
+});
+clearTimeout(a)
+          },500)
       },
       reLoadList(){
       this.$http({ url: "api/home/my_community", data: { }})
@@ -58,6 +69,11 @@ export default {
                   }
               }
               this.my_community=a
+              if(res.data.length==0){
+                   this.show_default=true
+               }else{
+                   this.show_default=false
+               }
           })
           .catch(res => {
           });
@@ -111,6 +127,13 @@ color:rgba(51,51,51,1);
     align-items: center;font-size:28rpx;
 color:rgba(102,102,102,1);
 }
+.switchqur-addr view{
+    
+overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+width: 92%
+}
 .switchqur-dw{
     width: 20rpx;
     height: 28rpx;
@@ -119,6 +142,9 @@ color:rgba(102,102,102,1);
 .switchqur-sle{
     align-items: center;
     justify-content: flex-end
+}
+.switchqur-sle span{
+    font-size: 24rpx
 }
 .switchqur-sle image{
     width: 51rpx;
@@ -131,5 +157,28 @@ color:rgba(102,102,102,1);
 .switchqur-dele image{
     width:  27rpx;
     height: 29rpx;
+}
+.queshen{
+    height: 100%;
+    background: white;
+    position:fixed;
+    left: 0;
+    right: 0;
+    align-items: flex-start;
+    display: block
+}
+.queshen-tp{
+    display: block;
+    text-align: center;
+    margin-top: 200rpx
+}
+.queshen-tp image{
+    width: 326rpx;
+height: 316rpx;
+}
+.queshen-tt{
+    display: block;
+    text-align: center;
+    margin-top: 80rpx
 }
 </style>

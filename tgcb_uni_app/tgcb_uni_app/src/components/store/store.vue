@@ -6,7 +6,76 @@
             :longitude="longitude"
             scale="10"
             :markers="markers"
-        ></map>
+        >
+        <cover-view class="span24 tab-bar">
+    <!-- 首页 -->
+    <cover-view v-if="address==0" class="span5" @tap="toIndex">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/index_active.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-tt" >首页</cover-view>
+    </cover-view>
+    <cover-view v-else class="span5" @tap="toIndex">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/index.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-no-tt">首页</cover-view>
+    </cover-view>
+    <!-- 门店 -->
+     <cover-view v-if="address==1" class="span5" @tap="toStore">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/shop_active.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-tt" >门店</cover-view>
+    </cover-view>
+    <cover-view v-else class="span5" @tap="toStore">
+      <cover-view class="span24 tab-bar-img" >
+        <cover-image  src="https://imgcdn.tuogouchebao.com/shop.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-no-tt">门店</cover-view>
+    </cover-view>
+    <!-- 洗车 -->
+    <cover-view v-if="address==2" class="span4" @tap='toCarWash'>
+      <cover-view class="span24 tab-bar-img" >
+        <cover-image class="tab-bar-img-tuqi"  src="https://imgcdn.tuogouchebao.com/tab_sle_xiche.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-tt">洗车</cover-view>
+    </cover-view>
+     <cover-view v-else class="span4" @tap='toCarWash'>
+      <cover-view class="span24 tab-bar-imgxiche"  >
+        <cover-image  class="tab-bar-img-tuqi"   src="https://imgcdn.tuogouchebao.com/tab_sle_xiche.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-no-tt" >洗车</cover-view>
+    </cover-view>
+    <!-- 商城 -->
+    <cover-view v-if="address==3" class="span5" @tap="toMall">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/shoping_mall_active.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-tt" >商城</cover-view>
+    </cover-view>
+    <cover-view v-else class="span5" @tap="toMall">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/shoping_mall.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-no-tt" >商城</cover-view>
+    </cover-view>
+    <!-- 我的 -->
+    <cover-view v-if="address==4" class="span5" @tap="toMy">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/my_active.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-tt">我的</cover-view>
+    </cover-view>
+    <cover-view v-else class="span5" @tap="toMy">
+      <cover-view class="span24 tab-bar-img">
+        <cover-image  src="https://imgcdn.tuogouchebao.com/my.png"></cover-image>
+      </cover-view>
+      <cover-view class="span24 tab-bar-no-tt" >我的</cover-view>
+    </cover-view>
+  </cover-view>
+        
+        </map>
         <cover-view class="store_top">
             <cover-view class="store_top_items" @tap="_choice_store">选择门店</cover-view>
             <cover-view class="store_top_items" @tap="_lately">离我最近</cover-view>
@@ -26,6 +95,7 @@ export default {
       shops:[],
       latitude: 30.674958,
       longitude: 104.064283,
+      address:1,
       markers: [
         // {
         //   iconPath: "https://imgcdn.tuogouchebao.com/location_logo@2x.png",
@@ -48,6 +118,33 @@ export default {
   },
   components: {},
   methods: {
+     toMy(e) {
+     
+      uni.switchTab({
+        url: "/pages/my/my"
+      });
+    },
+    toStore(){
+       console.log('store')
+      uni.switchTab({
+        url: "/pages/store/store"
+      });
+    },
+    toCarWash(){
+      uni.switchTab({
+        url:'/pages/car_wash/car_wash'
+      })
+    },
+    toIndex() {
+      uni.switchTab({
+        url: "/pages/index/index"
+      });
+    },
+     toMall() {
+      uni.switchTab({
+        url: "/pages/mall/mall"
+      });
+    },
     _choice_store() {
       uni.navigateTo({
         url: "/pagesB/choice_store/choice_store"
@@ -138,5 +235,48 @@ export default {
 }
 .active {
   background: #fbcc31;
+}
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  background: rgba(255, 255, 255, 1);
+  border-top: 1px solid #f5f5f5;
+  padding: 13rpx 0;
+  padding-bottom: 4rpx
+}
+.tab-bar-tt {
+  justify-content: center;
+  font-size: 25rpx;
+  color: #fdd000;
+  padding: 8rpx 0;
+  text-align: center
+}
+.tab-bar-no-tt {
+  justify-content: center;
+  font-size: 25rpx;
+  color: #999999;
+  text-align: center
+}
+.tab-bar-img {
+  justify-content: center;
+  position: relative;
+  height: 50rpx;
+  overflow: visible;
+}
+.tab-bar-imgxiche {
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+.tab-bar-img cover-image {
+  width: 50rpx;
+  height: 49rpx;
+}
+.tab-bar-img-tuqi {
+  width: 91rpx !important;
+  height: 91rpx !important;
+  z-index: 999999;
+  position: fixed;
+  bottom: 52rpx;
 }
 </style>

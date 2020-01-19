@@ -78,7 +78,11 @@ export default {
         selectedBorder: "1px rgba(253, 208, 0, 0.7) solid"
       },
       num:1,
-      goods_details:null,
+      goods_details:{
+        sku:[{activity_price:'',price:''}],
+        spu_name:'',
+        details:''
+      },
       unit_price:null,
       total_price:null
     };

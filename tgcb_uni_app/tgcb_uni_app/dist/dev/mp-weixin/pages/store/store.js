@@ -116,13 +116,8 @@ var store = function store() {
   return Promise.all(/*! import() | components/store/store */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/store/store")]).then(__webpack_require__.bind(null, /*! ../../components/store/store */ 883));
 };
 
-var tabBar = function tabBar() {
-  return __webpack_require__.e(/*! import() | components/tab-bar/tabBar */ "components/tab-bar/tabBar").then(__webpack_require__.bind(null, /*! ../../components/tab-bar/tabBar.vue */ 876));
-};
-
 var _default = {
   components: {
-    tabBar: tabBar,
     store: store
   },
   data: function data() {

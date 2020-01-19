@@ -198,6 +198,7 @@
             })
 		},
 		onShow: function() {
+            uni.hideTabBar()
 			// if (this.valve) {
             //     this._getUserInfo()
             // }

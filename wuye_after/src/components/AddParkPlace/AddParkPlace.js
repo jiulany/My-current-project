@@ -13,7 +13,8 @@ class AddParkPlace extends Component {
             loading: false,
             is_xiugai: false,
             image_url: [], //省份证正反index=0正，1为反
-            park_floor_list: [{ id: 0, park_floor: '加载中' }]
+            park_floor_list: [{ id: 0, park_floor: '加载中' }],
+            is_clck:true
         }
     }
     componentDidMount() {
@@ -62,6 +63,10 @@ class AddParkPlace extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.start_park_number && _thisst.end_park_number && _thisst.park_status && _thisst.park_floor_id && _thisst.park_region !== '') {
             http('/park/add_park', {
                 method: 'POST',
@@ -76,7 +81,8 @@ class AddParkPlace extends Component {
                 message.success(res.msg);
                 this.setState({
                     start_park_number: "",
-                    end_park_number: ""
+                    end_park_number: "",
+                    is_clck:true
                 })
                 setTimeout(() => {
                     this.props.history.go(-1)
@@ -89,12 +95,17 @@ class AddParkPlace extends Component {
                 }
                 this.setState({
                     start_park_number: "",
-                    end_park_number: ""
+                    end_park_number: "",
+                    is_clck:true
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     handleXiuGai = () => {
         let _thisst = this.state

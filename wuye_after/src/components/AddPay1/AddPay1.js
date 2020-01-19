@@ -13,7 +13,9 @@ class AddPay1 extends Component {
         this.state = {
             tenant_state: false,
             loading: false,
-            image_url: [] //省份证正反index=0正，1为反
+            image_url: [], //省份证正反index=0正，1为反,
+            is_slestatus: false,
+            is_clck: true
         }
     }
     componentDidMount() {
@@ -26,23 +28,27 @@ class AddPay1 extends Component {
                         cost_type: query.cost_type
                     }
                 }).then(res => {
-                    console.log(res)
                     this.setState({
                         is_xiugai: true,
                         house_number: res.data.house_number,
                         username: res.data.owner_name,
                         write_people: res.data.write_people,
                         write_time: res.data.write_time,
-                        house_area:res.data.area,
+                        house_area: res.data.area,
                         unit_price: res.data.price,
                         cost: res.data.total_price,
                         pay_status: res.data.status,
-                        date:res.data.year+'-'+res.data.month,
-                        consumption:1,
+                        date: res.data.year + '-' + res.data.month,
+                        consumption: 1,
                         cost_type: res.data.type,
                         pay_type: res.data.pay_type,
                         household_id: res.data.household_id
                     })
+                    if (res.data.status === 1) {
+                        this.setState({
+                            is_slestatus: true
+                        })
+                    }
                 }).catch(res => {
                     message.error(res.msg);
                     this.setState({
@@ -112,48 +118,56 @@ class AddPay1 extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
-        if (_thisst.house_number !== ''
-            && _thisst.username !== ''
-            && _thisst.house_area !== ''
-            && _thisst.unit_price !== ''
-            && _thisst.cost_type !== ''
-            && _thisst.month_number !== ''
-            && _thisst.pay_type !== ''
-            && _thisst.pay_status !== ''
-        ) {
-            http('/payment/create', {
-                method: 'POST',
-                data: {
-                    household_id: _thisst.household_id,
-                    date: _thisst.date,
-                    type: _thisst.cost_type,
-                    status: _thisst.pay_status,
-                    pay_type: _thisst.pay_type,
-                    write_time: '',
-                    write_people: '',
-                    price: _thisst.unit_price,
-                    house_area: _thisst.house_area,
-                    total_price:_thisst.cost,
-                    num:_thisst.month_number
-                }
-            }).then(res => {
-                message.success(res.msg)
-                this.setState({
-                    house_number: '',
-                    username: '',
-                })
-                setTimeout(() => {
-                    this.props.history.go(-1)
-                }, 2000)
-            }).catch(res => {
-                message.error(res.msg);
-                this.setState({
-                    house_number: '',
-                    username: '',
-                })
+        if (this.state.is_clck) {
+            this.setState({
+                is_clck: false
             })
-        } else {
-            message.error('输入不能为空，请检查！');
+            if (_thisst.house_number !== ''&&_thisst.house_number !== undefined
+                && _thisst.cost_type !== ''&&_thisst.cost_type !== undefined
+                && _thisst.month_number !== ''&&_thisst.month_number !== undefined
+                && _thisst.pay_type !== ''&&_thisst.pay_type !== undefined
+                && _thisst.pay_status !== ''&&_thisst.pay_status !== undefined
+                && _thisst.date !== ''&&_thisst.date !== undefined&&_thisst.date !== null
+            ) {
+                http('/payment/create', {
+                    method: 'POST',
+                    data: {
+                        household_id: _thisst.household_id,
+                        date: _thisst.date,
+                        type: _thisst.cost_type,
+                        status: _thisst.pay_status,
+                        pay_type: _thisst.pay_type,
+                        write_time: '',
+                        write_people: '',
+                        price: _thisst.unit_price,
+                        house_area: _thisst.house_area,
+                        total_price: _thisst.cost,
+                        num: _thisst.month_number
+                    }
+                }).then(res => {
+                    message.success(res.msg)
+                    this.setState({
+                        house_number: '',
+                        username: '',
+                        is_clck: true
+                    })
+                    setTimeout(() => {
+                        this.props.history.go(-1)
+                    }, 2000)
+                }).catch(res => {
+                    message.error(res.msg);
+                    this.setState({
+                        house_number: '',
+                        username: '',
+                        is_clck: true
+                    })
+                })
+            } else {
+                this.setState({
+                    is_clck: true
+                })
+                message.error('输入不能为空，请检查！');
+            }
         }
     }
     inputValue = (p, e) => {
@@ -221,43 +235,53 @@ class AddPay1 extends Component {
     }
     handleXiuGai = () => {
         let _thisst = this.state
-        if (_thisst.house_number !== ''
-        && _thisst.username !== ''
-        && _thisst.house_area !== ''
-        && _thisst.unit_price !== ''
-        && _thisst.cost_type !== ''
-        && _thisst.month_number !== ''
-        && _thisst.pay_type !== ''
-        && _thisst.pay_status !== ''
-        ) {
-            http('/payment/update', {
-                method: 'POST',
-                data: {
-                    id: this.props.location.query.update_id,
-                    household_id: _thisst.household_id,
-                    date: _thisst.date,
-                    type: _thisst.cost_type,
-                    status: _thisst.pay_status,
-                    pay_type: _thisst.pay_type,
-                    write_time: '',
-                    write_people: '',
-                    price: _thisst.unit_price,
-                    house_area: _thisst.house_area,
-                    total_price:_thisst.cost,
-                    num:_thisst.month_number
-                }
-            }).then(res => {
-                message.success(res.msg);
-                setTimeout(() => {
-                    this.props.history.go(-1)
-                }, 2000)
-            }).catch(res => {
-                message.error(res.msg);
-                this.setState({
-                })
+        if (this.state.is_clck) {
+            this.setState({
+                is_clck: false
             })
-        } else {
-            message.error('输入不能为空，请检查！');
+            if (_thisst.house_number !== ''&&_thisst.house_number !== undefined
+            && _thisst.cost_type !== ''&&_thisst.cost_type !== undefined
+            && _thisst.month_number !== ''&&_thisst.month_number !== undefined
+            && _thisst.pay_type !== ''&&_thisst.pay_type !== undefined
+            && _thisst.pay_status !== ''&&_thisst.pay_status !== undefined
+            && _thisst.date !== ''&&_thisst.date !== undefined&&_thisst.date !== null
+            ) {
+                http('/payment/update', {
+                    method: 'POST',
+                    data: {
+                        id: this.props.location.query.update_id,
+                        household_id: _thisst.household_id,
+                        date: _thisst.date,
+                        type: _thisst.cost_type,
+                        status: _thisst.pay_status,
+                        pay_type: _thisst.pay_type,
+                        write_time: '',
+                        write_people: '',
+                        price: _thisst.unit_price,
+                        house_area: _thisst.house_area,
+                        total_price: _thisst.cost,
+                        num: _thisst.month_number
+                    }
+                }).then(res => {
+                    this.setState({
+                        is_clck: true
+                    })
+                    message.success(res.msg);
+                    setTimeout(() => {
+                        this.props.history.go(-1)
+                    }, 2000)
+                }).catch(res => {
+                    this.setState({
+                        is_clck: true
+                    })
+                    message.error(res.msg);
+                })
+            } else {
+                this.setState({
+                    is_clck: true
+                })
+                message.error('输入不能为空，请检查！');
+            }
         }
     }
     blurGetHuzhu = (e) => {
@@ -268,11 +292,12 @@ class AddPay1 extends Component {
                 house_number: e.currentTarget.value
             }
         }).then(res => {
-            console.log(res)
             this.setState({
                 username: res.data.owner_name,
                 house_area: res.data.area,
-                household_id: res.data.id
+                household_id: res.data.id,
+                cost:null,
+                month_number:null,
             })
         }).catch(res => {
             message.error(res.msg);
@@ -294,9 +319,9 @@ class AddPay1 extends Component {
                 <Col span={24} className="add-it">
                     <Col span={24}>
                         <Col span={8}>
-                            <Col span={6}>房号：</Col>
+                            <Col span={6}>门牌号：</Col>
                             <Col span={18}>
-                                <Input placeholder="请输入房号" onBlur={this.blurGetHuzhu} value={this.state.house_number} onChange={(e) => this.inputValue('house_number', e)} />
+                                <Input placeholder="请输入门牌号" onBlur={this.blurGetHuzhu} value={this.state.house_number} onChange={(e) => this.inputValue('house_number', e)} />
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
@@ -307,7 +332,7 @@ class AddPay1 extends Component {
                     <Col span={24}>
                         <Col span={8}>
                             <Col span={6}>房屋面积：</Col>
-                            <Col span={18}><Input disabled value={this.state.house_area} onChange={(e) => this.inputValue('house_area', e)} />
+                            <Col span={18}><Input disabled value={this.state.house_area} onChange={(e) => this.inputValue('house_area', e)} suffix="m²" />
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
@@ -331,7 +356,7 @@ class AddPay1 extends Component {
                         <Col span={8}>
                             <Col span={6}>付费状态：</Col>
                             <Col span={18}>
-                                <Select style={{ width: '100%' }} placeholder="请选择付费状态" allowClear={true} value={this.state.pay_status} onChange={this.selePayStatus}>
+                                <Select style={{ width: '100%' }} disabled={this.state.is_slestatus} placeholder="请选择付费状态" allowClear={true} value={this.state.pay_status} onChange={this.selePayStatus}>
                                     <Option value={0}>未付款</Option>
                                     <Option value={1}>已付款</Option>
                                 </Select>
@@ -341,7 +366,10 @@ class AddPay1 extends Component {
                             <Col span={6}>支付方式 ：</Col>
                             <Col span={18}>
                                 <Select style={{ width: '100%' }} placeholder="请选择支付方式" allowClear={true} value={this.state.pay_type} onChange={this.selePayType}>
-                                    <Option value={0}>未支付</Option>
+                                    {
+                                        !this.state.is_slestatus &&
+                                        <Option value={0}>未支付</Option>
+                                    }
                                     <Option value={1}>微信支付</Option>
                                     <Option value={2}>支付宝</Option>
                                     <Option value={3}>现金</Option>
@@ -363,9 +391,9 @@ class AddPay1 extends Component {
                         <Col span={8} offset={1}>
                             <Col span={6}>缴费月份：</Col>
                             <Col span={18}>
-                            {
-                                    this.state.is_xiugai ?<MonthPicker value={moment(this.state.date, 'YYYY-MM')} onChange={this.payMonth} placeholder="选择缴费月份" />:
-                                    <MonthPicker onChange={this.payMonth} placeholder="选择缴费月份" />
+                                {
+                                    this.state.is_xiugai ? <MonthPicker value={moment(this.state.date, 'YYYY-MM')} onChange={this.payMonth} placeholder="选择缴费月份" /> :
+                                        <MonthPicker onChange={this.payMonth} placeholder="选择缴费月份" />
                                 }
                             </Col>
                         </Col>

@@ -26,6 +26,7 @@ class AddRepair extends Component {
             sku_id:"",
             pay_type:1,
             remarks:"",
+            is_clck:true
         }
     }
     componentDidMount() {
@@ -98,6 +99,10 @@ class AddRepair extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.name && _thisst.phone && _thisst.service_at_date
             && _thisst.service_at_time && _thisst.address
             && Cookies.get('community_id') && _thisst.remarks&& _thisst.pay_type) {
@@ -115,6 +120,7 @@ class AddRepair extends Component {
             }).then(res => {
                 message.success(res.msg)
                 this.setState({
+                    is_clck:true,
                     address: '',
                     name: '',
                     service_time: '',
@@ -127,6 +133,7 @@ class AddRepair extends Component {
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
+                    is_clck:true,
                     username: '',
                     address: '',
                     service_at: '',
@@ -135,8 +142,12 @@ class AddRepair extends Component {
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     handleXiuGai = () => {
 //         let _thisst = this.state

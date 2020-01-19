@@ -8,8 +8,8 @@
     <view class="span24"   @tap='toPayDetails(item.data[0],$event)'>
         <view class="span24 pay-wait-it">
             <view class="span18">
-                <view class="span24 pay-wait-xq">{{key}} (脱狗小区）</view>
-                <view class="span24 pay-wait-jg">本期费用合计 <span style="color:#FF2E2E;margin-left:12rpx">{{item.price}}￥</span></view>
+                <view class="span24 pay-wait-xq">{{key}} ({{item.data[0].household.community.community_name}}）</view>
+                <view class="span24 pay-wait-jg">本期费用合计 <span style="color:#FF2E2E;margin-left:12rpx">{{item.price?item.price:''}}￥</span></view>
             </view>
             <view class="span6 pay-wait-ctr-box">
                 <view class="pay-wait-ctr" v-if="item.data[0].status===0">未结清</view>
@@ -18,15 +18,27 @@
         </view>
     </view>
     </view>
+     <HMmessages
+      ref="HMmessages"
+      @complete="HMmessages = $refs.HMmessages"
+      @clickMessage="clickMessage"
+    ></HMmessages>
+    <view class="span24 queshen" v-if="show_default">
+        <view class="span24 queshen-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image></view>
+        <view class="span24 queshen-tt">还没有缴费信息~</view>
+    </view>
   </view>
 </template>
 
 <script>
+
+import HMmessages from "../../components/HM-messages/HM-messages.vue";
 export default {
   data() {
     return {
         cur:1,
-        list:null
+        list:null,
+        show_default:false
     };
   },
   methods: {
@@ -41,6 +53,13 @@ export default {
         status:status
       }}).then(res => { 
         this.list=res.data
+        console.log(res.data.length)
+               if(res.data.length==0){
+                  this.HMmessages.show("查询无数据", { icon: "error" });
+                  this.show_default=true
+               }else{
+                  this.show_default=false
+               }
           })
           .catch(res => {});
     }
@@ -54,11 +73,19 @@ export default {
       }
     }
   },
-  components: {},
-  onLoad() {},
-  onShow() {
+  components: {HMmessages},
+  onLoad(opt) {
+    if(opt.target){
+      if(opt.target==1){
+      this.cur=2
+    this.reloadList(1)
+      }
+    }else{
     this.cur=1
     this.reloadList(0)
+    }
+  },
+  onShow() {
   },
   onHide() {}
 };
@@ -122,5 +149,28 @@ font-size:30rpx;
 font-weight:500;
 color:#AD6601;
 border-radius:29px;
+}
+    .queshen{
+    height: 92%;
+    background: white;
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    align-items: flex-start;
+    display: block
+}
+.queshen-tp{
+    display: block;
+    text-align: center;
+    margin-top: 200rpx
+}
+.queshen-tp image{
+    width: 326rpx;
+height: 316rpx;
+}
+.queshen-tt{
+    display: block;
+    text-align: center;
+    margin-top: 80rpx
 }
 </style>

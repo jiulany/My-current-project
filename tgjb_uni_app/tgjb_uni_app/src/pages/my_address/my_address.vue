@@ -25,6 +25,13 @@
       @complete="HMmessages = $refs.HMmessages"
       @clickMessage="clickMessage"
     ></HMmessages>
+    <view class="span24 queshen" v-if="show_default">
+        <view class="span24 queshen-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image></view>
+        <view class="span24 queshen-tt">还没有添加房屋信息~</view>
+        <view class="span24 myhouse-sv">
+          <view @tap="toAddAddress">添加地址</view>
+        </view>
+    </view>
   </view>
 </template>
 
@@ -36,7 +43,8 @@ export default {
     return {
         address_list:[],
         showModel: false,
-        curClickItem:null
+        curClickItem:null,
+        show_default:false
     };
   },
   methods: {
@@ -45,8 +53,10 @@ export default {
            }}).then(res=>{
           this.address_list=res.data
           if(res.data.length==0){
-              this.HMmessages.show("查询无数据", { icon: "error" });
-          }
+                  this.show_default=true
+               }else{
+                  this.show_default=false
+               }
       }).catch(res=>{
       })
       },
@@ -72,7 +82,6 @@ export default {
         }
       })
         .then(res => {
-            console.log(res)
             _this.reLoadList()
             _this.HMmessages.show(res.msg, { icon: "success" ,iconColor:"#fdd000"});
         })
@@ -154,4 +163,44 @@ color:rgba(153,153,153,1);
         background:linear-gradient(90deg,rgba(255,195,110,1) 0%,rgba(252,238,191,1) 100%);color:rgba(173,102,1,1);
         font-size:35rpx;
     }
+    .queshen{
+    height: 100%;
+    background: white;
+    position:fixed;
+    left: 0;
+    right: 0;
+    align-items: flex-start;
+    display: block
+}
+.queshen-tp{
+    display: block;
+    text-align: center;
+    margin-top: 200rpx
+}
+.queshen-tp image{
+    width: 326rpx;
+height: 316rpx;
+}
+.queshen-tt{
+    display: block;
+    text-align: center;
+    margin-top: 80rpx
+}
+    .myhouse-sv{
+    justify-content: center;
+    margin-top: 86rpx
+}
+.myhouse-sv view{
+    width:575rpx;
+height:73rpx;
+background:linear-gradient(90deg,rgba(255,195,110,1) 0%,rgba(252,238,191,1) 100%);
+border-radius:37rpx;
+text-align: center;
+line-height: 73rpx;
+
+font-size:30rpx;
+font-family:PingFang SC;
+font-weight:500;
+color:rgba(173,102,1,1);
+}
 </style>

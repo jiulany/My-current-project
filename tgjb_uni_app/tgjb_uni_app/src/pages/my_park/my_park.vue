@@ -1,13 +1,16 @@
 <template>
   <view class="span24 mypark">
+      <view class="span24 mypark-hd-box">
+          <view class="mypark-pay" @tap="toParkPay">停车缴费</view>
+      </view>
       <view class="span24 mypark-it" v-for="item in park_list" :key="item.id">
-          <view class="span24" v-if="item.car===null">
+          <view class="span24" v-if="item.car_num==null">
           <view class="span24 mypark-hd">
               <view class="span3 mypark-ico">
                    <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xiaoqu.png'></image>
               </view>
               <view class="span17 mypark-xq">{{item.community_name}}</view>
-              <view class="span4" @tap="toBdCar">绑定车辆</view>
+              <view class="span4" @tap="toBdCar(item,$event)">绑定车辆</view>
           </view>
           <view class="span24 mypark-ct">
               <view class="span13">
@@ -43,8 +46,9 @@
               </view>
               <view style="height:1px;width:100%;background:rgba(240,240,240,1)"></view>
               <view class="span24 mypark-bd">
-                  <view class="span18">车辆：{{item.car.car_number}}</view>
-                  <view class="span6 mypark-quxbd">取消绑定</view>
+                  <view class="span18">绑定车辆：</view>
+                  <!-- <view class="span6 mypark-quxbd">取消绑定</view> -->
+                  <view class="span6 mypark-quxbd">{{item.car_num}}</view>
               </view>
           </view>
           </view>
@@ -70,8 +74,11 @@ export default {
     }
   },
   methods: {
-      toBdCar(){
-          uni.navigateTo({url: '/pages/my_park_bdcar/my_park_bdcar'});
+      toBdCar(item,e){
+          uni.navigateTo({url: `/pages/my_park_bdcar/my_park_bdcar?space_id=${item.spaces_id}`});
+      },
+      toParkPay(){
+          uni.navigateTo({url: `/pages/my_park_pay/my_park_pay`});
       },
       reLoadList(){
       this.$http({ url: `api/mine/myspaces` ,data:{
@@ -84,7 +91,6 @@ export default {
           uni.navigateTo({url: '/pages/my_nopark/my_nopark?switchPage=2'});
       },
       openDeleModel(item,e){
-          console.log(item)
           this.showModel=true
           this.curClickItem=item
       },
@@ -138,6 +144,10 @@ page {
     .mypark-it{
         padding: 29rpx 25rpx 0 25rpx
     }
+    .mypark-hd-box{
+        padding: 29rpx 25rpx 0 25rpx;
+        justify-content: flex-end
+    }
     .mypark-delete{
         justify-content: center 
     }
@@ -188,5 +198,16 @@ margin-top: 16rpx
         justify-content: center;
         align-items: center;
         background:linear-gradient(90deg,rgba(255,195,110,1) 0%,rgba(252,238,191,1) 100%);color:rgba(173,102,1,1);
+}
+.mypark-pay{
+    width:165rpx;
+height:50rpx;
+background:linear-gradient(90deg,rgba(255,195,110,1) 0%,rgba(252,238,191,1) 100%);
+border-radius:25rpx;
+font-size:26rpx;
+font-family:PingFang SC;
+font-weight:500;
+text-align: center;
+color:rgba(173,102,1,1);
 }
 </style>

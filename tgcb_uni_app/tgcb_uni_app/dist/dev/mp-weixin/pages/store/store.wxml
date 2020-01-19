@@ -1,1 +1,1 @@
-<view class="store"><store vue-id="1" bind:__l="__l"></store><tab-bar vue-id="2" address="1" bind:__l="__l"></tab-bar></view>
+<view class="store"><store vue-id="1" bind:__l="__l"></store></view>

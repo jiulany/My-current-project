@@ -9,6 +9,9 @@
           </view>
       </view> -->
       <view class="span24 myappoint-ct">
+          
+      <scroll-view :scroll-y="true" style="height:100vh" @scrolltolower="lower">
+          <view class="span24 myappoint-box">
           <view class="span24 myappoint-it" v-for="item in appoint_list" :key="item.id">
               <view class="span24 myappoint-it-hd">
                   <view class="span5 myappoint-it-ky">订单号</view>
@@ -24,7 +27,7 @@
               </view>
               <view class="span24 myappoint-it-ctit">
                   <view class="span5 myappoint-it-ky">预约时间</view>
-                  <view class="span19 myappoint-it-val">{{item.service.service_time}}</view>
+                  <view class="span19 myappoint-it-val">{{item.created_at}}</view>
               </view>
               <view class="span24 myappoint-it-ctit">
                   <view class="span5 myappoint-it-ky">预约项目</view>
@@ -48,6 +51,8 @@
                   <span class="myappoint-cancel" v-if="item.is_refund===1&&item.detail[0].refund_status===2" >已取消</span>
               </view>
           </view>
+          </view>
+      </scroll-view>
       </view>
 	<uni-popup ref="popup" type="center" class="myappoint-model-bt">
 		<view class="span24 myappoint-model" v-if="is_yuyue">
@@ -66,6 +71,10 @@
       @complete="HMmessages = $refs.HMmessages"
       @clickMessage="clickMessage"
     ></HMmessages>
+    <view class="span24 queshen" v-if="show_default">
+        <view class="span24 queshen-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image></view>
+        <view class="span24 queshen-tt">还没有预约数据~</view>
+    </view>
   </view>
 </template>
 
@@ -75,12 +84,19 @@ import HMmessages from "../../components/HM-messages/HM-messages.vue";
 export default {
   data() {
     return {
-        appoint_list:null,
+        appoint_list:[],
+        page:1,
         showModel:false,
-        is_yuyue:true
+        is_yuyue:true,
+        type:null,
+        is_load:true,
+        show_default:false
     };
   },
   methods: {
+      lower(){
+          this.reloadList()
+      },
       openModel(item,e){
           this.curClickItem=item
           this.is_yuyue=true
@@ -120,18 +136,58 @@ export default {
           uni.navigateTo({url: '/pages/my_appoint_history/my_appoint_history'});
       },
       reloadList(){
+          if(this.is_load){
+              uni.showLoading({
+    title: '加载中'
+});
+              this.is_load=false
       this.$http({ url: `api/mine/appointment` ,data:{
+          type:this.type,
+          limit:10,
+          page:this.page
            }}).then(res => {
-               this.appoint_list=res.data
-               if(res.data.length==0){
-                   this.HMmessages.show("查询无数据", { icon: "error" });
+               this.is_load=true
+                uni.hideLoading();
+               if(res.data.data.length==0){
+                   if(this.page==1){//页数为1且无数据显示缺省页面
+                       this.show_default=true
+                   }
+               }else{
+                   this.show_default=false
+                   this.appoint_list=this.appoint_list.concat(res.data.data)
+                   this.page+=1
                }
        })
-      .catch(res => {});
+      .catch(res => {
+          this.is_load=true
+           uni.hideLoading();
+      });
       }
+          }
   },
   components: { uniPopup,HMmessages},
-  onLoad() {},
+  onLoad(opt) {
+      this.type=opt.type
+      if(opt.type==6){
+          uni.setNavigationBarTitle({
+    title: '家政订单'
+});
+      }
+      if(opt.type==2){
+          uni.setNavigationBarTitle({
+    title: '报修订单'
+});
+      }
+  },
+  onUnload(){
+     console.log(getCurrentPages()) 
+     let str=getCurrentPages()[getCurrentPages().length-2]
+     if(str.route=='pages/service_appointment/service_appointment'){
+         uni.navigateBack({
+    delta: 2
+});
+     }
+  },
   onShow() {
       this.reloadList()
   },
@@ -169,14 +225,15 @@ line-height:80rpx;
     width:20rpx;
 height:36rpx;
 }
-.myappoint-ct{
+.myappoint-box{
+    padding: 24rpx;
     padding-bottom: 200rpx
 }
 .myappoint-it{
     background: white;
-    margin: 24rpx;
     font-size: 28rpx;
-    border-radius: 10rpx
+    border-radius: 10rpx;
+    margin-bottom: 24rpx
 }
 .myappoint-it-hd{
     padding: 24rpx 22rpx 19rpx 37rpx;
@@ -244,5 +301,28 @@ border-radius:23rpx;
 .myappoint-model-close image{
 	height:24rpx;
 	width:24rpx
+}
+.queshen{
+    height: 100%;
+    background: white;
+    position:fixed;
+    left: 0;
+    right: 0;
+    align-items: flex-start;
+    display: block
+}
+.queshen-tp{
+    display: block;
+    text-align: center;
+    margin-top: 200rpx
+}
+.queshen-tp image{
+    width: 326rpx;
+height: 316rpx;
+}
+.queshen-tt{
+    display: block;
+    text-align: center;
+    margin-top: 80rpx
 }
 </style>

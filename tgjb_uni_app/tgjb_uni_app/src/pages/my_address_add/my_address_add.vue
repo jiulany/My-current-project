@@ -34,24 +34,45 @@
       </view>
       <view class="span24 address-it">
         <view class="span5">门牌号</view>
-        <view class="span19">
-          <input v-model="number" type="text" placeholder="请输入门牌号" />
+        <view class="span19" @tap="openKeyboard">
+          <input  disabled v-model="loudong" type="text" placeholder="请选择" />
         </view>
       </view>
     </view>
     <view class="span24 address-sv">
-      <view @tap="save">保存</view>
+      <view @tap.stop="saveAddress">保存</view>
     </view>
     <HMmessages
       ref="HMmessages"
       @complete="HMmessages = $refs.HMmessages"
       @clickMessage="clickMessage"
     ></HMmessages>
+    <uni-popup ref="popup" class="cell-model" type="bottom">
+		<view class="span24 cell-model-box">
+      <view class="span24 cell-model-hd">
+        <view :class="is_loudong==1?'span8 cell-model-hd-it-ac':'span8 cell-model-hd-it'" @tap="switchLoudog(1,$event)">选择栋</view>
+        <view :class="is_loudong==2?'span8 cell-model-hd-it-ac':'span8 cell-model-hd-it'" @tap="switchLoudog(2,$event)">选择单元</view>
+        <view :class="is_loudong==3?'span8 cell-model-hd-it-ac':'span8 cell-model-hd-it'" @tap="switchLoudog(3,$event)">选择房号</view>
+      </view>
+      <view class="span24 cell-model-ct">
+        <scroll-view  scroll-y="true" v-if="is_loudong==1">
+        <view class="span24 cell-model-ct-it" v-for="item in dong_list" :key="item" @tap="tapLoudog(1,item,$event)">{{item}}栋</view>
+        </scroll-view>
+        <scroll-view  scroll-y="true" v-if="is_loudong==2" >
+        <view class="span24 cell-model-ct-it" v-for="item in unit_list" :key="item" @tap="tapLoudog(2,item,$event)">{{item}}单元</view>
+        </scroll-view>
+        <scroll-view  scroll-y="true" v-if="is_loudong==3">
+        <view class="span24 cell-model-ct-it" v-for="item in roomnum_list" :key="item.id" @tap="tapLoudog(3,item,$event)">{{item.number}}</view>
+        </scroll-view>
+      </view>
+		</view>
+	</uni-popup>
   </view>
 </template>
 
 <script>
 import HMmessages from "../../components/HM-messages/HM-messages.vue";
+import {uniPopup   } from "@dcloudio/uni-ui";
 import { setTimeout } from "timers";
 export default {
   data() {
@@ -60,6 +81,14 @@ export default {
       page_type: null,
       xiugai_id: null,
       index: 0,
+      dong:"",
+      unit:"",
+      roomnum:"",
+      dong_list:[],
+      unit_list:[],
+      roomnum_list:[],
+      is_loudong:1,
+      loudong:null,
       name: null,
       phone: null,
       address: null,
@@ -71,21 +100,100 @@ export default {
       this.index = e.target.value;
       this.address = this.community_list[e.target.value].community_address;
     },
-    save() {
+     switchLoudog(val,e){
+      this.is_loudong=val
+    },
+     openKeyboard(){
+      this.is_loudong=1
+      this.dong=""
+      this.unit=""
+      this.roomnum=""
+      this.dong_list=[]
+      this.unit_list=[]
+      this.roomnum_list=[]
+      this.$http({ url: "api/floor/floor_list", data: {community_id:uni.getStorageSync('community_selected').community_id} })
+        .then(res => {
+          this.dong_list=res.data
+          this.$refs.popup.open()
+        })
+        .catch(res => {
+           uni.showToast({
+    title: res.msg,
+    icon:'none',
+    duration: 2000
+});
+            // this.HMmessages.show(res.msg, { icon: "error" });
+            })
+    },
+    tapLoudog(val,item,e){
+      if(val==1){
+        this.dong=item
+        this.is_loudong=2
+        this.$http({ url: "api/floor/floor_get_unit", data: {foller:this.dong,community_id:this.community_id} })
+        .then(res => {
+          this.unit_list=res.data
+        })
+        .catch(res => {
+          uni.showToast({
+    title: res.msg,
+    icon:'none',
+    duration: 2000
+});
+            // this.HMmessages.show(res.msg, { icon: "error" });
+            })
+      }
+      if(val==2){
+        this.unit=item
+        this.is_loudong=3
+        this.$http({ url: "api/floor/floor_list_info", data: {foller:this.dong,unit:this.unit,community_id:this.community_id} })
+        .then(res => {
+          this.roomnum_list=res.data
+        })
+        .catch(res => {
+          uni.showToast({
+    title: res.msg,
+    icon:'none',
+    duration: 2000
+});
+            // this.HMmessages.show(res.msg, { icon: "error" });
+            })
+      }
+      if(val==3){
+        this.roomnum=item.number
+        this.$http({ url: "api/home/find_house", data: {house_number:this.dong+this.unit+this.roomnum ,community_id:this.community_id} })
+          .then(res => {
+            this.house_id=res.data.id
+            this.loudong=this.dong+'-'+this.unit+'-'+this.roomnum
+            this.HMmessages.show(res.msg, { icon: "success" ,iconColor:"#fdd000"});
+          })
+          .catch(res => {
+            uni.showToast({
+    title: res.msg,
+    icon:'none',
+    duration: 2000
+});
+            // this.HMmessages.show(res.msg, { icon: "error" });
+          });
+          this.$refs.popup.close()
+      }
+    },
+    saveAddress() {
       if (this.page_type == "1") {
+        console.log("address")
         this.$http({
-          url: "api/mine/create_address ",
+          url: "api/mine/create_address",
           method: "POST",
           data: {
             name: this.name,
             phone: this.phone,
             address: this.address,
-            number: this.number,
+            number: this.loudong,
+            house_id:this.house_id,
             community_id: this.community_list[this.index].id
           }
         })
           .then(res => {
-            this.HMmessages.show(res.msg, { icon: "success" ,iconColor:"#fdd000"});
+            this.HMmessages.show(res.message, { icon: "success" ,iconColor:"#fdd000"});
             this.name = null;
             this.phone = null;
             this.address = null;
@@ -97,7 +205,7 @@ export default {
             }, 1500);
           })
           .catch(res => {
-            this.HMmessages.show(res.msg, { icon: "error" });
+            this.HMmessages.show(res.message, { icon: "error" });
           });
       }
       if(this.page_type == "2"){
@@ -129,7 +237,7 @@ export default {
       }
     }
   },
-  components: { HMmessages },
+  components: { HMmessages,uniPopup },
   onLoad(option) {
     console.log(option);
     this.page_type = option.type;
@@ -207,5 +315,38 @@ page {
   color: #ad6601;
   text-align: center;
   line-height: 70rpx;
+}
+.cell-model-box{
+box-shadow:0 -1px 2px rgba(0,0,0,.1);
+}
+.cell-model-hd-it{
+  padding: 18rpx 51rpx 18rpx 51rpx;
+  color: #FFC571FF;
+font-size:30rpx;
+font-family:PingFang SC;
+font-weight:500;
+color:rgba(255,197,113,1);
+justify-content: center;
+  border-bottom: 2rpx solid rgba(245,245,245,1);
+}
+.cell-model-hd-it-ac{
+  padding: 18rpx 51rpx 18rpx 51rpx;
+  color: #FFC571FF;
+font-size:30rpx;
+font-family:PingFang SC;
+font-weight:500;
+color:rgba(255,197,113,1);
+justify-content: center;
+  border-bottom: 2rpx solid #FFC573FF;
+}
+.cell-model-ct{
+  height: 500rpx;
+  overflow-y: scroll
+}
+.cell-model-ct-it{
+  justify-content: center;
+  border-bottom: 2rpx solid rgba(245,245,245,1);
+  padding: 30rpx 0;
+  height: 100rpx;
 }
 </style>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Input, Pagination, Modal, Spin, Icon, message, DatePicker } from 'antd';
-import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem, yeZhuStatus, fangWuType ,stopCarStatus} from './TableListconf'
+import { HEAD_CONF, mapAddressToTd, getPageTotal, getTableList, deleItem, yeZhuStatus, fangWuType ,shenFen,stopCarStatus} from './TableListconf'
 import moment from 'moment';
 import Cookies from 'js-cookie'
 import http from '../../api/http';
@@ -69,7 +69,8 @@ class TableList extends Component {
                 })
                 if (res.total) {
                     this.setState({
-                        total_page: res.total
+                        total_page: res.total,
+                        cur_page:1
                     })
                 }
             }).catch(res => {
@@ -213,12 +214,14 @@ class TableList extends Component {
             quadt_show: false
         })
     }
-    quadtOk = () => {
-        this.setState({
-            quadt_loading: true
-        })
+    quadtOk = (val,e) => {
+        if(val!==2){
+            this.setState({
+                quadt_loading: true
+            })
+        }
         if(this.state.quaorpark){
-            http('/examine/pass_household', { method: 'post', data: { id: this.state.cur_quadt.id, status: this.state.cur_quadt.status } }).then(res => {
+            http('/examine/pass_household', { method: 'post', data: { id: this.state.cur_quadt.id, status:val } }).then(res => {
                 message.success(res.msg, 3)
                 this.initialRender()
                 this.setState({
@@ -233,7 +236,7 @@ class TableList extends Component {
             })
         }
         if(!this.state.quaorpark){
-            http('/examine/pass_space', { method: 'post', data: { id: this.state.cur_quadt.id, status: this.state.cur_quadt.status } }).then(res => {
+            http('/examine/pass_space', { method: 'post', data: { id: this.state.cur_quadt.id, status: val } }).then(res => {
                 message.success(res.msg, 3)
                 this.initialRender()
                 this.setState({
@@ -249,12 +252,14 @@ class TableList extends Component {
         }
     }
     openQuadtModel = (it, val, e) => {
-        console.log(it)
         this.setState({
             quadt_show: true,
             quaorpark: val,
             cur_quadt: it
         })
+    }
+    toGoodsDetails=(it,e)=>{
+        this.props.history.push({ pathname: '/index/goods_paydetails'})
     }
     matchPath(val) {
         switch (val) {
@@ -332,6 +337,16 @@ class TableList extends Component {
                 this.setState({
                     ...HEAD_CONF.PARK_EXAMINE
                 })
+                break
+            case "/index/charging_list":
+                this.setState({
+                    ...HEAD_CONF.CHARGING_LIST
+                })
+                break
+            case "/index/goods_order":
+            this.setState({
+                ...HEAD_CONF.GOODS_LIST
+            })
                 break
             default:
                 break
@@ -426,6 +441,60 @@ class TableList extends Component {
                     is_examine: 0
                 })
                 this.initialRender(0)
+            }
+        }
+    }
+    sleOrderSt=(p,e)=>{
+        if (p === "daifukuan") {
+            if (this.state.is_orderst === 1) {
+                this.setState({
+                    is_orderst: 0
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_orderst: 1
+                })
+                this.initialRender(1)
+            }
+        }
+        if (p === "daifahuo") {
+            if (this.state.is_orderst === 2) {
+                this.setState({
+                    is_orderst: 0
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_orderst: 2
+                })
+                this.initialRender(2)
+            }
+        }
+        if (p === "daishouhuo") {
+            if (this.state.is_orderst === 3) {
+                this.setState({
+                    is_orderst: 0
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_orderst: 3
+                })
+                this.initialRender(3)
+            }
+        }
+        if (p === "yiwancheng") {
+            if (this.state.is_orderst === 4) {
+                this.setState({
+                    is_orderst: 0
+                })
+                this.initialRender()
+            } else {
+                this.setState({
+                    is_orderst: 4
+                })
+                this.initialRender(4)
             }
         }
     }
@@ -619,11 +688,40 @@ class TableList extends Component {
                                 </Col>
                             </Col>
                         }
+                        {
+                            this.state.is_shiw_tbhead === 4 &&
+                            <Col span={24} className='table-list-ms'>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6} className='table-list-payst'>
+                                    <Col span={5} className='table-list-payed'><div onClick={(e) => this.sleExamine('yishenhe', e)} className={this.state.is_examine === 1 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>闲置</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.sleExamine('daishenhe', e)} className={this.state.is_examine === 0 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>充满</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.sleExamine('daishenhe', e)} className={this.state.is_examine === 0 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>使用中</div><span></span></Col>
+                                </Col>
+                            </Col>
+                        }
+                        {
+                            this.state.is_shiw_tbhead === 5 &&
+                            <Col span={24} className='table-list-ms'>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6}></Col>
+                                <Col span={6} className='table-list-payst'>
+                                    <Col span={5} className='table-list-payed'><div onClick={(e) => this.sleOrderSt('daifukuan', e)} className={this.state.is_orderst === 1? 'table-list-paystzz-ac' : 'table-list-paystzz'}>待付款</div><span></span></Col>
+                                    <Col span={5} className='table-list-payed'><div onClick={(e) => this.sleOrderSt('daifahuo', e)} className={this.state.is_orderst === 2? 'table-list-paystzz-ac' : 'table-list-paystzz'}>待发货</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.sleOrderSt('daishouhuo', e)} className={this.state.is_orderst === 3 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>待收货</div><span></span></Col>
+                                    <Col span={5} className='table-list-payno'><div onClick={(e) => this.sleOrderSt('yiwancheng', e)} className={this.state.is_orderst === 4 ? 'table-list-paystzz-ac' : 'table-list-paystzz'}>已完成</div><span></span></Col>
+                                </Col>
+                            </Col>
+                        }
                     </Col>
                     <Col span={3} className="table-list-add">
-                        <Button type="primary" shape="round" onClick={this.addItme} className="table-list-addbtn">
+                        {
+                            this.state.is_add===false?'':(<Button type="primary" shape="round" onClick={this.addItme} className="table-list-addbtn">
                             添加
-                        </Button>
+                        </Button>)
+                        }
                     </Col>
                 </Col>
                 <Col span={24} className="table-list-fenline">
@@ -650,7 +748,8 @@ class TableList extends Component {
                                                 xQCurItem: this.xQCurItem,
                                                 addParkPlace: this.addParkPlace,
                                                 baoxiuXiangqing: this.baoxiuXiangqing,
-                                                openQuadtModel: this.openQuadtModel
+                                                openQuadtModel: this.openQuadtModel,
+                                                toGoodsDetails:this.toGoodsDetails
                                             })
                                         )
                                     })
@@ -671,8 +770,18 @@ class TableList extends Component {
                     </Spin>
                 </Modal>
                 {/* 小区审核详情 */}
-                <Modal title={this.state.quaorpark?'小区审核-详情':'车位审核-详情'} visible={this.state.quadt_show} onOk={this.quadtOk} className='quadt-model' okText='通过审核' cancelText="取消"
-                    onCancel={this.quadtCancel} confirmLoading={this.state.quadt_loading}
+                <Modal title={this.state.quaorpark?'小区审核-详情':'车位审核-详情'} visible={this.state.quadt_show} className='quadt-model'
+                onCancel={this.quadtCancel}	
+                  footer={
+                        <div>
+                        <Button onClick={this.quadtCancel}>取消</Button>
+                        <Button onClick={(e)=>this.quadtOk(2,e)} type="danger">拒绝</Button>
+                        {
+                            this.state.cur_quadt&&this.state.cur_quadt.status!==1&&
+                            <Button  type="primary" onClick={(e)=>this.quadtOk(1,e)}  loading={this.state.quadt_loading} >通过审核</Button>
+                        }
+                        </div> 
+                    }
                 >
                     {this.state.quaorpark ?(
                         <Row>
@@ -687,6 +796,7 @@ class TableList extends Component {
                             <Col span={8} className="quadt-model-it">身份号：{this.state.cur_quadt && this.state.cur_quadt.idcard}</Col>
                             <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.phone}</Col>
                             <Col span={8} className="quadt-model-it">审核状态：{this.state.cur_quadt && fangWuType(this.state.cur_quadt.status)}</Col>
+                            <Col span={8} className="quadt-model-it">认证身份：{this.state.cur_quadt && shenFen(this.state.cur_quadt.type)}</Col>
                         </Row>):(
                             <Row>
                             <Col span={24} className="quadt-model-tt">物业信息</Col>
@@ -701,7 +811,8 @@ class TableList extends Component {
                             <Col span={8} className="quadt-model-it">姓名：{this.state.cur_quadt && this.state.cur_quadt.name}</Col>
                             <Col span={8} className="quadt-model-it">电话：{this.state.cur_quadt && this.state.cur_quadt.phone}</Col>
                             <Col span={8} className="quadt-model-it">车位编号：{this.state.cur_quadt && this.state.cur_quadt.spaces.park_name}</Col>
-                            <Col span={24} className="quadt-model-it">审核状态：{this.state.cur_quadt && fangWuType(this.state.cur_quadt.status)}</Col> 
+                            <Col span={8} className="quadt-model-it">审核状态：{this.state.cur_quadt && fangWuType(this.state.cur_quadt.status)}</Col> 
+                            <Col span={16} className="quadt-model-it">认证身份：{this.state.cur_quadt && shenFen(this.state.cur_quadt.type)}</Col>
                             <Col span={8} className="quadt-model-it"><img className="quadt-model-shimg" src={this.state.cur_quadt && this.state.cur_quadt.just_idk}  alt="" /></Col>
                             <Col span={8} className="quadt-model-it"><img className="quadt-model-shimg" src={this.state.cur_quadt && this.state.cur_quadt.back_idk}  alt="" /></Col>
                         </Row>
@@ -739,7 +850,7 @@ class TableList extends Component {
                                             <Col span={12} className='baoxiu-model-it-line'>服务项目：{this.state.baoxiu && this.state.baoxiu.sku_name}</Col>
                                         </Col>
                                         <Col span={24} className='baoxiu-model-it'>
-                                            <Col span={12} className='baoxiu-model-it-line'>姓名：{this.state.baoxiu && this.state.baoxiu.name}</Col>
+                                            <Col span={12} className='baoxiu-model-it-line'>报修人：{this.state.baoxiu && this.state.baoxiu.contacts}</Col>
                                             <Col span={12} className='baoxiu-model-it-line'>订单价格：{this.state.baoxiu && this.state.baoxiu.order_total_price}</Col>
                                         </Col>
                                         <Col span={24} className='baoxiu-model-it'>

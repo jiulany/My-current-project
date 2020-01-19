@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Col, Modal, Input, Select, Upload, message, Icon, Button, Radio } from 'antd';
+import Cookies from 'js-cookie'
 import './ParksManage.css'
+import store from '../../reducer/reducer'
 import http  from '../../api/http';
+
 const { Option } = Select;
 //css样式在home.css
 function getBase64(img, callback) {
@@ -18,59 +21,73 @@ class ParksManage extends Component {
             loading: false,
             image_url: [],
             is_change: false,
+            cur_communite: Cookies.get('community_id'),
             data: [],
             park: [],
             is_xianzh_no:true
         }
+        store.subscribe(() => {
+            this.setState({
+                cur_communite: store.getState().controlCommunity.value
+            })
+        })
     }
-    componentDidMount() {
-        setTimeout(() => {
-            http('/park/park_floor', { method: 'get', data: {} }).then(res => {
-                let a = []
-                for (let i in res.data) {
-                    let b = res.data[i]
+    componentWillUpdate(prop, state) {
+        if (state.cur_communite !== this.state.cur_communite) {
+            this.initialRender()
+        }
+    }
+    initialRender=()=>{
+        http('/park/park_floor', { method: 'get', data: {} }).then(res => {
+            let a = []
+            for (let i in res.data) {
+                let b = res.data[i]
+                if (parseInt(i) === 0) {
+                    b.act = true
+                } else {
+                    b.act = false
+                }
+                a.push(b)
+            }
+            this.setState({
+                data: a,
+                cur_tab_inx: 0
+            })
+            if (a[0].park) {
+                this.setState({
+                    park: a[0].park
+                })
+            }
+            http('/park/park_region', { method: 'get', data: { floor_id: a[0].id } }).then(res => {
+                let b = res.data
+                for (let i in b) {
                     if (parseInt(i) === 0) {
-                        b.act = true
+                        b[i].act = true
                     } else {
-                        b.act = false
+                        b[i].act = false
                     }
-                    a.push(b)
                 }
                 this.setState({
-                    data: a,
-                    cur_tab_inx: 0
+                    sider_list: b,
                 })
-                if (a[0].park) {
+                http('/park', { method: 'get', data: { floor_id: a[0].id, park_region: b[0].park_region } }).then(res => {
+                    console.log(res)
                     this.setState({
-                        park: a[0].park
-                    })
-                }
-                http('/park/park_region', { method: 'get', data: { floor_id: a[0].id } }).then(res => {
-                    let b = res.data
-                    for (let i in b) {
-                        if (parseInt(i) === 0) {
-                            b[i].act = true
-                        } else {
-                            b[i].act = false
-                        }
-                    }
-                    this.setState({
-                        sider_list: b,
-                    })
-                    http('/park', { method: 'get', data: { floor_id: a[0].id, park_region: b[0].park_region } }).then(res => {
-                        console.log(res)
-                        this.setState({
-                            park: res.data,
-                            cur_tab_inx:0,
-                            cur_sid_inx:0
-                        })
-                    }).catch(res => {
+                        park: res.data,
+                        cur_tab_inx:0,
+                        cur_sid_inx:0
                     })
                 }).catch(res => {
                 })
             }).catch(res => {
-                console.log(res)
             })
+        }).catch(res => {
+            console.log(res)
+        })
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.initialRender()
         }, 1000)
     }
     pandPositiveOrReverse = (file, val) => {

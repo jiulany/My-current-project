@@ -41,7 +41,6 @@ export function stopCarStatus(st){
     }
 }
 export function yeZhuStatus(st){
-    console.log(st)
     if(st===1){
         return '自住'
     }
@@ -55,7 +54,7 @@ export function yeZhuStatus(st){
         return '出租'
     }
 }
-function shenFen(st){
+export function shenFen(st){
     if(st===1){
         return '业主'
     }
@@ -68,10 +67,13 @@ function shenFen(st){
 }
 export function fangWuType(st){
     if(st===0){
-        return (<span style={{ color: '#F56047' }}>待审核</span>)
+        return (<span style={{ color: '#3399FF' }}>待审核</span>)
     }
     if(st===1){
         return (<span style={{ color: '#333333' }}>已审核</span>) 
+    }
+    if(st===2){
+        return (<span style={{ color: '#f56047' }}>已拒绝</span>) 
     }
 }
 function baoXiuStatus(order_status,is_assign){
@@ -85,6 +87,27 @@ function baoXiuStatus(order_status,is_assign){
     }
     if(order_status===3){
         return "已完成"
+    }
+}
+function filterLength(val){
+if(val.length>30){
+    return val.substr(0,30)+'......'
+}else{
+    return val
+}
+}
+function orderStatus(val){
+    if(val===1){
+        return (<span style={{ color: '#F56047' }}>待付款</span>)
+    }
+    if(val===2){
+        return (<span style={{ color: '#3399FFFF' }}>待发货</span>) 
+    }
+    if(val===3){
+        return (<span style={{ color: '#FDD100FF' }}>待收货</span>) 
+    }
+    if(val===4){
+        return (<span style={{ color: '#FDD100FF' }}>已完成</span>) 
     }
 }
 export const HEAD_CONF = {
@@ -179,13 +202,27 @@ export const HEAD_CONF = {
         head: ['姓名', '电话','楼号', '身份','身份证号','房屋状态','操作'],
         dele_title: "删除停车位信息",
         inp_ziduan:"搜索：姓名,电话",
-        is_shiw_tbhead: 3
+        is_shiw_tbhead: 3,
+        is_add:false
     },
     PARK_EXAMINE: {//车位审核列表
         head: ['姓名', '电话', '车位编号','身份','车位状态','操作'],
-        dele_title: "删除停车位信息",
+        dele_title: "删除车位信息",
         inp_ziduan:"搜索：姓名,电话",
-        is_shiw_tbhead: 3
+        is_shiw_tbhead: 3,
+        is_add:false
+    },
+    CHARGING_LIST: {//充电管理
+        head: ['插座编号', '电桩', '用户姓名','用户电话','日期','充电时长','支付金额','支付方式','插座状态','操作'],
+        dele_title: "删除充电信息",
+        inp_ziduan:"搜索：",
+        is_shiw_tbhead: 4
+    },
+    GOODS_LIST: {//商品订单
+        head: ['订单编号', '收货信息', '订单价格 ','配送状态 ','下单时间','配送人','操作'],
+        dele_title: "删除停车位信息",
+        inp_ziduan:"搜索：订单编号",
+        is_shiw_tbhead: 5
     }
 }
 export function mapAddressToTd(path, item, methods) {
@@ -227,7 +264,7 @@ export function mapAddressToTd(path, item, methods) {
                 <td>{item.service_time}</td>
                 <td>{item.order_total_price}</td>
                 <td>{baoXiuStatus(item.order_status,item.is_assign)}</td>
-                <td>{item.remarks}</td>
+                <td title={item.remarks}>{filterLength(item.remarks)}</td>
                 <td style={{ width: '13%' }}>
                     <Button type="primary" shape="round" className="table-list-xiugai" onClick={(e) => methods.baoxiuXiangqing(item, e)}>
                         详情
@@ -530,16 +567,36 @@ export function mapAddressToTd(path, item, methods) {
             </tr>
         )
     }
+    if (path === "/index/goods_order") {   // GOODS_LIST
+        return (
+            <tr key={item.id}>
+                <td >{item.internal_order_sn}</td>
+                <td >{item.full_address}</td>
+                <td >{item.order_total_price&&item.order_total_price+'￥'}</td>
+                <td >{orderStatus(item.order_status)}</td>
+                <td >{item.created_at}</td>
+                <td >{item.mobile}</td>
+                <td style={{ width: '17%' }}>
+                    <Button style={{background:'##3399FF'}} type="primary" shape="round" className="table-list-xiugai-f"onClick={(e) => methods.toGoodsDetails(item, e)}>
+                        详情
+                    </Button>
+                    <Button type="primary" shape="round" className="table-list-dele"onClick={(e) => methods.deleCurItem(item, e)}>
+                        删除
+                    </Button>
+                </td>
+            </tr>
+        )
+    }
 }
 
 export function getPageTotal(path, condition) {
     return new Promise((resolve, reject) => {//小区公告
         if (path === "/index/notice_list") {
-            http('/notice/noticeIndexNum', { method: 'post', data: { condition } }).then(res => {
-                resolve(res)
-            }).catch(res => {
-                reject(res)
-            })
+            // http('/notice/noticeIndexNum', { method: 'post', data: { condition } }).then(res => {
+            //     resolve(res)
+            // }).catch(res => {
+            //     reject(res)
+            // })
         }
         if (path === "/index/repair_manage") {//报修管理
             // http('/repair/repairIndexNum', { method: 'post', data: { condition } }).then(res => {
@@ -606,13 +663,13 @@ export function getPageTotal(path, condition) {
                 reject(res)
             })
         }
-        if (path === "/index/ye_list") {//业主列表
-            http('/owner/total', { method: 'post', data: { condition } }).then(res => {
-                resolve(res)
-            }).catch(res => {
-                reject(res)
-            })
-        }
+        // if (path === "/index/ye_list") {//业主列表
+        //     http('/owner/total', { method: 'post', data: { condition } }).then(res => {
+        //         resolve(res)
+        //     }).catch(res => {
+        //         reject(res)
+        //     })
+        // }
     })
 }
 export function getTableList(path, page, limit, condition,date,status,service) {//获取表格数据
@@ -709,6 +766,13 @@ export function getTableList(path, page, limit, condition,date,status,service) {
         }
         if (path === "/index/park_examine") {//车位审核列表
             http('/examine/space', { method: 'get' , data: { page: page, limit: limit, condition: condition,status:status } }).then(res => {
+                resolve(res.data)
+            }).catch(res => {
+                reject(res)
+            })
+        }
+        if (path === "/index/goods_order") {//商品列表
+            http('/order/commodity', { method: 'get' , data: { page: page, limit: limit, condition: condition,status:status } }).then(res => {
                 resolve(res.data)
             }).catch(res => {
                 reject(res)

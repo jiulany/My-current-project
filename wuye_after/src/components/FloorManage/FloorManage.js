@@ -21,6 +21,7 @@ class FloorManage extends Component {
             tenant_state: false,
             loading: false,
             image_url: [],
+            image_url0:[],
             is_change: 1,
             data: [],
             data_row: [],
@@ -196,10 +197,18 @@ class FloorManage extends Component {
             })
         }
         let a = this.state.image_url
+        let b=this.state.image_url0
         a[0] = cur_click.just_idk
         a[1] = cur_click.back_idk
-        console.log(moment(cur_click.tenant_time))
+        b[0]=cur_click.owner_just_idk
+        b[1]=cur_click.owner_back_idk
+        b[2]=cur_click.owner_title_image
         this.setState({
+            just_idk:null,
+            back_idk:null,
+            owner_just_idk:null,
+            owner_back_idk:null,
+            owner_title_image:null,
             show_model: true,
             household_id: cur_click.id,
             door_number: cur_click.door_number,
@@ -207,13 +216,15 @@ class FloorManage extends Component {
             owner_phone: cur_click.owner_phone,
             house_number: cur_click.house_number,
             status: parseInt(cur_click.status),
+            owner_idk_number: cur_click.owner_idk_number,
             renter_name: cur_click.renter_name,
             tenant_phone: cur_click.tenant_phone,
             lease_term: cur_click.lease_term,
             title_number: cur_click.title_number,
             tenant_time: cur_click.tenant_time,
-            show_tenant_time: moment(cur_click.tenant_time),
+            show_tenant_time: cur_click.tenant_time == null ? null : moment(cur_click.tenant_time),
             image_url: a,
+            image_url0:b,
             area: cur_click.area,
             number_residents: cur_click.number_residents,
             inx: inx,
@@ -248,6 +259,12 @@ class FloorManage extends Component {
                 area: re
             })
         }
+        if (p === 'owner_idk_number') {
+            let re = e.currentTarget.value.replace(/[^\d.]/, '')
+            this.setState({
+                owner_idk_number: re
+            })
+        }
         if (p === 'number_residents') {
             let re = e.currentTarget.value.replace(/[^\d.]/, '')
             this.setState({
@@ -274,26 +291,44 @@ class FloorManage extends Component {
         return new Promise((resolve, reject) => {
             let _thisst = this.state
             var formData = new FormData()
-            formData.append('id', _thisst.door_number)
-            formData.append('owner_name', _thisst.owner_name)
-            formData.append('owner_phone', _thisst.owner_phone)
-            formData.append('title_number', _thisst.title_number)
-            formData.append('number_residents', _thisst.number_residents)
+            formData.append('id', _thisst.door_number == null ? '' : _thisst.door_number)
+            formData.append('owner_name', _thisst.owner_name == null ? '' : _thisst.owner_name)
+            formData.append('owner_phone', _thisst.owner_phone == null ? '' : _thisst.owner_phone)
+            formData.append('title_number', _thisst.title_number == null ? '' : _thisst.title_number)
+            formData.append('number_residents', _thisst.number_residents == null ? '' : _thisst.number_residents)
             formData.append('status', _thisst.status)
-            formData.append('area', _thisst.area)
-            formData.append('renter_name', _thisst.renter_name)
-            formData.append('tenant_phone', _thisst.tenant_phone)
-            formData.append('tenant_time', _thisst.tenant_time)
-            formData.append('lease_term', _thisst.lease_term)
-            if (_thisst.just_idk) {
+            formData.append('area', _thisst.area == null ? '' : _thisst.area)
+            formData.append('renter_name', _thisst.renter_name == null ? '' : _thisst.renter_name)
+            formData.append('tenant_phone', _thisst.tenant_phone == null ? '' : _thisst.tenant_phone)
+            formData.append('tenant_time', _thisst.tenant_time == null ? '' : _thisst.tenant_time)
+            formData.append('lease_term', _thisst.lease_term == null ? '' : _thisst.lease_term)
+            formData.append('owner_idk_number', _thisst.owner_idk_number == null ? '' : _thisst.owner_idk_number)
+            //租客上传
+            if (_thisst.just_idk||_thisst.just_idk!==null) {
                 formData.append('just_idk', _thisst.just_idk)
             } else {
                 formData.append('img_urlz', this.state.data_main[this.state.inx].just_idk)
             }
-            if (_thisst.back_idk) {
+            if (_thisst.back_idk||_thisst.back_idk!==null) {
                 formData.append('back_idk', _thisst.back_idk)
             } else {
                 formData.append('img_urlf', this.state.data_main[this.state.inx].back_idk)
+            }
+            // 业主上传
+            if (_thisst.owner_just_idk||_thisst.owner_just_idk!==null) {
+                formData.append('owner_just_idk', _thisst.owner_just_idk)
+            } else {
+                // formData.append('img_urlz', this.state.data_main[this.state.inx].just_idk)
+            }
+            if (_thisst.owner_back_idk||_thisst.owner_back_idk!==null) {
+                formData.append('owner_back_idk', _thisst.owner_back_idk)
+            } else {
+                // formData.append('img_urlz', this.state.data_main[this.state.inx].just_idk)
+            }
+            if (_thisst.owner_title_image||_thisst.owner_title_image!==null) {
+                formData.append('owner_title_image', _thisst.owner_title_image)
+            } else {
+                // formData.append('img_urlz', this.state.data_main[this.state.inx].just_idk)
             }
             resolve(formData)
         })
@@ -366,7 +401,6 @@ class FloorManage extends Component {
                         loading: false,
                         just_idk: file
                     })
-                    console.log(this.state.just_idk)
                 } else {
                     a[1] = imageUrl
                     this.setState({
@@ -379,6 +413,57 @@ class FloorManage extends Component {
             return false
         }
     }
+    uplZuKe=(file,val)=>{
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJPG) {
+            message.error('只允许JPG,PNG格式!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('图片大小应 2MB!');
+        }
+        if (isJPG && isLt2M) {
+            getBase64(file, imageUrl => {
+                let a = this.state.image_url0
+                if (val===0) {
+                    a[0] = imageUrl
+                    this.setState({
+                        image_url0: a,
+                        loading: false,
+                        owner_just_idk: file
+                    })
+                } 
+                if(val===1) {
+                    a[1] = imageUrl
+                    this.setState({
+                        image_url0: a,
+                        loading: false,
+                        owner_back_idk: file
+                    })
+                }
+                if(val===2) {
+                    a[2] = imageUrl
+                    this.setState({
+                        image_url0: a,
+                        loading: false,
+                        owner_title_image: file
+                    })
+                }
+            })
+            return false
+        }
+    }
+    // 业主的上传
+    beforeUpload00=(file)=>{
+        this.uplZuKe(file,0)
+    }
+    beforeUpload01=(file)=>{
+        this.uplZuKe(file,1)
+    }
+    beforeUpload02=(file)=>{
+        this.uplZuKe(file,2)
+    }
+    // 租客的上传
     beforeUpload = (file) => {
         this.pandPositiveOrReverse(file, true)
     }
@@ -412,7 +497,7 @@ class FloorManage extends Component {
         })
     }
     seleState = (e) => {
-        if (e === 4||e===3) {
+        if (e === 4 || e === 3) {
             this.setState({
                 tenant_state: true,
                 status: e
@@ -547,12 +632,69 @@ class FloorManage extends Component {
                                             <Input placeholder="请输入房屋面积" value={this.state.area} onChange={(e) => this.inputValue('area', e)} />
                                         </Col>
                                     </Col>
+                                    {this.state.tenant_state && (
+                                        <Col span={11} offset={2}>
+                                            <Col span={6}>身份证：</Col>
+                                            <Col span={18}><Input placeholder="请输入身份证" value={this.state.owner_idk_number} onChange={(e) => this.inputValue('owner_idk_number', e)} /></Col>
+                                        </Col>
+                                    )}
                                     {this.state.tenant_state !== true && (
                                         <Col span={11} offset={2}>
                                             <Col span={6}>居住人数：</Col>
                                             <Col span={18}><Input placeholder="请输入居住人数" value={this.state.number_residents} onChange={(e) => this.inputValue('number_residents', e)} /></Col>
                                         </Col>
                                     )}
+                                </Col>
+                                <Col span={24} className='floor-mag-itm'>
+                                    {this.state.tenant_state !== true && (
+                                        <Col span={11}>
+                                            <Col span={6}>身份证：</Col>
+                                            <Col span={18}>
+                                                <Input placeholder="请输入身份证" value={this.state.owner_idk_number} onChange={(e) => this.inputValue('owner_idk_number', e)} />
+                                            </Col>
+                                        </Col>
+                                    )}
+                                </Col>
+                                <Col span={24}>
+                                    <Col span={8}>
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                beforeUpload={this.beforeUpload00}
+                                            >
+                                                {this.state.image_url0[0] ? <img src={this.state.image_url0[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
+                                    <Col span={8} >
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                beforeUpload={this.beforeUpload01}
+                                            >
+                                                {this.state.image_url0[1] ? <img src={this.state.image_url0[1]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
+                                    <Col span={8} >
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                beforeUpload={this.beforeUpload02}
+                                            >
+                                                {this.state.image_url0[2] ? <img src={this.state.image_url0[2]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
                                 </Col>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
@@ -684,6 +826,14 @@ class FloorManage extends Component {
                                         </Col>
                                     </Col>
                                     {
+                                        this.state.tenant_state && (
+                                            <Col span={11} offset={2}>
+                                                <Col span={6}>身份证：</Col>
+                                                <Col span={18}>{this.state.owner_idk_number}</Col>
+                                            </Col>
+                                        )
+                                    }
+                                    {
                                         this.state.tenant_state !== true && (
                                             <Col span={11} offset={2}>
                                                 <Col span={6}>居住人数：</Col>
@@ -691,6 +841,59 @@ class FloorManage extends Component {
                                             </Col>
                                         )
                                     }
+                                </Col>
+                                {
+                                    this.state.tenant_state !== true && (
+                                        <Col span={24} className='floor-mag-itm'>
+                                            <Col span={11}>
+                                                <Col span={6}>身份证：</Col>
+                                                <Col span={18}>
+                                                    {this.state.owner_idk_number}
+                                                </Col>
+                                            </Col>
+                                        </Col>
+                                    )
+                                }
+                                <Col span={24}>
+                                    <Col span={8}>
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                disabled
+                                            >
+                                                {this.state.image_url0[0] ? <img src={this.state.image_url0[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
+                                    <Col span={8} >
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                disabled
+                                            >
+                                                {this.state.image_url0[1] ? <img src={this.state.image_url0[1]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
+                                    <Col span={8} >
+                                        <Col span={5}></Col>
+                                        <Col span={19} className="add-up">
+                                            <Upload
+                                                name="avatar"
+                                                listType="picture-card"
+                                                showUploadList={false}
+                                                disabled
+                                            >
+                                                {this.state.image_url0[2] ? <img src={this.state.image_url0[2]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                            </Upload>
+                                        </Col>
+                                    </Col>
                                 </Col>
                                 <Col span={24} className='floor-mag-itm'>
                                     <Col span={11}>
@@ -759,15 +962,27 @@ class FloorManage extends Component {
                                         <Col span={8}>
                                             <Col span={5}></Col>
                                             <Col span={19} className="add-up">
-                                                {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
-
+                                                <Upload
+                                                    name="avatar"
+                                                    listType="picture-card"
+                                                    showUploadList={false}
+                                                    disabled
+                                                >
+                                                    {this.state.image_url[0] ? <img src={this.state.image_url[0]} alt="avatar" className="add-up-show" /> : uploadButton(true)}
+                                                </Upload>
                                             </Col>
                                         </Col>
                                         <Col span={8} >
                                             <Col span={5}></Col>
                                             <Col span={19} className="add-up">
-                                                {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
-
+                                                <Upload
+                                                    name="avatar"
+                                                    listType="picture-card"
+                                                    showUploadList={false}
+                                                    disabled
+                                                >
+                                                    {this.state.image_url[1] ? <img src={this.state.image_url[1]} alt="avatar" className="add-up-show" /> : uploadButton(false)}
+                                                </Upload>
                                             </Col>
                                         </Col>
                                     </Col>)}
@@ -788,19 +1003,19 @@ class FloorManage extends Component {
                                     <Col span={24} className='hist-item-ct'>
                                         {
                                             this.state.pay_dt && this.state.pay_dt.map((item, inx) => {
-                                                let type=""
-                                                if(item.type===1){type='水费'}
-                                                if(item.type===2){type='电费'}
-                                                if(item.type===3){type='气费'}
-                                                if(item.type===4){type='物业费'}
-                                                if(item.type===5){type='垃圾费'}
-                                                if(item.type===6){type='车费'}
-                                                let status=''
-                                                if(item.status===0){status='未交费'}
-                                                if(item.status===1){status='已缴费'}
+                                                let type = ""
+                                                if (item.type === 1) { type = '水费' }
+                                                if (item.type === 2) { type = '电费' }
+                                                if (item.type === 3) { type = '气费' }
+                                                if (item.type === 4) { type = '物业费' }
+                                                if (item.type === 5) { type = '垃圾费' }
+                                                if (item.type === 6) { type = '车费' }
+                                                let status = ''
+                                                if (item.status === 0) { status = '未交费' }
+                                                if (item.status === 1) { status = '已缴费' }
                                                 return (
                                                     <Col span={24} className='hist-item'>
-                                                        <Col span={5}>{item.year+'-'+item.month}</Col>
+                                                        <Col span={5}>{item.year + '-' + item.month}</Col>
                                                         <Col span={7}>{type}</Col>
                                                         <Col span={7}>{item.total_price}</Col>
                                                         <Col span={5}>{status}</Col>

@@ -44,12 +44,12 @@ font-weight: bold;
   width: 90px
 }
 .add-up .ant-upload{
-  width: 200px !important;
-  height:200px !important;
+  width: 150px !important;
+  height:150px !important;
 } 
 .add-up .add-up-show{
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
 }
 .home-main::-webkit-scrollbar {
   width:7px;

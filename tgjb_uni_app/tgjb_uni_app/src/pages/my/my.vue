@@ -19,7 +19,13 @@
         </view>
     </view>
     <view class="span24 my-quickcrl">
-        <view class="span4" @tap="toRepair">
+        <view class="span4" @tap="toJiaZheng(6,$event)">
+            <view class="span24 my-quickcrl-tp">
+                <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_my_dianka.png'></image>
+            </view>
+            <view class="span24">家政</view>
+        </view>
+        <view class="span4" @tap="toJiaZheng(2,$event)">
             <view class="span24 my-quickcrl-tp">
                 <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_my_baoxiu.png'></image>
             </view>
@@ -37,12 +43,6 @@
             </view>
             <view class="span24">缴费</view>
         </view>
-        <view class="span4" @tap="toDianKa(1,$event)">
-            <view class="span24 my-quickcrl-tp">
-                <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_my_dianka.png'></image>
-            </view>
-            <view class="span24">电卡</view>
-        </view>
     </view>
     <view class="span24 my-obj">
        <view class="span24 my-obj-it" @tap="toMyCar">
@@ -55,11 +55,11 @@
            <view class="span19">我的车位</view>
            <view class="span2 my-obj-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_rt_right.png'></image></view>
        </view>
-       <view class="span24 my-obj-it" @tap="toMyAppoint">
+       <!-- <view class="span24 my-obj-it" @tap="toMyAppoint">
            <view class="span3 my-obj-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_myico_yuyue.png'></image></view>
            <view class="span19">我的预约</view>
            <view class="span2 my-obj-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_rt_right.png'></image></view>
-        </view>
+        </view> -->
         <view class="span24 my-obj-it" @tap="toMyHouse">
            <view class="span3 my-obj-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_myico_fangwu.png'></image></view>
            <view class="span19">我的房屋</view>
@@ -111,14 +111,14 @@ export default {
       getPhoneNumber(v){
           console.log(v)
       },
-    //   toDianKa(cur_page,e){
-    //       uni.navigateTo({url: `/pages/surplus_details/surplus_details?cur_page=${cur_page}`});
-    //   },
+      toJiaZheng(val,e){
+          uni.navigateTo({url: `/pages/my_appoint/my_appoint?type=${val}`});
+      },
       toRepair(){
           uni.navigateTo({url: '/pages/repair/repair'});
       },
       toMyOrder(){
-          uni.navigateTo({url: '/pages/my_order/my_order'});
+          uni.navigateTo({url: `/pages/my_order/my_order?type=${0}`});
       },
       toPay(){
           uni.navigateTo({url: '/pages/pay/pay'});

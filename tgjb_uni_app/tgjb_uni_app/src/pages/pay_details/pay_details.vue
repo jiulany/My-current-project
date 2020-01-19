@@ -17,20 +17,20 @@
        <view class="span24" style="background:white">
            <view class="span24 paydetails-fy-tt">费用列表</view>
            <view class="span24 paydetails-fy-box">
-               <view class="span12 paydetails-fy-ct" v-for="it in item" :key="it.id">
-                   <view  v-if="it.type===1"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>水费 {{it.total_price}}￥（代收）</view>
-                   <view  v-if="it.type===2"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>电费 {{it.total_price}}￥（代收）</view>
-                   <view  v-if="it.type===3"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>气费 {{it.total_price}}￥（代收）</view>
-                   <view  v-if="it.type===4"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>物业费 {{it.total_price}}￥（代收）</view>
-                   <view  v-if="it.type===5"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>垃圾费 {{it.total_price}}￥（代收）</view>
-                   <view  v-if="it.type===6"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image>车位费 {{it.total_price}}￥（代收）</view>
+               <view class="span12 paydetails-fy-ct" v-for="(it,inx) in item" :key="it.id">
+                   <view  v-if="it.type===1" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>水费 {{it.total_price}}￥（代收）</view>
+                   <view  v-if="it.type===2" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>电费 {{it.total_price}}￥（代收）</view>
+                   <view  v-if="it.type===3" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>气费 {{it.total_price}}￥（代收）</view>
+                   <view  v-if="it.type===4" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>物业费 {{it.total_price}}￥（代收）</view>
+                   <view  v-if="it.type===5" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>垃圾费 {{it.total_price}}￥（代收）</view>
+                   <view  v-if="it.type===6" @tap="sleItem(it,inx,key,$event)"><image  mode="aspectFit" :src="it.sle?'https://imgcdn.tuogouchebao.com/property_xuanzhong.png':'https://imgcdn.tuogouchebao.com/property_weixuanzhong.png'"></image>车位费 {{it.total_price}}￥（代收）</view>
                </view>
            </view>
        </view>
       </view>
     </view>
     <view class="span24 paydetails-paybox">
-        <view class="span12 paydetails-all" v-if="status===0">全选 {{total}}￥</view>
+        <view class="span12 paydetails-all" v-if="status===0" @tap="sleAll">全选 {{total}}￥</view>
         <view class="span12 paydetails-pay" v-if="status===0" @tap="toPay">去支付</view>
         <view class="span24 paydetails-sure" v-if="status===1">确定</view>
     </view>
@@ -38,7 +38,7 @@
 		<view class="span24 paydetail-model">
 			<view class="span24 paydetail-model-it">
                 <view class="span24 paydetail-model-fy">总共费用</view>
-                <view class="span24 paydetail-model-fyz">50￥</view>
+                <view class="span24 paydetail-model-fyz">{{total}}</view>
             </view>
 			<view class="span24">
                 <view class="span24 paydetail-model-tyit">
@@ -48,7 +48,7 @@
                     <view class="span2 paydetail-model-tysle"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xuanzhong.png'></image></view>
                 </view>
                 <view class="span24 paydetail-model-sure">
-                    <view >确定</view>
+                    <view @tap="toPaySure">确定</view>
                 </view>
             </view>
 		</view>
@@ -63,12 +63,124 @@ export default {
     return {
         status:null,
         list:null,
-        total:0
+        total:0,
+        appdAllItem:[],
+        is_topay:true
     };
   },
   methods: {
       toPay(){
 	  this.$refs.popup.open()
+      },
+      toPaySure(){
+          let _this=this
+if(this.is_topay){
+this.is_topay=false
+uni.showLoading({
+    title: '加载中'
+});
+let payment_ids=''
+for(let i in this.appdAllItem){
+if(parseInt(i)==0){
+    payment_ids+=this.appdAllItem[i].id
+}else{
+    payment_ids=payment_ids+','+this.appdAllItem[i].id
+}
+}
+           this.$http({ url: `api/mine/create_order` ,data:{
+               community_id:uni.getStorageSync('community_selected').community_id,
+               payment_ids:payment_ids
+           },method:"post"}).then(res => {
+this.$http({ url: `api/payment/pay`,data:{community_id:uni.getStorageSync('community_selected').community_id,order_id:res.data.order_id},method:'post'}).then(res => {
+        this.is_topay=true    
+		uni.hideLoading()
+     var a = res.data
+          uni.requestPayment({
+        timeStamp: a.timeStamp,
+        nonceStr: a.nonceStr,
+        package: a.package,
+        signType: 'MD5',
+        paySign: a.paySign,
+        success(res) {
+            _this.$refs.popup.close()
+          uni.navigateTo({url: '/pages/pay_dtlsuccess/pay_dtlsuccess'});
+            uni.showToast({
+    title: '支付成功',
+    duration: 2000,
+});
+        },
+        fail(res) {
+            _this.$refs.popup.close()
+          uni.showToast({
+    title: '支付失败',
+    duration: 2000,
+    icon:'none'
+});
+        }
+      })
+          
+          }).catch(res => {
+            _this.$refs.popup.close()
+               this.is_topay=true
+              uni.hideLoading()
+              uni.showToast({
+    title: '异常',
+    duration: 2000,
+    icon:'none'
+});
+          });
+
+                   })
+                    .catch(res => {
+            _this.$refs.popup.close()
+                         this.is_topay=true
+                        uni.hideLoading()
+                    });
+                    }
+      },
+      sleAll(){
+          let _list=this.list
+          let total=0
+          this.appdAllItem=[]
+          for(let i in _list){
+              for(let j in _list[i]){
+              _list[i][j].sle=true
+              total+=parseFloat(_list[i][j].total_price)
+               this.appdAllItem.push(_list[i][j])
+              }
+          }
+          this.total=total.toFixed(2)
+          this.list=_list
+      },
+      sleItem(it,inx,key,e){
+          let _list=this.list
+          let _it=it
+          _it.sle=!_it.sle
+          _list[key][parseInt(inx)]=_it
+          this.list=_list
+          if(_it.sle){
+              this.appdAllItem.push(it)
+              let appd=this.appdAllItem
+              let a=0
+                     for(let j in appd){
+                         a+=parseFloat(appd[j].total_price)
+                     }
+                     this.total=a.toFixed(2)
+          }else{
+              let appd=this.appdAllItem
+              for(let i in appd){
+                 if(appd[i].id===it.id){
+                     appd.splice(i,1)
+                     this.appdAllItem=appd
+                     let a=0
+                     for(let j in appd){
+                         a+=parseFloat(appd[j].total_price)
+                     }
+                     this.total=a.toFixed(2)
+                     break
+                 }
+              }
+          }
       }
   },
   components: {uniPopup},
@@ -79,7 +191,13 @@ export default {
         year:parseInt(opt.year),
         month:parseInt(opt.month),
       }}).then(res => { 
-          this.list=res.data
+          let _list=res.data
+          for(let i in res.data){
+              for(let j in res.data[i]){
+              _list[i][j].sle=false
+              }
+          }
+          this.list=_list
           })
           .catch(res => {});
   },
@@ -122,10 +240,11 @@ page {
 }
 .paydetails-fy-ct{
     align-items: center;
+    font-size: 26rpx
 }
 .paydetails-fy-ct image{
-    height: 25rpx;
-    width: 25rpx;
+    height: 28rpx;
+    width: 28rpx;
     margin-right: 15rpx
 }
 .paydetails-paybox{

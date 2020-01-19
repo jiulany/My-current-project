@@ -4,35 +4,25 @@
       <view class="span12"   @tap="switchHd(1,$event)" :style="cur===1?'background:#FDD000':'background:#FFFFFF'">充电记录</view>
       <view class="span12"   @tap="switchHd(2,$event)"  :style="cur===2?'background:#FDD000':'background:#FFFFFF'">缴费</view>
     </view>
-    <view v-if="cur===1" class="span24">
-      <view class="span24">
-        <view class="span24 charge-tt">脱狗家宝</view>
+    <view v-if="cur===1" class="span24 charge-ct">
+        <scroll-view  scroll-y="true" @scrolltolower="lowerCharge"  scrollX="false">
+            <view class="charge-ct-nei">
+      <view class="span24" v-for="item in charge_list" :key="item.id">
+        <view class="span24 charge-tt">{{item.community.community_name}}</view>
         <view class="span24 charge-obj-box">
-          <view class="span24">2019-01-23</view>
+          <view class="span24">{{item.updated_at}}</view>
           <view class="span24 charge-obj-row">
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_bianhao.png'></image>编号：001</view>
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_dianzhuang.png'></image>电桩：001</view>
+              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_bianhao.png'></image>编号：{{item.plug_detail.plug_number}}</view>
+              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_dianzhuang.png'></image>电桩：{{item.plug_detail.path}}</view>
           </view>
           <view class="span24 charge-obj-row">
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_chongdian.png'></image>充电：4h</view>
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_zhifu.png'></image>支付：￥20</view>
+              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_chongdian.png'></image>充电：{{item.plug_detail.open_time/60}}h</view>
+              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_zhifu.png'></image>支付：￥{{item.order_total_price}}</view>
           </view>
         </view>
       </view>
-      <view class="span24">
-        <view class="span24 charge-tt">脱狗家宝</view>
-        <view class="span24 charge-obj-box">
-          <view class="span24">2019-01-23</view>
-          <view class="span24 charge-obj-row">
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_bianhao.png'></image>编号：001</view>
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_dianzhuang.png'></image>电桩：001</view>
-          </view>
-          <view class="span24 charge-obj-row">
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_chongdian.png'></image>充电：4h</view>
-              <view class="span12 charge-obj"><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_zhifu.png'></image>支付：￥20</view>
-          </view>
-        </view>
       </view>
+       </scroll-view>
     </view>
     <view v-if="cur===2" class="span24">
         <view class="span24 charge-tt">缴费金额</view>
@@ -77,7 +67,10 @@ import {uniPopup} from "@dcloudio/uni-ui";
 export default {
   data() {
     return {
-      cur: 1
+      cur: 1,
+      charge_list:[],
+      is_loading:true,
+      charge_page:1
     };
   },
   methods: {
@@ -87,8 +80,45 @@ export default {
       toPay(){
 	  this.$refs.popup.open()
       },
+      lowerCharge(){
+          console.log("sss")
+          this.loadList()
+      },
       toSuccess(){
-          uni.navigateTo({url: '/pages/pay_success/pay_success'});
+          uni.navigateTo({url: `/pages/charge_paysuccess1/charge_paysuccess1`});
+      },
+      loadChargeList(){
+          uni.showLoading({
+    title: '加载中'
+});
+if(this.is_loading){
+    this.is_loading=false
+this.$http({ url: `api/intelligence/order_list` ,data:{limit:10,page:this.charge_page}}).then(res => { //获取充电记录
+       this.is_loading=true
+       uni.hideLoading();
+       if(res.data.data.length==0){
+           uni.showToast({
+    title: '暂无数据',
+    duration: 2000,
+    icon:"none"
+});
+       }else{
+        this.charge_page+=1
+       //res.data.data
+		  this.charge_list=this.charge_list.concat(res.data.data)
+       }
+		  })
+          .catch(res => {
+              this.is_loading=true
+               uni.hideLoading();
+               uni.showToast({
+    title: '异常',
+    duration: 2000,
+    icon:"none"
+});
+          });
+}
+      
       },
       saoma(){
           uni.scanCode({
@@ -100,7 +130,9 @@ export default {
       }
   },
   components: {uniPopup},
-  onLoad() {},
+  onLoad() {
+      this.loadChargeList()
+  },
   onShow() {},
   onHide() {}
 };
@@ -112,14 +144,23 @@ page {
   font-size: 28rpx;
   line-height: 1.8;
 }
+.charge{
+    overflow: hidden;
+}
 .charge-sty {
-  height: 98rpx;
+  height: 8.1vh;
+}
+.charge-ct{
+  height: 91.9vh;
 }
 .charge-sty view {
   justify-content: center;
   align-items: center;
   font-size: 36rpx;
   color: rgba(71, 71, 71, 1);
+}
+.charge-ct-nei{
+    padding-bottom: 200rpx
 }
 .charge-tt {
   font-size: 28rpx;

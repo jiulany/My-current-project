@@ -2,7 +2,7 @@
   <view class="span24 mynopark">
       <view v-if="switchPage===1" class="span24 nocar">
         <view class="span24 nocar-ico">
-          <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_bangding.png'></image>
+          <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image>
         </view>
         <view class="span24 nocar-tt">还没有添加车位~</view>
         <view class="span24 nocar-btn">

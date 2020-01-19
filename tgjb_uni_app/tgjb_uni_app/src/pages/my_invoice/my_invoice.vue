@@ -1,11 +1,19 @@
 <template>
   <view class="span24 myinvoice">
+      <view class="span24 myinvoice-hist" @tap="toHistory">
+          <view class="span20 myinvoice-tt">
+              <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_lishi.png' ></image>开票历史
+          </view>
+          <view class="span4 myinvoice-rtr">
+              <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_rt_right.png'></image>
+          </view>
+      </view>
       <view class="span24" v-for="(item,inx) in invo_list" :key="inx">
           <view class="span24 myinvoice-hd">
           {{item.title}}<image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_fapiao.png'></image>
       </view>
       <view class="span24 myinvoice-ct">
-          <view class="span24 myinvoice-ct-it" v-for="(it,ix) in item.list" :key="ix" @tap="toDetails(it,$event)">
+          <view class="span24 myinvoice-ct-it" v-for="(it,ix) in item.list" :key="ix" @tap="toDetails(it,item,$event)">
               <view class="span12 myinvoice-ct-nm">{{it.title}}</view>
               <view class="span12 myinvoice-ct-rt"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_rt_right.png'></image></view>
           </view>
@@ -28,8 +36,12 @@ export default {
     };
   },
   methods: {
-      toDetails(it,e){
-          uni.navigateTo({url: `/pages/my_invoice_details/my_invoice_details?type=${it.type}`});
+      toHistory(){
+          uni.navigateTo({url: `/pages/my_invoice_hsty/my_invoice_hsty`});
+      },
+      toDetails(it,item,e){
+          console.log(it)
+          uni.navigateTo({url: `/pages/my_invoice_details/my_invoice_details?type=${it.type}&invoices_type=${item.invoices_type}`});
       }
   },
   components: { HMmessages},
@@ -53,6 +65,28 @@ page {
 		font-size: 28rpx;
 		line-height: 1.8;
 }
+.myinvoice-hist{
+    padding: 16rpx 25rpx 16rpx 34rpx;
+    background: white;
+    margin-top: 29rpx;
+}
+.myinvoice-tt{
+    align-items: center
+}
+.myinvoice-tt image{
+    height: 36rpx;
+    width: 36rpx;
+    margin-right: 10rpx
+}
+.myinvoice-rtr{
+    justify-content: flex-end;
+    align-items: center
+}
+.myinvoice-rtr image{
+    width:20rpx;
+height:36rpx;
+}
+
 .myinvoice-hd{
 align-items: center;
 padding: 35rpx 0 21rpx 32rpx

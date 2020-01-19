@@ -131,6 +131,75 @@ var _model = __webpack_require__(/*! ../../model */ 15);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var indexModel = new _model.IndexModel();
 var _default = {
   name: "store",
@@ -140,6 +209,7 @@ var _default = {
       shops: [],
       latitude: 30.674958,
       longitude: 104.064283,
+      address: 1,
       markers: [// {
         //   iconPath: "https://imgcdn.tuogouchebao.com/location_logo@2x.png",
         //   id: 0,
@@ -161,6 +231,32 @@ var _default = {
   },
   components: {},
   methods: {
+    toMy: function toMy(e) {
+      uni.switchTab({
+        url: "/pages/my/my"
+      });
+    },
+    toStore: function toStore() {
+      console.log('store');
+      uni.switchTab({
+        url: "/pages/store/store"
+      });
+    },
+    toCarWash: function toCarWash() {
+      uni.switchTab({
+        url: '/pages/car_wash/car_wash'
+      });
+    },
+    toIndex: function toIndex() {
+      uni.switchTab({
+        url: "/pages/index/index"
+      });
+    },
+    toMall: function toMall() {
+      uni.switchTab({
+        url: "/pages/mall/mall"
+      });
+    },
     _choice_store: function _choice_store() {
       uni.navigateTo({
         url: "/pagesB/choice_store/choice_store"

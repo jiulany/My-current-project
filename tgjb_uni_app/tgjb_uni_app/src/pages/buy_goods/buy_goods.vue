@@ -51,13 +51,13 @@ export default {
         address_index:0,
         num:1,
         goods:null,
-        total_price:null,
-        sku_id:null
+        total_price:'',
+        sku_id:null,
+        is_topay:true
     };
   },
   watch: {
     num(val){
-      console.log(val)
       if(val===''){
         this.total_price=this.goods.sku[0].price
       }else{
@@ -82,15 +82,66 @@ export default {
       this.num=a
     },
     toBuy(){
+      if(this.address[this.address_index]==undefined){
+        uni.showToast({
+    title: '请添加地址',
+    duration: 2000,
+    icon:'none'
+});
+      }else{
+      if( this.is_topay){
+         this.is_topay=false
+      let _this=this
+      uni.showLoading({
+    title: '加载中'
+});
       this.$http({url:'api/store/create_order',data:{
           address_id:this.address[this.address_index].id,
           sku_id:this.sku_id,
           num:this.num
       },method:"post"}).then(res=>{
-              
-      }).catch(res=>{
-          
+          this.$http({ url: `api/payment/pay`,data:{community_id:uni.getStorageSync('community_selected').community_id,order_id:res.data.order_id},method:'post'}).then(res => {
+     this.is_topay=true
+		uni.hideLoading()
+     var a = res.data
+          uni.requestPayment({
+        timeStamp: a.timeStamp,
+        nonceStr: a.nonceStr,
+        package: a.package,
+        signType: 'MD5',
+        paySign: a.paySign,
+        success(res) {
+            uni.showToast({
+    title: '支付成功',
+    duration: 2000,
+});
+          uni.navigateTo({url: '/pages/buy_goodssuccess/buy_goodssuccess'});
+        },
+        fail(res) {
+          uni.showToast({
+    title: '支付失败',
+    duration: 2000,
+    icon:'none'
+});
+          uni.navigateTo({url: `/pages/my_order/my_order?type=${1}`});
+        }
       })
+          
+          }).catch(res => {
+            this.is_topay=true
+              uni.hideLoading()
+              uni.showToast({
+    title: '异常',
+    duration: 2000,
+    icon:'none'
+});
+          });
+      }).catch(res=>{
+        this.is_topay=true
+          	uni.hideLoading()
+      })
+      }
+      }
     }
   },
   components: {uniNoticeBar,uniPopup},
@@ -102,7 +153,6 @@ export default {
       }}).then(res=>{
               this.address=res.data
       }).catch(res=>{
-        console.log(res)
           
       })
      this.$http({ url: `api/store/goodsInfo/${opt.id}` ,data:{

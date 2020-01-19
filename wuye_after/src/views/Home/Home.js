@@ -26,6 +26,9 @@ import AddParkPlace from "../../components/AddParkPlace/AddParkPlace"
 import AddParkFloor from "../../components/AddParkFloor/AddParkFloor"
 import PayDetails from '../../components/PayDetails/PayDetails'
 import PayDetailsCar from '../../components/PayDetails/PayDetailsCar'
+import GoodsPayDetails from '../../components/GoodsPayDetails/GoodsPayDetails'
+import GoodsPayDetailsHsty from '../../components/GoodsPayDetailsHsty/GoodsPayDetailsHsty'
+
 const { Header, Content, Sider } = Layout;
 const { confirm } = Modal;
 class Home extends Component {
@@ -64,7 +67,9 @@ class Home extends Component {
       })
       Cookies.set('community_id', res.data[0].id, { expires: 30 })
     }).catch(res => {
-      message.error(res.msg);
+      if(res.msg){
+        message.error(res.msg);
+      }
       setTimeout(() => {
         this.setState({
           loading: false
@@ -215,10 +220,15 @@ class Home extends Component {
                   <Route exact path="/index/parking_manage" component={ParksManage} ></Route>
                   {/*充电管理管理*/}
                   <Route exact path="/index/charging_manage" component={ChargingManage} ></Route>
+                  <Route exact path="/index/charging_list" component={TableList} ></Route>
                   {/*小区审核*/}
                   <Route exact path="/index/quarters_examine" component={TableList} ></Route>
                   {/*车位审核*/}
                   <Route exact path="/index/park_examine" component={TableList} ></Route>
+                  {/*商品订单*/}
+                  <Route exact path="/index/goods_order" component={TableList} ></Route>
+                  <Route exact path="/index/goods_paydetails" component={GoodsPayDetails} ></Route>
+                  <Route exact path="/index/goods_paydetails/history" component={GoodsPayDetailsHsty} ></Route>
                 </Content>
               </Layout>
             </Layout>

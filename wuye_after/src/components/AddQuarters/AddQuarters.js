@@ -12,7 +12,8 @@ class AddQuarters extends Component {
             tenant_state: false,
             loading: false,
             is_xiugai: false,
-            image_url: [] //省份证正反index=0正，1为反
+            image_url: [], //省份证正反index=0正，1为反
+            is_clck:true
         }
     }
     componentDidMount() {
@@ -114,6 +115,10 @@ class AddQuarters extends Component {
     }
     handleXiuGai = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.community_name && _thisst.community_address && _thisst.community_developers
             && _thisst.community_mobile && _thisst.community_person && _thisst.community_person_mobile !== -1) {
             http('/community/community_upd', {
@@ -133,6 +138,9 @@ class AddQuarters extends Component {
                     community_person_mobile: _thisst.community_person_mobile,
                 }
             }).then(res => {
+                this.setState({
+                    is_clck:true
+                })
                 message.success(res.msg);
                 setTimeout(() => {
                     this.props.history.go(-1)
@@ -140,6 +148,7 @@ class AddQuarters extends Component {
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
+                    is_clck:true,
                     community_name: _thisst.community_name,
                     community_address: _thisst.community_address,
                     community_developers: _thisst.community_developers,
@@ -154,11 +163,19 @@ class AddQuarters extends Component {
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
     }
+    }
     handleUpload = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.community_name && _thisst.community_address && _thisst.community_developers && _thisst.community_mobile && _thisst.community_person && _thisst.community_person_mobile !== '') {
             http('/community/community_save', {
                 method: 'POST',
@@ -179,6 +196,7 @@ class AddQuarters extends Component {
             }).then(res => {
                 message.success(res.msg);
                 this.setState({
+                    is_clck:true,
                     community_name: '',
                     community_address: '',
                     community_developers: '',
@@ -198,6 +216,7 @@ class AddQuarters extends Component {
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
+                    is_clck:true,
                     community_name: '',
                     community_address: '',
                     community_developers: '',
@@ -212,8 +231,12 @@ class AddQuarters extends Component {
                 })
             })
         } else {
+            this.setState({
+                is_clck:true,
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     render() {
         // 在父 route 中，被匹配的子 route 变成 props
@@ -234,8 +257,8 @@ class AddQuarters extends Component {
                     </Col>
                     <Col span={24}>
                         <Col span={9}>
-                            <Col span={6}>开发地址：</Col>
-                            <Col span={18}><Input placeholder="请输入开发地址" value={this.state.community_developers} onChange={(e) => this.inputValue('community_developers', e)} />
+                            <Col span={6}>开发商名称：</Col>
+                            <Col span={18}><Input placeholder="请输入开发商名称" value={this.state.community_developers} onChange={(e) => this.inputValue('community_developers', e)} />
                             </Col>
                         </Col>
                         <Col span={9} offset={1}>

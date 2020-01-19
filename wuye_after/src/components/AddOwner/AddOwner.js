@@ -20,15 +20,16 @@ class AddOwner extends Component {
             loading: false,
             is_xiugai: false,
             image_url: [], //省份证正反index=0正，1为反
-            owner_name:'',
-            owner_phone:'',
-            title_number:'',
-            area:'',
-            number_residents:'',
-            status:''
+            owner_name: '',
+            owner_phone: '',
+            title_number: '',
+            area: '',
+            number_residents: '',
+            status: '',
+            is_clck: true
         }
     }
-    componentWillMount(){
+    componentWillMount() {
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
@@ -54,8 +55,8 @@ class AddOwner extends Component {
                         renter_name: res.data[0].renter_name,
                         tenant_phone: res.data[0].tenant_phone,
                         lease_term: res.data[0].lease_term,
-                        tenant_time:res.data[0].tenant_time,
-                        show_tenant_time:moment(res.data[0].tenant_time),
+                        tenant_time: res.data[0].tenant_time,
+                        show_tenant_time: moment(res.data[0].tenant_time),
                         just_idk: res.data[0].just_idk,
                         back_idk: res.data[0].back_idk,
                         image_url: a
@@ -209,83 +210,104 @@ class AddOwner extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
-        this.pushFormData().then(res => {
-            console.log(res.get('status'))
-            if (_thisst.door_number !== ''
-                && _thisst.owner_name !== ''
-                && _thisst.owner_phone !== ''
-                && _thisst.title_number !== ''
-                && _thisst.area !== ''
-                && _thisst.number_residents !== ''
-                && _thisst.status !== ''
-            ) {
-                http('/owner/owner_add', {
-                    method: 'POST',
-                    data: res,
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(res => {
-                    message.success(res.msg);
-                    this.setState({
+        if (this.state.is_clck) {
+            this.setState({
+                is_clck: false
+            })
+            this.pushFormData().then(res => {
+                if (_thisst.door_number !== ''
+                    && _thisst.owner_name !== ''
+                    && _thisst.owner_phone !== ''
+                    && _thisst.title_number !== ''
+                    && _thisst.area !== ''
+                    && _thisst.number_residents !== ''
+                    && _thisst.status !== ''
+                ) {
+                    http('/owner/owner_add', {
+                        method: 'POST',
+                        data: res,
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(res => {
+                        this.setState({
+                            is_clck: true
+                        })
+                        message.success(res.msg);
+                        setTimeout(() => {
+                            this.props.history.go(-1)
+                        }, 2000)
+                    }).catch(res => {
+                        this.setState({
+                            is_clck: true
+                        })
+                        message.error(res.msg);
                     })
-                    setTimeout(() => {
-                        this.props.history.go(-1)
-                    }, 2000)
-                }).catch(res => {
-                    message.error(res.msg);
+                } else {
                     this.setState({
+                        is_clck: true
                     })
-                })
-            } else {
-                message.error('输入不能为空，请检查！');
-            }
-        })
+                    message.error('输入不能为空，请检查！');
+                }
+            })
+        }
     }
     handleXiuGai = () => {
         let _thisst = this.state
-        this.pushFormData().then(res => {
-            if (_thisst.door_number !== ''
-                && _thisst.owner_name !== ''
-                && _thisst.owner_phone !== ''
-                && _thisst.title_number !== ''
-                && _thisst.area !== ''
-                && _thisst.number_residents !== ''
-                && _thisst.status !== ''
-            ) {
-                res.append('id', this.props.location.query.update_id)
-                http('/owner/owner_update', {
-                    method: 'POST',
-                    data: res,
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then(res => {
-                    message.success(res.msg);
-                    setTimeout(() => {
-                        this.props.history.go(-1)
-                    }, 2000)
-                }).catch(res => {
-                    message.error(res.msg);
-                    this.setState({
-                        door_number: '',
-                        owner_name: '',
-                        owner_phone: '',
-                        title_number: '',
-                        area: '',
-                        number_residents: '',
-                        status: '',
-                        renter_name: '',
-                        tenant_phone: '',
-                        lease_term: '',
-                        just_idk: '',
-                        back_idk: '',
+        if (this.state.is_clck) {
+            this.setState({
+                is_clck: false
+            })
+            this.pushFormData().then(res => {
+                if (_thisst.door_number !== ''
+                    && _thisst.owner_name !== ''
+                    && _thisst.owner_phone !== ''
+                    && _thisst.title_number !== ''
+                    && _thisst.area !== ''
+                    && _thisst.number_residents !== ''
+                    && _thisst.status !== ''
+                ) {
+                    res.append('id', this.props.location.query.update_id)
+                    http('/owner/owner_update', {
+                        method: 'POST',
+                        data: res,
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then(res => {
+                        this.setState({
+                            is_clck: true
+                        })
+                        message.success(res.msg);
+                        setTimeout(() => {
+                            this.props.history.go(-1)
+                        }, 2000)
+                    }).catch(res => {
+                        message.error(res.msg);
+                        this.setState({
+                            is_clck: true,
+                            door_number: '',
+                            owner_name: '',
+                            owner_phone: '',
+                            title_number: '',
+                            area: '',
+                            number_residents: '',
+                            status: '',
+                            renter_name: '',
+                            tenant_phone: '',
+                            lease_term: '',
+                            just_idk: '',
+                            back_idk: '',
+                        })
                     })
-                })
-            } else {
-                message.error('输入不能为空，请检查！');
-            }
-        })
+                } else {
+                    this.setState({
+                        is_clck: true
+                    })
+                    message.error('输入不能为空，请检查！');
+                }
+            })
+        }
     }
     blurGetHuzhu = (e) => {
         http('/household/find', {
@@ -299,7 +321,7 @@ class AddOwner extends Component {
             this.setState({
                 household_id: res.data.id,
                 area: res.data.area,
-                status:res.data.status
+                status: res.data.status
             })
         }).catch(res => {
             message.error(res.msg);
@@ -310,10 +332,10 @@ class AddOwner extends Component {
         })
     }
     ruzhuTime = (e) => {
-        console.log( moment(e).format('YYYY-MM-DD'))
+        console.log(moment(e).format('YYYY-MM-DD'))
         this.setState({
             tenant_time: moment(e).format('YYYY-MM-DD'),
-            show_tenant_time:e
+            show_tenant_time: e
         })
     }
     render() {
@@ -340,7 +362,7 @@ class AddOwner extends Component {
                         </Col>
                         <Col span={7}>
                             <Col span={5}>门牌号：</Col>
-                            <Col span={19}><Input disabled={this.state.is_xiugai?true:false} onBlur={this.blurGetHuzhu} placeholder="请输入门牌号" value={this.state.door_number} onChange={(e) => this.inputValue('door_number', e)} /></Col>
+                            <Col span={19}><Input disabled={this.state.is_xiugai ? true : false} onBlur={this.blurGetHuzhu} placeholder="请输入门牌号" value={this.state.door_number} onChange={(e) => this.inputValue('door_number', e)} /></Col>
                         </Col>
                     </Col>
                     <Col span={24}>

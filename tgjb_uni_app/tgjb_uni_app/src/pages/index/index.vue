@@ -96,6 +96,7 @@ export default {
 	  ],
 	  obj_type:null,
 	  notice:[], //消息
+	  is_togo:null,
 	  limit_row:"",
 	  current: 0,
 	  mode: "long",
@@ -122,21 +123,7 @@ console.log(e)
       this.current = e.detail.current;
 	},
 	toRecharge(){
-	this.$http({ url: `api/home/my_community` ,data:{}}).then(res => { //获取绑定
-		  if(res.data.length===0){
-			  this.$refs.popup.open()
-			  }else{
-				  if(res.data[0].status===0){
-				  uni.showToast({
-    title: '信息待审核',
-    duration: 2000
-});
-		   }else{
-      uni.navigateTo({url: `/pages/charge_details/charge_details?id=5`});
-		   }
-			  }
-		  })
-          .catch(res => {});
+    //   uni.navigateTo({url: `/pages/charge_details/charge_details?path=00000001&plug_number=01`});
 	},
 	onShareAppMessage(){
 
@@ -171,21 +158,17 @@ console.log(e)
     //     uni.navigateTo({url: '/pages/pay/pay'});
 	// },
 	toNoticeList(){
-		this.$http({ url: `api/home/my_community` ,data:{}}).then(res => { //获取绑定
-		  if(res.data.length===0){
-			  this.$refs.popup.open()
-			  }else{
-				  if(res.data[0].status===0){
-				  uni.showToast({
+		if(this.is_togo==1){
+uni.navigateTo({url: '/pages/notice_list/notice_list'});
+		}else if(this.is_togo==2){
+			 this.$refs.popup.open()
+		}else{
+			 uni.showToast({
     title: '信息待审核',
-    duration: 2000
+    duration: 2000,
+	icon:'none'
 });
-		   }else{
-		uni.navigateTo({url: '/pages/notice_list/notice_list'});
-		   }
-			  }
-		  })
-          .catch(res => {});
+		}
 	},
 	loadObjType(){
 		 this.$http({ url:`api/home/homeMenu`,data:{
@@ -195,21 +178,17 @@ console.log(e)
           .catch(res => {});
 	},
 	toTarget(val,e){
-		this.$http({ url: `api/home/my_community` ,data:{}}).then(res => { //获取绑定
-		  if(res.data.length===0){
-			  this.$refs.popup.open()
-			  }else{
-				  if(res.data[0].status===0){
-				  uni.showToast({
+		if(this.is_togo==1){
+uni.navigateTo({url: val.url});
+		}else if(this.is_togo==2){
+			 this.$refs.popup.open()
+		}else{
+			 uni.showToast({
     title: '信息待审核',
-    duration: 2000
+    duration: 2000,
+	icon:'none'
 });
-		   }else{
-		uni.navigateTo({url: val.url});
-		   }
-			  }
-		  })
-          .catch(res => {});
+		}
 	}
   },
   destroyed(){
@@ -217,16 +196,17 @@ console.log(e)
   },
   components: { uniSwiperDot ,uniPopup },
   onLoad() {
+	  uni.showLoading({
+    title: '加载中'
+});
 	   uni.setStorageSync('is_commit', false);
 	  let _this=this
-	  _this.loadObjType()
 	  uni.setStorageSync('community_selected', '');
 			 uni.login({
 				 complete:function(){
 	   uni.setStorageSync('is_commit', true); 
 				 },
           success: function(loginRes) {
-            console.log(loginRes)
              uni.request({ url: `${base_url}api/login`,
              header: {
              'X-WX-Code': loginRes.code //自定义请求头信息
@@ -236,18 +216,31 @@ console.log(e)
 				 uni.setStorageSync("skey", res.data.data.skey);
 				 setTimeout(()=>{
 		   _this.$http({ url: `api/home/my_community` ,data:{}}).then(res => { //获取绑定
+		   uni.hideLoading();
 		  if(res.data.length===0){
+			  _this.is_togo=2
 			  _this.$refs.popup.open()
 		  }else{
 			  _this.$refs.popup.close()
-		  }
-		   if(res.data[0].status===1){
-			uni.setStorageSync('community_selected', res.data[0]);
+		   for(let i in res.data){
+		   if(res.data[i].status===1){
+			  _this.is_togo=1
+			uni.setStorageSync('community_selected', res.data[i]);
 			_this.community=uni.getStorageSync('community_selected').community
+	        _this.loadObjType()
+			break
+		   }else if(res.data[i].status===2){
+			   uni.showToast({
+    title: '小区审核不通过',
+	duration: 2000,
+	icon:'none'
+});
+		   }else{
+			   uni.setStorageSync('community_selected', '');
+			   continue
 		   }
-		   if(res.data[0].status===0){
-		    uni.setStorageSync('community_selected', '');
-		   }
+			  }
+		  }
 		   uni.getLocation({success:function(res){
 		  qqmapsdk.reverseGeocoder({
 			  location:{
@@ -283,6 +276,7 @@ _this.sco=setInterval(()=>{
 							}})
           })
           .catch(res => {
+			  uni.hideLoading();
 		  });
 		  
 	  },1500)
@@ -292,18 +286,22 @@ _this.sco=setInterval(()=>{
         });
   },
   onShow() {
+	  this.community=uni.getStorageSync('community_selected').community
 	  if(uni.getStorageSync('is_commit')){
 	 this.$http({ url: `api/home/my_community` ,data:{}}).then(res => { //
 		  if(res.data.length===0){
 			  this.$refs.popup.open()
 			  }else{
 			  this.$refs.popup.close()
-			  if(res.data[0].status===0){
+			  for(let i in res.data){
+				  if(res.data[i].status===0){
 				  uni.showToast({
     title: '信息待审核',
-    duration: 2000
+    duration: 2000,
+	icon:'none'
 });
 		   }
+			  } 
 			  }
 			  
 		  })

@@ -68,7 +68,7 @@
 export default {
   data() {
     return {
-      sales_volume:null,
+      sales_volume:'',
       obj_name:'',
       jianjie:''
     };
@@ -83,6 +83,7 @@ export default {
     this.$http({ url: `api/service/serviceInfo/${opt.id}` ,data:{
       }}).then(res => {
         uni.setStorageSync('sku_id', res.data.sku[0].id);
+        uni.setStorageSync('sele_server', res.data);
         uni.setNavigationBarTitle({
     title: res.data.spu_name
 });

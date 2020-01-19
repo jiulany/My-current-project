@@ -63,7 +63,7 @@ export default {
     openSele(val) {
       if (val) {
         this.$refs.popup.open();
-        this.$http({ url: "api/car_brands" })
+        this.$http({ url: "api/car_brands",data:{}})
           .then(res => {
             this.car_brands = res.data;
           })
@@ -82,7 +82,7 @@ export default {
           this.$refs.luPopupWrapper.show()
           this.step=1
           this.first_id=e.id
-          this.$http({ url:`api/car_vehicles/${e.id}` })
+          this.$http({ url:`api/car_vehicles/${e.id}`,data:{}})
           .then(res => {
           this.car_model=res.data
           })
@@ -93,7 +93,7 @@ export default {
           this.step=2
           this.second_id=item.id
           this.ms=item.vehicle
-          this.$http({ url: `api/car_equipmens/${item.id}` })
+          this.$http({ url: `api/car_equipmens/${item.id}`,data:{}})
           .then(res => {
               this.car_details=res.data
           })

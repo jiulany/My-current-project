@@ -54,6 +54,10 @@
               </view>
           </view>
       </view> -->
+      <view class="span24 queshen" v-if="show_default">
+        <view class="span24 queshen-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property/quesheng.png'></image></view>
+        <view class="span24 queshen-tt">还没有公告数据~</view>
+    </view>
   </view>
 </template>
 
@@ -61,7 +65,8 @@
 export default {
   data() {
     return {
-        list:null
+        list:null,
+        show_default:false
     };
   },	
   methods: {
@@ -71,6 +76,11 @@ export default {
       this.$http({ url:`api/home/community_notice_list`,data:{
           }}).then(res => {
               this.list=res.data
+              if(res.data.length==0){
+                       this.show_default=true
+               }else{
+                   this.show_default=false
+               }
           })
           .catch(res => {});
   },
@@ -148,5 +158,28 @@ height: 75rpx;
 line-height: 27rpx;
 text-indent: 2em;
 overflow-y:scroll;
+}
+.queshen{
+    height: 100%;
+    background: white;
+    position:fixed;
+    left: 0;
+    right: 0;
+    align-items: flex-start;
+    display: block
+}
+.queshen-tp{
+    display: block;
+    text-align: center;
+    margin-top: 200rpx
+}
+.queshen-tp image{
+    width: 326rpx;
+height: 316rpx;
+}
+.queshen-tt{
+    display: block;
+    text-align: center;
+    margin-top: 80rpx
 }
 </style>

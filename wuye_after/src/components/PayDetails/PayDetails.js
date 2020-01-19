@@ -19,7 +19,6 @@ class PayDetails extends Component {
                     type: query.cost_type
                 }
             }).then(res => {
-                console.log(res)
                 let list = res.data
                 for (let i in list) {
                     if (list[i].pay_type === 0) {
@@ -72,14 +71,14 @@ class PayDetails extends Component {
                         <Col className='paydetails-headit'>付费状态</Col>
                         <Col className='paydetails-headit'>付费日期</Col>
                         <Col className='paydetails-headit'>支付方式</Col>
-                        <Col className='paydetails-headit'>抄表日期</Col>
+                        <Col className='paydetails-headit'>缴费月份</Col>
                         <Col className='paydetails-headit'>抄表人</Col>
                     </Col>
                     <Col span={24} className='paydetails-head-it'>
                         <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.house_number}</Col>
                         <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.owner_name}</Col>
-                        <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.total_price}(元)</Col>
-                        <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.status === 0 ? '未支付' : '已支付'}</Col>
+                        <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.total_price+'(元)'}</Col>
+        <Col className='paydetails-headit-it'>{this.state.latest&&this.state.latest.status === 0 &&  '未支付' }{this.state.latest&&this.state.latest.status === 1 &&  '已支付'}</Col>
                         <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.pay_time}</Col>
                         <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.pay_type_ct}</Col>
                         <Col className='paydetails-headit-it'>{this.state.latest && this.state.latest.write_time}</Col>
@@ -99,7 +98,7 @@ class PayDetails extends Component {
                         <Col className='paydetails-headit'>付费状态</Col>
                         <Col className='paydetails-headit'>付费日期</Col>
                         <Col className='paydetails-headit'>支付方式</Col>
-                        <Col className='paydetails-headit'>抄表日期</Col>
+                        <Col className='paydetails-headit'>缴费月份</Col>
                         <Col className='paydetails-headit'>抄表人</Col>
                     </Col>
                     {
@@ -108,8 +107,8 @@ class PayDetails extends Component {
                                 <Col span={24} className='paydetails-head-it' key={item.id}>
                                     <Col className='paydetails-headit-it'>{item.house_number}</Col>
                                     <Col className='paydetails-headit-it'>{item.owner_name}</Col>
-                                    <Col className='paydetails-headit-it'>{item.total_price}(元)</Col>
-                                    <Col className='paydetails-headit-it'>{item.status === 0 ? '未支付' : '已支付'}</Col>
+                                    <Col className='paydetails-headit-it'>{item.total_price+'(元)'}</Col>
+                            <Col className='paydetails-headit-it'>{item.status === 0 && '未支付'}{item.status ===1 && '已支付'}</Col>
                                     <Col className='paydetails-headit-it'>{item.pay_time}</Col>
                                     <Col className='paydetails-headit-it'>{item.pay_type_ct}</Col>
                                     <Col className='paydetails-headit-it'>{item.write_time}</Col>

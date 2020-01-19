@@ -305,9 +305,10 @@ var _default = {
     });
   },
   onShow: function onShow() {
-    // if (this.valve) {
+    uni.hideTabBar(); // if (this.valve) {
     //     this._getUserInfo()
     // }
+
     if (uni.getStorageSync('shop')) {
       this.shop = JSON.parse(uni.getStorageSync('shop'));
     } else {

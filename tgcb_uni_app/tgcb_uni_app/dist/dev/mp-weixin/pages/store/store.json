@@ -2,7 +2,6 @@
   "navigationBarTitleText": "门店",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "tab-bar": "/components/tab-bar/tabBar",
     "store": "/components/store/store"
   }
 }

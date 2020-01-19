@@ -14,7 +14,9 @@ class AddParkStop extends Component {
             tenant_state: false,
             loading: false,
             image_url: [], //省份证正反index=0正，1为反
-            month_number: 1
+            month_number: 1,
+            is_clck:true,
+            is_slestatus:false
         }
     }
     componentWillMount(){
@@ -30,7 +32,6 @@ class AddParkStop extends Component {
                         cost_type: query.cost_type
                     }
                 }).then(res => {
-                    console.log(res)
                     this.setState({
                         id:res.data.id,
                         cost: res.data.total_price,
@@ -44,6 +45,11 @@ class AddParkStop extends Component {
                         car_number: res.data.car_number,
                         // month_number: res.data.month_number
                     })
+                    if (res.data.status === 1) {
+                        this.setState({
+                            is_slestatus: true
+                        })
+                    }
                 }).catch(res => {
                     message.error(res.msg);
                 })
@@ -110,6 +116,10 @@ class AddParkStop extends Component {
     }
     handleUpload = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.tenant_name !== ''
             && _thisst.car_number !== ''
             && _thisst.park_name !== ''
@@ -142,6 +152,7 @@ class AddParkStop extends Component {
                 this.setState({
                     house_number: '',
                     username: '',
+                    is_clck:true
                 })
                 setTimeout(() => {
                     this.props.history.go(-1)
@@ -151,11 +162,16 @@ class AddParkStop extends Component {
                 this.setState({
                     house_number: '',
                     username: '',
+                    is_clck:true
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     inputValue = (p, e) => {
         if (p === 'tenant_name') {
@@ -194,6 +210,10 @@ class AddParkStop extends Component {
     }
     handleXiuGai = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.tenant_name !== ''
         && _thisst.car_number !== ''
         && _thisst.park_name !== ''
@@ -222,6 +242,9 @@ class AddParkStop extends Component {
                     num: _thisst.month_number
                 }
             }).then(res => {
+                this.setState({
+                    is_clck:true
+                })
                 message.success(res.msg);
                 setTimeout(() => {
                     this.props.history.go(-1)
@@ -229,11 +252,16 @@ class AddParkStop extends Component {
             }).catch(res => {
                 message.error(res.msg);
                 this.setState({
+                    is_clck:true
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     blurGetChew = (e) => {
         http('park/park_find', {
@@ -242,7 +270,6 @@ class AddParkStop extends Component {
                 park_name: this.state.park_name
             }
         }).then(res => {
-            console.log(res)
             this.setState({
                 tenant_name: res.data.tenant_name,
                 tenant_mobile: res.data.tenant_mobile,
@@ -275,7 +302,7 @@ class AddParkStop extends Component {
                         <Col span={8}>
                             <Col span={6}>车主名：</Col>
                             <Col span={18}>
-                                <Input placeholder="请输入房号" disabled value={this.state.tenant_name} onChange={(e) => this.inputValue('tenant_name', e)} />
+                                <Input placeholder="请输入车主名" disabled value={this.state.tenant_name} onChange={(e) => this.inputValue('tenant_name', e)} />
                             </Col>
                         </Col>
                         <Col span={8} offset={1}>
@@ -315,7 +342,7 @@ class AddParkStop extends Component {
                         <Col span={8}>
                             <Col span={6}>付费状态：</Col>
                             <Col span={18}>
-                                <Select style={{ width: '100%' }} placeholder="请选择付费状态" allowClear={true} value={this.state.pay_status} onChange={this.selePayStatus}>
+                                <Select disabled={this.state.is_slestatus} style={{ width: '100%' }} placeholder="请选择付费状态" allowClear={true} value={this.state.pay_status} onChange={this.selePayStatus}>
                                     <Option value={0}>未付款</Option>
                                     <Option value={1}>已付款</Option>
                                 </Select>
@@ -325,7 +352,10 @@ class AddParkStop extends Component {
                             <Col span={6}>支付方式 ：</Col>
                             <Col span={18}>
                                 <Select style={{ width: '100%' }} placeholder="请选择支付方式" allowClear={true} value={this.state.pay_type} onChange={this.selePayType}>
-                                    <Option value={0}>未支付</Option>
+                                   {
+                                       !this.state.is_slestatus&&
+                                       <Option value={0}>未支付</Option>
+                                   }
                                     <Option value={1}>微信支付</Option>
                                     <Option value={2}>支付宝</Option>
                                     <Option value={3}>现金</Option>

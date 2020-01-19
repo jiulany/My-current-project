@@ -9,7 +9,7 @@
               发票抬头：{{taitou}}
           </view>
           <view class="span24 myinvoicesuc-ct-it">
-              开票金额：{{fp.price}}￥
+              开票金额：{{price}}￥
           </view>
       </view>
   </view>
@@ -20,7 +20,8 @@ export default {
   data() {
     return {
         fp:null,
-        taitou:null
+        taitou:null,
+        price:'',
     };
   },
   methods: {
@@ -28,12 +29,18 @@ export default {
   components: { },
   onLoad(opt) {
       this.fp=uni.getStorageSync("fp")
-      if(parseInt(opt.is_personal)===1){
-          this.taitou='个人'
+      let price_list=this.fp.pricelist.split(',')
+      let total=0
+      for(let i in price_list){
+          total=total+parseFloat(price_list[i])
       }
-      if(parseInt(opt.is_personal)===2){
-          this.taitou='企业'
-      }
+      this.price=total.toFixed(2)
+      this.taitou=opt.title
+  },
+  onUnload(){
+      uni.navigateBack({
+    delta: 2
+});
   },
   onShow() {
   },

@@ -74,7 +74,7 @@ class Login extends Component {
             })
             
         }).catch(res => {
-            message.error(res.msg);
+                message.error(res.msg);
             setTimeout(() => {
                 this.setState({
                     loading:false

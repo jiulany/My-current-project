@@ -10,13 +10,18 @@ class AddWuYe extends Component {
             tenant_state: false,
             loading: false,
             is_xiugai: false,
-            image_url: [] //省份证正反index=0正，1为反
+            image_url: [], //省份证正反index=0正，1为反
+            is_clck:true
         }
     }
     componentDidMount() {
     }
     handleUpload = () => {
         let _thisst = this.state
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (_thisst.unit && _thisst.floor && _thisst.start_layer_number&& _thisst.end_layer_number && _thisst.households !== '') {
             http('/community/add_list_Storied', {
                 method: 'POST',
@@ -30,6 +35,7 @@ class AddWuYe extends Component {
             }).then(res => {
                 message.success(res.msg);
                 this.setState({
+                    is_clck:true,
                     floor: '',
                     unit: '',
                     start_layer_number:'',
@@ -46,6 +52,7 @@ class AddWuYe extends Component {
                     message.error(res.msg);
                 }
                 this.setState({
+                    is_clck:true,
                     floor: '',
                     unit: '',
                     start_layer_number:'',
@@ -54,8 +61,12 @@ class AddWuYe extends Component {
                 })
             })
         } else {
+            this.setState({
+                is_clck:true,
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     cancelAdd = () => {
         this.props.history.go(-1)

@@ -7,10 +7,10 @@ class AddParkFloor extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            is_clck:true
         }
     }
     componentDidMount() {
-        console.log(this.props)
         if(this.props.location.query.id_xiu==='true'){
             this.setState({
                 park_floor:this.props.location.query.park_floor,
@@ -23,21 +23,36 @@ class AddParkFloor extends Component {
         this.props.history.go(-1)
     }
     sumbit = () => {
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         http('/park/add_park_floor', {
             method: 'POST',
             data: {
                 park_floor: this.state.park_floor
             }
         }).then(res => {
+            this.setState({
+                is_clck:true
+            })
             message.success(res.msg);
             setTimeout(() => {
                 this.props.history.go(-1)
             }, 2000)
         }).catch(res => {
+            this.setState({
+                is_clck:true
+            })
             message.error(res.msg);
         })
     }
+    }
     xiugai=()=>{
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         http('/park/save_park_floor', {
             method: 'POST',
             data: {
@@ -45,13 +60,20 @@ class AddParkFloor extends Component {
                 id:this.state.id
             }
         }).then(res => {
+            this.setState({
+                is_clck:true
+            })
             message.success(res.msg);
             setTimeout(() => {
                 this.props.history.go(-1)
             }, 2000)
         }).catch(res => {
+            this.setState({
+                is_clck:true
+            })
             message.error(res.msg);
         })
+    }
     }
     inpParkFloor = (e) => {
         this.setState({

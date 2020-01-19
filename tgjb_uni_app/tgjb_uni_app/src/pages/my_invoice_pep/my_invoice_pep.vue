@@ -8,7 +8,7 @@
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">发票抬头：</view>
-              <view class="span16">个人</view>
+              <view class="span16"><input v-model="title" type="text"></view>
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">电子邮箱：</view>
@@ -26,11 +26,11 @@
       <view class="span24 myinvoicepep-ct">
           <view class="span24 myinvoicepep-it">
               <view class="span8">发票内容：</view>
-              <view class="span16">{{fp.name}}</view>
+              <view class="span16">{{name}}</view>
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">发票金额：</view>
-              <view class="span16">{{fp.price}}￥</view>
+              <view class="span16">{{price}}￥</view>
           </view>
       </view>
       </view>
@@ -50,11 +50,11 @@
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">电子邮箱：</view>
-              <view class="span16"><input v-model="email" type="text" placeholder="请输入公司电子邮箱"></view>
+              <view class="span16"><input v-model="email0" type="text" placeholder="请输入公司电子邮箱"></view>
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">电话：</view>
-              <view class="span16"><input v-model="tel" type="text" placeholder="请输入注册电话"></view>
+              <view class="span16"><input v-model="tel0" type="text" placeholder="请输入注册电话"></view>
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">地址：</view>
@@ -72,11 +72,11 @@
       <view class="span24 myinvoicepep-ct">
           <view class="span24 myinvoicepep-it">
               <view class="span8">发票内容：</view>
-              <view class="span16">{{fp.name}}</view>
+              <view class="span16">{{name}}</view>
           </view>
           <view class="span24 myinvoicepep-it">
               <view class="span8">发票金额：</view>
-              <view class="span16">{{fp.price}}￥</view>
+              <view class="span16">{{price}}￥</view>
           </view>
       </view>
       </view>
@@ -97,7 +97,18 @@ export default {
     return {
         cur_obj:1,
         fp:null,
-        title:null,
+        title:'个人',
+        is_fdd:true,
+        price:'',
+        name:'',
+        identity:null,
+        opening_bank:null,
+        opening_number:null,
+        email:null,
+        email0:null,
+        tel:null,
+        tel0:null,
+        address:null
     };
   },
   methods: {
@@ -111,31 +122,143 @@ export default {
               this.title=''
           }
       },
+      panKong(){
+          return new Promise((resolve,reject)=>{
+              if(this.cur_obj==1){
+                  if(this.email==null||this.email==''){
+                      uni.showToast({
+    title: '请填写邮箱',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.tel==null||this.tel==''){
+                       uni.showToast({
+    title: '请填写电话',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else{
+                      resolve(true)
+                  }
+          }
+          if(this.cur_obj==2){//企业填写判空
+          if(this.title==null||this.title==''){
+                      uni.showToast({
+    title: '请填写发票抬头',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.identity==null||this.identity==''){
+                       uni.showToast({
+    title: '请填写识别号',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.email0==null||this.email0==''){
+                      uni.showToast({
+    title: '请填写邮箱',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.tel0==null||this.tel0==''){
+                       uni.showToast({
+    title: '请填写电话',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.address==null||this.address==''){
+                       uni.showToast({
+    title: '请填写地址',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.opening_bank==null||this.opening_bank==''){
+                       uni.showToast({
+    title: '请填写开户行',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else if(this.opening_number==null||this.opening_number==''){
+                       uni.showToast({
+    title: '请填写开户账号',
+    duration: 2000,
+    icon:"none"
+});
+                      resolve(false)
+                  }else{
+                      resolve(true)
+                  }
+          }
+          })
+      },
       sumbit(){
+          if(this.is_fdd){
+              this.is_fdd=false
+          let email=''
+          let tel=''
+          if(this.cur_obj==1){
+             email= this.email!=null?this.email:''
+             tel=this.tel!=null?this.tel:''
+          }
+          if(this.cur_obj==2){
+             email= this.email0!=null?this.email0:''
+             tel=this.tel0!=null?this.tel0:''
+          }
+          this.panKong().then(res=>{
+              if(res){
+          uni.showLoading({
+    title: '加载中'
+});
           this.$http({ url: `api/mine/create_invoice` ,data:{
-              id:this.fp.id,
+              id:this.fp.idlist,
               is_personal:this.cur_obj,
               title:this.title,
-              identity:this.identity,
-              opening_bank:this.opening_bank,
-              opening_number:this.opening_number,
-              email:this.email,
-              tel:this.tel,
-              address:this.address,
+              identity:this.identity!=null?this.identity:'',
+              opening_bank:this.opening_bank!=null?this.opening_bank:'',
+              opening_number:this.opening_number!=null?this.opening_number:'',
+              email:email,
+              invoices_type:this.fp.invoices_type,
+              tel:tel,
+              address:this.address!=null?this.address:'',
           }}).then(res => {
+              uni.hideLoading();
+              this.is_fdd=true
             this.HMmessages.show(res.msg, { icon: "success" ,iconColor:"#fdd000"});
             setTimeout(()=>{
-          uni.navigateTo({url: `/pages/my_invoice_success/my_invoice_success?is_personal=${this.cur_obj}`});
+          uni.navigateTo({url: `/pages/my_invoice_success/my_invoice_success?title=${this.title}`});
             },1500)
           })
           .catch(res => {
+              uni.hideLoading();
+              this.is_fdd=true
               this.HMmessages.show(res.msg, { icon: "error" });
           });
+              }else{
+              this.is_fdd=true
+              }
+          })
+          }
       }
   },
   components: { HMmessages},
   onLoad(opt) {
       this.fp=uni.getStorageSync("fp")
+      let price_list=this.fp.pricelist.split(',')
+      let total=0
+      for(let i in price_list){
+          total=total+parseFloat(price_list[i])
+      }
+      this.price=total.toFixed(2)
+      this.name= this.fp.namelist
+      console.log(this.fp.namelist,this.name)
   },
   onShow() {
   },
@@ -149,6 +272,7 @@ page {
 		font-size: 28rpx;
 		line-height: 1.8;
 }
+.myinvoicepep{padding-bottom: 200rpx}
 .myinvoicepep-ct{
     padding: 23rpx 27rpx;
     background: white;

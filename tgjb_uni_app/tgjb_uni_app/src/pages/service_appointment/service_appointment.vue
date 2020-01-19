@@ -12,7 +12,7 @@
             <view class="span16 serviceap-address-tp"><image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xiaoqu.png'></image><span>{{address[address_index].community_name}}</span></view>
             <view class="span8 serviceap-address-bj">
                 <span>
-                        <view class="uni-input" @tap="toAddress">编辑</view>
+                        <view class="uni-input" @tap="toAddress">添加</view>
                 </span>
                 <picker @change="bindPickerChange" :value="address_index" :range="address" range-key="address">
                 <image mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_xiala.png'></image>
@@ -29,7 +29,7 @@
       </view>
       <view class="span24 serviceap-yy">
         <view class="span12 serviceap-yy-tt">预约项</view>
-        <view class="span12 serviceap-yy-xm">弱电维修</view>
+        <view class="span12 serviceap-yy-xm">{{name}}</view>
       </view>
       <view class="span24 serviceap-form">
          <!-- <view class="span24 serviceap-form-it">
@@ -75,7 +75,7 @@
 		<view class="span24 serviceap-model">
 			<view class="span24 serviceap-model-it">
                 <view class="span24 serviceap-model-fy">总共费用</view>
-                <view class="span24 serviceap-model-fyz">50￥</view>
+                <view class="span24 serviceap-model-fyz">{{price}}￥</view>
             </view>
 			<view class="span24">
                 <view class="span24 serviceap-model-tyit">
@@ -107,7 +107,10 @@ export default {
         service_time:"请选择预约时间",
         remarks:null,
         neednumber:false,
-        num:1
+        num:1,
+        price:'',
+        name:'',
+        is_topay:true
     };
   },
   methods: {
@@ -141,9 +144,7 @@ export default {
       },
       bindInpChange(e){
           this.num=e
-      },
-      toSuccess(){
-          uni.navigateTo({url: '/pages/pay_success/pay_success'});
+          this.price=parseInt(e)*parseFloat(uni.getStorageSync('sele_server').sku[0].activity_price);
       },
       toPay(){
 	  this.$refs.popup.open()
@@ -152,6 +153,31 @@ export default {
       this.$refs.picker.show();
       },
       toSuccess(){
+          let _this=this
+          if(this.remarks==null||this.remarks==''){
+              uni.showToast({
+    title: '请填写内容描述',
+    duration: 2000,
+    icon:'none'
+});
+          }else if(this.address[0].community_name=='未添加'){
+ uni.showToast({
+    title: '请添加地址',
+    duration: 2000,
+    icon:'none'
+});
+          }else if(this.service_time=='请选择预约时间'){
+ uni.showToast({
+    title: '请选择预约时间',
+    duration: 2000,
+    icon:'none'
+});
+          }else{
+              if(this.is_topay){
+this.is_topay=false
+uni.showLoading({
+    title: '加载中'
+});
            this.$http({ url: `api/service/create_service` ,data:{
                address_id:this.address[this.address_index].id,
                sku_id:uni.getStorageSync('sku_id'),
@@ -159,9 +185,57 @@ export default {
                service_time:this.service_time,
                num:this.num,
            },method:"post"}).then(res => {
-                        
+this.$http({ url: `api/payment/pay`,data:{community_id:uni.getStorageSync('community_selected').community_id,order_id:res.data.order_id},method:'post'}).then(res => {
+        this.is_topay=true    
+		uni.hideLoading()
+     var a = res.data
+          uni.requestPayment({
+        timeStamp: a.timeStamp,
+        nonceStr: a.nonceStr,
+        package: a.package,
+        signType: 'MD5',
+        paySign: a.paySign,
+        success(res) {
+            _this.$refs.popup.close()
+            uni.showToast({
+    title: '支付成功',
+    duration: 2000,
+});
+          uni.navigateTo({url: '/pages/pay_success/pay_success'});
+        },
+        fail(res) {
+            _this.$refs.popup.close()
+          uni.showToast({
+    title: '支付失败',
+    duration: 2000,
+    icon:'none'
+});
+if(uni.getStorageSync('sele_server').class_id==1){
+          uni.navigateTo({url: `/pages/my_appoint/my_appoint?type=${6}`});
+}
+if(uni.getStorageSync('sele_server').class_id==3||uni.getStorageSync('sele_server').class_id==4){
+          uni.navigateTo({url: `/pages/my_appoint/my_appoint?type=${2}`});
+}
+        }
+      })
+          
+          }).catch(res => {
+               this.is_topay=true
+              uni.hideLoading()
+              uni.showToast({
+    title: '异常',
+    duration: 2000,
+    icon:'none'
+});
+          });
+
                    })
-                    .catch(res => {});
+                    .catch(res => {
+                         this.is_topay=true
+                        uni.hideLoading()
+                    });
+                    }
+          }
       }
   },
   components: {uniNoticeBar,wPicker,uniPopup,ypNumberBox},
@@ -170,7 +244,9 @@ export default {
   onLoad() {
   },
   onShow() {
+          this.name=uni.getStorageSync('sele_server').sku[0].sku_name
           this.$http({url:'api/mine/address',data:{}}).then(res=>{
+               this.price=this.num*parseFloat(uni.getStorageSync('sele_server').sku[0].activity_price)
               if(res.data.length==0){
 
               }else{

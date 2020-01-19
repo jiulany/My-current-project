@@ -16,19 +16,20 @@ class AddNotice extends Component {
             is_xiugai: false,
             title: "",
             content: "",
-            for_in: true
+            for_in: true,
+            is_clck: true
         }
     }
     componentDidMount() {
         http('/community', {
             method: 'get', data: {}
-          }).then(res => {
-              this.setState({
-                  community_list:res.data
-              })
-          }).catch(res => {
+        }).then(res => {
+            this.setState({
+                community_list: res.data
+            })
+        }).catch(res => {
             message.error(res.msg);
-          })
+        })
         if (this.props.location.query) {
             let query = this.props.location.query
             if (query.type === 1) {
@@ -37,24 +38,24 @@ class AddNotice extends Component {
                         id: query.update_id
                     }
                 }).then(res => {
-                    if(res.data[0].community_id===0){
+                    if (res.data[0].community_id === 0) {
                         this.setState({
                             is_xiugai: true,
                             title: res.data[0].title,
                             content: res.data[0].content,
-                            community_ids:res.data[0].community_id,
-                            for_in:true
+                            community_ids: res.data[0].community_id,
+                            for_in: true
                         })
-                    }else{
+                    } else {
                         this.setState({
                             is_xiugai: true,
                             title: res.data[0].title,
                             content: res.data[0].content,
-                            community_ids:res.data[0].community_id,
-                            for_in:false
+                            community_ids: res.data[0].community_id,
+                            for_in: false
                         })
                     }
-                    
+
                 }).catch(res => {
                     message.success(res.msg);
                     this.setState({
@@ -68,39 +69,57 @@ class AddNotice extends Component {
         this.props.history.go(-1)
     }
     handleXiuGai = () => {
-        if (this.state.title && this.state.content !== '') {
-            http('/notice/noticeUpd', {
-                method: 'POST',
-                data: {
-                    id: this.props.location.query.update_id,
-                    title: this.state.title,
-                    content: this.state.content,
-                    admin_id: Cookies.get('user_id'),
-                    community_ids:this.state.community_ids
-                }
-            }).then(res => {
-                message.success(res.msg);
-                notification.open({
-                    message: this.state.title,
-                    description:
-                        this.state.content,
-                    icon: <Icon type="smile" style={{ color: '#fdd000' }} />,
-                });
-                setTimeout(() => {
-                    this.props.history.go(-1)
-                }, 2000)
-            }).catch(res => {
-                message.error(res.msg);
-                this.setState({
-                    title: '',
-                    content: ''
-                })
+        if (this.state.is_clck) {
+            this.setState({
+                is_clck:false
             })
-        } else {
-            message.error('输入不能为空，请检查！');
+            if (this.state.title && this.state.content !== '') {
+                http('/notice/noticeUpd', {
+                    method: 'POST',
+                    data: {
+                        id: this.props.location.query.update_id,
+                        title: this.state.title,
+                        content: this.state.content,
+                        admin_id: Cookies.get('user_id'),
+                        community_ids: this.state.community_ids
+                    }
+                }).then(res => {
+                    this.setState({
+                        is_clck:true
+                    })
+                    message.success(res.msg);
+                    notification.open({
+                        message: this.state.title,
+                        description:
+                            this.state.content,
+                        icon: <Icon type="smile" style={{ color: '#fdd000' }} />,
+                    });
+                    setTimeout(() => {
+                        this.props.history.go(-1)
+                    }, 2000)
+                }).catch(res => {
+                    message.error(res.msg);
+                    this.setState({
+                        title: '',
+                        content: ''
+                    })
+                    this.setState({
+                        is_clck:true
+                    })
+                })
+            } else {
+                this.setState({
+                    is_clck:true
+                })
+                message.error('输入不能为空，请检查！');
+            }
         }
     }
     handleUpload = () => {
+        if(this.state.is_clck){
+            this.setState({
+                is_clck:false
+            })
         if (this.state.title && this.state.content !== '') {
             http('/notice/noticeSave', {
                 method: 'POST',
@@ -108,9 +127,12 @@ class AddNotice extends Component {
                     title: this.state.title,
                     content: this.state.content,
                     admin_id: Cookies.get('user_id'),
-                    community_ids:this.state.community_ids
+                    community_ids: this.state.community_ids
                 }
             }).then(res => {
+                this.setState({
+                    is_clck:true
+                })
                 message.success(res.msg);
                 notification.open({
                     message: this.state.title,
@@ -126,6 +148,9 @@ class AddNotice extends Component {
                     this.props.history.go(-1)
                 }, 2000)
             }).catch(res => {
+                this.setState({
+                    is_clck:true
+                })
                 message.error(res.msg);
                 this.setState({
                     title: '',
@@ -133,8 +158,12 @@ class AddNotice extends Component {
                 })
             })
         } else {
+            this.setState({
+                is_clck:true
+            })
             message.error('输入不能为空，请检查！');
         }
+    }
     }
     titleChange = (e) => {
         this.setState({
@@ -146,17 +175,17 @@ class AddNotice extends Component {
             content: e.currentTarget.value
         })
     }
-    handleSelectChange=(e)=>{
+    handleSelectChange = (e) => {
         console.log(e)
         this.setState({
-            community_ids:e,
+            community_ids: e,
         })
     }
     switchForIn = (i, e) => {
         if (i === 'forIn') {
             this.setState({
                 for_in: true,
-                community_ids:0
+                community_ids: 0
             })
         } else {
             this.setState({

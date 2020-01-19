@@ -35,13 +35,20 @@
       </view>
       <view class="span24 cellbind-it">
         <view class="span5">手机号码</view>
-        <view class="span19 cellbind-inp"><input v-model="phone" type="text" placeholder="请输入手机号"></view>
+        <view class="span19 cellbind-inp"><input v-model="phone" type="text" placeholder="请输入手机号" maxlength="11"></view>
       </view>
       <view class="span24 cellbind-it">
         <view class="span5">身份证号</view>
         <view class="span19 cellbind-inp"><input v-model="idcard"  type="text" placeholder="请输入身份证号"></view>
       </view>
     </view>
+    <view class="span24 cellbind-form-it">
+             <view class="span24 cellbind-form-lf">身份证正反面</view>
+             <view class="span24 cellbind-form-upimg">
+                 <view class="cellbind-form-addpt"><image @tap="seleTp(0,$event)" mode="aspectFit" :src="just_idk==''?'https://imgcdn.tuogouchebao.com/property/zhengmian.png':just_idk"></image><view>头像面</view></view>
+                 <view class="cellbind-form-addpt"><image @tap="seleTp(1,$event)" mode="aspectFit" :src="back_idk==''?'https://imgcdn.tuogouchebao.com/property/fanmian.png':back_idk"></image><view>国徽面</view></view>
+             </view>
+         </view>
     <view class="span24 cellbind-ok">
       <view class="cellbind-ok-btn" @tap="save">确定</view>
     </view>
@@ -97,6 +104,8 @@ export default {
       name:null,
       phone:null,
       idcard:null,
+      just_idk:'',
+      back_idk:'',
       obj_list:['业主', '家属', '租客']
     };
   },
@@ -104,6 +113,26 @@ export default {
     switchLoudog(val,e){
       this.is_loudong=val
     },
+    seleTp(val,e){
+          let _this=this
+          uni.chooseImage({
+                count: 1, //默认9
+                sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+                success: function (res) {
+                    _this.$http({ url: `api/upload` ,fileType:"image",filePath:res.tempFilePaths[0],name:'img',data:{}},true).then(res => {
+                       if(val==0){
+                         _this.just_idk=res.data[1]
+                       }
+                       if(val==1){
+                         _this.back_idk=res.data[1]
+                       }
+                   })
+                    .catch(res => {
+                        console.log(res)
+                    });
+                    }
+          });
+      },
     tapLoudog(val,item,e){
       if(val==1){
         this.dong=item
@@ -115,6 +144,7 @@ export default {
         .catch(res => {
           uni.showToast({
     title: res.msg,
+    icon:'none',
     duration: 2000
 });
             // this.HMmessages.show(res.msg, { icon: "error" });
@@ -130,6 +160,7 @@ export default {
         .catch(res => {
           uni.showToast({
     title: res.msg,
+    icon:'none',
     duration: 2000
 });
             // this.HMmessages.show(res.msg, { icon: "error" });
@@ -146,6 +177,7 @@ export default {
           .catch(res => {
             uni.showToast({
     title: res.msg,
+    icon:'none',
     duration: 2000
 });
             // this.HMmessages.show(res.msg, { icon: "error" });
@@ -154,6 +186,37 @@ export default {
       }
     },
     save(){
+      if(this.name==null){
+            uni.showToast({
+    title: '姓名不能为空',
+    icon:'none',
+    duration: 2000
+});
+      }else if(this.phone==null){
+            uni.showToast({
+    title: '手机不能为空',
+    icon:'none',
+    duration: 2000
+});
+      }else if(this.idcard==null){
+            uni.showToast({
+    title: '身份证不能为空',
+    icon:'none',
+    duration: 2000
+});
+      }else if(this.house_id==null){
+            uni.showToast({
+    title: '房号未选择',
+    icon:'none',
+    duration: 2000
+});
+      }else if(this.just_idk==''||this.back_idk==''){
+            uni.showToast({
+    title: '请上传身份证',
+    icon:'none',
+    duration: 2000
+});
+      }else{
       this.$http({ url: "api/home/create_user_house", data: {
         house_id:this.house_id,
         community_id:this.community_id,
@@ -161,18 +224,26 @@ export default {
         name:this.name,
         phone:this.phone,
         idcard:this.idcard,
+        just_idk:this.just_idk,
+        back_idk:this.back_idk
       },method:"post"})
           .then(res => {
+            uni.showToast({
+    title: res.msg,
+    duration: 2000
+});
             this.HMmessages.show(res.msg, { icon: "success" ,iconColor:"#fdd000"});
               setTimeout(()=>{uni.navigateBack({delta: 1});},1500)
           })
           .catch(res => {
             uni.showToast({
     title: res.msg,
+    icon:'none',
     duration: 2000
 });
             // this.HMmessages.show(res.msg, { icon: "error" });
           });
+      }
     },
     openKeyboard(){
       this.is_loudong=1
@@ -190,6 +261,7 @@ export default {
         .catch(res => {
            uni.showToast({
     title: res.msg,
+    icon:'none',
     duration: 2000
 });
             // this.HMmessages.show(res.msg, { icon: "error" });
@@ -197,6 +269,11 @@ export default {
     },
     bindPickerChange(e) {
       this.community_index = e.target.value;
+      this.loudong=''
+      this.dong=''
+      this.unit=''
+      this.roomnum=''
+      this.house_id=null
       this.community_id =this.community_list[this.community_index].id;
     },
     sleShenFen(){
@@ -229,7 +306,7 @@ export default {
           let a=res.data.house_number.split('-')
           this.dong=a[0]
           this.unit=a[1]
-          this.roomnum=a[2]//做到这儿
+          this.roomnum=a[2]
           this.name=res.data.name
           this.phone=res.data.phone
           this.idcard=res.data.idcard
@@ -253,6 +330,9 @@ page {
 		font-size: 28rpx;
 		line-height: 1.8;
 	}
+  .cellbind{
+    padding-bottom: 200rpx
+  }
 .cellbind-tt{
   font-size:28rpx;
 font-family:PingFang SC;
@@ -339,5 +419,47 @@ justify-content: center;
   border-bottom: 2rpx solid rgba(245,245,245,1);
   padding: 30rpx 0;
   height: 100rpx;
+}
+.cellbind-form-it{
+    background: white;
+    padding: 25rpx 27rpx 55rpx 14rpx;
+    font-size: 28rpx;
+    border-bottom:1px solid rgba(240,240,240,1);
+}
+.cellbind-form-it:last-child{
+    border-bottom:none
+}
+.cellbind-form-lf{
+    font-size: 28rpx;padding-left:18rpx;
+}
+.cellbind-form-upimg{
+    margin-top: 25rpx
+}
+.cellbind-form-addpt{
+    width:48%;
+height:260rpx;
+margin-right: 10rpx;
+border: 1px dashed #f5f5f5;
+margin-bottom: 15rpx;
+position: relative;
+}
+.cellbind-form-addpt view{
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom:-56rpx;
+font-size:32rpx;
+font-family:PingFang SC;
+font-weight:500;
+color:rgba(102,102,102,1);
+}
+.cellbind-form-addpt image{
+    height: 100%;
+    width: 100%
+}
+.cellbind-form-addpt input{
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 </style>

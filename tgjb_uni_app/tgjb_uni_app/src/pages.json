@@ -266,6 +266,42 @@
 				"navigationBarTitleText": "购买",
 				"usingComponents": {}
 			}
+		},{
+			"path": "pages/charge_paysuccess/charge_paysuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/buy_goodssuccess/buy_goodssuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/charge_paysuccess1/charge_paysuccess1",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/pay_dtlsuccess/pay_dtlsuccess",
+			"style": {
+				"navigationBarTitleText": "缴费成功",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/my_park_pay/my_park_pay",
+			"style": {
+				"navigationBarTitleText": "停车缴费",
+				"usingComponents": {}
+			}
+		},{
+			"path": "pages/my_invoice_hsty/my_invoice_hsty",
+			"style": {
+				"navigationBarTitleText": "发票历史",
+				"usingComponents": {}
+			}
 		}
 	],
 	"globalStyle": {

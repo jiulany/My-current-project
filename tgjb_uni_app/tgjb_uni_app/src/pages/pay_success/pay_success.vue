@@ -1,12 +1,10 @@
 <template>
   <view class="span24 paysuccess">
      <view class="span24 paysuccess-ico"> <image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_yuyuechenggong.png'></image></view>
-     <view class="span24 paysuccess-status" v-if="from_page===1">预约成功</view>
-     <view class="span24 paysuccess-status0" v-if="from_page===2">50￥</view>
+     <view class="span24 paysuccess-status">预约成功</view>
      <view class="span24 paysuccess-btn">
          <view class="span12 paysuccess-rtr"><view @tap="toInx">返回首页</view></view>
-         <view class="span12 paysuccess-chek" v-if="from_page===1"><view>查看预约</view></view>
-         <view class="span12 paysuccess-chek" v-if="from_page===2"><view>查看订单</view></view>
+         <view class="span12 paysuccess-chek"><view  @tap="toMyAppoint">查看预约</view></view>
      </view>
   </view>
 </template>
@@ -15,30 +13,29 @@
 export default {
   data() {
     return {
-        from_page:null
+        beforePage:''
     };
   },
   methods: {
       toInx(){
           uni.switchTab({url: '/pages/index/index'});
+      },
+      toMyAppoint(){
+          uni.navigateTo({url: '/pages/my_appoint/my_appoint'});
       }
   },
   components: {},
   onLoad(e) {
       let pages = getCurrentPages();//当前页
       let beforePage = pages[pages.length - 2];//上个页面
-      if(beforePage.route==="pages/service_appointment/service_appointment"){
-        this.from_page=1
         uni.setNavigationBarTitle({
             title: '预约'
         });
-       }
-       if(beforePage.route==="pages/charge/charge"){
-        this.from_page=2
-        uni.setNavigationBarTitle({
-            title: '支付成功'
-        });
-       }
+  },
+  onUnload(){
+      uni.navigateBack({
+    delta: 1
+});
   },
   onShow() {},
   onHide() {}

@@ -1,8 +1,8 @@
 <template>
   <view class="span24 mycar">
       <view class="span24 mycar-it" v-for="item in car_list" :key="item.id">
-        <view class="span24" v-if="item.space===null">
-          <view class="span24 mycar-bd" @tap="toBdPark">绑定车位</view>
+        <view class="span24" >
+          <!-- <view class="span24 mycar-bd" @tap="toBdPark">绑定车位</view> -->
           <view class="span24">
               <view class="span24 mycar-rw">
                   <view class="span20 mycar-chepai">{{item.car_number}}</view>
@@ -17,7 +17,7 @@
               </view>
           </view>
         </view>
-        <view class="span24" v-else>
+        <!-- <view class="span24" v-else>
               <view class="span24 mycar-rw">
                   <view class="span20 mycar-chepai">{{item.car_number}}</view>
                   <view class="span4 mycar-dele" ><image  mode="aspectFit" src='https://imgcdn.tuogouchebao.com/property_delete.png' @tap="openDeleModel(item,$event)"></image></view>
@@ -34,7 +34,7 @@
                   <view class="span18 mycar-parkbh">车位编号：{{item.space.park_name}}</view>
                   <view class="span6 mycar-clbd" >取消绑定</view>
               </view>
-          </view>
+          </view> -->
       </view>
       <view class="span24 mycar-tj" @tap="toAddCar">添加</view>
       <Modal v-model="showModel" confirm-style="color:#fdd000" title='确认删除' text='确认删除该车辆吗？' @cancel='cancelModel' @confirm='confirmModel'/>

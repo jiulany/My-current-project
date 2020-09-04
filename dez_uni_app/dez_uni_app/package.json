@@ -35,7 +35,7 @@
     "@dcloudio/uni-stat": "^2.0.0-23220190921001",
     "@dcloudio/uni-ui": "^1.0.7",
     "flyio": "^0.6.2",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "regenerator-runtime": "^0.12.1",
     "sass-loader": "^8.0.0",
     "vue": "^2.6.10",
